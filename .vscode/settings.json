@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.Rmd": "rmd",
+        "*.qmd": "quarto",
+        "hex-rays": "cpp",
+        "ghidra": "cpp"
+    }
+}
