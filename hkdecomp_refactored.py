@@ -40,6 +40,7 @@ class DialBlock:
 
 class BlockTypeManager:
     """Handles block type definitions and naming"""
+    
     TYPE_NAMES = {
         # Basic types
         0x01: "Preview", 0x02: "Background", 0x03: "ArmHour", 0x04: "ArmMinute",
@@ -58,7 +59,9 @@ class BlockTypeManager:
         0x89: "Hours", 0x8A: "Minutes", 0x8B: "Battery", 0x8C: "AMPM",
         0x8D: "DayOfWeek", 0x8E: "Steps", 0x8F: "Pulse", 0x90: "Calory",
         0x91: "Distance", 0x92: "BatteryNumber", 0x96: "Berry", 0x97: "Animation",
-        0x98: "BatteryStrip", 0x99: "Weather", 0x9A: "Temperature"
+        0x98: "BatteryStrip", 0x99: "Weather", 0x9A: "Temperature",
+        # Additional battery types
+        0x9E: "BatteryStripExtended"
     }
     SHORT_NAMES = {
         # Basic types
@@ -75,14 +78,14 @@ class BlockTypeManager:
         0x81: "preview", 0x82: "background", 0x83: "arm_hour", 0x84: "arm_minute", 
         0x85: "arm_second", 0x86: "year", 0x87: "month", 0x88: "day",
         0x89: "hours", 0x8A: "minutes", 0x8B: "battery", 0x8C: "ampm",
-        0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",
-        0x91: "distance", 0x92: "battery_number", 0x96: "berry", 0x97: "animation",
-        0x98: "batterystrip", 0x99: "weather", 0x9A: "temperature"
+        0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",        0x91: "distance", 0x92: "battery_number", 0x96: "berry", 0x97: "animation",
+        0x98: "batterystrip", 0x99: "weather", 0x9A: "temperature",
+        # Additional battery types
+        0x9E: "batterystrip_ext"
     }
-    
     RGBA_TYPES = {
         0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 
-        0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x96, 0x97, 0x98, 0x99, 0x9A
+        0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9E
     }
     DIGIT_TYPES = [
         # Basic digit types
@@ -469,8 +472,7 @@ class HKDecompressor:
         for i, block in enumerate(self.blocks):
             if i in processed_blocks:
                 continue
-                
-            # Look for animation blocks (type 0x17 or 0x97)
+                  # Look for animation blocks (type 0x17 or 0x97)
             if block.blocktype in (0x17, 0x97):
                 animation_sequence = [i]
                 processed_blocks.add(i)
@@ -485,12 +487,15 @@ class HKDecompressor:
                         animation_sequence.append(j)
                         processed_blocks.add(j)
                 
-                if len(animation_sequence) > 1:
+                # Add animation even if it's a single block with multiple parts
+                if len(animation_sequence) > 1 or block.parts > 1:
                     animations.append({
-                        'type': 'explicit_animation',
+                        'type': 'explicit_animation' if len(animation_sequence) > 1 else 'multi_part_animation',
                         'blocks': animation_sequence,
                         'size': (block.sx, block.sy),
-                        'position': (block.posX, block.posY)
+                        'position': (block.posX, block.posY),
+                        'parts': block.parts,
+                        'block_type': block.blocktype
                     })
             
             # Look for sequential similar blocks (potential animations)
@@ -565,16 +570,26 @@ class HKDecompressor:
         else:
             ImageWriter.write_raw_backup(f"{output_dir}/{filename}", compressed_data)
             return False
-    
     def extract_multi_part_images(self, block, output_dir):
         """Extract multi-part images (digits and symbols)"""
         type_prefix = BlockTypeManager.get_type_prefix(block.blocktype)
         has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
         current_offset = 0
+          # Special handling for weather blocks - corrected order based on actual extracted images
+        weather_states = [
+            "unknown", "sunny", "cloudy", "partly_cloudy", "rainy", "thunderstorm",
+            "thunderstorm_lightning", "windy_light", "snowy", "foggy", 
+            "windy_strong", "overcast"
+        ]
         
         for i in range(block.parts):
-            # Generate filename based on part index
-            if i < 10:
+            # Generate filename based on part index and block type
+            if block.blocktype in (0x99, 0x19):  # Weather blocks
+                if i < len(weather_states):
+                    filename = f"{output_dir}/chr_{type_prefix}_{weather_states[i]}.png"
+                else:
+                    filename = f"{output_dir}/chr_{type_prefix}_weather{i}.png"
+            elif i < 10:
                 filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
             elif i == 10:
                 filename = f"{output_dir}/chr_{type_prefix}_colon.png"
@@ -785,7 +800,6 @@ class HKDecompressor:
                 block.sx <= 32 and block.sy <= 40):
                 short_name = f"symbol_{block_index}"
             self.extract_single_image(block, output_dir, short_name)
-    
     def extract_animations(self, output_dir):
         """Extract detected animation sequences"""
         animations = self.detect_animations()
@@ -814,21 +828,63 @@ class HKDecompressor:
             anim_subdir = f"{animations_dir}/{anim_name}"
             os.makedirs(anim_subdir, exist_ok=True)
             
-            # Extract each frame
-            for frame_idx, block_idx in enumerate(blocks):
-                block = self.blocks[block_idx]
-                frame_name = f"frame_{frame_idx:03d}"
+            # Handle multi-part animation (single block with multiple frames)
+            if anim_type == 'multi_part_animation':
+                block = self.blocks[blocks[0]]
+                parts = animation.get('parts', block.parts)
+                print(f"  Extracting {parts} animation frames from single block")
                 
-                if self.extract_single_image(block, anim_subdir, frame_name):
-                    print(f"  ✓ Extracted frame {frame_idx + 1}/{len(blocks)}: {frame_name}.png")
-                else:
-                    print(f"  ✗ Failed to extract frame {frame_idx + 1}: {frame_name}")
+                has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
+                current_offset = 0
+                
+                for frame_idx in range(parts):
+                    frame_name = f"frame_{frame_idx:03d}.png"
+                    frame_path = f"{anim_subdir}/{frame_name}"
+                    
+                    # Extract image data for this frame
+                    start_pos = block.picture_address + current_offset
+                    available_data = self.picture_sizes[block.picidx] - current_offset
+                    
+                    if available_data <= 0:
+                        print(f"  ✗ No data available for frame {frame_idx}")
+                        break
+                    
+                    compressed_data = self.main_buffer[start_pos:start_pos + available_data]
+                    
+                    result, bytes_consumed = self._decompress_until_pixels(
+                        compressed_data, block.sx, block.sy, has_alpha
+                    )
+                    
+                    if result is None:
+                        print(f"  ✗ Failed to extract frame {frame_idx + 1}: {frame_name}")
+                        break
+                    
+                    if ImageWriter.write_png(frame_path, result, block.sx, block.sy):
+                        print(f"  ✓ Extracted frame {frame_idx + 1}/{parts}: {frame_name}")
+                    else:
+                        print(f"  ✗ Failed to save frame {frame_idx + 1}: {frame_name}")
+                    
+                    current_offset += bytes_consumed
+                    
+                    # Align to 4 bytes and skip filler
+                    current_offset = self._align_and_skip_filler(block.picture_address, current_offset, block.picidx)
+                    
+            else:
+                # Handle multi-block animation (multiple blocks forming sequence)
+                for frame_idx, block_idx in enumerate(blocks):
+                    block = self.blocks[block_idx]
+                    frame_name = f"frame_{frame_idx:03d}"
+                    
+                    if self.extract_single_image(block, anim_subdir, frame_name):
+                        print(f"  ✓ Extracted frame {frame_idx + 1}/{len(blocks)}: {frame_name}.png")
+                    else:
+                        print(f"  ✗ Failed to extract frame {frame_idx + 1}: {frame_name}")
             
             # Save animation metadata
             metadata = {
                 'name': anim_name,
                 'type': anim_type,
-                'frames': len(blocks),
+                'frames': animation.get('parts', len(blocks)),
                 'size': {'width': size[0], 'height': size[1]},
                 'position': {'x': position[0], 'y': position[1]},
                 'blocks': blocks
