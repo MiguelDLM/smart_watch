@@ -147,7 +147,7 @@ class HKDecompressor:
         """Convert RGB565 to RGB888 format with proper bit scaling"""        
         r = (rgb565 >> 11) & 0x1F
         g = (rgb565 >> 5) & 0x3F
-        b = rgb565 & 0x1F
+        b = (rgb565 & 0x1F)
         return (
             (r << 3) | (r >> 2),  # 5-bit to 8-bit
             (g << 2) | (g >> 4),  # 6-bit to 8-bit
@@ -464,7 +464,7 @@ class HKDecompressor:
             return False
     
     def decompress_raw_aligned(self, compressed_data, width, height, has_alpha):
-        """Decompress RAW aligned image data for arm_hour and arm_minute"""
+        """Decompress RAW aligned image data for arm_hour and arm_minute (colores fieles y orden de bytes correcto)"""
         bytes_per_pixel = 3 if has_alpha else 2
         row_bytes = width * bytes_per_pixel
         aligned_row_bytes = (row_bytes + 3) & ~3
@@ -481,10 +481,11 @@ class HKDecompressor:
                     b1 = compressed_data[base]
                     b2 = compressed_data[base+1]
                     a = 255
-                rgb565 = (b2 << 8) | b1
-                r = ((rgb565 >> 11) & 0x1F) << 3
-                g = ((rgb565 >> 5)  & 0x3F) << 2
-                b = ( rgb565        & 0x1F) << 3
+                # RAW suele ser little-endian: b1=low, b2=high
+                rgb565 = b1 | (b2 << 8)
+                r = ((rgb565 >> 11) & 0x1F) * 255 // 31
+                g = ((rgb565 >> 5)  & 0x3F) * 255 // 63
+                b = ( rgb565        & 0x1F) * 255 // 31
                 if has_alpha:
                     dst[row, col] = (r, g, b, a)
                 else:
@@ -519,7 +520,10 @@ class HKDecompressor:
             0x8C, # ampm
             0x87, # month (alt)
             0x8E, # steps (alt)
-            0x98  # batterystrip (alt)
+            0x98, # batterystrip (alt)
+            0x8D, # dayofweek (alt)
+            0x88, # day (alt)
+            0x86  # year
         ]
         # Limitar a máximo 10 imágenes para bloques de dígitos decimales
         decimal_digit_types = [0x09, 0x0A, 0x0F, 0x0E, 0x10, 0x07, 0x08, 0x0D]
@@ -539,7 +543,10 @@ class HKDecompressor:
                 0x8C: "ampm",
                 0x87: "month",
                 0x8E: "steps",
-                0x98: "batterystrip"
+                0x98: "batterystrip",
+                0x8D: "dayofweek",
+                0x88: "day",
+                0x86: "year"
             }
             type_prefix = type_prefixes.get(block.blocktype, "unknown")
             current_offset = 0
