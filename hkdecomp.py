@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-HK89 Dial Decompressor - Python Version
+HK89 Dial Decompressor - Python Version (Refactored)
 Extracts dial information and images from HK89 smartwatch .bin files
 Compatible with original hkdecomp v1.8
+
+Based on reverse engineering analysis from Ghidra disassembly.
+Refactored for better maintainability and readability.
 """
 
 import os
@@ -11,6 +14,7 @@ import struct
 from pathlib import Path
 from PIL import Image
 import argparse
+import numpy as np
 
 # Constants
 MAX_MEMORY_SIZE = 0x12C000
@@ -19,279 +23,355 @@ MAX_TEXT_SIZE = 0x8000
 class DialBlock:
     """Structure representing a dial block from the binary file"""
     def __init__(self, data):
-        # Unpack the 20-byte structure (little-endian)
-        # Format: I=4bytes, 2B=2bytes, 4H=8bytes, 6B=6bytes = 20bytes total
         unpacked = struct.unpack('<I2B4H6B', data)
-        self.picture_address = unpacked[0]  # 0x00-0x03
-        self.picidx = unpacked[1]          # 0x04
-        self.valami2 = unpacked[2]         # 0x05
-        self.sx = unpacked[3]              # 0x06-0x07
-        self.sy = unpacked[4]              # 0x08-0x09
-        self.posX = unpacked[5]            # 0x0A-0x0B
-        self.posY = unpacked[6]            # 0x0C-0x0D
-        self.parts = unpacked[7]           # 0x0E
-        self.blocktype = unpacked[8]       # 0x0F
-        self.align = unpacked[9]           # 0x10
-        self.compr = unpacked[10]          # 0x11
-        self.centX = unpacked[11]          # 0x12
-        self.centY = unpacked[12]          # 0x13
+        self.picture_address = unpacked[0]
+        self.picidx = unpacked[1]
+        self.valami2 = unpacked[2]
+        self.sx = unpacked[3]
+        self.sy = unpacked[4]
+        self.posX = unpacked[5]
+        self.posY = unpacked[6]
+        self.parts = unpacked[7]
+        self.blocktype = unpacked[8]
+        self.align = unpacked[9]
+        self.compr = unpacked[10]
+        self.centX = unpacked[11]
+        self.centY = unpacked[12]
 
-class HKDecompressor:
-    def __init__(self):
-        self.main_buffer = None
-        self.filename = None
-        self.block_count = 0
-        self.file_size = 0
-        self.picture_sizes = [0] * 256
-        
-    def get_block_type_name(self, block_type):
-        """Return human-readable name for block type"""
-        type_names = {
-            0x81: "Preview image",
-            0x89: "Hours",
-            0x8A: "Minutes", 
-            0x8B: "Battery",
-            0x8C: "Month",
-            0x8D: "Day of week",
-            0x02: "Background image",
-            0x06: "Arm hour",
-            0x07: "Arm minute",
-            0x82: "Background image",
-            0x86: "Year",
-            0x87: "Month",
-            0x88: "Day",
-            0x8E: "Steps",
-            0x98: "Battery strip"
-        }
-        return type_names.get(block_type, "Unknown")
+class BlockTypeManager:
+    """Handles block type definitions and naming"""
     
-    def get_block_type_format(self, block_type):
-        """Return image format for block type"""
-        rgba_types = {0x81, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x82, 0x86, 0x87, 0x88, 0x8E, 0x98}
-        return "RGBA" if block_type in rgba_types else " RGB"
+    TYPE_NAMES = {
+        # Basic types (según definiciones exactas del C header)
+        0x01: "Preview", 0x02: "Background", 0x03: "ArmHour", 0x04: "ArmMinute",
+        0x05: "ArmSecond", 0x06: "Year", 0x07: "Month", 0x08: "Day",
+        0x09: "Hours", 0x0A: "Minutes", 0x0B: "Seconds", 0x0C: "AMPM",
+        0x0D: "DayOfWeek", 0x0E: "Steps", 0x0F: "Pulse", 0x10: "Calory",
+        0x11: "Distance", 0x12: "BatteryNumber", 0x13: "Unknown13", 0x14: "Unknown14",
+        0x15: "Unknown15", 0x16: "Berry", 0x17: "Animation", 0x18: "BatteryStrip",
+        0x19: "Weather", 0x1A: "Temperature", 0x1B: "Unknown1B", 0x1C: "Unknown1C",
+        0x1D: "Unknown1D", 0x1E: "Unknown1E", 0x1F: "Unknown1F",
+        # HK26/HK89 specific
+        0x27: "HourHigh", 0x28: "HourLow", 0x29: "MinuteHigh", 0x2A: "MinuteLow",
+        # Extended types (0x80+) - versiones RGBA de los tipos básicos
+        0x81: "Preview", 0x82: "Background", 0x83: "ArmHour", 0x84: "ArmMinute", 
+        0x85: "ArmSecond", 0x86: "Year", 0x87: "Month", 0x88: "Day",
+        0x89: "Hours", 0x8A: "Minutes", 0x8B: "Seconds", 0x8C: "AMPM",
+        0x8D: "DayOfWeek", 0x8E: "Steps", 0x8F: "Pulse", 0x90: "Calory",        0x91: "Distance", 0x92: "BatteryNumber", 0x96: "Berry", 0x97: "Animation",
+        0x98: "BatteryStrip", 0x99: "Weather", 0x9A: "Temperature",
+        # Additional battery types
+        0x9E: "BatteryStripExtended"
+    }
     
-    def get_block_type_short_name(self, block_type, block_index):
-        """Return short filename for block type"""
-        short_names = {
-            0x81: "prev",
-            0x89: "hours",
-            0x8A: "minutes",
-            0x8B: "battery",
-            0x8C: "Month",
-            0x8D: "",
-            0x02: "background2",
-            0x06: "arm_hour",
-            0x07: "arm_minute",
-            0x86: "",
-            0x87: "Month",
-            0x88: "",
-            0x8E: "steps",
-            0x98: "battery"
-        }
-        
+    SHORT_NAMES = {
+        # Basic types - corregidos según definiciones exactas
+        0x01: "preview", 0x02: "background", 0x03: "arm_hour", 0x04: "arm_minute", 
+        0x05: "arm_second", 0x06: "year", 0x07: "month", 0x08: "day",
+        0x09: "hours", 0x0A: "minutes", 0x0B: "seconds", 0x0C: "ampm",
+        0x0D: "dayofweek", 0x0E: "steps", 0x0F: "pulse", 0x10: "calory",
+        0x11: "distance", 0x12: "battery_number", 0x13: "unknown13", 0x14: "unknown14",
+        0x15: "unknown15", 0x16: "berry", 0x17: "animation", 0x18: "batterystrip",
+        0x19: "weather", 0x1A: "temperature",
+        # HK26/HK89 specific
+        0x27: "hour_high", 0x28: "hour_low", 0x29: "minute_high", 0x2A: "minute_low",
+        # Extended types (0x80+) - versiones RGBA
+        0x81: "preview", 0x82: "background", 0x83: "arm_hour", 0x84: "arm_minute", 
+        0x85: "arm_second", 0x86: "year", 0x87: "month", 0x88: "day",
+        0x89: "hours", 0x8A: "minutes", 0x8B: "seconds", 0x8C: "ampm",
+        0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",
+        0x91: "distance", 0x92: "battery_number", 0x96: "berry", 0x97: "animation",
+        0x98: "batterystrip", 0x99: "weather", 0x9A: "temperature",
+        # Additional battery types
+        0x9E: "batterystrip_ext"
+    }
+    RGBA_TYPES = {
+        0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 
+        0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9E
+    }
+    DIGIT_TYPES = [
+        # Basic digit types
+        0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0E, 0x0F, 
+        0x10, 0x11, 0x12, 0x18, 0x19, 0x1A, 0x27, 0x28, 0x29, 0x2A,
+        # Extended digit types (0x80+)
+        0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 
+        0x8F, 0x90, 0x91, 0x92, 0x98, 0x99, 0x9A
+    ]
+    
+    SYMBOL_TYPES = {
+        0x13: "colon", 0x14: "dot", 0x15: "comma", 0x16: "berry", 0x17: "animation",
+        0x96: "berry", 0x97: "animation"
+    }
+    TYPE_PREFIXES = {
+        # Basic types
+        0x03: "arm_hour", 0x04: "arm_minute", 0x05: "arm_second", 0x06: "year",
+        0x07: "month", 0x08: "day", 0x09: "hours", 0x0A: "minutes", 0x0B: "seconds",
+        0x0C: "ampm", 0x0E: "steps", 0x0F: "pulse", 0x10: "calory", 0x11: "distance",
+        0x12: "battery_number", 0x18: "batterystrip", 0x19: "weather", 0x1A: "temperature",
+        0x27: "hour_high", 0x28: "hour_low", 0x29: "minute_high", 0x2A: "minute_low",
+        # Extended types
+        0x83: "arm_hour", 0x84: "arm_minute", 0x85: "arm_second", 0x86: "year",
+        0x87: "month", 0x88: "day", 0x89: "hours", 0x8A: "minutes", 0x8B: "battery",
+        0x8C: "ampm", 0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",
+        0x91: "distance", 0x92: "battery_number", 0x98: "batterystrip", 0x99: "weather",
+        0x9A: "temperature"
+    }
+    
+    @classmethod
+    def get_type_name(cls, block_type):
+        return cls.TYPE_NAMES.get(block_type, "Unknown")
+    
+    @classmethod
+    def get_short_name(cls, block_type, block_index):
         if block_type == 0x82:
             return f"background{block_index}"
-        
-        return short_names.get(block_type, "unknown")
+        name = cls.SHORT_NAMES.get(block_type)
+        return name if name else f"unknown_{block_index}"
     
-    def create_output_directory(self, filename):
-        """Create output directory based on filename"""
-        basename = Path(filename).stem
-        dirname = f"_{basename}"
-        os.makedirs(dirname, exist_ok=True)
-        return dirname
+    @classmethod
+    def get_format(cls, block_type):
+        return "RGBA" if block_type in cls.RGBA_TYPES else " RGB"
     
-    def calculate_picture_sizes(self):
-        """Calculate the size of each picture based on addresses"""
-        # Reset picture sizes
-        self.picture_sizes = [0] * 256
-        
-        # Parse blocks from buffer
-        blocks = []
-        for i in range(self.block_count):
-            block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
-            block = DialBlock(block_data)
-            blocks.append(block)
-        
-        # Calculate sizes by finding next address
-        for block in blocks:
-            start_addr = block.picture_address
-            end_addr = self.file_size
-            
-            # Find next picture address to calculate size
-            for other_block in blocks:
-                if other_block.picture_address > start_addr and other_block.picture_address < end_addr:
-                    end_addr = other_block.picture_address
-            
-            self.picture_sizes[block.picidx] = end_addr - start_addr
+    @classmethod
+    def is_digit_type(cls, block_type):
+        return block_type in cls.DIGIT_TYPES
     
-    def print_picture_summary(self):
-        """Print summary of picture information"""
-        print(f"Number of block = {self.block_count} , (0x{self.block_count:04X})")
-        
-        block_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
-        print(f"Size of pltable = {block_table_size} , (0x{block_table_size:04X})")
-        print()
-        
-        # Print byte sizes in rows of 8
-        total_bytes = 0
-        for i in range(0, 79, 8):
-            for j in range(8):
-                if i + j < 79:
-                    size = self.picture_sizes[i + j] if self.picture_sizes[i + j] > 0 else 0
-                    print(f"{i+j:2d}.={size:5d} byte, ", end="")
-                    total_bytes += size
-            print()
-        print(f"summa={total_bytes} byte\n")
-        
-        # Print hex sizes in rows of 8
-        for i in range(0, 79, 8):
-            for j in range(8):
-                if i + j < 79:
-                    print(f"{i+j:2d}.={self.picture_sizes[i+j]:08X}, ", end="")
-            print()
-        print(f"summa=0x{total_bytes:X} byte")
+    @classmethod
+    def is_symbol_type(cls, block_type):
+        return block_type in cls.SYMBOL_TYPES
     
-    def extract_block_info(self, block, block_index):
-        """Print detailed information about a block"""
-        print(f"Block {block_index:2d}.")
-        print(f"    0x{block.blocktype:02X} type: {self.get_block_type_name(block.blocktype)} "
-              f"{self.get_block_type_format(block.blocktype)} "
-              f"({self.get_block_type_short_name(block.blocktype, block_index)})")
-        print(f"    0x{block.picture_address:08X}    ({block.picture_address:7d}) picture address")
-        print(f"    0x{block.picidx:02X},0x{block.valami2:02X}     "
-              f"({block.picidx:3d},{block.valami2:3d}) picidx,valami2")
-        print(f"    0x{block.sx:04X},0x{block.sy:04X} ({block.sx:3d},{block.sy:3d}) sx,sy")
-        print(f"    0x{block.posX:04X},0x{block.posY:04X} ({block.posX:3d},{block.posY:3d}) posX,posY")
-        print(f"    0x{block.parts:02X},0x{block.blocktype:02X}     "
-              f"({block.parts:3d},{block.blocktype:3d}) parts,blocktype")
-        print(f"    0x{block.align:02X},0x{block.compr:02X},0x{block.centX:02X},0x{block.centY:02X} "
-              f"({block.align:3d},{block.compr:3d},{block.centX:3d},{block.centY:3d}) align,compr,centX,centY")
+    @classmethod
+    def get_type_prefix(cls, block_type):
+        return cls.TYPE_PREFIXES.get(block_type, "unknown")
+
+class ImageDecompressor:
+    """Handles image decompression algorithms"""
     
-    def decompress_image_data(self, compressed_data, width, height, has_alpha=False):
-        """Decompress image data using the exact HK89 algorithm from reverse engineering"""
-        if len(compressed_data) == 0:
+    @staticmethod
+    def decompress_hk89_rle(compressed_data, width, height, has_alpha=False):
+        """Decompress HK89 RLE compressed image data"""
+        if not compressed_data or len(compressed_data) < 4:
             return None
             
-        print(f"\nDecompressing {width}x{height} image from {len(compressed_data)} bytes (alpha={has_alpha})")
+        expected_pixels = width * height
+        bytes_per_pixel = 4 if has_alpha else 3
+        output = bytearray(expected_pixels * bytes_per_pixel)
         
-        # Use the exact algorithm from the reverse-engineered binary (sub_4016B0)
-        result = self.decompress_hk89_rle(compressed_data, width, height, has_alpha)
-        if result:
-            print("✓ Successfully used HK89 RLE decompression")
-            return result
+        input_pos = struct.unpack('<H', compressed_data[0:2])[0] if len(compressed_data) >= 2 else 2
+        if input_pos >= len(compressed_data):
+            input_pos = 2
             
-        print("✗ HK89 decompression failed")
-        return None
-    
-    def rgb565_to_rgb888(self, rgb565):
-        """Convert RGB565 to RGB888 format with proper bit scaling"""
-        r = (rgb565 >> 11) & 0x1F
-        g = (rgb565 >> 5) & 0x3F
-        b = rgb565 & 0x1F
-        return (
-            (r << 3) | (r >> 2),  # 5-bit to 8-bit
-            (g << 2) | (g >> 4),  # 6-bit to 8-bit
-            (b << 3) | (b >> 2),  # 5-bit to 8-bit
-        )
-
-    def decompress_hk89_rle(self, compressed_data, width, height, has_alpha=False):
-        """
-        Decompress HK89 RLE format based on reverse engineering of sub_4016B0
-        Improved version with better error handling and pixel validation
-        """
-        input_pos = 2  # skip 2-byte header
-        output = bytearray()
-        pixels_expected = width * height
+        output_pos = 0
         pixels_written = 0
         
-        print(f"Starting HK89 RLE decompression: {width}x{height}, alpha={has_alpha}")
-        
         try:
-            while input_pos < len(compressed_data) and pixels_written < pixels_expected:
-                count_byte = compressed_data[input_pos]
-                input_pos += 1
-                
-                if count_byte == 0:
-                    count_byte = 1
-                
-                if count_byte & 0x80:
-                    # RLE: repeat pixel (count & 0x7F) times
-                    repeat_count = count_byte & 0x7F
-                    if repeat_count == 0:
-                        continue
-                        
-                    # Read alpha if present
-                    alpha_val = 255
-                    if has_alpha:
-                        if input_pos >= len(compressed_data):
-                            break
-                        alpha_val = compressed_data[input_pos]
-                        input_pos += 1
-                    
-                    # Read RGB565 pixel (2 bytes)
-                    if input_pos + 1 >= len(compressed_data):
+            for row in range(height):
+                pixels_in_row = 0
+                while pixels_in_row < width and pixels_written < expected_pixels:
+                    if input_pos >= len(compressed_data):
+                        ImageDecompressor._fill_remaining_pixels(
+                            output, output_pos, width - pixels_in_row, 
+                            expected_pixels - pixels_written, has_alpha
+                        )
                         break
                         
-                    rgb565 = struct.unpack('<H', compressed_data[input_pos:input_pos+2])[0]
-                    input_pos += 2
-                    rgb = self.rgb565_to_rgb888(rgb565)
+                    count_byte = compressed_data[input_pos]
+                    input_pos += 1
                     
-                    # Write repeated pixels
-                    for _ in range(repeat_count):
-                        if pixels_written >= pixels_expected:
-                            break
-                        output += bytes((*rgb, alpha_val) if has_alpha else rgb)
-                        pixels_written += 1
-                        
-                else:
-                    # Unique pixels: read count_byte individual pixels
-                    for _ in range(count_byte):
-                        if pixels_written >= pixels_expected or input_pos >= len(compressed_data):
-                            break
-                            
-                        # Read alpha if present
-                        alpha_val = 255
-                        if has_alpha:
-                            if input_pos >= len(compressed_data):
-                                break
-                            alpha_val = compressed_data[input_pos]
-                            input_pos += 1
-                        
-                        # Read RGB565 pixel (2 bytes)
-                        if input_pos + 1 >= len(compressed_data):
-                            break
-                            
-                        rgb565 = struct.unpack('<H', compressed_data[input_pos:input_pos+2])[0]
-                        input_pos += 2
-                        rgb = self.rgb565_to_rgb888(rgb565)
-                        
-                        output += bytes((*rgb, alpha_val) if has_alpha else rgb)
-                        pixels_written += 1
+                    if count_byte == 0:
+                        # Single pixel
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            ImageDecompressor._process_single_pixel(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, has_alpha
+                            )
+                    elif count_byte & 0x80:
+                        # RLE compressed
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            ImageDecompressor._process_rle_pixels(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, count_byte & 0x7F,
+                                width, expected_pixels, has_alpha
+                            )
+                    else:
+                        # Literal pixels
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            ImageDecompressor._process_literal_pixels(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, count_byte,
+                                width, expected_pixels, has_alpha
+                            )
             
-            # Strict validation: must have exact pixel count
-            if pixels_written != pixels_expected:
-                print(f"⚠ Error: Expected {pixels_expected}, got {pixels_written} pixels")
+            if pixels_written != expected_pixels:
+                print(f"✗ Pixel count mismatch: {pixels_written}/{expected_pixels}")
                 return None
                 
-            print(f"✅ Successfully decompressed {pixels_written} pixels using HK89 RLE")
-            return bytes(output)
-                
-        except Exception as e:
-            print(f"❌ Exception during HK89 RLE decompression: {e}")
+            return bytes(output[:output_pos])
+            
+        except (IndexError, struct.error) as e:
+            print(f"Decompression error: {e}")
             return None
     
-    def write_png_file(self, filename, image_data, width, height):
+    @staticmethod
+    def _process_single_pixel(compressed_data, input_pos, output, output_pos, 
+                             pixels_written, pixels_in_row, has_alpha):
+        """Process a single pixel"""
+        alpha = 255
+        if has_alpha and input_pos < len(compressed_data):
+            alpha = compressed_data[input_pos]
+            input_pos += 1
+        
+        if input_pos + 1 >= len(compressed_data):
+            return input_pos, output_pos, pixels_written, pixels_in_row
+            
+        r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+        input_pos += 2
+        
+        output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+        return input_pos, output_pos, pixels_written + 1, pixels_in_row + 1
+    
+    @staticmethod
+    def _process_rle_pixels(compressed_data, input_pos, output, output_pos,
+                           pixels_written, pixels_in_row, count, width, 
+                           expected_pixels, has_alpha):
+        """Process RLE compressed pixels"""
+        if count == 0:
+            return input_pos, output_pos, pixels_written, pixels_in_row
+            
+        alpha = 255
+        if has_alpha and input_pos < len(compressed_data):
+            alpha = compressed_data[input_pos]
+            input_pos += 1
+        
+        if input_pos + 1 >= len(compressed_data):
+            return input_pos, output_pos, pixels_written, pixels_in_row
+            
+        r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+        input_pos += 2
+        
+        for _ in range(count):
+            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                break
+            output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+            pixels_written += 1
+            pixels_in_row += 1
+            
+        return input_pos, output_pos, pixels_written, pixels_in_row
+    
+    @staticmethod
+    def _process_literal_pixels(compressed_data, input_pos, output, output_pos,
+                               pixels_written, pixels_in_row, count, width,
+                               expected_pixels, has_alpha):
+        """Process literal pixels"""
+        for _ in range(count):
+            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                break
+            alpha = 255
+            if has_alpha and input_pos < len(compressed_data):
+                alpha = compressed_data[input_pos]
+                input_pos += 1
+                
+            if input_pos + 1 >= len(compressed_data):
+                break
+                
+            r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+            input_pos += 2
+            
+            output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+            pixels_written += 1
+            pixels_in_row += 1
+            
+        return input_pos, output_pos, pixels_written, pixels_in_row
+    
+    @staticmethod
+    def _read_rgb565_pixel(compressed_data, input_pos):
+        """Read and convert RGB565 pixel to RGB888"""
+        high_byte = compressed_data[input_pos]
+        low_byte = compressed_data[input_pos + 1]
+        rgb565 = (high_byte << 8) | low_byte
+        
+        r = high_byte & 0xf8
+        g = (rgb565 >> 3) & 0xfc
+        b = (rgb565 << 3) & 0xff
+        
+        return r, g, b
+    
+    @staticmethod
+    def _write_pixel(output, output_pos, r, g, b, alpha, has_alpha):
+        """Write pixel to output buffer"""
+        bytes_per_pixel = 4 if has_alpha else 3
+        if output_pos + bytes_per_pixel <= len(output):
+            output[output_pos] = r
+            output[output_pos + 1] = g
+            output[output_pos + 2] = b
+            if has_alpha:
+                output[output_pos + 3] = alpha
+                return output_pos + 4
+            else:
+                return output_pos + 3
+        return output_pos
+    
+    @staticmethod
+    def _fill_remaining_pixels(output, output_pos, pixels_to_fill, max_pixels, has_alpha):
+        """Fill remaining pixels with transparent black"""
+        bytes_per_pixel = 4 if has_alpha else 3
+        filled = 0
+        while filled < pixels_to_fill and filled < max_pixels:
+            if output_pos + bytes_per_pixel <= len(output):
+                output[output_pos:output_pos + 3] = [0, 0, 0]
+                if has_alpha:
+                    output[output_pos + 3] = 0
+                    output_pos += 4
+                else:
+                    output_pos += 3
+                filled += 1
+            else:
+                break
+    
+    @staticmethod
+    def decompress_raw_aligned(compressed_data, width, height, has_alpha):
+        """Decompress RAW aligned image data for arm_hour and arm_minute"""
+        bytes_per_pixel = 3 if has_alpha else 2
+        row_bytes = width * bytes_per_pixel
+        aligned_row_bytes = (row_bytes + 3) & ~3
+        dst = np.zeros((height, width, 4 if has_alpha else 3), np.uint8)
+        
+        for row in range(height):
+            row_start = row * aligned_row_bytes
+            for col in range(width):
+                base = row_start + col * bytes_per_pixel
+                if has_alpha:
+                    a = compressed_data[base]
+                    b1 = compressed_data[base + 1]
+                    b2 = compressed_data[base + 2]
+                else:
+                    b1 = compressed_data[base]
+                    b2 = compressed_data[base + 1]
+                    a = 255
+                
+                rgb565 = b1 | (b2 << 8)
+                r = ((rgb565 >> 11) & 0x1F) * 255 // 31
+                g = ((rgb565 >> 5) & 0x3F) * 255 // 63
+                b = (rgb565 & 0x1F) * 255 // 31
+                
+                if has_alpha:
+                    dst[row, col] = (r, g, b, a)
+                else:
+                    dst[row, col] = (r, g, b)
+        
+        return dst.tobytes()
+
+class ImageWriter:
+    """Handles PNG file writing"""
+    
+    @staticmethod
+    def write_png(filename, image_data, width, height):
         """Write PNG file using PIL"""
         try:
-            # Determine format based on data length
             bytes_per_pixel = len(image_data) // (width * height)
             
             if bytes_per_pixel == 4:
-                # RGBA format
                 img = Image.frombytes('RGBA', (width, height), image_data[:width * height * 4])
             elif bytes_per_pixel == 3:
-                # RGB format - convert to RGBA
                 rgba_data = bytearray()
                 for i in range(0, len(image_data), 3):
                     if i + 2 < len(image_data):
@@ -302,111 +382,567 @@ class HKDecompressor:
                 return False
                 
             img.save(filename)
-            print(f"Saved: {filename} ({width}x{height})")
+            print(f"✓ Saved: {filename} ({width}x{height})")
             return True
         except Exception as e:
-            print(f"Error saving PNG {filename}: {e}")
+            print(f"✗ Error saving PNG {filename}: {e}")
             return False
     
-    def extract_image_data(self, block_index, block, output_dir):
-        """Extract and save image data from a block"""
-        short_name = self.get_block_type_short_name(block.blocktype, block_index)
+    @staticmethod
+    def write_raw_backup(filename, data):
+        """Write raw data as backup"""
+        try:
+            with open(f"{filename}.bin", 'wb') as f:
+                f.write(data)
+            print(f"⚠ Wrote raw data: {filename}.bin")
+        except Exception as e:
+            print(f"✗ Error writing raw file: {e}")
+
+class HKDecompressor:
+    """Main decompressor class"""
+    
+    def __init__(self):
+        self.main_buffer = None
+        self.filename = None
+        self.block_count = 0
+        self.file_size = 0
+        self.picture_sizes = [0] * 256
+        self.blocks = []
         
-        # Determine if this block type uses alpha channel based on reverse engineering
-        # From the original code: blocktype >= 0x80 uses RGBA, else RGB
-        has_alpha = (block.blocktype & 0x80) != 0
+    def load_file(self, filename):
+        """Load and validate binary file"""
+        self.filename = filename
         
-        # Generate appropriate filename based on block type
-        if block.blocktype == 0x81:  # Preview
-            filename = f"{output_dir}/prev.png"
-        elif block.blocktype == 0x02:  # Background
-            filename = f"{output_dir}/background2.png"
-        elif block.blocktype == 0x82:  # Background with index
-            filename = f"{output_dir}/background{block_index}.png"
-        elif block.blocktype in [0x89, 0x8A, 0x8B, 0x8C, 0x87, 0x8E, 0x98]:
-            # Multi-part images (digits)
-            type_prefixes = {
-                0x89: "hours",
-                0x8A: "minutes",
-                0x8B: "battery",
-                0x8C: "Month",
-                0x87: "Month",
-                0x8E: "steps",
-                0x98: "battery"
-            }
-            type_prefix = type_prefixes.get(block.blocktype, "unknown")
+        if not os.path.exists(filename):
+            print(f"No such file! ({filename})")
+            return False
+        
+        self.file_size = os.path.getsize(filename)
+        if self.file_size > MAX_MEMORY_SIZE:
+            print("File too large")
+            return False
+        
+        try:
+            with open(filename, 'rb') as f:
+                self.main_buffer = f.read()
+        except Exception as e:
+            print(f"Error reading file: {e}")
+            return False
+        
+        if len(self.main_buffer) < 3:
+            print("File too small")
+            return False
+        
+        self.block_count = self.main_buffer[2]
+        return True
+    
+    def parse_blocks(self):
+        """Parse all blocks from the binary file"""
+        self.blocks = []
+        for i in range(self.block_count):
+            block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
+            block = DialBlock(block_data)
+            self.blocks.append(block)
             
-            # Extract individual digit images based on parts count
-            for i in range(block.parts):
-                if i < 10:
-                    filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
-                elif i == 10:
-                    filename = f"{output_dir}/chr_{type_prefix}_:.png"
-                elif i == 11:
-                    filename = f"{output_dir}/chr_{type_prefix}_;.png"
+    def calculate_picture_sizes(self):
+        """Calculate the size of each picture based on addresses"""
+        self.picture_sizes = [0] * 256
+        
+        # Create sorted list of unique addresses
+        addresses = []
+        for block in self.blocks:
+            if block.picture_address < self.file_size:
+                addresses.append((block.picture_address, block.picidx))
+        
+        addresses.sort()
+        
+        # Calculate sizes based on next address
+        for i, (start_addr, picidx) in enumerate(addresses):
+            if i + 1 < len(addresses):
+                end_addr = addresses[i + 1][0]
+            else:
+                end_addr = self.file_size
+            
+            self.picture_sizes[picidx] = end_addr - start_addr
+    
+    def detect_animations(self):
+        """Detect animation sequences based on similar blocks"""
+        animations = []
+        processed_blocks = set()
+        
+        for i, block in enumerate(self.blocks):
+            if i in processed_blocks:
+                continue
+                  # Look for animation blocks (type 0x17 or 0x97)
+            if block.blocktype in (0x17, 0x97):
+                animation_sequence = [i]
+                processed_blocks.add(i)
+                
+                # Look for similar blocks that might be part of same animation
+                for j, other_block in enumerate(self.blocks[i+1:], i+1):
+                    if (other_block.blocktype == block.blocktype and
+                        other_block.sx == block.sx and
+                        other_block.sy == block.sy and
+                        abs(other_block.posX - block.posX) <= 5 and
+                        abs(other_block.posY - block.posY) <= 5):
+                        animation_sequence.append(j)
+                        processed_blocks.add(j)
+                
+                # Add animation even if it's a single block with multiple parts
+                if len(animation_sequence) > 1 or block.parts > 1:
+                    animations.append({
+                        'type': 'explicit_animation' if len(animation_sequence) > 1 else 'multi_part_animation',
+                        'blocks': animation_sequence,
+                        'size': (block.sx, block.sy),
+                        'position': (block.posX, block.posY),
+                        'parts': block.parts,
+                        'block_type': block.blocktype
+                    })
+            
+            # Look for sequential similar blocks (potential animations)
+            elif block.blocktype not in (0x01, 0x02):  # Skip preview and background
+                similar_sequence = [i]
+                
+                for j in range(i+1, min(i+10, len(self.blocks))):  # Look ahead max 10 blocks
+                    other_block = self.blocks[j]
+                    
+                    if (other_block.blocktype == block.blocktype and
+                        other_block.sx == block.sx and
+                        other_block.sy == block.sy and
+                        abs(other_block.posX - block.posX) <= 2 and
+                        abs(other_block.posY - block.posY) <= 2):
+                        similar_sequence.append(j)
+                        processed_blocks.add(j)
+                    else:
+                        break
+                
+                if len(similar_sequence) >= 3:  # At least 3 frames for animation
+                    animations.append({
+                        'type': 'sequential_animation',
+                        'blocks': similar_sequence,
+                        'size': (block.sx, block.sy),
+                        'position': (block.posX, block.posY),
+                        'block_type': block.blocktype
+                    })
+                    for idx in similar_sequence:
+                        processed_blocks.add(idx)
+        
+        return animations    
+    def extract_single_image(self, block, output_dir, filename_override=None):
+        """Extract a single image from a block"""
+        block_index = self.blocks.index(block) + 1
+        filename = filename_override or BlockTypeManager.get_short_name(block.blocktype, block_index)
+        has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
+        
+        # Validate block data
+        if block.picture_address >= self.file_size:
+            print(f"⚠ Block {block_index}: Picture address 0x{block.picture_address:08X} beyond file size")
+            return False
+        
+        if self.picture_sizes[block.picidx] <= 0:
+            print(f"⚠ Block {block_index}: Invalid picture size {self.picture_sizes[block.picidx]}")
+            return False
+        
+        # Ensure we don't read beyond file bounds
+        available_bytes = self.file_size - block.picture_address
+        actual_size = min(self.picture_sizes[block.picidx], available_bytes)
+        
+        if actual_size <= 0:
+            print(f"⚠ Block {block_index}: No data available at address 0x{block.picture_address:08X}")
+            return False
+        
+        # Handle RAW format for arm images (including second hand)
+        if block.blocktype in (0x03, 0x04, 0x05, 0x83, 0x84, 0x85) and block.compr == 0:
+            print(f"  → Extracting ARM block as RAW: {filename}")
+            compressed_data = self.main_buffer[block.picture_address:block.picture_address + actual_size]
+            image_data = ImageDecompressor.decompress_raw_aligned(
+                compressed_data, block.sx, block.sy, has_alpha
+            )
+            return ImageWriter.write_png(f"{output_dir}/{filename}.png", image_data, block.sx, block.sy)
+        
+        # Handle compressed images (standard HK89 RLE compression)
+        print(f"  → Extracting block as HK89 RLE: {filename}")
+        compressed_data = self.main_buffer[block.picture_address:block.picture_address + actual_size]
+        decompressed_data = ImageDecompressor.decompress_hk89_rle(
+            compressed_data, block.sx, block.sy, has_alpha
+        )
+        
+        if decompressed_data and ImageWriter.write_png(f"{output_dir}/{filename}.png", 
+                                                      decompressed_data, block.sx, block.sy):
+            return True
+        else:
+            ImageWriter.write_raw_backup(f"{output_dir}/{filename}", compressed_data)
+            return False
+    def extract_multi_part_images(self, block, output_dir):
+        """Extract multi-part images (digits and symbols)"""
+        type_prefix = BlockTypeManager.get_type_prefix(block.blocktype)
+        has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
+        current_offset = 0
+          # Special handling for weather blocks - corrected order based on actual extracted images
+        weather_states = [
+            "unknown", "sunny", "cloudy", "partly_cloudy", "rainy", "thunderstorm",
+            "thunderstorm_lightning", "windy_light", "snowy", "foggy", 
+            "windy_strong", "overcast"
+        ]
+        
+        for i in range(block.parts):
+            # Generate filename based on part index and block type
+            if block.blocktype in (0x99, 0x19):  # Weather blocks
+                if i < len(weather_states):
+                    filename = f"{output_dir}/chr_{type_prefix}_{weather_states[i]}.png"
                 else:
+                    filename = f"{output_dir}/chr_{type_prefix}_weather{i}.png"
+            elif i < 10:
+                filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
+            elif i == 10:
+                filename = f"{output_dir}/chr_{type_prefix}_colon.png"
+            elif i == 11:
+                filename = f"{output_dir}/chr_{type_prefix}_dot.png"
+            elif i == 12:
+                filename = f"{output_dir}/chr_{type_prefix}_comma.png"
+            else:
+                filename = f"{output_dir}/chr_{type_prefix}_extra{i}.png"
+              # Extract image data
+            start_pos = block.picture_address + current_offset
+            available_data = self.picture_sizes[block.picidx] - current_offset
+            compressed_data = self.main_buffer[start_pos:start_pos + available_data]
+            
+            result, bytes_consumed = self._decompress_until_pixels(
+                compressed_data, block.sx, block.sy, has_alpha
+            )
+            
+            if result is None:
+                print(f"✗ Error: Failed to decompress part {i} of {type_prefix}")
+                continue
+            
+            ImageWriter.write_png(filename, result, block.sx, block.sy)
+            current_offset += bytes_consumed
+            
+            # Align to 4 bytes and skip filler
+            current_offset = self._align_and_skip_filler(block.picture_address, current_offset, block.picidx)
+    
+    def _decompress_until_pixels(self, compressed_data, width, height, has_alpha=False):
+        """Decompress until exact pixel count is reached"""
+        expected_pixels = width * height
+        bytes_per_pixel = 4 if has_alpha else 3
+        output = bytearray(expected_pixels * bytes_per_pixel)
+        
+        input_pos = struct.unpack('<H', compressed_data[0:2])[0] if len(compressed_data) >= 2 else 2
+        if input_pos >= len(compressed_data):
+            input_pos = 2
+        
+        output_pos = 0
+        pixels_written = 0
+        
+        try:
+            for row in range(height):
+                pixels_in_row = 0
+                while pixels_in_row < width and pixels_written < expected_pixels:
+                    if input_pos >= len(compressed_data):
+                        break
+                    
+                    count_byte = compressed_data[input_pos]
+                    input_pos += 1
+                    
+                    if count_byte == 0:
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            self._process_single_pixel_until(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, has_alpha
+                            )
+                    elif count_byte & 0x80:
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            self._process_rle_pixels_until(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, count_byte & 0x7F,
+                                width, expected_pixels, has_alpha
+                            )
+                    else:
+                        input_pos, output_pos, pixels_written, pixels_in_row = \
+                            self._process_literal_pixels_until(
+                                compressed_data, input_pos, output, output_pos,
+                                pixels_written, pixels_in_row, count_byte,
+                                width, expected_pixels, has_alpha
+                            )
+            
+            if pixels_written != expected_pixels:
+                return None, input_pos
+            
+            return bytes(output[:output_pos]), input_pos
+            
+        except Exception as e:
+            print(f"Error in _decompress_until_pixels: {e}")
+            return None, input_pos
+    
+    def _process_single_pixel_until(self, compressed_data, input_pos, output, output_pos, 
+                                   pixels_written, pixels_in_row, has_alpha):
+        """Helper for single pixel processing in until_pixels"""
+        alpha = 255
+        if has_alpha and input_pos < len(compressed_data):
+            alpha = compressed_data[input_pos]
+            input_pos += 1
+        
+        if input_pos + 1 >= len(compressed_data):
+            return input_pos, output_pos, pixels_written, pixels_in_row
+        
+        r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+        input_pos += 2
+        
+        output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+        return input_pos, output_pos, pixels_written + 1, pixels_in_row + 1
+    
+    def _process_rle_pixels_until(self, compressed_data, input_pos, output, output_pos,
+                                 pixels_written, pixels_in_row, count, width, 
+                                 expected_pixels, has_alpha):
+        """Helper for RLE pixel processing in until_pixels"""
+        if count == 0:
+            return input_pos, output_pos, pixels_written, pixels_in_row
+        
+        alpha = 255
+        if has_alpha and input_pos < len(compressed_data):
+            alpha = compressed_data[input_pos]
+            input_pos += 1
+        
+        if input_pos + 1 >= len(compressed_data):
+            return input_pos, output_pos, pixels_written, pixels_in_row
+        
+        r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+        input_pos += 2
+        
+        for _ in range(count):
+            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                break
+            output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+            pixels_written += 1
+            pixels_in_row += 1
+        
+        return input_pos, output_pos, pixels_written, pixels_in_row
+    
+    def _process_literal_pixels_until(self, compressed_data, input_pos, output, output_pos,
+                                     pixels_written, pixels_in_row, count, width,
+                                     expected_pixels, has_alpha):
+        """Helper for literal pixel processing in until_pixels"""
+        for _ in range(count):
+            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                break
+            
+            alpha = 255
+            if has_alpha and input_pos < len(compressed_data):
+                alpha = compressed_data[input_pos]
+                input_pos += 1
+            
+            if input_pos + 1 >= len(compressed_data):
+                break
+            
+            r, g, b = ImageDecompressor._read_rgb565_pixel(compressed_data, input_pos)
+            input_pos += 2
+            
+            output_pos = ImageDecompressor._write_pixel(output, output_pos, r, g, b, alpha, has_alpha)
+            pixels_written += 1
+            pixels_in_row += 1
+        
+        return input_pos, output_pos, pixels_written, pixels_in_row
+
+    def _align_and_skip_filler(self, base_address, current_offset, picidx):
+        """Align to 4 bytes and skip filler bytes"""
+        if current_offset % 4 != 0:
+            current_offset += 4 - (current_offset % 4)
+        
+        # Bounds check for picidx
+        if picidx < 0 or picidx >= len(self.picture_sizes):
+            return current_offset
+            
+        picture_size = self.picture_sizes[picidx]
+        while (current_offset < picture_size and 
+               base_address + current_offset < len(self.main_buffer)):
+            b = self.main_buffer[base_address + current_offset]
+            if b not in (0x00, 0xFF):
+                break
+            current_offset += 1
+        
+        return current_offset    
+    def extract_all_images(self, output_dir):
+        """Extract all images from the binary file"""
+        processed_multi_part_addresses = set()
+        
+        for i, block in enumerate(self.blocks):
+            block_index = i + 1
+            
+            # Skip animation blocks - they will be processed separately by extract_animations()
+            if block.blocktype in (0x17, 0x97):
+                continue
+            
+            # Handle ARM blocks (hour, minute, second hands) specially - both basic and RGBA versions
+            if block.blocktype in (0x03, 0x04, 0x05, 0x83, 0x84, 0x85):
+                print(f"Processing ARM block: Type 0x{block.blocktype:02X}, Size {block.sx}x{block.sy}, Compression {block.compr}")
+                short_name = BlockTypeManager.get_short_name(block.blocktype, block_index)
+                self.extract_single_image(block, output_dir, short_name)
+                continue
+            
+            # Handle symbol blocks
+            if BlockTypeManager.is_symbol_type(block.blocktype):
+                symbol_name = BlockTypeManager.SYMBOL_TYPES[block.blocktype]
+                self.extract_single_image(block, output_dir, symbol_name)
+                continue
+            
+            # Handle multi-part blocks (digits)
+            if block.parts > 1:
+                key = (block.picture_address, block.sx, block.sy, block.parts)
+                
+                if key in processed_multi_part_addresses:
                     continue
                 
-                # Calculate offset for this digit
-                digit_size = self.picture_sizes[block.picidx] // block.parts
-                offset = i * digit_size
-                
-                # Extract compressed data
-                start_pos = block.picture_address + offset
-                compressed_data = self.main_buffer[start_pos:start_pos + digit_size]
-                
-                # Try to decompress and save
-                decompressed_data = self.decompress_image_data(compressed_data, block.sx, block.sy, has_alpha)
-                
-                if decompressed_data and self.write_png_file(filename, decompressed_data, block.sx, block.sy):
-                    pass  # Success
+                if BlockTypeManager.is_digit_type(block.blocktype):
+                    processed_multi_part_addresses.add(key)
+                    self.extract_multi_part_images(block, output_dir)
                 else:
-                    # Fallback: write raw data with .bin extension
-                    raw_filename = f"{filename}.bin"
-                    try:
-                        with open(raw_filename, 'wb') as f:
-                            f.write(compressed_data)
-                    except Exception as e:
-                        print(f"Error writing raw file {raw_filename}: {e}")
-            return  # Don't create single file for multi-part images
-        else:
-            # Only create file if short_name is not empty
-            if short_name:
-                filename = f"{output_dir}/{short_name}.png"
-            else:
-                return  # Skip blocks with empty short names
+                    # Check for duplicates with known digit types
+                    has_digit_duplicate = any(
+                        BlockTypeManager.is_digit_type(other.blocktype) and
+                        (other.picture_address, other.sx, other.sy, other.parts) == key
+                        for other in self.blocks[i+1:]
+                    )
+                    
+                    if not has_digit_duplicate:
+                        self.extract_single_image(block, output_dir)
+                continue
+            
+            # Handle single images
+            short_name = BlockTypeManager.get_short_name(block.blocktype, block_index)
+            if (block.parts == 1 and short_name.startswith("unknown") and 
+                block.sx <= 32 and block.sy <= 40):
+                short_name = f"symbol_{block_index}"
+            self.extract_single_image(block, output_dir, short_name)
+    def extract_animations(self, output_dir):
+        """Extract detected animation sequences"""
+        animations = self.detect_animations()
         
-        # Extract single image
-        if self.picture_sizes[block.picidx] > 0:
-            compressed_data = self.main_buffer[block.picture_address:
-                                             block.picture_address + self.picture_sizes[block.picidx]]
+        if not animations:
+            print("No animations detected")
+            return
+        
+        print(f"\n=== EXTRACTING {len(animations)} ANIMATION SEQUENCES ===")
+        
+        animations_dir = f"{output_dir}/animations"
+        os.makedirs(animations_dir, exist_ok=True)
+        
+        for anim_idx, animation in enumerate(animations):
+            anim_name = f"animation_{anim_idx + 1}"
+            anim_type = animation['type']
+            blocks = animation['blocks']
+            size = animation['size']
+            position = animation['position']
             
-            decompressed_data = self.decompress_image_data(compressed_data, block.sx, block.sy, has_alpha)
+            print(f"\nAnimation {anim_idx + 1}: {anim_type}")
+            print(f"  Blocks: {blocks}")
+            print(f"  Size: {size[0]}x{size[1]} at position ({position[0]}, {position[1]})")
             
-            if decompressed_data and self.write_png_file(filename, decompressed_data, block.sx, block.sy):
-                pass  # Success
+            # Create subdirectory for this animation
+            anim_subdir = f"{animations_dir}/{anim_name}"
+            os.makedirs(anim_subdir, exist_ok=True)
+            
+            # Handle multi-part animation (single block with multiple frames)
+            if anim_type == 'multi_part_animation':
+                block = self.blocks[blocks[0]]
+                parts = animation.get('parts', block.parts)
+                print(f"  Extracting {parts} animation frames from single block")
+                
+                has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
+                current_offset = 0
+                
+                for frame_idx in range(parts):
+                    frame_name = f"frame_{frame_idx:03d}.png"
+                    frame_path = f"{anim_subdir}/{frame_name}"
+                    
+                    # Extract image data for this frame
+                    start_pos = block.picture_address + current_offset
+                    available_data = self.picture_sizes[block.picidx] - current_offset
+                    
+                    if available_data <= 0:
+                        print(f"  ✗ No data available for frame {frame_idx}")
+                        break
+                    
+                    compressed_data = self.main_buffer[start_pos:start_pos + available_data]
+                    
+                    result, bytes_consumed = self._decompress_until_pixels(
+                        compressed_data, block.sx, block.sy, has_alpha
+                    )
+                    
+                    if result is None:
+                        print(f"  ✗ Failed to extract frame {frame_idx + 1}: {frame_name}")
+                        break
+                    
+                    if ImageWriter.write_png(frame_path, result, block.sx, block.sy):
+                        print(f"  ✓ Extracted frame {frame_idx + 1}/{parts}: {frame_name}")
+                    else:
+                        print(f"  ✗ Failed to save frame {frame_idx + 1}: {frame_name}")
+                    
+                    current_offset += bytes_consumed
+                    
+                    # Align to 4 bytes and skip filler
+                    current_offset = self._align_and_skip_filler(block.picture_address, current_offset, block.picidx)
+                    
             else:
-                # Fallback: write raw data with .bin extension
-                raw_filename = f"{filename}.bin"
-                try:
-                    with open(raw_filename, 'wb') as f:
-                        f.write(compressed_data)
-                except Exception as e:
-                    print(f"Error writing raw file {raw_filename}: {e}")
+                # Handle multi-block animation (multiple blocks forming sequence)
+                for frame_idx, block_idx in enumerate(blocks):
+                    block = self.blocks[block_idx]
+                    frame_name = f"frame_{frame_idx:03d}"
+                    
+                    if self.extract_single_image(block, anim_subdir, frame_name):
+                        print(f"  ✓ Extracted frame {frame_idx + 1}/{len(blocks)}: {frame_name}.png")
+                    else:
+                        print(f"  ✗ Failed to extract frame {frame_idx + 1}: {frame_name}")
+            
+            # Save animation metadata
+            metadata = {
+                'name': anim_name,
+                'type': anim_type,
+                'frames': animation.get('parts', len(blocks)),
+                'size': {'width': size[0], 'height': size[1]},
+                'position': {'x': position[0], 'y': position[1]},
+                'blocks': blocks
+            }
+            
+            if 'block_type' in animation:
+                metadata['block_type'] = f"0x{animation['block_type']:02X}"
+            
+            try:
+                import json
+                with open(f"{anim_subdir}/animation_info.json", 'w') as f:
+                    json.dump(metadata, f, indent=2)
+            except Exception as e:
+                print(f"  ⚠ Failed to save animation metadata: {e}")
+
+    def print_block_info(self):
+        """Print detailed information about all blocks"""
+        for i, block in enumerate(self.blocks):
+            block_index = i + 1
+            print(f"Block {block_index:2d}.")
+            print(f"    0x{block.blocktype:02X} type: {BlockTypeManager.get_type_name(block.blocktype)} "
+                  f"{BlockTypeManager.get_format(block.blocktype)} "
+                  f"({BlockTypeManager.get_short_name(block.blocktype, block_index)})")
+            print(f"    0x{block.picture_address:08X}    ({block.picture_address:7d}) picture address")
+            print(f"    0x{block.picidx:02X},0x{block.valami2:02X}     "
+                  f"({block.picidx:3d},{block.valami2:3d}) picidx,valami2")
+            print(f"    0x{block.sx:04X},0x{block.sy:04X} ({block.sx:3d},{block.sy:3d}) sx,sy")
+            print(f"    0x{block.posX:04X},0x{block.posY:04X} ({block.posX:3d},{block.posY:3d}) posX,posY")
+            print(f"    0x{block.parts:02X},0x{block.blocktype:02X}     "
+                  f"({block.parts:3d},{block.blocktype:3d}) parts,blocktype")
+            print(f"    0x{block.align:02X},0x{block.compr:02X},0x{block.centX:02X},0x{block.centY:02X} "
+                  f"({block.align:3d},{block.compr:3d},{block.centX:3d},{block.centY:3d}) align,compr,centX,centY")
     
-    def save_output_to_file(self, output_dir):
-        """Save detailed output information to file"""
+    def save_block_info(self, output_dir):
+        """Save detailed block information to file"""
         output_file = f"{output_dir}/block_all.txt"
         
         try:
             with open(output_file, 'w') as f:
-                # Write picture summary to file
                 f.write(f"Number of block = {self.block_count} , (0x{self.block_count:04X})\n")
                 
                 block_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
                 f.write(f"Size of pltable = {block_table_size} , (0x{block_table_size:04X})\n\n")
                 
-                # Print byte sizes in rows of 8
+                # Write picture sizes
                 total_bytes = 0
                 for i in range(0, 79, 8):
                     for j in range(8):
@@ -417,7 +953,7 @@ class HKDecompressor:
                     f.write("\n")
                 f.write(f"summa={total_bytes} byte\n\n")
                 
-                # Print hex sizes in rows of 8
+                # Write hex sizes
                 for i in range(0, 79, 8):
                     for j in range(8):
                         if i + j < 79:
@@ -426,14 +962,12 @@ class HKDecompressor:
                 f.write(f"summa=0x{total_bytes:X} byte\n")
                 
                 # Write block information
-                for i in range(self.block_count):
-                    block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
-                    block = DialBlock(block_data)
-                    
-                    f.write(f"Block {i+1:2d}.\n")
-                    f.write(f"    0x{block.blocktype:02X} type: {self.get_block_type_name(block.blocktype)} "
-                           f"{self.get_block_type_format(block.blocktype)} "
-                           f"({self.get_block_type_short_name(block.blocktype, i+1)})\n")
+                for i, block in enumerate(self.blocks):
+                    block_index = i + 1
+                    f.write(f"Block {block_index:2d}.\n")
+                    f.write(f"    0x{block.blocktype:02X} type: {BlockTypeManager.get_type_name(block.blocktype)} "
+                           f"{BlockTypeManager.get_format(block.blocktype)} "
+                           f"({BlockTypeManager.get_short_name(block.blocktype, block_index)})\n")
                     f.write(f"    0x{block.picture_address:08X}    ({block.picture_address:7d}) picture address\n")
                     f.write(f"    0x{block.picidx:02X},0x{block.valami2:02X}     "
                            f"({block.picidx:3d},{block.valami2:3d}) picidx,valami2\n")
@@ -443,16 +977,21 @@ class HKDecompressor:
                            f"({block.parts:3d},{block.blocktype:3d}) parts,blocktype\n")
                     f.write(f"    0x{block.align:02X},0x{block.compr:02X},0x{block.centX:02X},0x{block.centY:02X} "
                            f"({block.align:3d},{block.compr:3d},{block.centX:3d},{block.centY:3d}) align,compr,centX,centY\n")
+        
         except Exception as e:
             print(f"Error writing output file: {e}")
     
-    def process_dial_data(self):
+    def process(self, filename):
         """Main processing function"""
-        print("HK89 dial decompressor v1.8")
+        print("HK89 dial decompressor v1.8 (Python - Refactored)")
         
-        # Extract just the filename from the full path
-        base_filename = Path(self.filename).name
+        base_filename = Path(filename).name
         print(f"----------- {base_filename} -----------")
+        
+        if not self.load_file(filename):
+            return False
+        
+        self.parse_blocks()
         
         print(f"Number of block = {self.block_count} , (0x{self.block_count:04X})")
         block_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
@@ -461,65 +1000,32 @@ class HKDecompressor:
         self.calculate_picture_sizes()
         
         # Create output directory
-        output_dir = self.create_output_directory(self.filename)
+        basename = Path(filename).stem
+        output_dir = f"_{basename}"
+        os.makedirs(output_dir, exist_ok=True)
         
-        # Extract images first
-        for i in range(self.block_count):
-            block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
-            block = DialBlock(block_data)
-            self.extract_image_data(i + 1, block, output_dir)
+        # Extract images
+        print("\n=== EXTRACTING INDIVIDUAL IMAGES ===")
+        self.extract_all_images(output_dir)
+          # Detect and extract animations
+        print("\n=== DETECTING AND EXTRACTING ANIMATIONS ===")
+        self.extract_animations(output_dir)
         
-        # Print block information
-        for i in range(self.block_count):
-            block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
-            block = DialBlock(block_data)
-            self.extract_block_info(block, i + 1)
+        # Print and save block information
+        self.print_block_info()
+        self.save_block_info(output_dir)
         
-        self.save_output_to_file(output_dir)
-    
-    def decompress_file(self, filename):
-        """Main entry point to decompress a file"""
-        self.filename = filename
-        
-        # Check if file exists
-        if not os.path.exists(filename):
-            print(f"No such file! ({filename})")
-            return False
-        
-        # Get file size
-        self.file_size = os.path.getsize(filename)
-        if self.file_size > MAX_MEMORY_SIZE:
-            print("File too large")
-            return False
-        
-        # Read file into buffer
-        try:
-            with open(filename, 'rb') as f:
-                self.main_buffer = f.read()
-        except Exception as e:
-            print(f"Error reading file: {e}")
-            return False
-        
-        # Get block count from offset 2
-        if len(self.main_buffer) < 3:
-            print("File too small")
-            return False
-        
-        self.block_count = self.main_buffer[2]
-        
-        # Process the dial data
-        self.process_dial_data()
         return True
 
 def main():
     """Main function"""
-    parser = argparse.ArgumentParser(description='HK89 Dial Decompressor - Python Version')
+    parser = argparse.ArgumentParser(description='HK89 Dial Decompressor - Python Version (Refactored)')
     parser.add_argument('filename', help='.bin file to decompress')
     
     args = parser.parse_args()
     
     decompressor = HKDecompressor()
-    if not decompressor.decompress_file(args.filename):
+    if not decompressor.process(args.filename):
         sys.exit(1)
 
 if __name__ == "__main__":
