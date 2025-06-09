@@ -42,43 +42,44 @@ class BlockTypeManager:
     """Handles block type definitions and naming"""
     
     TYPE_NAMES = {
-        # Basic types
+        # Basic types (según definiciones exactas del C header)
         0x01: "Preview", 0x02: "Background", 0x03: "ArmHour", 0x04: "ArmMinute",
         0x05: "ArmSecond", 0x06: "Year", 0x07: "Month", 0x08: "Day",
         0x09: "Hours", 0x0A: "Minutes", 0x0B: "Seconds", 0x0C: "AMPM",
         0x0D: "DayOfWeek", 0x0E: "Steps", 0x0F: "Pulse", 0x10: "Calory",
-        0x11: "Distance", 0x12: "BatteryNumber", 0x13: "Colon", 0x14: "Dot",
-        0x15: "Comma", 0x16: "Berry", 0x17: "Animation", 0x18: "BatteryStrip",
+        0x11: "Distance", 0x12: "BatteryNumber", 0x13: "Unknown13", 0x14: "Unknown14",
+        0x15: "Unknown15", 0x16: "Berry", 0x17: "Animation", 0x18: "BatteryStrip",
         0x19: "Weather", 0x1A: "Temperature", 0x1B: "Unknown1B", 0x1C: "Unknown1C",
         0x1D: "Unknown1D", 0x1E: "Unknown1E", 0x1F: "Unknown1F",
         # HK26/HK89 specific
         0x27: "HourHigh", 0x28: "HourLow", 0x29: "MinuteHigh", 0x2A: "MinuteLow",
-        # Extended types (0x80+)
-        0x81: "Preview", 0x82: "Background", 0x83: "ArmHour", 0x84: "ArmMin", 
+        # Extended types (0x80+) - versiones RGBA de los tipos básicos
+        0x81: "Preview", 0x82: "Background", 0x83: "ArmHour", 0x84: "ArmMinute", 
         0x85: "ArmSecond", 0x86: "Year", 0x87: "Month", 0x88: "Day",
-        0x89: "Hours", 0x8A: "Minutes", 0x8B: "Battery", 0x8C: "AMPM",
-        0x8D: "DayOfWeek", 0x8E: "Steps", 0x8F: "Pulse", 0x90: "Calory",
-        0x91: "Distance", 0x92: "BatteryNumber", 0x96: "Berry", 0x97: "Animation",
+        0x89: "Hours", 0x8A: "Minutes", 0x8B: "Seconds", 0x8C: "AMPM",
+        0x8D: "DayOfWeek", 0x8E: "Steps", 0x8F: "Pulse", 0x90: "Calory",        0x91: "Distance", 0x92: "BatteryNumber", 0x96: "Berry", 0x97: "Animation",
         0x98: "BatteryStrip", 0x99: "Weather", 0x9A: "Temperature",
         # Additional battery types
         0x9E: "BatteryStripExtended"
     }
+    
     SHORT_NAMES = {
-        # Basic types
+        # Basic types - corregidos según definiciones exactas
         0x01: "preview", 0x02: "background", 0x03: "arm_hour", 0x04: "arm_minute", 
         0x05: "arm_second", 0x06: "year", 0x07: "month", 0x08: "day",
         0x09: "hours", 0x0A: "minutes", 0x0B: "seconds", 0x0C: "ampm",
         0x0D: "dayofweek", 0x0E: "steps", 0x0F: "pulse", 0x10: "calory",
-        0x11: "distance", 0x12: "battery_number", 0x13: "colon", 0x14: "dot",
-        0x15: "comma", 0x16: "berry", 0x17: "animation", 0x18: "batterystrip",
+        0x11: "distance", 0x12: "battery_number", 0x13: "unknown13", 0x14: "unknown14",
+        0x15: "unknown15", 0x16: "berry", 0x17: "animation", 0x18: "batterystrip",
         0x19: "weather", 0x1A: "temperature",
         # HK26/HK89 specific
         0x27: "hour_high", 0x28: "hour_low", 0x29: "minute_high", 0x2A: "minute_low",
-        # Extended types (0x80+)
+        # Extended types (0x80+) - versiones RGBA
         0x81: "preview", 0x82: "background", 0x83: "arm_hour", 0x84: "arm_minute", 
         0x85: "arm_second", 0x86: "year", 0x87: "month", 0x88: "day",
-        0x89: "hours", 0x8A: "minutes", 0x8B: "battery", 0x8C: "ampm",
-        0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",        0x91: "distance", 0x92: "battery_number", 0x96: "berry", 0x97: "animation",
+        0x89: "hours", 0x8A: "minutes", 0x8B: "seconds", 0x8C: "ampm",
+        0x8D: "dayofweek", 0x8E: "steps", 0x8F: "pulse", 0x90: "calory",
+        0x91: "distance", 0x92: "battery_number", 0x96: "berry", 0x97: "animation",
         0x98: "batterystrip", 0x99: "weather", 0x9A: "temperature",
         # Additional battery types
         0x9E: "batterystrip_ext"
@@ -526,7 +527,7 @@ class HKDecompressor:
                     for idx in similar_sequence:
                         processed_blocks.add(idx)
         
-        return animations
+        return animations    
     def extract_single_image(self, block, output_dir, filename_override=None):
         """Extract a single image from a block"""
         block_index = self.blocks.index(block) + 1
@@ -550,15 +551,17 @@ class HKDecompressor:
             print(f"⚠ Block {block_index}: No data available at address 0x{block.picture_address:08X}")
             return False
         
-        # Handle RAW format for arm images
-        if block.blocktype in (0x83, 0x84) and block.compr == 0:
+        # Handle RAW format for arm images (including second hand)
+        if block.blocktype in (0x03, 0x04, 0x05, 0x83, 0x84, 0x85) and block.compr == 0:
+            print(f"  → Extracting ARM block as RAW: {filename}")
             compressed_data = self.main_buffer[block.picture_address:block.picture_address + actual_size]
             image_data = ImageDecompressor.decompress_raw_aligned(
                 compressed_data, block.sx, block.sy, has_alpha
             )
             return ImageWriter.write_png(f"{output_dir}/{filename}.png", image_data, block.sx, block.sy)
         
-        # Handle compressed images
+        # Handle compressed images (standard HK89 RLE compression)
+        print(f"  → Extracting block as HK89 RLE: {filename}")
         compressed_data = self.main_buffer[block.picture_address:block.picture_address + actual_size]
         decompressed_data = ImageDecompressor.decompress_hk89_rle(
             compressed_data, block.sx, block.sy, has_alpha
@@ -757,7 +760,7 @@ class HKDecompressor:
                 break
             current_offset += 1
         
-        return current_offset
+        return current_offset    
     def extract_all_images(self, output_dir):
         """Extract all images from the binary file"""
         processed_multi_part_addresses = set()
@@ -767,6 +770,13 @@ class HKDecompressor:
             
             # Skip animation blocks - they will be processed separately by extract_animations()
             if block.blocktype in (0x17, 0x97):
+                continue
+            
+            # Handle ARM blocks (hour, minute, second hands) specially - both basic and RGBA versions
+            if block.blocktype in (0x03, 0x04, 0x05, 0x83, 0x84, 0x85):
+                print(f"Processing ARM block: Type 0x{block.blocktype:02X}, Size {block.sx}x{block.sy}, Compression {block.compr}")
+                short_name = BlockTypeManager.get_short_name(block.blocktype, block_index)
+                self.extract_single_image(block, output_dir, short_name)
                 continue
             
             # Handle symbol blocks
