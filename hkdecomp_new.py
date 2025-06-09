@@ -137,7 +137,6 @@ class HKDecompressor:
             (g << 2) | (g >> 4),  # 6-bit to 8-bit
             (b << 3) | (b >> 2),  # 5-bit to 8-bit
         )
-    
     def decompress_hk89_rle(self, compressed_data, width, height, has_alpha=False):
         """
         Decompress HK89 RLE compressed image data
@@ -156,7 +155,7 @@ class HKDecompressor:
         bytes_per_pixel = 4 if has_alpha else 3
         expected_size = expected_pixels * bytes_per_pixel
         
-        # Use bytearray for better performance
+        # Use bytearray for better performance - initialize with zeros
         output = bytearray(expected_size)
         
         # Start position from first 2 bytes (matches: uVar14 = (uint)*param_1;)
@@ -173,10 +172,25 @@ class HKDecompressor:
             # Process each row (matches: if (0 < (int)param_5) do {...})
             for row in range(height):
                 pixels_in_row = 0
-                
-                # Process pixels in current row (matches: if (0 < param_4) do {...})
-                while pixels_in_row < width and input_pos < len(compressed_data) and pixels_written < expected_pixels:
+                  # Process pixels in current row (matches: if (0 < param_4) do {...})
+                while pixels_in_row < width and pixels_written < expected_pixels:
+                    # Check if we have enough data to continue
                     if input_pos >= len(compressed_data):
+                        # Fill remaining pixels with transparent black for graceful degradation
+                        while pixels_in_row < width and pixels_written < expected_pixels:
+                            if output_pos + bytes_per_pixel <= len(output):
+                                output[output_pos] = 0      # R
+                                output[output_pos + 1] = 0  # G
+                                output[output_pos + 2] = 0  # B
+                                
+                                if has_alpha:
+                                    output[output_pos + 3] = 0  # Transparent
+                                    output_pos += 4
+                                else:
+                                    output_pos += 3
+                                    
+                                pixels_written += 1
+                                pixels_in_row += 1
                         break
                         
                     # Read count byte (matches: bVar9 = *(byte *)((long)param_1 + (long)(int)uVar14);)
@@ -195,6 +209,21 @@ class HKDecompressor:
                             input_pos += 1
                         
                         if input_pos + 1 >= len(compressed_data):
+                            # Not enough data for RGB565, fill remaining with transparent black
+                            while pixels_in_row < width and pixels_written < expected_pixels:
+                                if output_pos + bytes_per_pixel <= len(output):
+                                    output[output_pos] = 0
+                                    output[output_pos + 1] = 0
+                                    output[output_pos + 2] = 0
+                                    
+                                    if has_alpha:
+                                        output[output_pos + 3] = 0
+                                        output_pos += 4
+                                    else:
+                                        output_pos += 3
+                                        
+                                    pixels_written += 1
+                                    pixels_in_row += 1
                             break
                             
                         # Read RGB565 pixel big-endian (matches: uVar5 = uVar2 << 8 | (uint)pbVar4[1];)
@@ -239,6 +268,22 @@ class HKDecompressor:
                             input_pos += 1
                         
                         if input_pos + 1 >= len(compressed_data):
+                            # Not enough data, fill remaining with transparent black
+                            remaining_in_row = min(width - pixels_in_row, expected_pixels - pixels_written)
+                            for _ in range(remaining_in_row):
+                                if output_pos + bytes_per_pixel <= len(output):
+                                    output[output_pos] = 0
+                                    output[output_pos + 1] = 0
+                                    output[output_pos + 2] = 0
+                                    
+                                    if has_alpha:
+                                        output[output_pos + 3] = 0
+                                        output_pos += 4
+                                    else:
+                                        output_pos += 3
+                                        
+                                    pixels_written += 1
+                                    pixels_in_row += 1
                             break
                             
                         # Read RGB565 pixel big-endian
@@ -285,6 +330,22 @@ class HKDecompressor:
                                 input_pos += 1
                                 
                             if input_pos + 1 >= len(compressed_data):
+                                # Not enough data, fill remaining with transparent black
+                                remaining_in_loop = min(count - _, width - pixels_in_row, expected_pixels - pixels_written)
+                                for __ in range(remaining_in_loop):
+                                    if output_pos + bytes_per_pixel <= len(output):
+                                        output[output_pos] = 0
+                                        output[output_pos + 1] = 0
+                                        output[output_pos + 2] = 0
+                                        
+                                        if has_alpha:
+                                            output[output_pos + 3] = 0
+                                            output_pos += 4
+                                        else:
+                                            output_pos += 3
+                                            
+                                        pixels_written += 1
+                                        pixels_in_row += 1
                                 break
                                 
                             # Read RGB565 pixel big-endian
@@ -310,7 +371,22 @@ class HKDecompressor:
                                     output_pos += 3
                                     
                                 pixels_written += 1
-                                pixels_in_row += 1            
+                                pixels_in_row += 1
+            
+            # Fill any remaining pixels with transparent black to ensure complete image
+            while pixels_written < expected_pixels and output_pos + bytes_per_pixel <= len(output):
+                output[output_pos] = 0      # R
+                output[output_pos + 1] = 0  # G
+                output[output_pos + 2] = 0  # B
+                
+                if has_alpha:
+                    output[output_pos + 3] = 0  # Transparent
+                    output_pos += 4
+                else:
+                    output_pos += 3
+                    
+                pixels_written += 1
+            
             # Word alignment at end (matches final return logic)
             # uVar14 = (uVar14 + 1) - (uint)((uVar14 & 1) == 0);
             # if ((uVar14 & 3) != 0) { uVar14 = uVar14 + 2; }
