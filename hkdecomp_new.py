@@ -466,12 +466,37 @@ class HKDecompressor:
         """Extract and save image data from a block"""
         short_name = self.get_block_type_short_name(block.blocktype, block_index)
         has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype in (0x8C, 0x83, 0x84)
-        # Only digit-type blocks are truly multi-part
-        digit_types = [0x89, 0x8A, 0x8B, 0x8C, 0x87, 0x8E, 0x98]
+        # Ampliar digit_types para incluir todos los bloques multi-part reales
+        digit_types = [
+            0x09, # hours
+            0x0A, # minutes
+            0x07, # month
+            0x08, # day
+            0x0D, # dayofweek
+            0x0E, # steps
+            0x0F, # pulse
+            0x10, # calory
+            0x18, # batterystrip
+            0x8A, # minutes (alt)
+            0x8B, # battery
+            0x8C, # ampm
+            0x87, # month (alt)
+            0x8E, # steps (alt)
+            0x98  # batterystrip (alt)
+        ]
+        # arm_hour (0x83) y arm_minute (0x84) NO deben estar en digit_types
         if block.blocktype in digit_types:
-            # Multi-part images (digits): lógica secuencial y alineación
+            # Multi-part images (digits, days, etc.): lógica secuencial y alineación
             type_prefixes = {
-                0x89: "hours",
+                0x09: "hours",
+                0x0A: "minutes",
+                0x07: "month",
+                0x08: "day",
+                0x0D: "dayofweek",
+                0x0E: "steps",
+                0x0F: "pulse",
+                0x10: "calory",
+                0x18: "batterystrip",
                 0x8A: "minutes",
                 0x8B: "battery",
                 0x8C: "ampm",
@@ -501,7 +526,7 @@ class HKDecompressor:
                         break
                     current_offset += 1
             return
-        # For all other types, extract only one image, regardless of parts
+        # Para todos los demás tipos, solo extraer una imagen, aunque parts > 1
         filename = f"{output_dir}/{short_name}.png"
         if self.picture_sizes[block.picidx] > 0:
             compressed_data = self.main_buffer[block.picture_address:block.picture_address + self.picture_sizes[block.picidx]]
