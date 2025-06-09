@@ -506,13 +506,20 @@ class HKDecompressor:
                 else:
                     print(f"✗ Error: Failed to save PNG for part {i} of block {block_index} ({type_prefix}), file: {filename}")
 
-                # Debug info
-                print(f"[DEBUG] Block {block_index} ({type_prefix}) part {i}: picture_address={block.picture_address}, start_pos={start_pos}, bytes_consumed={bytes_consumed}")
+                # Debug info: muestra los primeros bytes crudos tras la alineación
+                raw_preview = compressed_data[:8]
+                print(f"[DEBUG] Block {block_index} ({type_prefix}) part {i}: picture_address={block.picture_address}, start_pos={start_pos}, bytes_consumed={bytes_consumed}, raw={raw_preview.hex()}")
 
                 # Avanza el offset para la siguiente parte
                 current_offset += bytes_consumed
-                # Alineación automática a 2 bytes
-                if current_offset % 2 != 0:
+                # Alineación automática a 4 bytes
+                if current_offset % 4 != 0:
+                    current_offset += 4 - (current_offset % 4)
+                # Salta relleno (0x00 o 0xFF) si lo hay
+                while current_offset < self.picture_sizes[block.picidx]:
+                    b = self.main_buffer[block.picture_address + current_offset]
+                    if b not in (0x00, 0xFF):
+                        break
                     current_offset += 1
             return  # Don't create single file for multi-part images
         else:
