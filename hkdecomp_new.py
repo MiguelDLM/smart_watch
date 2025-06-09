@@ -108,9 +108,13 @@ class HKDecompressor:
             0x8C: "ampm",
             0x8D: "dayofweek",
             0x8E: "steps",
-            0x98: "batterystrip"
+            0x98: "batterystrip",
+            0x13: "colon",
+            0x14: "dot",
+            0x15: "comma"
         }
-        return short_names.get(block_type, f"unknown_{block_index}")
+        name = short_names.get(block_type, f"unknown_{block_index}")
+        return name
 
     def create_output_directory(self, filename):
         """Create output directory based on filename"""
@@ -493,8 +497,10 @@ class HKDecompressor:
         return dst.tobytes()
 
     def extract_image_data(self, block_index, block, output_dir):
-        """Extract and save image data from a block"""
         short_name = self.get_block_type_short_name(block.blocktype, block_index)
+        # Si el bloque es pequeño, parts==1, y no tiene nombre conocido, nombrar como symbol_X
+        if block.parts == 1 and short_name.startswith("unknown") and block.sx <= 32 and block.sy <= 40:
+            short_name = f"symbol_{block_index}"
         # Soporte especial para arm_hour y arm_minute RAW
         if block.blocktype in (0x83, 0x84) and block.compr == 0:
             has_alpha = (block.blocktype & 0x80) != 0
@@ -527,6 +533,8 @@ class HKDecompressor:
         ]
         # Limitar a máximo 10 imágenes para bloques de dígitos decimales
         decimal_digit_types = [0x09, 0x0A, 0x0F, 0x0E, 0x10, 0x07, 0x08, 0x0D]
+        # Soporte para bloques de símbolos explícitos (colon, dot, comma)
+        symbol_blocktypes = {0x13: "colon", 0x14: "dot", 0x15: "comma"}
         if block.blocktype in digit_types:
             type_prefixes = {
                 0x09: "hours",
@@ -550,10 +558,19 @@ class HKDecompressor:
             }
             type_prefix = type_prefixes.get(block.blocktype, "unknown")
             current_offset = 0
-            # Limitar a 10 partes si es decimal_digit_type
-            max_parts = min(block.parts, 10) if block.blocktype in decimal_digit_types else block.parts
+            # Si hay más de 10 partes, extraer también símbolos (ej: parte 10=colon, parte 11=dot, etc)
+            max_parts = block.parts
             for i in range(max_parts):
-                filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
+                if i < 10:
+                    filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
+                elif i == 10:
+                    filename = f"{output_dir}/chr_{type_prefix}_colon.png"
+                elif i == 11:
+                    filename = f"{output_dir}/chr_{type_prefix}_dot.png"
+                elif i == 12:
+                    filename = f"{output_dir}/chr_{type_prefix}_comma.png"
+                else:
+                    filename = f"{output_dir}/chr_{type_prefix}_extra{i}.png"
                 start_pos = block.picture_address + current_offset
                 compressed_data = self.main_buffer[start_pos:start_pos + self.picture_sizes[block.picidx] - current_offset]
                 result, bytes_consumed = self.decompress_until_pixels(compressed_data, block.sx, block.sy, has_alpha)
@@ -571,6 +588,24 @@ class HKDecompressor:
                     if b not in (0x00, 0xFF):
                         break
                     current_offset += 1
+            return
+        # Si es bloque de símbolo explícito (colon, dot, comma)
+        if block.blocktype in symbol_blocktypes:
+            symbol_name = symbol_blocktypes[block.blocktype]
+            filename = f"{output_dir}/{symbol_name}.png"
+            if self.picture_sizes[block.picidx] > 0:
+                compressed_data = self.main_buffer[block.picture_address:block.picture_address + self.picture_sizes[block.picidx]]
+                decompressed_data = self.decompress_image_data(compressed_data, block.sx, block.sy, has_alpha)
+                if decompressed_data and self.write_png_file(filename, decompressed_data, block.sx, block.sy):
+                    pass
+                else:
+                    raw_filename = f"{filename}.bin"
+                    try:
+                        with open(raw_filename, 'wb') as f:
+                            f.write(compressed_data)
+                        print(f"⚠ Wrote raw data: {raw_filename}")
+                    except Exception as e:
+                        print(f"✗ Error writing raw file {raw_filename}: {e}")
             return
         # Para todos los demás tipos, solo extraer una imagen, aunque parts > 1
         filename = f"{output_dir}/{short_name}.png"
@@ -673,10 +708,37 @@ class HKDecompressor:
         # Create output directory
         output_dir = self.create_output_directory(self.filename)
         
-        # Extract images first
+        # Crear set para evitar duplicados de imágenes multi-part
+        processed_multi_part_addresses = set()
+        # Extraer imágenes primero
         for i in range(self.block_count):
             block_data = self.main_buffer[4 + (i * 20):4 + ((i + 1) * 20)]
             block = DialBlock(block_data)
+            # Si es multi-part y su dirección ya fue procesada, saltar
+            if block.parts > 1:
+                # Usar (picture_address, sx, sy, parts) como clave
+                key = (block.picture_address, block.sx, block.sy, block.parts)
+                if key in processed_multi_part_addresses:
+                    continue
+                # Si es tipo conocido, marcar como procesado
+                digit_types = [
+                    0x09, 0x0A, 0x07, 0x08, 0x0D, 0x0E, 0x0F, 0x10, 0x18,
+                    0x8A, 0x8B, 0x8C, 0x87, 0x8E, 0x98, 0x8D, 0x88, 0x86
+                ]
+                if block.blocktype in digit_types:
+                    processed_multi_part_addresses.add(key)
+                else:
+                    # Buscar si hay otro bloque posterior con mismo address y tipo conocido
+                    for j in range(i+1, self.block_count):
+                        other_data = self.main_buffer[4 + (j * 20):4 + ((j + 1) * 20)]
+                        other = DialBlock(other_data)
+                        if (other.picture_address, other.sx, other.sy, other.parts) == key and other.blocktype in digit_types:
+                            # Hay duplicado, saltar este bloque
+                            break
+                    else:
+                        # No hay duplicado, procesar normalmente
+                        self.extract_image_data(i + 1, block, output_dir)
+                    continue
             self.extract_image_data(i + 1, block, output_dir)
         
         # Print block information
