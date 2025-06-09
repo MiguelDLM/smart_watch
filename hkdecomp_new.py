@@ -399,7 +399,12 @@ class HKDecompressor:
         
         if pixels_written == 0:
             return None
-            
+        
+        # Validación estricta: debe coincidir exactamente el número de píxeles
+        if pixels_written != expected_pixels:
+            print(f"✗ Error: Decompression pixel count mismatch. Expected {expected_pixels}, got {pixels_written}.")
+            return None
+        
         # Return what we have, even if partial
         return bytes(output[:output_pos])
     
@@ -470,7 +475,12 @@ class HKDecompressor:
             type_prefix = type_prefixes.get(block.blocktype, "unknown")
             
             # Extract individual digit images based on parts count
+            part_offsets = []
+            part_sizes = []
+            current_offset = 0
             for i in range(block.parts):
+                # Para cada parte, descomprime desde el offset actual hasta obtener width*height píxeles
+                filename = None
                 if i < 10:
                     filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
                 elif i == 10:
@@ -479,29 +489,31 @@ class HKDecompressor:
                     filename = f"{output_dir}/chr_{type_prefix}_;.png"
                 else:
                     continue
-                
-                # Calculate offset for this digit
-                digit_size = self.picture_sizes[block.picidx] // block.parts
-                offset = i * digit_size
-                
-                # Extract compressed data
-                start_pos = block.picture_address + offset
-                compressed_data = self.main_buffer[start_pos:start_pos + digit_size]
-                
-                # Try to decompress and save
-                decompressed_data = self.decompress_image_data(compressed_data, block.sx, block.sy, has_alpha)
-                
-                if decompressed_data and self.write_png_file(filename, decompressed_data, block.sx, block.sy):
-                    pass  # Success
+
+                # Comienza en picture_address + current_offset
+                start_pos = block.picture_address + current_offset
+                compressed_data = self.main_buffer[start_pos:start_pos + self.picture_sizes[block.picidx] - current_offset]
+
+                # Descomprime solo para contar cuántos bytes se usan para width*height píxeles
+                result, bytes_consumed = self.decompress_until_pixels(compressed_data, block.sx, block.sy, has_alpha)
+                if result is None:
+                    print(f"✗ Error: Failed to decompress part {i} of block {block_index} ({type_prefix}), file: {filename}")
+                    continue
+
+                # Guarda el PNG
+                if self.write_png_file(filename, result, block.sx, block.sy):
+                    print(f"✓ Saved: {filename} ({block.sx}x{block.sy})")
                 else:
-                    # Fallback: write raw data with .bin extension
-                    raw_filename = f"{filename}.bin"
-                    try:
-                        with open(raw_filename, 'wb') as f:
-                            f.write(compressed_data)
-                        print(f"⚠ Wrote raw data: {raw_filename}")
-                    except Exception as e:
-                        print(f"✗ Error writing raw file {raw_filename}: {e}")
+                    print(f"✗ Error: Failed to save PNG for part {i} of block {block_index} ({type_prefix}), file: {filename}")
+
+                # Debug info
+                print(f"[DEBUG] Block {block_index} ({type_prefix}) part {i}: picture_address={block.picture_address}, start_pos={start_pos}, bytes_consumed={bytes_consumed}")
+
+                # Avanza el offset para la siguiente parte
+                current_offset += bytes_consumed
+                # Alineación automática a 2 bytes
+                if current_offset % 2 != 0:
+                    current_offset += 1
             return  # Don't create single file for multi-part images
         else:
             # Only create file if short_name is not empty
@@ -661,6 +673,121 @@ class HKDecompressor:
         # Process the dial data
         self.process_dial_data()
         return True
+
+    def decompress_until_pixels(self, compressed_data, width, height, has_alpha=False):
+        """
+        Descomprime hasta obtener width*height píxeles y retorna (imagen, bytes_consumidos)
+        """
+        expected_pixels = width * height
+        bytes_per_pixel = 4 if has_alpha else 3
+        expected_size = expected_pixels * bytes_per_pixel
+        output = bytearray(expected_size)
+        input_pos = struct.unpack('<H', compressed_data[0:2])[0] if len(compressed_data) >= 2 else 2
+        if input_pos >= len(compressed_data):
+            input_pos = 2
+        output_pos = 0
+        pixels_written = 0
+        start_input_pos = input_pos
+        try:
+            for row in range(height):
+                pixels_in_row = 0
+                while pixels_in_row < width and pixels_written < expected_pixels:
+                    if input_pos >= len(compressed_data):
+                        break
+                    count_byte = compressed_data[input_pos]
+                    input_pos += 1
+                    if count_byte == 0:
+                        alpha = 255
+                        if has_alpha and input_pos < len(compressed_data):
+                            alpha = compressed_data[input_pos]
+                            input_pos += 1
+                        if input_pos + 1 >= len(compressed_data):
+                            break
+                        high_byte = compressed_data[input_pos]
+                        low_byte = compressed_data[input_pos + 1]
+                        rgb565 = (high_byte << 8) | low_byte
+                        input_pos += 2
+                        r = high_byte & 0xf8
+                        g = (rgb565 >> 3) & 0xfc
+                        b = (rgb565 << 3) & 0xff
+                        if output_pos + bytes_per_pixel <= len(output):
+                            output[output_pos] = r
+                            output[output_pos + 1] = g
+                            output[output_pos + 2] = b
+                            if has_alpha:
+                                output[output_pos + 3] = alpha
+                                output_pos += 4
+                            else:
+                                output_pos += 3
+                            pixels_written += 1
+                            pixels_in_row += 1
+                    elif count_byte & 0x80:
+                        count = count_byte & 0x7F
+                        if count == 0:
+                            continue
+                        alpha = 255
+                        if has_alpha and input_pos < len(compressed_data):
+                            alpha = compressed_data[input_pos]
+                            input_pos += 1
+                        if input_pos + 1 >= len(compressed_data):
+                            break
+                        high_byte = compressed_data[input_pos]
+                        low_byte = compressed_data[input_pos + 1]
+                        rgb565 = (high_byte << 8) | low_byte
+                        input_pos += 2
+                        r = high_byte & 0xf8
+                        g = (rgb565 >> 3) & 0xfc
+                        b = (rgb565 << 3) & 0xff
+                        for _ in range(count):
+                            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                                break
+                            if output_pos + bytes_per_pixel <= len(output):
+                                output[output_pos] = r
+                                output[output_pos + 1] = g
+                                output[output_pos + 2] = b
+                                if has_alpha:
+                                    output[output_pos + 3] = alpha
+                                    output_pos += 4
+                                else:
+                                    output_pos += 3
+                                pixels_written += 1
+                                pixels_in_row += 1
+                    else:
+                        count = count_byte
+                        for _ in range(count):
+                            if pixels_in_row >= width or pixels_written >= expected_pixels:
+                                break
+                            alpha = 255
+                            if has_alpha and input_pos < len(compressed_data):
+                                alpha = compressed_data[input_pos]
+                                input_pos += 1
+                            if input_pos + 1 >= len(compressed_data):
+                                break
+                            high_byte = compressed_data[input_pos]
+                            low_byte = compressed_data[input_pos + 1]
+                            rgb565 = (high_byte << 8) | low_byte
+                            input_pos += 2
+                            r = high_byte & 0xf8
+                            g = (rgb565 >> 3) & 0xfc
+                            b = (rgb565 << 3) & 0xff
+                            if output_pos + bytes_per_pixel <= len(output):
+                                output[output_pos] = r
+                                output[output_pos + 1] = g
+                                output[output_pos + 2] = b
+                                if has_alpha:
+                                    output[output_pos + 3] = alpha
+                                    output_pos += 4
+                                else:
+                                    output_pos += 3
+                            pixels_written += 1
+                            pixels_in_row += 1
+            bytes_consumed = input_pos
+            if pixels_written != expected_pixels:
+                return None, bytes_consumed
+            return bytes(output[:output_pos]), bytes_consumed
+        except Exception as e:
+            print(f"[decompress_until_pixels] Error: {e}")
+            return None, input_pos
 
 def main():
     """Main function"""
