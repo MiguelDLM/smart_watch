@@ -49,24 +49,33 @@ class HKDecompressor:
     def get_block_type_name(self, block_type):
         """Return human-readable name for block type"""
         type_names = {
-            0x81: "Preview image",
-            0x89: "Hours",
-            0x8A: "Minutes", 
-            0x8B: "Battery",
-            0x8C: "Month",
-            0x8D: "Day of week",
-            0x02: "Background image",
-            0x06: "Arm hour",
-            0x07: "Arm minute",
-            0x82: "Background image",
+            0x01: "Preview",
+            0x02: "Background",
+            0x07: "Month",
+            0x08: "Day",
+            0x09: "Hours",
+            0x0A: "Minutes",
+            0x0D: "DayOfWeek",
+            0x0E: "Steps",
+            0x0F: "Pulse",
+            0x10: "Calory",
+            0x18: "BatteryStrip",
+            0x81: "Preview",
+            0x82: "Background",
+            0x83: "ArmHour",
+            0x84: "ArmMin",
             0x86: "Year",
             0x87: "Month",
             0x88: "Day",
+            0x8A: "Minutes",
+            0x8B: "Battery",
+            0x8C: "AMPM",
+            0x8D: "DayOfWeek",
             0x8E: "Steps",
-            0x98: "Battery strip"
+            0x98: "BatteryStrip"
         }
         return type_names.get(block_type, "Unknown")
-    
+
     def get_block_type_format(self, block_type):
         """Return image format for block type"""
         rgba_types = {0x81, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x82, 0x86, 0x87, 0x88, 0x8E, 0x98}
@@ -75,27 +84,33 @@ class HKDecompressor:
     def get_block_type_short_name(self, block_type, block_index):
         """Return short filename for block type"""
         short_names = {
-            0x81: "prev",
-            0x89: "hours",
+            0x01: "preview",
+            0x02: "background",
+            0x07: "month",
+            0x08: "day",
+            0x09: "hours",
+            0x0A: "minutes",
+            0x0D: "dayofweek",
+            0x0E: "steps",
+            0x0F: "pulse",
+            0x10: "calory",
+            0x18: "batterystrip",
+            0x81: "preview",
+            0x82: f"background{block_index}",
+            0x83: "arm_hour",
+            0x84: "arm_minute",
+            0x86: "year",
+            0x87: "month",
+            0x88: "day",
             0x8A: "minutes",
             0x8B: "battery",
-            0x8C: "Month",
-            0x8D: "",
-            0x02: "background2",
-            0x06: "arm_hour",
-            0x07: "arm_minute",
-            0x86: "",
-            0x87: "Month",
-            0x88: "",
+            0x8C: "ampm",
+            0x8D: "dayofweek",
             0x8E: "steps",
-            0x98: "battery"
+            0x98: "batterystrip"
         }
-        
-        if block_type == 0x82:
-            return f"background{block_index}"
-        
-        return short_names.get(block_type, "unknown")
-    
+        return short_names.get(block_type, f"unknown_{block_index}")
+
     def create_output_directory(self, filename):
         """Create output directory based on filename"""
         basename = Path(filename).stem
@@ -450,96 +465,50 @@ class HKDecompressor:
     def extract_image_data(self, block_index, block, output_dir):
         """Extract and save image data from a block"""
         short_name = self.get_block_type_short_name(block.blocktype, block_index)
-        
-        # Determine if this block type uses alpha channel
-        has_alpha = (block.blocktype & 0x80) != 0
-        
-        # Generate appropriate filename based on block type
-        if block.blocktype == 0x81:  # Preview
-            filename = f"{output_dir}/prev.png"
-        elif block.blocktype == 0x02:  # Background
-            filename = f"{output_dir}/background2.png"
-        elif block.blocktype == 0x82:  # Background with index
-            filename = f"{output_dir}/background{block_index}.png"
-        elif block.blocktype in [0x89, 0x8A, 0x8B, 0x8C, 0x87, 0x8E, 0x98]:
-            # Multi-part images (digits)
+        has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype in (0x8C, 0x83, 0x84)
+        # Only digit-type blocks are truly multi-part
+        digit_types = [0x89, 0x8A, 0x8B, 0x8C, 0x87, 0x8E, 0x98]
+        if block.blocktype in digit_types:
+            # Multi-part images (digits): lógica secuencial y alineación
             type_prefixes = {
                 0x89: "hours",
                 0x8A: "minutes",
                 0x8B: "battery",
-                0x8C: "Month",
-                0x87: "Month",
+                0x8C: "ampm",
+                0x87: "month",
                 0x8E: "steps",
-                0x98: "battery"
+                0x98: "batterystrip"
             }
             type_prefix = type_prefixes.get(block.blocktype, "unknown")
-            
-            # Extract individual digit images based on parts count
-            part_offsets = []
-            part_sizes = []
             current_offset = 0
             for i in range(block.parts):
-                # Para cada parte, descomprime desde el offset actual hasta obtener width*height píxeles
-                filename = None
-                if i < 10:
-                    filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
-                elif i == 10:
-                    filename = f"{output_dir}/chr_{type_prefix}_:.png"
-                elif i == 11:
-                    filename = f"{output_dir}/chr_{type_prefix}_;.png"
-                else:
-                    continue
-
-                # Comienza en picture_address + current_offset
+                filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
                 start_pos = block.picture_address + current_offset
                 compressed_data = self.main_buffer[start_pos:start_pos + self.picture_sizes[block.picidx] - current_offset]
-
-                # Descomprime solo para contar cuántos bytes se usan para width*height píxeles
                 result, bytes_consumed = self.decompress_until_pixels(compressed_data, block.sx, block.sy, has_alpha)
                 if result is None:
                     print(f"✗ Error: Failed to decompress part {i} of block {block_index} ({type_prefix}), file: {filename}")
                     continue
-
-                # Guarda el PNG
-                if self.write_png_file(filename, result, block.sx, block.sy):
-                    print(f"✓ Saved: {filename} ({block.sx}x{block.sy})")
-                else:
-                    print(f"✗ Error: Failed to save PNG for part {i} of block {block_index} ({type_prefix}), file: {filename}")
-
-                # Debug info: muestra los primeros bytes crudos tras la alineación
-                raw_preview = compressed_data[:8]
-                print(f"[DEBUG] Block {block_index} ({type_prefix}) part {i}: picture_address={block.picture_address}, start_pos={start_pos}, bytes_consumed={bytes_consumed}, raw={raw_preview.hex()}")
-
-                # Avanza el offset para la siguiente parte
+                self.write_png_file(filename, result, block.sx, block.sy)
                 current_offset += bytes_consumed
-                # Alineación automática a 4 bytes
+                # Align to 4 bytes
                 if current_offset % 4 != 0:
                     current_offset += 4 - (current_offset % 4)
-                # Salta relleno (0x00 o 0xFF) si lo hay
+                # Skip filler bytes
                 while current_offset < self.picture_sizes[block.picidx]:
                     b = self.main_buffer[block.picture_address + current_offset]
                     if b not in (0x00, 0xFF):
                         break
                     current_offset += 1
-            return  # Don't create single file for multi-part images
-        else:
-            # Only create file if short_name is not empty
-            if short_name:
-                filename = f"{output_dir}/{short_name}.png"
-            else:
-                return  # Skip blocks with empty short names
-        
-        # Extract single image
+            return
+        # For all other types, extract only one image, regardless of parts
+        filename = f"{output_dir}/{short_name}.png"
         if self.picture_sizes[block.picidx] > 0:
-            compressed_data = self.main_buffer[block.picture_address:
-                                             block.picture_address + self.picture_sizes[block.picidx]]
-            
+            compressed_data = self.main_buffer[block.picture_address:block.picture_address + self.picture_sizes[block.picidx]]
             decompressed_data = self.decompress_image_data(compressed_data, block.sx, block.sy, has_alpha)
-            
             if decompressed_data and self.write_png_file(filename, decompressed_data, block.sx, block.sy):
-                pass  # Success
+                pass
             else:
-                # Fallback: write raw data with .bin extension
                 raw_filename = f"{filename}.bin"
                 try:
                     with open(raw_filename, 'wb') as f:
