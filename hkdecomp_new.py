@@ -13,6 +13,7 @@ import struct
 from pathlib import Path
 from PIL import Image
 import argparse
+import numpy as np
 
 # Constants
 MAX_MEMORY_SIZE = 0x12C000
@@ -462,10 +463,46 @@ class HKDecompressor:
             print(f"✗ Error saving PNG {filename}: {e}")
             return False
     
+    def decompress_raw_aligned(self, compressed_data, width, height, has_alpha):
+        """Decompress RAW aligned image data for arm_hour and arm_minute"""
+        bytes_per_pixel = 3 if has_alpha else 2
+        row_bytes = width * bytes_per_pixel
+        aligned_row_bytes = (row_bytes + 3) & ~3
+        dst = np.zeros((height, width, 4 if has_alpha else 3), np.uint8)
+        for row in range(height):
+            row_start = row * aligned_row_bytes
+            for col in range(width):
+                base = row_start + col * bytes_per_pixel
+                if has_alpha:
+                    a = compressed_data[base]
+                    b1 = compressed_data[base+1]
+                    b2 = compressed_data[base+2]
+                else:
+                    b1 = compressed_data[base]
+                    b2 = compressed_data[base+1]
+                    a = 255
+                rgb565 = (b2 << 8) | b1
+                r = ((rgb565 >> 11) & 0x1F) << 3
+                g = ((rgb565 >> 5)  & 0x3F) << 2
+                b = ( rgb565        & 0x1F) << 3
+                if has_alpha:
+                    dst[row, col] = (r, g, b, a)
+                else:
+                    dst[row, col] = (r, g, b)
+        return dst.tobytes()
+
     def extract_image_data(self, block_index, block, output_dir):
         """Extract and save image data from a block"""
         short_name = self.get_block_type_short_name(block.blocktype, block_index)
-        has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype in (0x8C, 0x83, 0x84)
+        # Soporte especial para arm_hour y arm_minute RAW
+        if block.blocktype in (0x83, 0x84) and block.compr == 0:
+            has_alpha = (block.blocktype & 0x80) != 0
+            compressed_data = self.main_buffer[block.picture_address:block.picture_address + self.picture_sizes[block.picidx]]
+            image_data = self.decompress_raw_aligned(compressed_data, block.sx, block.sy, has_alpha)
+            self.write_png_file(f"{output_dir}/{short_name}.png", image_data, block.sx, block.sy)
+            return
+        # Solo usar canal alfa si el blocktype tiene el bit 7 activado o es 0x8C
+        has_alpha = (block.blocktype & 0x80) != 0 or block.blocktype == 0x8C
         # Ampliar digit_types para incluir todos los bloques multi-part reales
         digit_types = [
             0x09, # hours
@@ -484,9 +521,9 @@ class HKDecompressor:
             0x8E, # steps (alt)
             0x98  # batterystrip (alt)
         ]
-        # arm_hour (0x83) y arm_minute (0x84) NO deben estar en digit_types
+        # Limitar a máximo 10 imágenes para bloques de dígitos decimales
+        decimal_digit_types = [0x09, 0x0A, 0x0F, 0x0E, 0x10, 0x07, 0x08, 0x0D]
         if block.blocktype in digit_types:
-            # Multi-part images (digits, days, etc.): lógica secuencial y alineación
             type_prefixes = {
                 0x09: "hours",
                 0x0A: "minutes",
@@ -506,7 +543,9 @@ class HKDecompressor:
             }
             type_prefix = type_prefixes.get(block.blocktype, "unknown")
             current_offset = 0
-            for i in range(block.parts):
+            # Limitar a 10 partes si es decimal_digit_type
+            max_parts = min(block.parts, 10) if block.blocktype in decimal_digit_types else block.parts
+            for i in range(max_parts):
                 filename = f"{output_dir}/chr_{type_prefix}_{i}.png"
                 start_pos = block.picture_address + current_offset
                 compressed_data = self.main_buffer[start_pos:start_pos + self.picture_sizes[block.picidx] - current_offset]
