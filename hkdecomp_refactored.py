@@ -758,13 +758,16 @@ class HKDecompressor:
             current_offset += 1
         
         return current_offset
-    
     def extract_all_images(self, output_dir):
         """Extract all images from the binary file"""
         processed_multi_part_addresses = set()
         
         for i, block in enumerate(self.blocks):
             block_index = i + 1
+            
+            # Skip animation blocks - they will be processed separately by extract_animations()
+            if block.blocktype in (0x17, 0x97):
+                continue
             
             # Handle symbol blocks
             if BlockTypeManager.is_symbol_type(block.blocktype):
