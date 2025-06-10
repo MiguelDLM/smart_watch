@@ -496,19 +496,19 @@ class SimpleHKDecompressor:
             return False
     
     def _create_combined_image(self, images: List[Tuple[bytes, int, int]], output_path: str) -> bool:
-        """Create a combined horizontal strip image from multiple parts"""
+        """Create a combined vertical strip image from multiple parts"""
         if not images:
             return False
         
         try:
-            # Get dimensions
-            total_width = sum(width for _, width, _ in images)
-            max_height = max(height for _, _, height in images)
+            # Get dimensions for VERTICAL layout
+            max_width = max(width for _, width, _ in images)
+            total_height = sum(height for _, _, height in images)
             
-            # Create combined image
-            combined = Image.new('RGBA', (total_width, max_height), (0, 0, 0, 0))
+            # Create combined image with vertical layout
+            combined = Image.new('RGBA', (max_width, total_height), (0, 0, 0, 0))
             
-            x_offset = 0
+            y_offset = 0
             for image_data, width, height in images:
                 # Convert to PIL Image
                 bytes_per_pixel = len(image_data) // (width * height)
@@ -525,12 +525,12 @@ class SimpleHKDecompressor:
                 else:
                     continue
                 
-                # Paste into combined image
-                combined.paste(img, (x_offset, 0), img if img.mode == 'RGBA' else None)
-                x_offset += width
+                # Paste into combined image using VERTICAL layout
+                combined.paste(img, (0, y_offset), img if img.mode == 'RGBA' else None)
+                y_offset += height
             
             combined.save(output_path)
-            logger.debug(f"Created combined image: {output_path}")
+            logger.debug(f"Created combined vertical image: {output_path}")
             return True
             
         except Exception as e:
