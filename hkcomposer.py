@@ -108,12 +108,27 @@ class OptimizedDialBlock:
         """Compress a single image using optimized RLE"""
         try:
             with Image.open(image_path) as img:
-                if img.mode != 'RGBA':
+                logger.debug(f"Loaded image {image_path}: mode={img.mode}, size={img.size}")
+                # Ensure image is 8-bit per channel RGBA, not paletted or quantized
+                if img.mode == 'P':
+                    logger.info(f"Image {image_path} is paletted, converting to RGBA.")
                     img = img.convert('RGBA')
+                elif img.mode != 'RGBA':
+                    img = img.convert('RGBA')
+                # Remove color profile if present (prevents color shifts)
+                if 'icc_profile' in img.info:
+                    logger.info(f"Image {image_path} has ICC profile, removing.")
+                    img.info.pop('icc_profile')
                 # Resize if needed
                 if img.size != (self.sx, self.sy):
                     img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
                 image_data = np.array(img)
+                logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
+                # --- Detect and fix channel order if needed ---
+                sample = image_data[0,0]
+                if sample[0] < sample[2]:  # If blue > red, likely BGRA order
+                    logger.info(f"Detected BGRA order, swapping channels...")
+                    image_data = image_data[..., [2,1,0,3]]  # Swap B and R
                 # NO invertir canales, usar RGBA directo
                 if self.compr == 0:
                     # RAW format
@@ -137,11 +152,8 @@ class OptimizedDialBlock:
         for row in range(height):
             row_data = bytearray()
             for col in range(width):
-                r, g, b, a = image_data[row, col]
-                
-                # Convert to RGB565 and back to ensure consistency with decompressor
+                r, g, b, a = [int(x) for x in image_data[row, col]]
                 rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
-                final_r, final_g, final_b = self._rgb565_to_rgb888_raw(rgb565)
                 
                 # Simulate decompressor's exact process to preserve colors
                 if self.has_alpha:
@@ -190,7 +202,7 @@ class OptimizedDialBlock:
                         break
                     
                     next_r, next_g, next_b, next_a = image_data[row, col + look_ahead]
-                    next_rgb565 = (next_b >> 3) | ((next_g & 0xFC) << 3) | ((next_r & 0xF8) << 8)
+                    next_rgb565 = ((next_r & 0xF8) << 8) | ((next_g & 0xFC) << 3) | (next_b >> 3)
                     
                     # EXACT matching - no tolerance for compression artifacts
                     if (rgb565 == next_rgb565 and 
@@ -240,10 +252,8 @@ class OptimizedDialBlock:
         for row in range(height):
             col = 0
             while col < width and pixels_processed < expected_pixels:
-                r, g, b, a = image_data[row, col]
-                
-                # Convert to RGB565 and back to simulate decompressor behavior
-                rgb565 = self._rgb888_to_rgb565_enhanced(r, g, b)
+                r, g, b, a = [int(x) for x in image_data[row, col]]
+                rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
                 final_r, final_g, final_b = self._rgb565_to_rgb888_rle(rgb565)
                 
                 # Look ahead for RLE opportunities using final colors
@@ -254,8 +264,8 @@ class OptimizedDialBlock:
                     if col + look_ahead >= width:
                         break
                     
-                    next_r, next_g, next_b, next_a = image_data[row, col + look_ahead]
-                    next_rgb565 = self._rgb888_to_rgb565_enhanced(next_r, next_g, next_b)
+                    next_r, next_g, next_b, next_a = [int(x) for x in image_data[row, col + look_ahead]]
+                    next_rgb565 = ((next_r & 0xF8) << 8) | ((next_g & 0xFC) << 3) | (next_b >> 3)
                     next_final_r, next_final_g, next_final_b = self._rgb565_to_rgb888_rle(next_rgb565)
                     
                     # Compare final colors (what decompressor will produce)
@@ -298,17 +308,14 @@ class OptimizedDialBlock:
         return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
     
     def _rgb565_to_rgb888_rle(self, rgb565: int) -> tuple:
-        """Convert RGB565 to RGB888 for RLE compression (matching decompressor exactly)"""
-        high_byte = (rgb565 >> 8) & 0xFF
-        # Use decompressor's exact RLE conversion method
-        r = high_byte & 0xf8
-        g = (rgb565 >> 3) & 0xfc
-        b = (rgb565 << 3) & 0xff
+        rgb565 = int(rgb565)
+        r = ((rgb565 >> 11) & 0x1F) * 255 // 31
+        g = ((rgb565 >> 5) & 0x3F) * 255 // 63
+        b = (rgb565 & 0x1F) * 255 // 31
         return r, g, b
     
     def _rgb565_to_rgb888_raw(self, rgb565: int) -> tuple:
-        """Convert RGB565 to RGB888 for RAW compression (matching decompressor exactly)"""
-        # Use decompressor's exact RAW conversion method
+        rgb565 = int(rgb565)
         r = ((rgb565 >> 11) & 0x1F) * 255 // 31
         g = ((rgb565 >> 5) & 0x3F) * 255 // 63
         b = (rgb565 & 0x1F) * 255 // 31
