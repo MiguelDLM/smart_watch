@@ -53,42 +53,70 @@ class OptimizedDialBlock:
         """Load and compress images using optimized algorithm"""
         try:
             if self.parts > 1:
-                # Multi-part image: load individual parts and concatenate them
                 part_filenames = self.config.get('part_filenames', [])
                 if not part_filenames:
-                    logger.error(f"Multi-part block missing part_filenames")
-                    return False
-                
-                # Compress all parts and concatenate them into a single block
-                combined_compressed_data = bytearray()
-                
-                for part_filename in part_filenames:
-                    image_path = os.path.join(base_path, part_filename)
-                    if not os.path.exists(image_path):
-                        logger.error(f"Part image not found: {image_path}")
+                    # --- NEW: Support combined strip image splitting ---
+                    combined_image_path = os.path.join(base_path, self.fname)
+                    if not os.path.exists(combined_image_path):
+                        logger.error(f"Combined strip image not found: {combined_image_path}")
                         return False
-                    
-                    compressed_data = self._compress_single_image(image_path)
-                    if compressed_data:
-                        combined_compressed_data.extend(compressed_data)
-                        # Align each part to 4 bytes (as per native implementation)
-                        while len(combined_compressed_data) % 4 != 0:
-                            combined_compressed_data.append(0x00)
-                    else:
-                        logger.error(f"Failed to compress: {image_path}")
-                        return False
-                
-                # Store as single combined block
-                self.compressed_images.append(bytes(combined_compressed_data))
-                self.total_compressed_size += len(combined_compressed_data)
-                
+                    with Image.open(combined_image_path) as img:
+                        logger.debug(f"Loaded combined image {combined_image_path}: mode={img.mode}, size={img.size}")
+                        if img.mode == 'P':
+                            img = img.convert('RGBA')
+                        elif img.mode != 'RGBA':
+                            img = img.convert('RGBA')
+                        if 'icc_profile' in img.info:
+                            img.info.pop('icc_profile')
+                        # Validate combined image size
+                        expected_width = self.sx * self.parts
+                        if img.size != (expected_width, self.sy):
+                            logger.error(f"Combined image size mismatch: expected {expected_width}x{self.sy}, got {img.size}")
+                            return False
+                        # Split horizontally into parts
+                        combined_compressed_data = bytearray()
+                        for i in range(self.parts):
+                            left = i * self.sx
+                            right = (i + 1) * self.sx
+                            part_img = img.crop((left, 0, right, self.sy))
+                            part_data = np.array(part_img)
+                            # Channel order fix if needed
+                            sample = part_data[0,0]
+                            if sample[0] < sample[2]:
+                                part_data = part_data[..., [2,1,0,3]]
+                            if self.compr == 0:
+                                compressed = self._compress_raw_aligned(part_data)
+                            else:
+                                compressed = self._compress_hk89_rle_color_preserved(part_data)
+                            combined_compressed_data.extend(compressed)
+                            while len(combined_compressed_data) % 4 != 0:
+                                combined_compressed_data.append(0x00)
+                        self.compressed_images.append(bytes(combined_compressed_data))
+                        self.total_compressed_size += len(combined_compressed_data)
+                else:
+                    # Multi-part image: load individual parts and concatenate them
+                    combined_compressed_data = bytearray()
+                    for part_filename in part_filenames:
+                        image_path = os.path.join(base_path, part_filename)
+                        if not os.path.exists(image_path):
+                            logger.error(f"Part image not found: {image_path}")
+                            return False
+                        compressed_data = self._compress_single_image(image_path)
+                        if compressed_data:
+                            combined_compressed_data.extend(compressed_data)
+                            while len(combined_compressed_data) % 4 != 0:
+                                combined_compressed_data.append(0x00)
+                        else:
+                            logger.error(f"Failed to compress: {image_path}")
+                            return False
+                    self.compressed_images.append(bytes(combined_compressed_data))
+                    self.total_compressed_size += len(combined_compressed_data)
             else:
                 # Single image
                 image_path = os.path.join(base_path, self.fname)
                 if not os.path.exists(image_path):
                     logger.error(f"Image not found: {image_path}")
                     return False
-                
                 compressed_data = self._compress_single_image(image_path)
                 if compressed_data:
                     self.compressed_images.append(compressed_data)
@@ -96,7 +124,6 @@ class OptimizedDialBlock:
                 else:
                     logger.error(f"Failed to compress: {image_path}")
                     return False
-            
             logger.debug(f"Block {self.index+1}: {len(self.compressed_images)} images, {self.total_compressed_size} bytes")
             return True
             
@@ -330,33 +357,65 @@ class OptimizedDialComposer:
         self.base_path = ""
     
     def load_config(self, config_file: str) -> bool:
-        """Load configuration file"""
+        """Load configuration file (zzuler or classic style)"""
         try:
             logger.info(f"Loading configuration from: {config_file}")
-            
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
-            
             self.base_path = os.path.dirname(config_file)
-            
-            # Extract resolution
+            # Detect zzuler/modern style
+            if 'blocks' in config and 'dial_name' in config:
+                self.device_width = config.get('resolution', {}).get('width', 280)
+                self.device_height = config.get('resolution', {}).get('height', 280)
+                self.blocks = []
+                for i, block in enumerate(config['blocks']):
+                    # Map zzuler fields to composer fields
+                    picidx = block.get('picidx', i)  # Prefer picidx from JSON if present
+                    block_config = {
+                        'fname': block['fname'],
+                        'blocktype': self._type_to_blocktype(block['type'], block.get('colsp', 'RGB')),
+                        'sx': block['width'],
+                        'sy': block['height'],
+                        'posX': block['posx'],
+                        'posY': block['posy'],
+                        'parts': block['frms'],
+                        'align': block.get('alnx', 0),
+                        'compr': 4 if block.get('colsp', 'RGB') == 'RGB' else 0,  # Heurística: RGB=4, RGBA=0
+                        'centX': block.get('ctx', 0),
+                        'centY': block.get('cty', 0),
+                        'picidx': picidx
+                    }
+                    self.blocks.append(OptimizedDialBlock(block_config, i))
+                logger.info(f"Successfully loaded zzuler-style config: {len(self.blocks)} blocks")
+                logger.info(f"Device resolution: {self.device_width}x{self.device_height}")
+                return True
+            # Classic style
             resolution = config['resolution']
             self.device_width = resolution['width']
             self.device_height = resolution['height']
-            
-            # Create blocks
+            self.blocks = []
             for i, block_config in enumerate(config['blocks']):
                 block = OptimizedDialBlock(block_config, i)
                 self.blocks.append(block)
-            
             logger.info(f"Successfully loaded configuration: {len(self.blocks)} blocks")
             logger.info(f"Device resolution: {self.device_width}x{self.device_height}")
-            
             return True
-            
         except Exception as e:
             logger.error(f"Error loading configuration: {e}")
             return False
+
+    def _type_to_blocktype(self, type_str, colsp):
+        # Map zzuler type string to blocktype int
+        type_map = {
+            'BLK_PREVI': 0x01, 'BLK_BGIMG': 0x02, 'BLK_HOUR': 0x09, 'BLK_MIN': 0x0A,
+            'BLK_WEEKD': 0x0D, 'BLK_MONTH': 0x07, 'BLK_DAY': 0x08, 'BLK_YEAR': 0x06,
+            'BLK_STEPS': 0x0E, 'BLK_BATTS': 0x18, 'BLK_HEART': 0x0F, 'BLK_CALORIE': 0x10,
+            'BLK_AMPM': 0x8C, 'BLK_83': 0x83, 'BLK_84': 0x84
+        }
+        base = type_map.get(type_str, 0x01)
+        if colsp == 'RGBA' and base < 0x80:
+            return base | 0x80
+        return base
     
     def load_and_compress_images(self) -> bool:
         """Load and compress all images"""
@@ -384,97 +443,78 @@ class OptimizedDialComposer:
             # Each block counts as one image, regardless of parts
             total_images = len(self.blocks)
             
-            # Calculate layout (matching native algorithm exactly)
-            blocks_table_size = len(self.blocks) * 20
+            # --- Ordenar por picidx para coincidencia binaria exacta ---
+            blocks_to_write = sorted(self.blocks, key=lambda b: b.picidx)
+
+            # Calcular layout (igual que antes)
+            blocks_table_size = len(blocks_to_write) * 20
             image_sizes_table_size = total_images * 4
-            
-            # Header size: 4 bytes header + block headers + image sizes table
             metadata_size = 4 + blocks_table_size + image_sizes_table_size
-            
-            # Align to next boundary (original starts at 644, which suggests specific alignment)
-            # 644 - 284 (after block headers) - (total_images * 4) = padding
-            # Let's calculate where images should start to match original layout
             first_image_offset = 644  # Match original exactly
-            
-            # Calculate image positions starting from first_image_offset
+
+            # Calcular posiciones de imagenes
             current_position = first_image_offset
-            total_file_size = current_position
-            
-            for block in self.blocks:
+            image_positions = []
+            for block in blocks_to_write:
                 for compressed_data in block.compressed_images:
-                    total_file_size += len(compressed_data)
-                    # Align each image to 4 bytes
-                    while total_file_size % 4 != 0:
-                        total_file_size += 1
-            
-            logger.info(f"Calculated file size: {total_file_size:,} bytes")
-            
+                    image_positions.append(current_position)
+                    current_position += len(compressed_data)
+                    while current_position % 4 != 0:
+                        current_position += 1
+
+            logger.info(f"Calculated file size: {current_position:,} bytes")
+
             # Build binary data
             binary_data = bytearray()
-            
-            # Header: picture_table_size + block_count + reserved
-            # Based on analysis: original has 90, 14, 2
-            # picture_table_size appears to be a fixed value or calculated differently
             picture_table_size = 90  # Match original exactly
-            binary_data.extend(struct.pack('<HBB', picture_table_size, len(self.blocks), 2))
-            
-            # Block headers (20 bytes each) - matching native structure
-            current_image_idx = 0
-            for block in self.blocks:
-                # Build header matching native implementation
+            binary_data.extend(struct.pack('<HBB', picture_table_size, len(blocks_to_write), 2))
+
+            # Block headers (20 bytes cada uno)
+            img_pos_idx = 0
+            for block in blocks_to_write:
                 header = struct.pack('<I2B4H6B',
-                                   current_position,  # picture_address
-                                   current_image_idx,  # picidx
+                                   image_positions[img_pos_idx],  # picture_address
+                                   block.picidx,      # picidx (usar el valor original)
                                    0,  # valami2
                                    block.sx,  # width
                                    block.sy,  # height
                                    block.posX,  # x position
                                    block.posY,  # y position
-                                   block.parts,  # parts (original count, not compressed count)
-                                   block.blocktype,  # blocktype (with RGBA flag if needed)
+                                   block.parts,  # parts
+                                   block.blocktype,  # blocktype
                                    block.align,  # align
                                    block.compr,  # compression type
                                    block.centX,  # center x
                                    block.centY)  # center y
                 binary_data.extend(header)
-                
-                # Multi-part blocks still count as one image entry
-                current_image_idx += 1
-                
-                # Update position for next block
-                for compressed_data in block.compressed_images:
-                    current_position += len(compressed_data)
-                    while current_position % 4 != 0:
-                        current_position += 1
-            
-            # Image sizes table (4 bytes per image) 
-            for block in self.blocks:
+                img_pos_idx += len(block.compressed_images)
+
+            # Tabla de tamaños de imagen (4 bytes por imagen)
+            for block in blocks_to_write:
                 for compressed_data in block.compressed_images:
                     binary_data.extend(struct.pack('<I', len(compressed_data)))
-            
-            # Pad to reach first_image_offset (644 in original)
+
+            # Padding hasta first_image_offset
             while len(binary_data) < first_image_offset:
                 binary_data.append(0x00)
-            
-            # Add compressed image data
-            for block in self.blocks:
+
+            # Datos de imagen comprimida
+            for block in blocks_to_write:
                 for compressed_data in block.compressed_images:
                     binary_data.extend(compressed_data)
-                    
-                    # Align to 4 bytes
                     while len(binary_data) % 4 != 0:
                         binary_data.append(0x00)
-            
-            # Write to file
+
+            # Escribir archivo
             with open(output_file, 'wb') as f:
                 f.write(binary_data)
-            
+
             actual_size = len(binary_data)
-            logger.info(f"✓ Binary file created: {output_file}")
+            logger.info(f"\u2713 Binary file created: {output_file}")
             logger.info(f"  Final size: {actual_size:,} bytes")
             logger.info(f"  Picture table size: {picture_table_size}")
             logger.info(f"  Total images: {total_images}")
-            
+
             return True
             
         except Exception as e:

@@ -710,6 +710,75 @@ class SimpleHKDecompressor:
         except Exception as e:
             logger.error(f"Error saving config: {e}")
     
+    def save_config(self, output_dir: str):
+        """Save enhanced configuration for reconstruction (zzuler style)"""
+        # Detect resolution from background or preview blocks
+        resolution = {'width': 240, 'height': 240}  # Default
+        for block in self.blocks:
+            if block.blocktype in {0x02, 0x82, 0x01, 0x81}:  # Background or preview
+                resolution = {'width': block.sx, 'height': block.sy}
+                break
+
+        # Map blocktype to zzuler type
+        type_map = {
+            0x01: "BLK_PREVI", 0x81: "BLK_PREVI",
+            0x02: "BLK_BGIMG", 0x82: "BLK_BGIMG",
+            0x09: "BLK_HOUR", 0x89: "BLK_HOUR",
+            0x0A: "BLK_MIN", 0x8A: "BLK_MIN",
+            0x0D: "BLK_WEEKD", 0x8D: "BLK_WEEKD",
+            0x07: "BLK_MONTH", 0x87: "BLK_MONTH",
+            0x08: "BLK_DAY", 0x88: "BLK_DAY",
+            0x06: "BLK_YEAR", 0x86: "BLK_YEAR",
+            0x0E: "BLK_STEPS", 0x8E: "BLK_STEPS",
+            0x12: "BLK_BATTS", 0x92: "BLK_BATTS",
+            0x18: "BLK_BATTS", 0x98: "BLK_BATTS",
+            0x10: "BLK_CALORIE", 0x90: "BLK_CALORIE",
+            0x0F: "BLK_HEART", 0x8F: "BLK_HEART",
+            0x0C: "BLK_AMPM", 0x8C: "BLK_AMPM",
+            0x14: "BLK_UNKNOWN14", 0x94: "BLK_UNKNOWN14",
+            0x15: "BLK_UNKNOWN15", 0x95: "BLK_UNKNOWN15",
+            0x16: "BLK_BERRY", 0x96: "BLK_BERRY",
+            0x17: "BLK_ANIM", 0x97: "BLK_ANIM",
+            0x19: "BLK_WEATHER", 0x99: "BLK_WEATHER",
+            0x1A: "BLK_TEMP", 0x9A: "BLK_TEMP",
+        }
+
+        blocks = []
+        for block in self.blocks:
+            block_index = self.blocks.index(block) + 1
+            filename = block.get_short_name(block_index)
+            # Deducir colsp
+            colsp = "RGBA" if block.has_alpha else "RGB"
+            # Mapear campos
+            block_data = {
+                "type": type_map.get(block.blocktype, f"BLK_{block.blocktype:02X}"),
+                "frms": block.parts,
+                "fname": f"{filename}.png" if block.parts == 1 else f"{filename}_combined.png",
+                "reuse": False,
+                "colsp": colsp,
+                "width": block.sx,
+                "height": block.sy,
+                "posx": block.posX,
+                "posy": block.posY,
+                "alnx": block.align,
+                "ctx": block.centX,
+                "cty": block.centY,
+                "picidx": block.picidx  # <-- Añadido para round-trip exacto
+            }
+            blocks.append(block_data)
+
+        config = {
+            "dial_name": os.path.basename(output_dir).replace('_',''),
+            "blocks": blocks
+        }
+        output_file = f"{output_dir}/dialzz_style.json"
+        try:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(config, f, indent=2, ensure_ascii=False)
+            logger.info(f"✓ Saved zzuler-style config: {output_file}")
+        except Exception as e:
+            logger.error(f"Error saving zzuler-style config: {e}")
+    
     def process(self, filename: str) -> bool:
         """Main processing function"""
         start_time = time.time()
