@@ -112,16 +112,12 @@ class OptimizedDialBlock:
                     logger.info(f"Image {image_path} has ICC profile, removing.")
                     img.info.pop('icc_profile')
                 # Resize if needed
-                if img.size != (self.sx, self.sy):
-                    img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
+                if img.size != (self.sx, self.sy):                img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
                 image_data = np.array(img)
                 logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
-                # --- Detect and fix channel order if needed ---
-                sample = image_data[0,0]
-                if sample[0] < sample[2]:  # If blue > red, likely BGRA order
-                    logger.info(f"Detected BGRA order, swapping channels...")
-                    image_data = image_data[..., [2,1,0,3]]  # Swap B and R
-                # NO invertir canales, usar RGBA directo
+                  # --- NO BGR DETECTION - Keep original RGB order ---
+                # The images are already in correct RGB format
+                logger.debug(f"Keeping original RGB channel order")
                 if self.compr == 0:
                     # RAW format
                     return self._compress_raw_aligned(image_data)
@@ -291,7 +287,6 @@ class OptimizedDialBlock:
         struct.pack_into('<H', compressed, header_pos, data_start)
         
         return bytes(compressed)
-    
     def _rgb888_to_rgb565_enhanced(self, r: int, g: int, b: int) -> int:
         """Convert RGB888 to RGB565 matching native algorithm exactly - FIXED BGR ORDER"""
         # Variante estándar RGB565 (no BGR):
@@ -300,17 +295,23 @@ class OptimizedDialBlock:
         return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
     
     def _rgb565_to_rgb888_rle(self, rgb565: int) -> tuple:
+        """Convert RGB565 to RGB888 using EXACT decompressor algorithm"""
         rgb565 = int(rgb565)
-        r = ((rgb565 >> 11) & 0x1F) * 255 // 31
-        g = ((rgb565 >> 5) & 0x3F) * 255 // 63
-        b = (rgb565 & 0x1F) * 255 // 31
+        high_byte = (rgb565 >> 8) & 0xFF
+        # Using EXACT same algorithm as decompressor _read_rgb565_pixel
+        r = high_byte & 0xf8
+        g = (rgb565 >> 3) & 0xfc
+        b = (rgb565 << 3) & 0xff
         return r, g, b
     
     def _rgb565_to_rgb888_raw(self, rgb565: int) -> tuple:
+        """Convert RGB565 to RGB888 using EXACT decompressor algorithm"""
         rgb565 = int(rgb565)
-        r = ((rgb565 >> 11) & 0x1F) * 255 // 31
-        g = ((rgb565 >> 5) & 0x3F) * 255 // 63
-        b = (rgb565 & 0x1F) * 255 // 31
+        high_byte = (rgb565 >> 8) & 0xFF
+        # Using EXACT same algorithm as decompressor
+        r = high_byte & 0xf8
+        g = (rgb565 >> 3) & 0xfc
+        b = (rgb565 << 3) & 0xff
         return r, g, b
 
 class OptimizedDialComposer:
