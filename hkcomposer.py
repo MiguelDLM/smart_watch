@@ -53,15 +53,13 @@ class OptimizedDialBlock:
         """Load and compress images using optimized algorithm"""
         try:
             if self.parts > 1:
-                # Multi-part image: load individual parts and concatenate them
+                # Multi-part image: load individual parts separately (don't combine)
                 part_filenames = self.config.get('part_filenames', [])
                 if not part_filenames:
                     logger.error(f"Multi-part block missing part_filenames")
                     return False
                 
-                # Compress all parts and concatenate them into a single block
-                combined_compressed_data = bytearray()
-                
+                # Store each part as separate compressed data
                 for part_filename in part_filenames:
                     image_path = os.path.join(base_path, part_filename)
                     if not os.path.exists(image_path):
@@ -70,17 +68,11 @@ class OptimizedDialBlock:
                     
                     compressed_data = self._compress_single_image(image_path)
                     if compressed_data:
-                        combined_compressed_data.extend(compressed_data)
-                        # Align each part to 4 bytes (as per native implementation)
-                        while len(combined_compressed_data) % 4 != 0:
-                            combined_compressed_data.append(0x00)
+                        self.compressed_images.append(compressed_data)
+                        self.total_compressed_size += len(compressed_data)
                     else:
                         logger.error(f"Failed to compress: {image_path}")
                         return False
-                
-                # Store as single combined block
-                self.compressed_images.append(bytes(combined_compressed_data))
-                self.total_compressed_size += len(combined_compressed_data)
                 
             else:
                 # Single image
@@ -376,13 +368,14 @@ class OptimizedDialComposer:
         return success_count == len(self.blocks)
     
     def build_binary(self, output_file: str) -> bool:
-        """Build binary file using optimized algorithm matching native implementation"""
+        """Build binary file using corrected algorithm matching native implementation"""
         logger.info(f"Building binary file: {output_file}")
         
         try:
-            # Calculate total number of images (critical for picture_table_size)
-            # Each block counts as one image, regardless of parts
-            total_images = len(self.blocks)
+            # Calculate total number of images INCLUDING multi-part blocks
+            total_images = 0
+            for block in self.blocks:
+                total_images += len(block.compressed_images)  # Each compressed image counts
             
             # Calculate layout (matching native algorithm exactly)
             blocks_table_size = len(self.blocks) * 20
@@ -391,10 +384,11 @@ class OptimizedDialComposer:
             # Header size: 4 bytes header + block headers + image sizes table
             metadata_size = 4 + blocks_table_size + image_sizes_table_size
             
-            # Align to next boundary (original starts at 644, which suggests specific alignment)
-            # 644 - 284 (after block headers) - (total_images * 4) = padding
-            # Let's calculate where images should start to match original layout
-            first_image_offset = 644  # Match original exactly
+            # Calculate first image offset to match original exactly
+            # Find the nearest boundary that matches the original
+            first_image_offset = metadata_size
+            while first_image_offset % 4 != 0:
+                first_image_offset += 1
             
             # Calculate image positions starting from first_image_offset
             current_position = first_image_offset
@@ -411,11 +405,9 @@ class OptimizedDialComposer:
             
             # Build binary data
             binary_data = bytearray()
-            
-            # Header: picture_table_size + block_count + reserved
-            # Based on analysis: original has 90, 14, 2
-            # picture_table_size appears to be a fixed value or calculated differently
-            picture_table_size = 90  # Match original exactly
+              # Header: picture_table_size + block_count + reserved
+            # Correct formula based on analysis: just the total number of parts
+            picture_table_size = sum(block.parts for block in self.blocks)
             binary_data.extend(struct.pack('<HBB', picture_table_size, len(self.blocks), 2))
             
             # Block headers (20 bytes each) - matching native structure
@@ -424,13 +416,13 @@ class OptimizedDialComposer:
                 # Build header matching native implementation
                 header = struct.pack('<I2B4H6B',
                                    current_position,  # picture_address
-                                   current_image_idx,  # picidx
+                                   current_image_idx,  # picidx (start of this block's images)
                                    0,  # valami2
                                    block.sx,  # width
                                    block.sy,  # height
                                    block.posX,  # x position
                                    block.posY,  # y position
-                                   block.parts,  # parts (original count, not compressed count)
+                                   block.parts,  # parts (original count)
                                    block.blocktype,  # blocktype (with RGBA flag if needed)
                                    block.align,  # align
                                    block.compr,  # compression type
@@ -438,21 +430,21 @@ class OptimizedDialComposer:
                                    block.centY)  # center y
                 binary_data.extend(header)
                 
-                # Multi-part blocks still count as one image entry
-                current_image_idx += 1
-                
-                # Update position for next block
+                # Update position and index for next block
                 for compressed_data in block.compressed_images:
                     current_position += len(compressed_data)
                     while current_position % 4 != 0:
                         current_position += 1
+                
+                # Advance image index by the number of compressed images in this block
+                current_image_idx += len(block.compressed_images)
             
             # Image sizes table (4 bytes per image) 
             for block in self.blocks:
                 for compressed_data in block.compressed_images:
                     binary_data.extend(struct.pack('<I', len(compressed_data)))
             
-            # Pad to reach first_image_offset (644 in original)
+            # Pad to reach first_image_offset
             while len(binary_data) < first_image_offset:
                 binary_data.append(0x00)
             
