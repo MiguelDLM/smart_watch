@@ -216,77 +216,109 @@ class OptimizedDialBlock:
                     compressed.append(rgb565 & 0xFF)
                 
                 col += count
-                pixels_processed += count
-        
-        # Fill header with data start offset (matches native implementation)
+                pixels_processed += count        # Fill header with data start offset (matches native implementation)
         data_start = 2
         struct.pack_into('<H', compressed, header_pos, data_start)
         
         return bytes(compressed)
     
     def _compress_hk89_rle_color_preserved(self, image_data: np.ndarray) -> bytes:
-        """RLE compression with color preservation matching decompressor"""
+        """RLE compression with color preservation and literal runs matching original format"""
         height, width = image_data.shape[:2]
         expected_pixels = width * height
         
-        compressed = bytearray()
-        
-        # Reserve space for header (will be filled later)
-        header_pos = len(compressed)
-        compressed.extend(b'\x00\x00')
-        
-        pixels_processed = 0
-        
+        # Create pixel array with RGB565 values
+        pixels = []
         for row in range(height):
-            col = 0
-            while col < width and pixels_processed < expected_pixels:
+            for col in range(width):
                 r, g, b, a = [int(x) for x in image_data[row, col]]
                 rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
-                final_r, final_g, final_b = self._rgb565_to_rgb888_rle(rgb565)
+                alpha = a if self.has_alpha else 255
+                pixels.append((rgb565, alpha))
+        
+        # Compress with proper literal runs
+        compressed = bytearray()
+        
+        # Reserve space for header
+        header_pos = len(compressed)
+        compressed.extend(b'\x00\x00')
+        data_start_pos = len(compressed)
+        
+        i = 0
+        while i < len(pixels):
+            rgb565, alpha = pixels[i]
+            
+            # Look ahead for RLE runs (2+ identical pixels)
+            rle_count = 1
+            max_rle = min(127, len(pixels) - i)
+            
+            for look_ahead in range(1, max_rle):
+                if i + look_ahead >= len(pixels):
+                    break
+                next_rgb565, next_alpha = pixels[i + look_ahead]
+                if (rgb565 == next_rgb565 and (not self.has_alpha or alpha == next_alpha)):
+                    rle_count += 1
+                else:
+                    break
+            
+            if rle_count >= 2:
+                # RLE run (2 or more identical pixels)
+                compressed.append(0x80 | rle_count)
+                if self.has_alpha:
+                    compressed.append(alpha)
+                compressed.append((rgb565 >> 8) & 0xFF)
+                compressed.append(rgb565 & 0xFF)
+                i += rle_count
+            else:
+                # Look ahead for literal run (consecutive non-repeating pixels)
+                literal_count = 1
+                max_literal = min(127, len(pixels) - i)
                 
-                # Look ahead for RLE opportunities using final colors
-                count = 1
-                max_count = min(127, width - col, expected_pixels - pixels_processed)
-                
-                for look_ahead in range(1, max_count):
-                    if col + look_ahead >= width:
+                for look_ahead in range(1, max_literal):
+                    if i + look_ahead >= len(pixels):
                         break
                     
-                    next_r, next_g, next_b, next_a = [int(x) for x in image_data[row, col + look_ahead]]
-                    next_rgb565 = ((next_r & 0xF8) << 8) | ((next_g & 0xFC) << 3) | (next_b >> 3)
-                    next_final_r, next_final_g, next_final_b = self._rgb565_to_rgb888_rle(next_rgb565)
+                    # Check if next pixel starts a RLE run
+                    next_rle_count = 1
+                    for rle_check in range(1, min(4, len(pixels) - (i + look_ahead))):
+                        if i + look_ahead + rle_check >= len(pixels):
+                            break
+                        if pixels[i + look_ahead][0] == pixels[i + look_ahead + rle_check][0]:
+                            next_rle_count += 1
+                        else:
+                            break
                     
-                    # Compare final colors (what decompressor will produce)
-                    if (final_r == next_final_r and final_g == next_final_g and 
-                        final_b == next_final_b and (not self.has_alpha or a == next_a)):
-                        count += 1
-                    else:
+                    # If next pixel starts a RLE run of 2+, stop literal run
+                    if next_rle_count >= 2:
                         break
+                    
+                    literal_count += 1
                 
-                # Encode based on count
-                if count == 1:
-                    # Single pixel
+                # Encode literal run
+                if literal_count == 1:
+                    # Single pixel (compatibility mode)
                     compressed.append(0x00)
                     if self.has_alpha:
-                        compressed.append(a)
+                        compressed.append(alpha)
                     compressed.append((rgb565 >> 8) & 0xFF)
                     compressed.append(rgb565 & 0xFF)
+                    i += 1
                 else:
-                    # RLE run
-                    compressed.append(0x80 | count)
-                    if self.has_alpha:
-                        compressed.append(a)
-                    compressed.append((rgb565 >> 8) & 0xFF)
-                    compressed.append(rgb565 & 0xFF)
-                
-                col += count
-                pixels_processed += count
-        
-        # Fill header with data start offset (matches native implementation)
-        data_start = 2
+                    # Literal run (multiple non-repeating pixels)
+                    compressed.append(literal_count)
+                    for j in range(literal_count):
+                        pixel_rgb565, pixel_alpha = pixels[i + j]
+                        if self.has_alpha:
+                            compressed.append(pixel_alpha)
+                        compressed.append((pixel_rgb565 >> 8) & 0xFF)
+                        compressed.append(pixel_rgb565 & 0xFF)
+                    i += literal_count
+          # Fill header with data start offset (like original format)
+        data_start = data_start_pos
         struct.pack_into('<H', compressed, header_pos, data_start)
         
         return bytes(compressed)
+    
     def _rgb888_to_rgb565_enhanced(self, r: int, g: int, b: int) -> int:
         """Convert RGB888 to RGB565 matching native algorithm exactly - FIXED BGR ORDER"""
         # Variante estándar RGB565 (no BGR):
@@ -369,107 +401,83 @@ class OptimizedDialComposer:
         return success_count == len(self.blocks)
     
     def build_binary(self, output_file: str) -> bool:
-        """Build binary file using corrected algorithm matching native implementation"""
+        """Build binary file with strict internal validity: correct offsets, sizes, and padding/alignment."""
         logger.info(f"Building binary file: {output_file}")
-        
         try:
             # Calculate total number of images INCLUDING multi-part blocks
-            total_images = 0
-            for block in self.blocks:
-                total_images += len(block.compressed_images)  # Each compressed image counts
-            
-            # Calculate layout (matching native algorithm exactly)
+            total_images = sum(len(block.compressed_images) for block in self.blocks)
             blocks_table_size = len(self.blocks) * 20
             image_sizes_table_size = total_images * 4
-            
-            # Header size: 4 bytes header + block headers + image sizes table
             metadata_size = 4 + blocks_table_size + image_sizes_table_size
-            
-            # Calculate first image offset to match original exactly
-            # Find the nearest boundary that matches the original
+            # Align metadata to 4 bytes
             first_image_offset = metadata_size
             while first_image_offset % 4 != 0:
                 first_image_offset += 1
-            
-            # Calculate image positions starting from first_image_offset
-            current_position = first_image_offset
-            total_file_size = current_position
-            
+
+            # --- NUEVO: Calcular offsets REALES de cada imagen ---
+            image_offsets = []  # offset de cada imagen/parte
+            current_offset = first_image_offset
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
-                    total_file_size += len(compressed_data)
-                    # Align each image to 4 bytes
-                    while total_file_size % 4 != 0:
-                        total_file_size += 1
-            
-            logger.info(f"Calculated file size: {total_file_size:,} bytes")
-            
-            # Build binary data
+                for img in block.compressed_images:
+                    image_offsets.append(current_offset)
+                    current_offset += len(img)
+                    # Padding a 4 bytes después de cada imagen
+                    while current_offset % 4 != 0:
+                        current_offset += 1
+
+            # --- Construir binario ---
             binary_data = bytearray()
-              # Header: picture_table_size + block_count + reserved
-            # Correct formula based on analysis: just the total number of parts
             picture_table_size = sum(block.parts for block in self.blocks)
             binary_data.extend(struct.pack('<HBB', picture_table_size, len(self.blocks), 2))
-            
-            # Block headers (20 bytes each) - matching native structure
-            current_image_idx = 0
+
+            # Tabla de bloques
+            image_idx = 0
             for block in self.blocks:
-                # Build header matching native implementation
+                # El offset de la primera imagen/parte de este bloque
+                picture_address = image_offsets[image_idx]
                 header = struct.pack('<I2B4H6B',
-                                   current_position,  # picture_address
-                                   current_image_idx,  # picidx (start of this block's images)
-                                   0,  # valami2
-                                   block.sx,  # width
-                                   block.sy,  # height
-                                   block.posX,  # x position
-                                   block.posY,  # y position
-                                   block.parts,  # parts (original count)
-                                   block.blocktype,  # blocktype (with RGBA flag if needed)
-                                   block.align,  # align
-                                   block.compr,  # compression type
-                                   block.centX,  # center x
-                                   block.centY)  # center y
+                    picture_address,  # picture_address
+                    image_idx,        # picidx
+                    0,                # valami2
+                    block.sx,
+                    block.sy,
+                    block.posX,
+                    block.posY,
+                    block.parts,
+                    block.blocktype,
+                    block.align,
+                    block.compr,
+                    block.centX,
+                    block.centY
+                )
                 binary_data.extend(header)
-                
-                # Update position and index for next block
-                for compressed_data in block.compressed_images:
-                    current_position += len(compressed_data)
-                    while current_position % 4 != 0:
-                        current_position += 1
-                
-                # Advance image index by the number of compressed images in this block
-                current_image_idx += len(block.compressed_images)
-            
-            # Image sizes table (4 bytes per image) 
+                image_idx += len(block.compressed_images)
+
+            # Tabla de tamaños
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
-                    binary_data.extend(struct.pack('<I', len(compressed_data)))
-            
-            # Pad to reach first_image_offset
+                for img in block.compressed_images:
+                    binary_data.extend(struct.pack('<I', len(img)))
+
+            # Padding hasta el primer offset de imagen
             while len(binary_data) < first_image_offset:
                 binary_data.append(0x00)
-            
-            # Add compressed image data
+
+            # Escribir imágenes y padding
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
-                    binary_data.extend(compressed_data)
-                    
-                    # Align to 4 bytes
+                for img in block.compressed_images:
+                    binary_data.extend(img)
                     while len(binary_data) % 4 != 0:
                         binary_data.append(0x00)
-            
-            # Write to file
+
+            # Guardar archivo
             with open(output_file, 'wb') as f:
                 f.write(binary_data)
-            
             actual_size = len(binary_data)
             logger.info(f"✓ Binary file created: {output_file}")
             logger.info(f"  Final size: {actual_size:,} bytes")
             logger.info(f"  Picture table size: {picture_table_size}")
             logger.info(f"  Total images: {total_images}")
-            
             return True
-            
         except Exception as e:
             logger.error(f"Error building binary: {e}")
             return False
