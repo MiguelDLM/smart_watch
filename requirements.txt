@@ -1,1 +1,19 @@
-Pillow>=8.0.0
+# SmartWatch Face Compiler Requirements
+# =====================================
+
+# Core dependencies
+Pillow>=10.0.1          # Image processing
+numpy>=1.24.0           # Numerical operations for image data
+
+# Optional dependencies for enhanced functionality
+# (Most are included in Python standard library)
+# argparse              # Command line parsing (included in Python 2.7+)
+# json                  # JSON handling (included in Python 2.6+)
+# struct                # Binary data handling (included in Python)
+# logging               # Logging functionality (included in Python)
+# pathlib               # Path manipulation (included in Python 3.4+)
+
+# Development and testing (optional)
+# pytest>=7.0.0         # Testing framework
+# black>=23.0.0         # Code formatting  
+# flake8>=6.0.0         # Code linting

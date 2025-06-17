@@ -110,20 +110,24 @@ class OptimizedDialBlock:
                 # Remove color profile if present (prevents color shifts)
                 if 'icc_profile' in img.info:
                     logger.info(f"Image {image_path} has ICC profile, removing.")
-                    img.info.pop('icc_profile')
-                # Resize if needed
-                if img.size != (self.sx, self.sy):                img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
+                    img.info.pop('icc_profile')                # Resize if needed
+                if img.size != (self.sx, self.sy):
+                    img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
+                
                 image_data = np.array(img)
                 logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
-                  # --- NO BGR DETECTION - Keep original RGB order ---
+                
+                # --- NO BGR DETECTION - Keep original RGB order ---
                 # The images are already in correct RGB format
                 logger.debug(f"Keeping original RGB channel order")
+                
                 if self.compr == 0:
                     # RAW format
                     return self._compress_raw_aligned(image_data)
                 else:
-                    # RLE format - optimized version with better color preservation
-                    return self._compress_hk89_rle_color_preserved(image_data)
+                    # For compr=4, try RAW format instead of RLE
+                    # The original might be using RAW data, not RLE
+                    return self._compress_raw_aligned(image_data)
         except Exception as e:
             logger.error(f"Error compressing {image_path}: {e}")
             return None
