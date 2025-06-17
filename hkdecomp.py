@@ -40,6 +40,10 @@ class DialBlock:
         self.compr = unpacked[10]
         self.centX = unpacked[11]
         self.centY = unpacked[12]
+
+        # Additional metadata captured during extraction
+        self.rle_offsets: List[int] = []
+        self.padding: List[int] = []
         
         # Determine if block supports alpha
         self.has_alpha = (self.blocktype & 0x80) or self.blocktype == 0x8C
@@ -273,6 +277,7 @@ class SimpleHKDecompressor:
         self.filename: str = ""
         self.block_count: int = 0
         self.picture_table_size: int = 0
+        self.reserved_byte: int = 0
         self.file_size: int = 0
         self.picture_sizes: List[int] = [0] * 256
         self.blocks: List[DialBlock] = []
@@ -304,9 +309,11 @@ class SimpleHKDecompressor:
         # Read basic header info
         self.picture_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
         self.block_count = self.main_buffer[2]
+        self.reserved_byte = self.main_buffer[3]
 
         logger.info(f"Picture table size: {self.picture_table_size}")
         logger.info(f"Block count: {self.block_count}")
+        logger.debug(f"Reserved header byte: {self.reserved_byte}")
         
         return True
         
@@ -383,32 +390,39 @@ class SimpleHKDecompressor:
         
         # Handle multi-part images (like digits 0-9)
         if block.parts > 1:
-            return self._extract_multipart_image(block, compressed_data, output_dir, filename)
+            success, offsets, paddings = self._extract_multipart_image(block, compressed_data, output_dir, filename)
         else:
-            return self._extract_single_image(block, compressed_data, output_dir, filename)
+            success, offsets, paddings = self._extract_single_image(block, compressed_data, output_dir, filename)
+
+        block.rle_offsets = offsets
+        block.padding = paddings
+        return success
     
-    def _extract_single_image(self, block: DialBlock, compressed_data: bytes, output_dir: str, filename: str) -> bool:
-        """Extract a single image"""
-        # Choose decompression method
-        if block.compr == 0:
-            image_data = ImageDecompressor.decompress_raw_aligned(
-                compressed_data, block.sx, block.sy, block.has_alpha
-            )
-        else:
-            image_data = ImageDecompressor.decompress_hk89_rle(
-                compressed_data, block.sx, block.sy, block.has_alpha
-            )
-        
+    def _extract_single_image(self, block: DialBlock, compressed_data: bytes, output_dir: str, filename: str) -> Tuple[bool, List[int], List[int]]:
+        """Extract a single image and capture metadata"""
+        header_offset = 0
+        if len(compressed_data) >= 2:
+            header_offset = struct.unpack('<H', compressed_data[:2])[0]
+
+        image_data, consumed, _ = self._decompress_single_part_with_tracking(
+            compressed_data, block.sx, block.sy, block.has_alpha, block.compr, 0
+        )
+
+        padding = len(compressed_data) - consumed
+
+        success = False
         if image_data:
-            return self._write_png(f"{output_dir}/{filename}.png", image_data, block.sx, block.sy)
-        
-        return False
+            success = self._write_png(f"{output_dir}/{filename}.png", image_data, block.sx, block.sy)
+
+        return success, [header_offset], [padding]
     
-    def _extract_multipart_image(self, block: DialBlock, compressed_data: bytes, output_dir: str, filename: str) -> bool:
+    def _extract_multipart_image(self, block: DialBlock, compressed_data: bytes, output_dir: str, filename: str) -> Tuple[bool, List[int], List[int]]:
         """Extract multiple parts from a single compressed block using enhanced method"""
         logger.info(f"  -> Extracting {block.parts} parts for {filename}")
         
         success_count = 0
+        rle_offsets: List[int] = []
+        paddings: List[int] = []
         all_images = []
         current_offset = 0
         total_size = len(compressed_data)
@@ -426,9 +440,12 @@ class SimpleHKDecompressor:
             
             # Extract part data
             part_data = compressed_data[current_offset:current_offset + part_data_size]
+            header_offset = 0
+            if len(part_data) >= 2:
+                header_offset = struct.unpack('<H', part_data[:2])[0]
             
             # Decompress part and track actual consumption
-            image_data, actual_consumed = self._decompress_single_part_with_tracking(
+            image_data, actual_consumed, _ = self._decompress_single_part_with_tracking(
                 part_data, block.sx, block.sy, block.has_alpha, block.compr, part_idx
             )
             
@@ -440,12 +457,18 @@ class SimpleHKDecompressor:
                     all_images.append((image_data, block.sx, block.sy))
                     logger.debug(f"  ✓ {filename}_{part_idx}.png (consumed {actual_consumed} bytes)")
                     current_offset += actual_consumed
+                    rle_offsets.append(header_offset)
+                    paddings.append(max(0, part_data_size - actual_consumed))
                 else:
                     logger.warning(f"  Failed to save {filename}_{part_idx}.png")
                     current_offset += part_data_size
+                    rle_offsets.append(header_offset)
+                    paddings.append(0)
             else:
                 logger.warning(f"  Failed to decompress part {part_idx}")
                 current_offset += part_data_size
+                rle_offsets.append(header_offset)
+                paddings.append(0)
             
             # Align to 4 bytes as per compiler requirements
             while current_offset % 4 != 0:
@@ -456,7 +479,7 @@ class SimpleHKDecompressor:
             self._create_combined_image(all_images, f"{output_dir}/{filename}_combined.png")
         
         logger.info(f"  -> Successfully extracted {success_count}/{block.parts} parts")
-        return success_count > 0
+        return success_count > 0, rle_offsets, paddings
     
     def _write_png(self, filepath: str, image_data: bytes, width: int, height: int) -> bool:
         """Write PNG file"""
@@ -525,15 +548,18 @@ class SimpleHKDecompressor:
             logger.error(f"Error creating combined image: {e}")
             return False
     
-    def _decompress_single_part_with_tracking(self, compressed_data: bytes, width: int, height: int, 
-                                            has_alpha: bool, compr: int, part_index: int) -> Tuple[Optional[bytes], int]:
+    def _decompress_single_part_with_tracking(self, compressed_data: bytes, width: int, height: int,
+                                            has_alpha: bool, compr: int, part_index: int) -> Tuple[Optional[bytes], int, int]:
         """Decompress single part and track actual bytes consumed"""
         if not compressed_data or len(compressed_data) < 4:
-            return None, 0
-        
+            return None, 0, 0
+
         expected_pixels = width * height
         bytes_per_pixel = 4 if has_alpha else 3
         original_size = len(compressed_data)
+        header_offset = 0
+        if len(compressed_data) >= 2:
+            header_offset = struct.unpack('<H', compressed_data[:2])[0]
         
         try:
             if compr == 0:
@@ -549,7 +575,7 @@ class SimpleHKDecompressor:
                 
                 if result:
                     actual_consumed = min(expected_consumption, original_size)
-                    return result, actual_consumed
+                    return result, actual_consumed, header_offset
             else:
                 # RLE format - estimate consumption by parsing
                 result = ImageDecompressor.decompress_hk89_rle(
@@ -561,12 +587,12 @@ class SimpleHKDecompressor:
                     consumed = self._estimate_rle_consumption(
                         compressed_data, expected_pixels, has_alpha
                     )
-                    return result, min(consumed, original_size)
-        
+                    return result, min(consumed, original_size), header_offset
+
         except Exception as e:
             logger.debug(f"  Decompression failed for part {part_index}: {e}")
-        
-        return None, 0
+
+        return None, 0, header_offset
     
     def _estimate_rle_consumption(self, compressed_data: bytes, expected_pixels: int, has_alpha: bool) -> int:
         """Estimate bytes consumed by RLE decompression"""
@@ -675,7 +701,10 @@ class SimpleHKDecompressor:
                 'compr': block.compr,
                 'centX': block.centX,
                 'centY': block.centY,
-                'picidx': block.picidx
+                'picidx': block.picidx,
+                'valami2': block.valami2,
+                'rle_offsets': block.rle_offsets,
+                'padding': block.padding
             }
             
             # Add part filenames if multi-part
@@ -687,7 +716,9 @@ class SimpleHKDecompressor:
         # Simple configuration structure
         config = {
             'resolution': resolution,
-            'blocks': blocks
+            'blocks': blocks,
+            'header_reserved': self.reserved_byte,
+            'picture_table_size': self.picture_table_size
         }
         
         output_file = f"{output_dir}/config.json"
