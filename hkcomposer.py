@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 HK89 Dial Composer - Optimized Version
-Based on reverse engineering of libsmawatchface.so
+Based on reverse engineering of libsmartwatchface.so
 
 Creates dial binary files for HK89 smartwatches with improved algorithm
 that matches the native implementation more closely.
@@ -112,7 +112,8 @@ class OptimizedDialBlock:
                     logger.info(f"Image {image_path} has ICC profile, removing.")
                     img.info.pop('icc_profile')
                 # Resize if needed
-                if img.size != (self.sx, self.sy):                img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
+                if img.size != (self.sx, self.sy):
+                    img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
                 image_data = np.array(img)
                 logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
                   # --- NO BGR DETECTION - Keep original RGB order ---
@@ -288,7 +289,7 @@ class OptimizedDialBlock:
         
         return bytes(compressed)
     def _rgb888_to_rgb565_enhanced(self, r: int, g: int, b: int) -> int:
-        """Convert RGB888 to RGB565 matching native algorithm exactly - FIXED BGR ORDER"""
+        """Convert RGB888 to RGB565 using standard channel order (no BGR)."""
         # Variante estándar RGB565 (no BGR):
         # Simétrica con la descompresión de hkdecomp.py
         # r: 5 bits altos, g: 6 bits medios, b: 5 bits bajos
@@ -505,7 +506,7 @@ class OptimizedDialComposer:
 def main():
     """Main function"""
     parser = argparse.ArgumentParser(
-        description='HK89 Dial Composer - Optimized Version (Based on libsmawatchface.so analysis)'
+        description='HK89 Dial Composer - Optimized Version (Based on libsmartwatchface.so analysis)'
     )
     
     parser.add_argument('config', help='JSON configuration file')

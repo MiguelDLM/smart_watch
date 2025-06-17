@@ -267,11 +267,12 @@ class ImageDecompressor:
 
 class SimpleHKDecompressor:
     """Simple HK decompressor for reconstruction"""
-    
+
     def __init__(self):
         self.main_buffer: Optional[bytes] = None
         self.filename: str = ""
         self.block_count: int = 0
+        self.picture_table_size: int = 0
         self.file_size: int = 0
         self.picture_sizes: List[int] = [0] * 256
         self.blocks: List[DialBlock] = []
@@ -301,10 +302,10 @@ class SimpleHKDecompressor:
             return False
         
         # Read basic header info
-        picture_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
+        self.picture_table_size = struct.unpack('<H', self.main_buffer[0:2])[0]
         self.block_count = self.main_buffer[2]
-        
-        logger.info(f"Picture table size: {picture_table_size}")
+
+        logger.info(f"Picture table size: {self.picture_table_size}")
         logger.info(f"Block count: {self.block_count}")
         
         return True
@@ -312,7 +313,7 @@ class SimpleHKDecompressor:
     def parse_blocks(self):
         """Parse all blocks"""
         self.blocks = []
-        
+
         for i in range(self.block_count):
             block_start = 4 + (i * 20)  # Header is 4 bytes + 20 bytes per block
             block_end = block_start + 20
@@ -324,33 +325,26 @@ class SimpleHKDecompressor:
             block_data = self.main_buffer[block_start:block_end]
             block = DialBlock(block_data)
             self.blocks.append(block)
-            
+
         logger.info(f"Parsed {len(self.blocks)} blocks")
-    
+
     def calculate_picture_sizes(self):
-        """Calculate picture sizes"""
+        """Read picture sizes from the table"""
         self.picture_sizes = [0] * 256
-        
-        # Create sorted list of addresses
-        address_map = []
-        for i, block in enumerate(self.blocks):
-            if 0 <= block.picture_address < self.file_size:
-                address_map.append((block.picture_address, block.picidx, i))
-        
-        address_map.sort()
-        
-        # Calculate sizes
-        for i, (start_addr, picidx, block_idx) in enumerate(address_map):
-            if i + 1 < len(address_map):
-                end_addr = address_map[i + 1][0]
-            else:
-                end_addr = self.file_size
-            
-            size = max(0, end_addr - start_addr)
-            if 0 <= picidx < 256:
-                self.picture_sizes[picidx] = size
-                
-        logger.debug(f"Calculated sizes for {len([s for s in self.picture_sizes if s > 0])} pictures")
+
+        table_offset = 4 + self.block_count * 20
+        for i in range(self.picture_table_size):
+            entry_pos = table_offset + i * 4
+            if entry_pos + 4 > len(self.main_buffer):
+                logger.warning("Picture size table truncated")
+                break
+            size = struct.unpack('<I', self.main_buffer[entry_pos:entry_pos + 4])[0]
+            if i < len(self.picture_sizes):
+                self.picture_sizes[i] = size
+
+        logger.debug(
+            f"Loaded sizes for {len([s for s in self.picture_sizes if s > 0])} pictures"
+        )
     
     def extract_image(self, block: DialBlock, output_dir: str, filename: str) -> bool:
         """Extract image(s) - handles both single and multi-part images"""
@@ -359,13 +353,28 @@ class SimpleHKDecompressor:
             logger.warning(f"Picture address beyond file size")
             return False
         
-        if self.picture_sizes[block.picidx] <= 0:
-            logger.warning(f"Invalid picture size")
+        if self.picture_table_size <= 0:
+            logger.warning("No picture size table available")
             return False
-        
-        # Get compressed data
+
+        if block.picidx >= self.picture_table_size:
+            logger.warning(f"Invalid picture index {block.picidx}")
+            return False
+
+        # Determine total size for this block (sum of its parts)
+        total_size = 0
+        for i in range(block.parts):
+            idx = block.picidx + i
+            if idx < len(self.picture_sizes):
+                total_size += self.picture_sizes[idx]
+
+        if total_size <= 0:
+            logger.warning("Invalid picture size")
+            return False
+
+        # Get compressed data covering all parts
         available_bytes = self.file_size - block.picture_address
-        actual_size = min(self.picture_sizes[block.picidx], available_bytes)
+        actual_size = min(total_size, available_bytes)
         
         if actual_size <= 0:
             return False
@@ -403,36 +412,15 @@ class SimpleHKDecompressor:
         all_images = []
         current_offset = 0
         total_size = len(compressed_data)
-        
-        # Extract each part using dynamic offset based on actual consumption
+
+        # Extract each part using exact sizes from the table
         for part_idx in range(block.parts):
-            # Check if we have remaining data
-            remaining_data = total_size - current_offset
-            if remaining_data <= 0:
-                logger.warning(f"  No data remaining for part {part_idx}")
-                break
-            
-            # For the last part, use all remaining data
-            if part_idx == block.parts - 1:
-                part_data_size = remaining_data
-            else:
-                # Estimate part size based on compression type
-                if block.compr == 0:
-                    # RAW format - calculate exact size per part
-                    bytes_per_pixel = 3 if block.has_alpha else 2
-                    row_bytes = block.sx * bytes_per_pixel
-                    aligned_row_bytes = (row_bytes + 3) & ~3
-                    estimated_size = block.sy * aligned_row_bytes
-                else:
-                    # RLE format - estimate based on compression ratio (~65%)
-                    uncompressed_size = block.sx * block.sy * (4 if block.has_alpha else 3)
-                    estimated_size = int(uncompressed_size * 0.65)
-                
-                # Align to 4 bytes
-                estimated_size = (estimated_size + 3) & ~3
-                part_data_size = min(estimated_size, remaining_data)
-            
-            if part_data_size <= 0:
+            idx = block.picidx + part_idx
+            part_data_size = 0
+            if idx < len(self.picture_sizes):
+                part_data_size = self.picture_sizes[idx]
+
+            if part_data_size <= 0 or current_offset + part_data_size > total_size:
                 logger.warning(f"  Invalid data size for part {part_idx}")
                 break
             
@@ -463,7 +451,7 @@ class SimpleHKDecompressor:
             while current_offset % 4 != 0:
                 current_offset += 1
         
-        # Create combined strip image (horizontal layout)
+        # Create combined strip image (vertical layout)
         if all_images:
             self._create_combined_image(all_images, f"{output_dir}/{filename}_combined.png")
         
