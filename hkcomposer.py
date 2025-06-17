@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 HK89 Dial Composer - Optimized Version
-Based on reverse engineering of libsmawatchface.so
+Based on reverse engineering of libsmartwatchface.so
 
 Creates dial binary files for HK89 smartwatches with improved algorithm
 that matches the native implementation more closely.
@@ -43,6 +43,9 @@ class OptimizedDialBlock:
         self.centX = config['centX']
         self.centY = config['centY']
         self.picidx = config['picidx']
+        self.valami2 = config.get('valami2', 0)
+        self.rle_offsets: List[int] = config.get('rle_offsets', [])
+        self.padding: List[int] = config.get('padding', [])
         
         # Derived properties
         self.has_alpha = (self.blocktype & 0x80) != 0
@@ -112,7 +115,8 @@ class OptimizedDialBlock:
                     logger.info(f"Image {image_path} has ICC profile, removing.")
                     img.info.pop('icc_profile')
                 # Resize if needed
-                if img.size != (self.sx, self.sy):                img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
+                if img.size != (self.sx, self.sy):
+                    img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
                 image_data = np.array(img)
                 logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
                   # --- NO BGR DETECTION - Keep original RGB order ---
@@ -288,7 +292,7 @@ class OptimizedDialBlock:
         
         return bytes(compressed)
     def _rgb888_to_rgb565_enhanced(self, r: int, g: int, b: int) -> int:
-        """Convert RGB888 to RGB565 matching native algorithm exactly - FIXED BGR ORDER"""
+        """Convert RGB888 to RGB565 using standard channel order (no BGR)."""
         # Variante estándar RGB565 (no BGR):
         # Simétrica con la descompresión de hkdecomp.py
         # r: 5 bits altos, g: 6 bits medios, b: 5 bits bajos
@@ -321,6 +325,8 @@ class OptimizedDialComposer:
         self.blocks: List[OptimizedDialBlock] = []
         self.device_profile = None
         self.base_path = ""
+        self.header_reserved = 2
+        self.picture_table_size = None
     
     def load_config(self, config_file: str) -> bool:
         """Load configuration file"""
@@ -331,11 +337,13 @@ class OptimizedDialComposer:
                 config = json.load(f)
             
             self.base_path = os.path.dirname(config_file)
-            
+
             # Extract resolution
             resolution = config['resolution']
             self.device_width = resolution['width']
             self.device_height = resolution['height']
+            self.header_reserved = config.get('header_reserved', 2)
+            self.picture_table_size = config.get('picture_table_size')
             
             # Create blocks
             for i, block_config in enumerate(config['blocks']):
@@ -362,6 +370,14 @@ class OptimizedDialComposer:
             if block.load_and_compress_images(self.base_path):
                 success_count += 1
                 logger.debug(f"  ✓ Compressed: {block.total_compressed_size} bytes")
+                # Apply stored RLE offsets if available
+                for i, data in enumerate(block.compressed_images):
+                    if i < len(block.rle_offsets):
+                        offset = block.rle_offsets[i]
+                        if len(data) >= 2:
+                            buf = bytearray(data)
+                            struct.pack_into('<H', buf, 0, offset)
+                            block.compressed_images[i] = bytes(buf)
             else:
                 logger.error(f"  ✗ Failed to process {block.fname}")
         
@@ -396,9 +412,9 @@ class OptimizedDialComposer:
             total_file_size = current_position
             
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
-                    total_file_size += len(compressed_data)
-                    # Align each image to 4 bytes
+                for idx, compressed_data in enumerate(block.compressed_images):
+                    pad = block.padding[idx] if idx < len(block.padding) else 0
+                    total_file_size += len(compressed_data) + pad
                     while total_file_size % 4 != 0:
                         total_file_size += 1
             
@@ -408,8 +424,8 @@ class OptimizedDialComposer:
             binary_data = bytearray()
               # Header: picture_table_size + block_count + reserved
             # Correct formula based on analysis: just the total number of parts
-            picture_table_size = sum(block.parts for block in self.blocks)
-            binary_data.extend(struct.pack('<HBB', picture_table_size, len(self.blocks), 2))
+            picture_table_size = self.picture_table_size if self.picture_table_size is not None else sum(block.parts for block in self.blocks)
+            binary_data.extend(struct.pack('<HBB', picture_table_size, len(self.blocks), self.header_reserved))
             
             # Block headers (20 bytes each) - matching native structure
             current_image_idx = 0
@@ -418,7 +434,7 @@ class OptimizedDialComposer:
                 header = struct.pack('<I2B4H6B',
                                    current_position,  # picture_address
                                    current_image_idx,  # picidx (start of this block's images)
-                                   0,  # valami2
+                                   block.valami2,
                                    block.sx,  # width
                                    block.sy,  # height
                                    block.posX,  # x position
@@ -432,8 +448,9 @@ class OptimizedDialComposer:
                 binary_data.extend(header)
                 
                 # Update position and index for next block
-                for compressed_data in block.compressed_images:
-                    current_position += len(compressed_data)
+                for idx, compressed_data in enumerate(block.compressed_images):
+                    pad = block.padding[idx] if idx < len(block.padding) else 0
+                    current_position += len(compressed_data) + pad
                     while current_position % 4 != 0:
                         current_position += 1
                 
@@ -442,8 +459,9 @@ class OptimizedDialComposer:
             
             # Image sizes table (4 bytes per image) 
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
-                    binary_data.extend(struct.pack('<I', len(compressed_data)))
+                for idx, compressed_data in enumerate(block.compressed_images):
+                    pad = block.padding[idx] if idx < len(block.padding) else 0
+                    binary_data.extend(struct.pack('<I', len(compressed_data) + pad))
             
             # Pad to reach first_image_offset
             while len(binary_data) < first_image_offset:
@@ -451,10 +469,11 @@ class OptimizedDialComposer:
             
             # Add compressed image data
             for block in self.blocks:
-                for compressed_data in block.compressed_images:
+                for idx, compressed_data in enumerate(block.compressed_images):
                     binary_data.extend(compressed_data)
-                    
-                    # Align to 4 bytes
+                    pad = block.padding[idx] if idx < len(block.padding) else 0
+                    for _ in range(pad):
+                        binary_data.append(0)
                     while len(binary_data) % 4 != 0:
                         binary_data.append(0x00)
             
@@ -505,7 +524,7 @@ class OptimizedDialComposer:
 def main():
     """Main function"""
     parser = argparse.ArgumentParser(
-        description='HK89 Dial Composer - Optimized Version (Based on libsmawatchface.so analysis)'
+        description='HK89 Dial Composer - Optimized Version (Based on libsmartwatchface.so analysis)'
     )
     
     parser.add_argument('config', help='JSON configuration file')
