@@ -327,6 +327,7 @@ class OptimizedDialComposer:
         self.base_path = ""
         self.header_reserved = 2
         self.picture_table_size = None
+        self.picture_sizes: List[int] = []
     
     def load_config(self, config_file: str) -> bool:
         """Load configuration file"""
@@ -344,6 +345,7 @@ class OptimizedDialComposer:
             self.device_height = resolution['height']
             self.header_reserved = config.get('header_reserved', 2)
             self.picture_table_size = config.get('picture_table_size')
+            self.picture_sizes = config.get('picture_sizes', [])
             
             # Create blocks
             for i, block_config in enumerate(config['blocks']):

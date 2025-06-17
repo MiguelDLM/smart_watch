@@ -23,6 +23,16 @@ A comprehensive list of supported devices is available in the [`devices_supporte
 3. **Contribute:**
    Pull requests and issues are welcome! If you have additional information about file formats or device compatibility, please contribute.
 
+## Compare Binaries
+
+Use `bincompare.py` to analyze structural differences between an original dial
+binary and a rebuilt version. This script reports mismatched block addresses,
+picture sizes, and the first differing byte offset.
+
+```bash
+./bincompare.py original.bin rebuilt.bin
+```
+
 ## Disclaimer
 
 This project is for educational and research purposes only. Reverse engineering firmware or binaries may violate the terms of service of your device. Use at your own risk.

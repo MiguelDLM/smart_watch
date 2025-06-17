@@ -718,7 +718,8 @@ class SimpleHKDecompressor:
             'resolution': resolution,
             'blocks': blocks,
             'header_reserved': self.reserved_byte,
-            'picture_table_size': self.picture_table_size
+            'picture_table_size': self.picture_table_size,
+            'picture_sizes': self.picture_sizes[: self.picture_table_size]
         }
         
         output_file = f"{output_dir}/config.json"
