@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:paddingTop="8dp" android:paddingBottom="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginEnd="20dp">
+    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_name" android:layout_width="match_parent" android:text="@string/watch_face_category1" app:layout_constraintLeft_toLeftOf="0" app:layout_constraintTop_toTopOf="0" style="@style/watchface_head_item_tv_left"/>
+    <com.sma.smartv3.view.text.PFMedium android:gravity="end" android:id="@+id/app_store_more_tv" android:text="@string/more" app:layout_constraintRight_toRightOf="0" app:layout_constraintTop_toTopOf="0" style="@style/watchface_head_item_tv_right"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

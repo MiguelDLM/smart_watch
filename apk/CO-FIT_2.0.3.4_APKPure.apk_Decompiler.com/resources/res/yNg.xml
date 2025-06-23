@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="100dp" android:layout_alignParentLeft="true">
+        <Button android:textSize="18dp" android:id="@+id/init" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="初始化"/>
+        <Button android:textSize="18dp" android:id="@+id/turnAndGuide" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="指路"/>
+        <Button android:textSize="18dp" android:id="@+id/multiClickAndTumble" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="双击跌倒"/>
+        <Button android:textSize="18dp" android:id="@+id/walk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="行进"/>
+        <Button android:textSize="18dp" android:id="@+id/stopBreath" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="静止"/>
+        <Button android:textSize="18dp" android:id="@+id/withoutGPS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="没有GPS"/>
+        <Button android:textSize="18dp" android:id="@+id/achieveGoal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="到达目的地"/>
+        <Button android:textSize="18dp" android:id="@+id/turnAndSayHi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="打招呼"/>
+        <Button android:textSize="18dp" android:id="@+id/turnAndCry" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="哭泣"/>
+        <Button android:textSize="18dp" android:id="@+id/listen" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="倾听"/>
+        <Button android:textSize="18dp" android:id="@+id/notice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="notice"/>
+        <Button android:textSize="18dp" android:id="@+id/answer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="回答"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="right" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="100dp" android:layout_alignParentRight="true">
+        <Button android:textSize="18dp" android:id="@+id/enter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="进入"/>
+        <Button android:textSize="18dp" android:id="@+id/turnLeft" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="左转"/>
+        <Button android:textSize="18dp" android:id="@+id/turnRight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="右转"/>
+        <Button android:textSize="18dp" android:id="@+id/helpless" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:text="偏航"/>
+    </LinearLayout>
+</RelativeLayout>

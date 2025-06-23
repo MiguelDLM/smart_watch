@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:shape="rectangle">
+    <corners android:radius="@dimen/navi_dimens_4dp"/>
+    <solid android:color="#69000000"/>
+    <stroke android:width="1px" android:color="#757575"/>
+    <size android:height="@dimen/navi_dimens_4dp" android:width="@dimen/navi_dimens_40dp"/>
+</shape>

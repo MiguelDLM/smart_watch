@@ -1,0 +1,39 @@
+package xxx;
+
+import IIXOxIxOo.I0Io;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+
+/* loaded from: classes6.dex */
+public class oxoX implements I0Io.InterfaceC0010I0Io {
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public Drawable I0Io(Context context, String str, int i) {
+        return null;
+    }
+
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public ColorStateList II0xO0(Context context, String str, int i) {
+        return null;
+    }
+
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public ColorStateList X0o0xo(Context context, String str, int i) {
+        return null;
+    }
+
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public int getType() {
+        return -1;
+    }
+
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public String oIX0oI(Context context, String str, int i) {
+        return "";
+    }
+
+    @Override // IIXOxIxOo.I0Io.InterfaceC0010I0Io
+    public String oxoX(Context context, String str) {
+        return "";
+    }
+}

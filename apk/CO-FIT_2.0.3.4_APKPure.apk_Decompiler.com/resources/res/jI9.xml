@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <corners android:topLeftRadius="@dimen/pop_top_bg_radius" android:topRightRadius="@dimen/pop_top_bg_radius" android:bottomLeftRadius="@dimen/pop_bottom_bg_radius" android:bottomRightRadius="@dimen/pop_bottom_bg_radius"/>
+    <solid android:color="@color/view_page_secondary_bg_brown_black"/>
+</shape>

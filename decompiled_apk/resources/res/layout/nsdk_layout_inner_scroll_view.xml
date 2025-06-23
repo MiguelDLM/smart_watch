@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.widget.BNLinearLayout
+        android:orientation="vertical"
+        android:id="@+id/inner_scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.baidu.navisdk.ui.widget.BNFrameLayout
+            android:id="@+id/inner_scroll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"/>
+    </com.baidu.navisdk.ui.widget.BNLinearLayout>
+</com.baidu.navisdk.ui.widget.BNFrameLayout>

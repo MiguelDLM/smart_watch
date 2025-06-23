@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:keepScreenOn="true">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
+            <ImageView android:id="@+id/iv_scan_bg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="16dp" android:src="@drawable/bg_scan" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <com.sma.smartv3.view.PagerIndicator android:id="@+id/pager_indicator" android:layout_width="96dp" android:layout_height="16dp" android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_minute" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/tv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.TintImageView android:background="@null" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:src="@drawable/icon_bind_help" android:onClick="helpBindClick" android:layout_marginEnd="32dp" android:layout_alignParentEnd="true" style="@style/add_device_iv_style"/>
+            </RelativeLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+                <ListView android:id="@+id/list_view" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/empty" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="20dp" android:text="@string/no_watch_found_tip" android:layout_marginStart="36dp" android:layout_marginEnd="36dp"/>
+            </FrameLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp">
+                <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/colorAccent" android:gravity="center" android:id="@+id/tv_bottom1" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/add_later" android:layout_weight="1" android:onClick="onBottomLeftClick"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/colorAccent" android:gravity="center" android:id="@+id/tv_bottom2" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/search_again" android:layout_weight="1" android:onClick="onBottomRightClick"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

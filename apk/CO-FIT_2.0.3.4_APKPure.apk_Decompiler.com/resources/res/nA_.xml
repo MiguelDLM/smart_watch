@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" style="@style/charge_root_style">
+    <include layout="@layout/layout_charge_title_bar"/>
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+            <include layout="@layout/layout_charge_larger_title"/>
+            <LinearLayout android:paddingTop="0dp" android:paddingBottom="0dp" android:layout_height="wrap_content" android:layout_marginTop="@dimen/charge_larger_title_margin" style="@style/charge_panel_style">
+                <LinearLayout android:id="@+id/ll_eq_normal" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_normal" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_normal" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+                <include layout="@layout/charge_item_split_line_2"/>
+                <LinearLayout android:id="@+id/ll_eq_rock" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_rock" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_rock" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+                <include layout="@layout/charge_item_split_line_2"/>
+                <LinearLayout android:id="@+id/ll_eq_pop" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_pop" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_pop" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+                <include layout="@layout/charge_item_split_line_2"/>
+                <LinearLayout android:id="@+id/ll_eq_classical" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_classical" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_classical" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+                <include layout="@layout/charge_item_split_line_2"/>
+                <LinearLayout android:id="@+id/ll_eq_jazz" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_jazz" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_jazz" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+                <include layout="@layout/charge_item_split_line_2"/>
+                <LinearLayout android:id="@+id/ll_eq_country" android:onClick="onModeClick" style="@style/charge_setting_item_root_style_2">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/eq_country" style="@style/charge_setting_item_title_style"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_eq_country" style="@style/charge_setting_item_right_checkbox_round_style_2"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

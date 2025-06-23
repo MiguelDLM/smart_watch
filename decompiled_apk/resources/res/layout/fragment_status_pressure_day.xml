@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton
+                    android:id="@+id/beforeTime"
+                    android:src="@drawable/selector_left_enter"
+                    style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/nowTime"
+                    android:text="@string/today"
+                    style="@style/status_item_info_now_time"/>
+                <ImageButton
+                    android:id="@+id/nextTime"
+                    android:src="@drawable/selector_right_enter"
+                    style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/loading"
+                style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/dataContent"
+                style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold
+                    android:id="@+id/nowTimeDetails"
+                    android:text="12:00"
+                    style="@style/status_item_info_select_time"/>
+                <RelativeLayout style="@style/status_item_info_rl_two">
+                    <ImageView
+                        android:id="@+id/image"
+                        android:src="@drawable/icon_pressure"
+                        style="@style/status_item_info_iv_flag"/>
+                    <com.sma.smartv3.view.text.DINCondBold
+                        android:id="@+id/nowValue"
+                        android:text="0"
+                        style="@style/status_item_info_select_value"/>
+                </RelativeLayout>
+                <com.sma.smartv3.view.CustomBarChartView
+                    android:id="@+id/barChart"
+                    style="@style/status_item_info_chat"/>
+                <LinearLayout style="@style/status_item_info_ll_three">
+                    <LinearLayout style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:id="@+id/avTV"
+                            android:text="@string/ave_value"
+                            style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold
+                            android:id="@+id/aveValue"
+                            android:text="0"
+                            style="@style/status_item_info_total_value"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:id="@+id/twoTV"
+                            android:text="@string/average_steps"
+                            style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold
+                            android:id="@+id/twoValue"
+                            android:text="0"
+                            style="@style/status_item_info_total_value"/>
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:id="@+id/twoUnit"
+                            style="@style/status_item_info_total_unit"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <include layout="@layout/status_item_health_btn_layout"/>
+            <include layout="@layout/layout_status_pressure_bottom"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

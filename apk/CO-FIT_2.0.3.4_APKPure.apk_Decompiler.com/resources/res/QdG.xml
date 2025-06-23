@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/rootView" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/text_color" android:paddingTop="20dp" android:paddingBottom="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/problem_description_or_suggestion" android:paddingStart="22dp" android:paddingEnd="22dp"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <EditText android:textSize="16sp" android:textColor="@color/line_color" android:textColorHint="@color/line_color" android:gravity="top|left|center_vertical|center_horizontal|center|start" android:id="@+id/edt_feedback" android:background="@null" android:paddingTop="8dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="212dp" android:hint="@string/detailed_description_of_the_problem" android:paddingStart="22dp" android:paddingEnd="22dp"/>
+    <com.sma.smartv3.view.text.DINCondBold android:textSize="16sp" android:textColor="@color/line_color" android:gravity="end" android:id="@+id/tv_count" android:paddingTop="20dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginEnd="22dp"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/text_color" android:paddingTop="48dp" android:paddingBottom="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/contact_information" android:paddingStart="22dp" android:paddingEnd="22dp"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <EditText android:textSize="16sp" android:textColor="@color/line_color" android:textColorHint="@color/line_color" android:gravity="top|left|center_vertical|center_horizontal|center|start" android:id="@+id/edt_contact" android:background="@null" android:paddingTop="20dp" android:paddingBottom="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/email" android:paddingStart="22dp" android:paddingEnd="22dp"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <Button android:text="@string/submit" style="@style/bottom_btn"/>
+</LinearLayout>

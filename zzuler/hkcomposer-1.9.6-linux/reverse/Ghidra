@@ -1,0 +1,2026 @@
+#include "out.h"
+
+
+
+void _DT_INIT(void)
+
+{
+  __gmon_start__();
+  return;
+}
+
+
+
+void FUN_00401020(void)
+
+{
+  (*(code *)(undefined *)0x0)();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void free(void *__ptr)
+
+{
+  free(__ptr);
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+char * strncpy(char *__dest,char *__src,size_t __n)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = strncpy(__dest,__src,__n);
+  return pcVar1;
+}
+
+
+
+void cJSON_GetObjectItem(void)
+
+{
+  cJSON_GetObjectItem();
+  return;
+}
+
+
+
+void cJSON_Print(void)
+
+{
+  cJSON_Print();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int puts(char *__s)
+
+{
+  int iVar1;
+  
+  iVar1 = puts(__s);
+  return iVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+size_t fread(void *__ptr,size_t __size,size_t __n,FILE *__stream)
+
+{
+  size_t sVar1;
+  
+  sVar1 = fread(__ptr,__size,__n,__stream);
+  return sVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int fclose(FILE *__stream)
+
+{
+  int iVar1;
+  
+  iVar1 = fclose(__stream);
+  return iVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+size_t strlen(char *__s)
+
+{
+  size_t sVar1;
+  
+  sVar1 = strlen(__s);
+  return sVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int printf(char *__format,...)
+
+{
+  int iVar1;
+  
+  iVar1 = printf(__format);
+  return iVar1;
+}
+
+
+
+void cJSON_Parse(void)
+
+{
+  cJSON_Parse();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void * memset(void *__s,int __c,size_t __n)
+
+{
+  void *pvVar1;
+  
+  pvVar1 = memset(__s,__c,__n);
+  return pvVar1;
+}
+
+
+
+void cJSON_GetArraySize(void)
+
+{
+  cJSON_GetArraySize();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+char * strncat(char *__dest,char *__src,size_t __n)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = strncat(__dest,__src,__n);
+  return pcVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void * calloc(size_t __nmemb,size_t __size)
+
+{
+  void *pvVar1;
+  
+  pvVar1 = calloc(__nmemb,__size);
+  return pvVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int strcmp(char *__s1,char *__s2)
+
+{
+  int iVar1;
+  
+  iVar1 = strcmp(__s1,__s2);
+  return iVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+long ftell(FILE *__stream)
+
+{
+  long lVar1;
+  
+  lVar1 = ftell(__stream);
+  return lVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void * memcpy(void *__dest,void *__src,size_t __n)
+
+{
+  void *pvVar1;
+  
+  pvVar1 = memcpy(__dest,__src,__n);
+  return pvVar1;
+}
+
+
+
+void png_image_begin_read_from_file(void)
+
+{
+  png_image_begin_read_from_file();
+  return;
+}
+
+
+
+void cJSON_GetArrayItem(void)
+
+{
+  cJSON_GetArrayItem();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void * malloc(size_t __size)
+
+{
+  void *pvVar1;
+  
+  pvVar1 = malloc(__size);
+  return pvVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int fseek(FILE *__stream,long __off,int __whence)
+
+{
+  int iVar1;
+  
+  iVar1 = fseek(__stream,__off,__whence);
+  return iVar1;
+}
+
+
+
+void cJSON_GetNumberValue(void)
+
+{
+  cJSON_GetNumberValue();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void * realloc(void *__ptr,size_t __size)
+
+{
+  void *pvVar1;
+  
+  pvVar1 = realloc(__ptr,__size);
+  return pvVar1;
+}
+
+
+
+void png_image_finish_read(void)
+
+{
+  png_image_finish_read();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+FILE * fopen(char *__filename,char *__modes)
+
+{
+  FILE *pFVar1;
+  
+  pFVar1 = fopen(__filename,__modes);
+  return pFVar1;
+}
+
+
+
+void cJSON_GetStringValue(void)
+
+{
+  cJSON_GetStringValue();
+  return;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+char * strcat(char *__dest,char *__src)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = strcat(__dest,__src);
+  return pcVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+int sprintf(char *__s,char *__format,...)
+
+{
+  int iVar1;
+  
+  iVar1 = sprintf(__s,__format);
+  return iVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+void exit(int __status)
+
+{
+                    // WARNING: Subroutine does not return
+  exit(__status);
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+size_t fwrite(void *__ptr,size_t __size,size_t __n,FILE *__s)
+
+{
+  size_t sVar1;
+  
+  sVar1 = fwrite(__ptr,__size,__n,__s);
+  return sVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+char * strdup(char *__s)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = strdup(__s);
+  return pcVar1;
+}
+
+
+
+// WARNING: Unknown calling convention -- yet parameter storage is locked
+
+char * strstr(char *__haystack,char *__needle)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = strstr(__haystack,__needle);
+  return pcVar1;
+}
+
+
+
+void png_image_free(void)
+
+{
+  png_image_free();
+  return;
+}
+
+
+
+// WARNING: Globals starting with '_' overlap smaller symbols at the same address
+
+undefined8 FUN_00401240(int param_1,long param_2)
+
+{
+  long lVar1;
+  char cVar2;
+  byte bVar3;
+  byte bVar4;
+  ushort uVar5;
+  ushort uVar6;
+  ushort uVar7;
+  ushort uVar8;
+  uint uVar9;
+  uint uVar10;
+  int iVar11;
+  FILE *__stream;
+  void *__ptr;
+  size_t sVar12;
+  undefined8 uVar13;
+  undefined8 uVar14;
+  char *pcVar15;
+  undefined8 uVar16;
+  undefined8 uVar17;
+  undefined8 uVar18;
+  byte *pbVar19;
+  ulong uVar20;
+  char *__dest;
+  FILE *pFVar21;
+  undefined4 uVar23;
+  undefined4 *puVar22;
+  ushort uVar24;
+  size_t __size;
+  uint *puVar25;
+  ulong uVar26;
+  undefined4 uVar27;
+  undefined8 in_R9;
+  undefined4 uVar28;
+  undefined1 *puVar29;
+  int iVar30;
+  long lVar31;
+  uint uVar32;
+  ulong uVar33;
+  long lVar34;
+  byte bVar35;
+  double dVar36;
+  double dVar37;
+  double dVar38;
+  double dVar39;
+  double dVar40;
+  double dVar41;
+  double dVar42;
+  double dVar43;
+  double dVar44;
+  char local_4b8 [128];
+  undefined4 local_438 [258];
+  
+  bVar35 = 0;
+  if (param_1 < 2) {
+    puts("Input file missing");
+    uVar13 = 0;
+  }
+  else {
+    __stream = fopen(*(char **)(param_2 + 8),"r");
+    uVar9 = FUN_00402e30(__stream);
+    __size = (size_t)(int)uVar9;
+    printf("input file size=%d Bytes\n",(ulong)uVar9);
+    __ptr = malloc(__size);
+    pFVar21 = __stream;
+    sVar12 = fread(__ptr,1,__size,__stream);
+    if (__size != sVar12) {
+      puts("File reading error...");
+                    // WARNING: Subroutine does not return
+      exit(0);
+    }
+    uVar9 = 0;
+    puts("Entire file loaded successfully.");
+    fclose(__stream);
+    uVar13 = cJSON_Parse(__ptr);
+    cJSON_Print(uVar13);
+    uVar14 = cJSON_GetObjectItem(uVar13,"dial_name");
+    pcVar15 = (char *)cJSON_GetStringValue(uVar14);
+    strncpy(&DAT_00407760,pcVar15,0xff);
+    DAT_0040785f = 0;
+    uVar13 = cJSON_GetObjectItem(uVar13,"blocks");
+    uVar10 = cJSON_GetArraySize(uVar13);
+    printf("Number of input json blocks=%d\n",(ulong)uVar10);
+    if (0 < (int)uVar10) {
+      do {
+        uVar28 = (undefined4)((ulong)in_R9 >> 0x20);
+        uVar23 = (undefined4)((ulong)pFVar21 >> 0x20);
+        uVar32 = uVar9 + 1;
+        uVar14 = cJSON_GetArrayItem(uVar13,uVar9);
+        uVar16 = cJSON_GetObjectItem(uVar14,&DAT_004045a8);
+        dVar36 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,&DAT_004045ac);
+        dVar37 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,&DAT_004045b0);
+        dVar38 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,&DAT_004045b5);
+        dVar39 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,&DAT_004045ba);
+        dVar40 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,"height");
+        dVar41 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,"width");
+        dVar42 = (double)cJSON_GetNumberValue(uVar16);
+        uVar16 = cJSON_GetObjectItem(uVar14,"colsp");
+        uVar16 = cJSON_GetStringValue(uVar16);
+        uVar17 = cJSON_GetObjectItem(uVar14,"reuse");
+        dVar43 = (double)cJSON_GetNumberValue(uVar17);
+        uVar17 = cJSON_GetObjectItem(uVar14,"fname");
+        uVar17 = cJSON_GetStringValue(uVar17);
+        uVar18 = cJSON_GetObjectItem(uVar14,&DAT_004045de);
+        dVar44 = (double)cJSON_GetNumberValue(uVar18);
+        uVar27 = 0;
+        uVar14 = cJSON_GetObjectItem(uVar14,&DAT_004045e3);
+        uVar14 = cJSON_GetStringValue(uVar14);
+        pFVar21 = (FILE *)CONCAT44(uVar23,(int)dVar43);
+        in_R9 = CONCAT44(uVar28,(int)dVar42);
+        FUN_00401f40(uVar14,CONCAT44(uVar27,(int)dVar44),uVar17,pFVar21,uVar16,in_R9,(int)dVar41,
+                     (int)dVar40,(int)dVar39,(int)dVar38,(int)dVar37,(int)dVar36);
+        uVar9 = uVar32;
+      } while (uVar10 != uVar32);
+    }
+    uVar26 = 0;
+    free(__ptr);
+    uVar9 = (uint)DAT_00407744;
+    printf("--------------- %s composer %s ---------------\n",&DAT_0040458d,"v1.9.6");
+    if (DAT_00407744 != 0) {
+      uVar26 = 0;
+      pbVar19 = (byte *)(DAT_00406320 + 1);
+      do {
+        bVar3 = *pbVar19;
+        pbVar19 = pbVar19 + 0x78;
+        uVar26 = (ulong)((int)uVar26 + (uint)bVar3);
+      } while ((byte *)(DAT_00406320 + 0x79 + (ulong)(DAT_00407744 - 1) * 0x78) != pbVar19);
+    }
+    printf("Compilation of images... (pl_num=%d)\n",uVar26);
+    if (DAT_00407744 != 0) {
+      uVar24 = 0;
+      lVar34 = 0;
+      iVar30 = 0;
+      lVar31 = DAT_00406320;
+      do {
+        lVar31 = lVar31 + lVar34 * 0x78;
+        pcVar15 = strstr(*(char **)(lVar31 + 8),".png");
+        if (pcVar15 == (char *)0x0) {
+          uVar13 = FUN_00402e70(lVar31);
+          *(undefined8 *)(lVar31 + 0x28) = uVar13;
+        }
+        else {
+          uVar13 = FUN_00402760();
+          *(undefined8 *)(lVar31 + 0x28) = uVar13;
+        }
+        lVar31 = DAT_00406320;
+        lVar1 = DAT_00406320 + lVar34 * 0x78;
+        if (*(long *)(lVar1 + 0x28) == 0) {
+          printf("Failed to load file \"%s\"!(NULL ptr)\n",*(undefined8 *)(lVar1 + 8));
+          return 0;
+        }
+        bVar3 = *(byte *)(lVar1 + 1);
+        if (bVar3 == 1) {
+          uVar20 = (ulong)uVar24;
+          uVar24 = uVar24 + 1;
+          local_438[uVar20] = *(undefined4 *)(lVar1 + 0x6c);
+        }
+        else if (bVar3 != 0) {
+          puVar22 = (undefined4 *)(lVar1 + 0x30);
+          uVar8 = uVar24;
+          do {
+            uVar23 = *puVar22;
+            uVar20 = (ulong)uVar8;
+            uVar8 = uVar8 + 1;
+            puVar22 = puVar22 + 1;
+            local_438[uVar20] = uVar23;
+          } while (uVar8 != (ushort)(bVar3 + uVar24));
+          uVar24 = uVar24 + bVar3;
+        }
+        iVar11 = uVar9 * 0x14 + 4 + (int)uVar26 * 4 + iVar30;
+        lVar34 = lVar34 + 1;
+        iVar30 = iVar30 + *(int *)(lVar1 + 0x6c);
+        *(int *)(lVar1 + 0x70) = iVar11;
+      } while ((int)lVar34 < (int)(uint)DAT_00407744);
+    }
+    uVar24 = 0;
+    puts("Compilation of blocks...");
+    uVar20 = 0;
+    if (DAT_00407744 != 0) {
+      puVar25 = &DAT_00406340;
+      lVar31 = 0;
+      uVar24 = 0;
+      uVar33 = 0;
+      do {
+        pbVar19 = (byte *)(DAT_00406320 + lVar31);
+        bVar3 = *pbVar19;
+        *(byte *)((long)puVar25 + 0xf) = bVar3;
+        uVar8 = *(ushort *)(pbVar19 + 0x1c);
+        uVar9 = *(uint *)(pbVar19 + 0x70);
+        *(ushort *)((long)puVar25 + 10) = uVar8;
+        uVar5 = *(ushort *)(pbVar19 + 0x1e);
+        *(ushort *)(puVar25 + 3) = uVar5;
+        uVar6 = *(ushort *)(pbVar19 + 0x18);
+        *(ushort *)((long)puVar25 + 6) = uVar6;
+        uVar7 = *(ushort *)(pbVar19 + 0x1a);
+        *puVar25 = uVar9;
+        *(ushort *)(puVar25 + 2) = uVar7;
+        bVar4 = pbVar19[1];
+        *(char *)(puVar25 + 1) = (char)uVar24;
+        *(byte *)((long)puVar25 + 0xe) = bVar4;
+        *(ushort *)(puVar25 + 4) = pbVar19[0x20] | 0x400;
+        *(byte *)((long)puVar25 + 0x12) = pbVar19[0x21];
+        *(byte *)((long)puVar25 + 0x13) = pbVar19[0x22];
+        if ((0x1234 < uVar7 || 0x1e6 < uVar6) || (0xfffffffd < uVar9 - 1)) {
+          puts("Invalid address, aborting!");
+          return 0;
+        }
+        if (*(int *)(pbVar19 + 0x14) == 2) {
+          *(byte *)((long)puVar25 + 0xf) = bVar3 | 0x80;
+        }
+        uVar24 = uVar24 + bVar4;
+        puVar29 = &DAT_00404543;
+        if (*(char *)((long)puVar25 + 0xf) < '\0') {
+          puVar29 = &DAT_00404490;
+        }
+        lVar31 = lVar31 + 0x78;
+        puVar25 = puVar25 + 5;
+        uVar10 = (int)uVar33 + 1;
+        printf("%2d. blokk: type=0x%02X, %s px=%3d, py=%3d, sx=%3d, sy=%3d, pic offs=0x%04X\n",
+               uVar33,(ulong)bVar3,puVar29,(ulong)uVar8,(ulong)uVar5,(ulong)uVar6,(ulong)uVar7,
+               (ulong)uVar9);
+        uVar20 = (ulong)(uint)DAT_00407744;
+        uVar33 = (ulong)uVar10;
+      } while ((int)uVar10 < (int)(uint)DAT_00407744);
+    }
+    printf("Filling in the info table... (num_dblk=%d,num_pl=%d,par3=%d\n",uVar20,(ulong)uVar24);
+    lVar34 = 0;
+    DAT_00407742 = DAT_00407744;
+    DAT_00407743 = 2;
+    _DAT_00407740 = uVar24;
+    __dest = strncpy(local_4b8,&DAT_00407760,0x80);
+    lVar31 = -1;
+    pcVar15 = __dest;
+    do {
+      if (lVar31 == 0) break;
+      lVar31 = lVar31 + -1;
+      cVar2 = *pcVar15;
+      pcVar15 = pcVar15 + (ulong)bVar35 * -2 + 1;
+    } while (cVar2 != '\0');
+    pcVar15 = strncat(__dest,".bin",lVar31 + 0x81);
+    pFVar21 = fopen(pcVar15,"wb");
+    fwrite(&DAT_00407740,4,1,pFVar21);
+    fwrite(&DAT_00406340,0x14,(ulong)DAT_00407744,pFVar21);
+    fwrite(local_438,(ulong)(uint)((int)uVar26 * 4),1,pFVar21);
+    printf("The number of written blocks is %d, their total size is %d bytes.\n",(ulong)DAT_00407744
+           ,(ulong)DAT_00407744 * 0x14);
+    do {
+      if ((int)(uint)DAT_00407744 <= (int)lVar34) {
+        fclose(pFVar21);
+        return 1;
+      }
+      lVar31 = lVar34 * 0x78;
+      lVar34 = lVar34 + 1;
+      uVar13 = FUN_00401b30(lVar31 + DAT_00406320,pFVar21);
+    } while ((int)uVar13 != 0);
+  }
+  return uVar13;
+}
+
+
+
+void processEntry entry(undefined8 param_1,undefined8 param_2)
+
+{
+  undefined1 auStack_8 [8];
+  
+  __libc_start_main(FUN_00401240,param_2,&stack0x00000008,FUN_00403020,FUN_00403090,param_1,
+                    auStack_8);
+  do {
+                    // WARNING: Do nothing block with infinite loop
+  } while( true );
+}
+
+
+
+void FUN_00401940(void)
+
+{
+  return;
+}
+
+
+
+// WARNING: Removing unreachable block (ram,0x0040195d)
+// WARNING: Removing unreachable block (ram,0x00401967)
+
+void FUN_00401950(void)
+
+{
+  return;
+}
+
+
+
+// WARNING: Removing unreachable block (ram,0x0040199f)
+// WARNING: Removing unreachable block (ram,0x004019a9)
+
+void FUN_00401980(void)
+
+{
+  return;
+}
+
+
+
+void _FINI_0(void)
+
+{
+  if (DAT_00406300 == '\0') {
+    FUN_00401950();
+    DAT_00406300 = 1;
+    return;
+  }
+  return;
+}
+
+
+
+void _INIT_0(void)
+
+{
+  FUN_00401980();
+  return;
+}
+
+
+
+bool FUN_00401a00(long param_1,int param_2,int param_3,int param_4,int param_5,int param_6)
+
+{
+  char cVar1;
+  char cVar2;
+  char cVar3;
+  char cVar4;
+  char cVar5;
+  char cVar6;
+  bool bVar7;
+  long lVar8;
+  long lVar9;
+  int iVar10;
+  long lVar11;
+  bool bVar12;
+  bool bVar13;
+  
+  iVar10 = (param_3 + param_5 * param_4) * param_2;
+  lVar9 = (long)iVar10;
+  iVar10 = iVar10 + param_2;
+  lVar8 = (long)iVar10;
+  cVar1 = *(char *)(param_1 + 2 + lVar9);
+  cVar2 = *(char *)(param_1 + lVar9);
+  bVar12 = *(char *)(param_1 + 2 + lVar8) != cVar1;
+  cVar3 = *(char *)(param_1 + 1 + lVar9);
+  lVar11 = (long)(iVar10 + param_2);
+  bVar13 = *(char *)(param_1 + 1 + lVar8) != cVar3;
+  cVar4 = *(char *)(param_1 + 2 + lVar11);
+  cVar5 = *(char *)(param_1 + 1 + lVar11);
+  if (param_6 == 0) {
+    if ((cVar2 != *(char *)(param_1 + lVar8)) || (bVar13 || bVar12)) {
+      return false;
+    }
+    bVar7 = cVar2 == *(char *)(param_1 + lVar11) && (cVar3 == cVar5 && cVar1 == cVar4);
+  }
+  else {
+    cVar6 = *(char *)(param_1 + 3 + lVar9);
+    bVar7 = false;
+    if (!bVar13 && !bVar12) {
+      if (cVar2 != *(char *)(param_1 + lVar8)) {
+        return false;
+      }
+      if (cVar6 != *(char *)(param_1 + 3 + lVar8)) {
+        return false;
+      }
+      if (cVar1 != cVar4) {
+        return false;
+      }
+      if (cVar3 != cVar5) {
+        return false;
+      }
+      bVar7 = cVar6 == *(char *)(param_1 + 3 + lVar11) && cVar2 == *(char *)(param_1 + lVar11);
+    }
+  }
+  return bVar7;
+}
+
+
+
+void FUN_00401ae0(int param_1)
+
+{
+  byte *pbVar1;
+  
+  pbVar1 = (byte *)(DAT_00406320 + (long)param_1 * 0x78);
+  printf("block%2d: type=%2d; posx=%3d; posy=%3d; sizex=%3d; sizey=%3d; align=%d\n",(long)param_1,
+         (ulong)*pbVar1,(ulong)*(ushort *)(pbVar1 + 0x1c),(ulong)*(ushort *)(pbVar1 + 0x1e),
+         (ulong)*(ushort *)(pbVar1 + 0x18),(ulong)*(ushort *)(pbVar1 + 0x1a),(ulong)pbVar1[0x20]);
+  return;
+}
+
+
+
+undefined8 FUN_00401b30(long param_1,FILE *param_2)
+
+{
+  if (*(uint *)(param_1 + 0x6c) < 0x177001) {
+    fwrite(*(void **)(param_1 + 0x28),(ulong)*(uint *)(param_1 + 0x6c),1,param_2);
+    printf("Added to output %d bytes\n",(ulong)*(uint *)(param_1 + 0x6c));
+    return 1;
+  }
+  printf("append_pix: picture is too large! (%d byte)\n");
+  return 0;
+}
+
+
+
+undefined1 FUN_00401b80(char *param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  
+  lVar2 = 0;
+  do {
+    iVar1 = strcmp(param_1,(&PTR_s_BLK_PREVI_00406140)[lVar2 * 2]);
+    if (iVar1 == 0) {
+      return (&DAT_00406148)[(long)(int)lVar2 * 0x10];
+    }
+    lVar2 = lVar2 + 1;
+  } while (lVar2 != 0x1b);
+  return 0;
+}
+
+
+
+ulong FUN_00401be0(byte *param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  ulong uVar5;
+  undefined1 in_CF;
+  bool bVar6;
+  bool bVar7;
+  undefined1 in_ZF;
+  bool bVar8;
+  
+  lVar2 = 10;
+  uVar5 = 1;
+  pbVar3 = param_1;
+  pbVar4 = (byte *)"BLK_PREVI";
+  do {
+    if (lVar2 == 0) break;
+    lVar2 = lVar2 + -1;
+    in_CF = *pbVar3 < *pbVar4;
+    in_ZF = *pbVar3 == *pbVar4;
+    pbVar3 = pbVar3 + 1;
+    pbVar4 = pbVar4 + 1;
+  } while ((bool)in_ZF);
+  bVar6 = false;
+  bVar8 = (!(bool)in_CF && !(bool)in_ZF) == (bool)in_CF;
+  if (!bVar8) {
+    lVar2 = 10;
+    uVar5 = 2;
+    pbVar3 = param_1;
+    pbVar4 = (byte *)"BLK_BGIMG";
+    do {
+      if (lVar2 == 0) break;
+      lVar2 = lVar2 + -1;
+      bVar6 = *pbVar3 < *pbVar4;
+      bVar8 = *pbVar3 == *pbVar4;
+      pbVar3 = pbVar3 + 1;
+      pbVar4 = pbVar4 + 1;
+    } while (bVar8);
+    bVar7 = false;
+    bVar6 = (!bVar6 && !bVar8) == bVar6;
+    if (!bVar6) {
+      lVar2 = 9;
+      uVar5 = 3;
+      pbVar3 = param_1;
+      pbVar4 = (byte *)"BLK_ARMH";
+      do {
+        if (lVar2 == 0) break;
+        lVar2 = lVar2 + -1;
+        bVar7 = *pbVar3 < *pbVar4;
+        bVar6 = *pbVar3 == *pbVar4;
+        pbVar3 = pbVar3 + 1;
+        pbVar4 = pbVar4 + 1;
+      } while (bVar6);
+      bVar8 = false;
+      bVar6 = (!bVar7 && !bVar6) == bVar7;
+      if (!bVar6) {
+        lVar2 = 9;
+        uVar5 = 4;
+        pbVar3 = param_1;
+        pbVar4 = (byte *)"BLK_ARMM";
+        do {
+          if (lVar2 == 0) break;
+          lVar2 = lVar2 + -1;
+          bVar8 = *pbVar3 < *pbVar4;
+          bVar6 = *pbVar3 == *pbVar4;
+          pbVar3 = pbVar3 + 1;
+          pbVar4 = pbVar4 + 1;
+        } while (bVar6);
+        bVar7 = false;
+        bVar6 = (!bVar8 && !bVar6) == bVar8;
+        if (!bVar6) {
+          lVar2 = 9;
+          uVar5 = 5;
+          pbVar3 = param_1;
+          pbVar4 = (byte *)"BLK_ARMS";
+          do {
+            if (lVar2 == 0) break;
+            lVar2 = lVar2 + -1;
+            bVar7 = *pbVar3 < *pbVar4;
+            bVar6 = *pbVar3 == *pbVar4;
+            pbVar3 = pbVar3 + 1;
+            pbVar4 = pbVar4 + 1;
+          } while (bVar6);
+          bVar8 = false;
+          bVar6 = (!bVar7 && !bVar6) == bVar7;
+          if (!bVar6) {
+            lVar2 = 9;
+            uVar5 = 6;
+            pbVar3 = param_1;
+            pbVar4 = (byte *)"BLK_YEAR";
+            do {
+              if (lVar2 == 0) break;
+              lVar2 = lVar2 + -1;
+              bVar8 = *pbVar3 < *pbVar4;
+              bVar6 = *pbVar3 == *pbVar4;
+              pbVar3 = pbVar3 + 1;
+              pbVar4 = pbVar4 + 1;
+            } while (bVar6);
+            bVar7 = false;
+            bVar6 = (!bVar8 && !bVar6) == bVar8;
+            if (!bVar6) {
+              lVar2 = 10;
+              uVar5 = 7;
+              pbVar3 = param_1;
+              pbVar4 = (byte *)"BLK_MONTH";
+              do {
+                if (lVar2 == 0) break;
+                lVar2 = lVar2 + -1;
+                bVar7 = *pbVar3 < *pbVar4;
+                bVar6 = *pbVar3 == *pbVar4;
+                pbVar3 = pbVar3 + 1;
+                pbVar4 = pbVar4 + 1;
+              } while (bVar6);
+              bVar8 = false;
+              bVar6 = (!bVar7 && !bVar6) == bVar7;
+              if (!bVar6) {
+                lVar2 = 8;
+                uVar5 = 8;
+                pbVar3 = param_1;
+                pbVar4 = (byte *)"BLK_DAY";
+                do {
+                  if (lVar2 == 0) break;
+                  lVar2 = lVar2 + -1;
+                  bVar8 = *pbVar3 < *pbVar4;
+                  bVar6 = *pbVar3 == *pbVar4;
+                  pbVar3 = pbVar3 + 1;
+                  pbVar4 = pbVar4 + 1;
+                } while (bVar6);
+                bVar7 = false;
+                bVar6 = (!bVar8 && !bVar6) == bVar8;
+                if (!bVar6) {
+                  lVar2 = 9;
+                  uVar5 = 9;
+                  pbVar3 = param_1;
+                  pbVar4 = (byte *)"BLK_HOUR";
+                  do {
+                    if (lVar2 == 0) break;
+                    lVar2 = lVar2 + -1;
+                    bVar7 = *pbVar3 < *pbVar4;
+                    bVar6 = *pbVar3 == *pbVar4;
+                    pbVar3 = pbVar3 + 1;
+                    pbVar4 = pbVar4 + 1;
+                  } while (bVar6);
+                  bVar8 = false;
+                  bVar6 = (!bVar7 && !bVar6) == bVar7;
+                  if (!bVar6) {
+                    lVar2 = 8;
+                    uVar5 = 10;
+                    pbVar3 = param_1;
+                    pbVar4 = (byte *)"BLK_MIN";
+                    do {
+                      if (lVar2 == 0) break;
+                      lVar2 = lVar2 + -1;
+                      bVar8 = *pbVar3 < *pbVar4;
+                      bVar6 = *pbVar3 == *pbVar4;
+                      pbVar3 = pbVar3 + 1;
+                      pbVar4 = pbVar4 + 1;
+                    } while (bVar6);
+                    bVar7 = false;
+                    bVar6 = (!bVar8 && !bVar6) == bVar8;
+                    if (!bVar6) {
+                      lVar2 = 8;
+                      uVar5 = 0xb;
+                      pbVar3 = param_1;
+                      pbVar4 = (byte *)"BLK_SEC";
+                      do {
+                        if (lVar2 == 0) break;
+                        lVar2 = lVar2 + -1;
+                        bVar7 = *pbVar3 < *pbVar4;
+                        bVar6 = *pbVar3 == *pbVar4;
+                        pbVar3 = pbVar3 + 1;
+                        pbVar4 = pbVar4 + 1;
+                      } while (bVar6);
+                      bVar8 = false;
+                      bVar6 = (!bVar7 && !bVar6) == bVar7;
+                      if (!bVar6) {
+                        lVar2 = 9;
+                        uVar5 = 0xc;
+                        pbVar3 = param_1;
+                        pbVar4 = (byte *)"BLK_AMPM";
+                        do {
+                          if (lVar2 == 0) break;
+                          lVar2 = lVar2 + -1;
+                          bVar8 = *pbVar3 < *pbVar4;
+                          bVar6 = *pbVar3 == *pbVar4;
+                          pbVar3 = pbVar3 + 1;
+                          pbVar4 = pbVar4 + 1;
+                        } while (bVar6);
+                        bVar7 = false;
+                        bVar6 = (!bVar8 && !bVar6) == bVar8;
+                        if (!bVar6) {
+                          lVar2 = 10;
+                          uVar5 = 0xd;
+                          pbVar3 = param_1;
+                          pbVar4 = (byte *)"BLK_WEEKD";
+                          do {
+                            if (lVar2 == 0) break;
+                            lVar2 = lVar2 + -1;
+                            bVar7 = *pbVar3 < *pbVar4;
+                            bVar6 = *pbVar3 == *pbVar4;
+                            pbVar3 = pbVar3 + 1;
+                            pbVar4 = pbVar4 + 1;
+                          } while (bVar6);
+                          bVar8 = false;
+                          bVar6 = (!bVar7 && !bVar6) == bVar7;
+                          if (!bVar6) {
+                            lVar2 = 10;
+                            uVar5 = 0xe;
+                            pbVar3 = param_1;
+                            pbVar4 = (byte *)"BLK_STEPS";
+                            do {
+                              if (lVar2 == 0) break;
+                              lVar2 = lVar2 + -1;
+                              bVar8 = *pbVar3 < *pbVar4;
+                              bVar6 = *pbVar3 == *pbVar4;
+                              pbVar3 = pbVar3 + 1;
+                              pbVar4 = pbVar4 + 1;
+                            } while (bVar6);
+                            bVar7 = false;
+                            bVar6 = (!bVar8 && !bVar6) == bVar8;
+                            if (!bVar6) {
+                              lVar2 = 9;
+                              uVar5 = 0xf;
+                              pbVar3 = param_1;
+                              pbVar4 = (byte *)"BLK_PULS";
+                              do {
+                                if (lVar2 == 0) break;
+                                lVar2 = lVar2 + -1;
+                                bVar7 = *pbVar3 < *pbVar4;
+                                bVar6 = *pbVar3 == *pbVar4;
+                                pbVar3 = pbVar3 + 1;
+                                pbVar4 = pbVar4 + 1;
+                              } while (bVar6);
+                              bVar8 = false;
+                              bVar6 = (!bVar7 && !bVar6) == bVar7;
+                              if (!bVar6) {
+                                lVar2 = 10;
+                                uVar5 = 0x10;
+                                pbVar3 = param_1;
+                                pbVar4 = (byte *)"BLK_CALOR";
+                                do {
+                                  if (lVar2 == 0) break;
+                                  lVar2 = lVar2 + -1;
+                                  bVar8 = *pbVar3 < *pbVar4;
+                                  bVar6 = *pbVar3 == *pbVar4;
+                                  pbVar3 = pbVar3 + 1;
+                                  pbVar4 = pbVar4 + 1;
+                                } while (bVar6);
+                                bVar7 = false;
+                                bVar6 = (!bVar8 && !bVar6) == bVar8;
+                                if (!bVar6) {
+                                  lVar2 = 9;
+                                  uVar5 = 0x11;
+                                  pbVar3 = param_1;
+                                  pbVar4 = (byte *)"BLK_DIST";
+                                  do {
+                                    if (lVar2 == 0) break;
+                                    lVar2 = lVar2 + -1;
+                                    bVar7 = *pbVar3 < *pbVar4;
+                                    bVar6 = *pbVar3 == *pbVar4;
+                                    pbVar3 = pbVar3 + 1;
+                                    pbVar4 = pbVar4 + 1;
+                                  } while (bVar6);
+                                  if ((!bVar7 && !bVar6) != bVar7) {
+                                    iVar1 = strcmp((char *)param_1,"BLK_BATTN");
+                                    if (iVar1 == 0) {
+                                      uVar5 = 0x12;
+                                    }
+                                    else {
+                                      iVar1 = strcmp((char *)param_1,"BLK_BERRY");
+                                      if (iVar1 == 0) {
+                                        uVar5 = 0x16;
+                                      }
+                                      else {
+                                        iVar1 = strcmp((char *)param_1,"BLK_ANIM");
+                                        if (iVar1 == 0) {
+                                          uVar5 = 0x17;
+                                        }
+                                        else {
+                                          iVar1 = strcmp((char *)param_1,"BLK_BATTS");
+                                          if (iVar1 == 0) {
+                                            uVar5 = 0x18;
+                                          }
+                                          else {
+                                            iVar1 = strcmp((char *)param_1,"BLK_WEAT");
+                                            if (iVar1 == 0) {
+                                              uVar5 = 0x19;
+                                            }
+                                            else {
+                                              iVar1 = strcmp((char *)param_1,"BLK_TEMP");
+                                              if (iVar1 == 0) {
+                                                uVar5 = 0x1a;
+                                              }
+                                              else {
+                                                iVar1 = strcmp((char *)param_1,"BLK_HOURH");
+                                                if (iVar1 == 0) {
+                                                  uVar5 = 0x27;
+                                                }
+                                                else {
+                                                  iVar1 = strcmp((char *)param_1,"BLK_HOURL");
+                                                  if (iVar1 == 0) {
+                                                    uVar5 = 0x28;
+                                                  }
+                                                  else {
+                                                    iVar1 = strcmp((char *)param_1,"BLK_MINH");
+                                                    if (iVar1 == 0) {
+                                                      uVar5 = 0x29;
+                                                    }
+                                                    else {
+                                                      iVar1 = strcmp((char *)param_1,"BLK_MINL");
+                                                      if (iVar1 == 0) {
+                                                        uVar5 = 0x2a;
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return uVar5 & 0xffffffff;
+}
+
+
+
+undefined8
+FUN_00401f40(undefined8 param_1,undefined1 param_2,char *param_3,undefined8 param_4,byte *param_5,
+            undefined2 param_6,undefined2 param_7,undefined2 param_8,undefined2 param_9,
+            undefined1 param_10,undefined1 param_11,undefined1 param_12)
+
+{
+  size_t __size;
+  undefined1 *puVar1;
+  undefined1 uVar2;
+  uint uVar3;
+  void *pvVar4;
+  char *pcVar5;
+  long lVar6;
+  byte *pbVar7;
+  bool bVar8;
+  bool bVar9;
+  byte bVar10;
+  
+  bVar10 = 0;
+  uVar2 = FUN_00401b80();
+  uVar3 = (uint)DAT_00407744;
+  __size = ((ulong)uVar3 + 1) * 0x78;
+  pvVar4 = realloc(DAT_00406320,__size);
+  if (pvVar4 == (void *)0x0) {
+    puts("Allocation error!");
+                    // WARNING: Subroutine does not return
+    exit(0);
+  }
+  printf("New list_dblock size=%d\n",__size);
+  bVar8 = 0xfffffffe < uVar3;
+  bVar9 = uVar3 + 1 == 0;
+  DAT_00407744 = (byte)(uVar3 + 1);
+  puVar1 = (undefined1 *)((long)pvVar4 + (__size - 0x78));
+  lVar6 = 5;
+  DAT_00406320 = pvVar4;
+  *puVar1 = uVar2;
+  pbVar7 = &DAT_00404490;
+  do {
+    if (lVar6 == 0) break;
+    lVar6 = lVar6 + -1;
+    bVar8 = *param_5 < *pbVar7;
+    bVar9 = *param_5 == *pbVar7;
+    param_5 = param_5 + (ulong)bVar10 * -2 + 1;
+    pbVar7 = pbVar7 + (ulong)bVar10 * -2 + 1;
+  } while (bVar9);
+  *(uint *)(puVar1 + 0x14) = ((!bVar8 && !bVar9) == bVar8) + 1;
+  pcVar5 = strdup(param_3);
+  *(undefined2 *)(puVar1 + 0x18) = param_6;
+  *(char **)(puVar1 + 8) = pcVar5;
+  puVar1[1] = param_2;
+  *(undefined2 *)(puVar1 + 0x1c) = param_8;
+  *(undefined2 *)(puVar1 + 0x1e) = param_9;
+  *(undefined2 *)(puVar1 + 0x1a) = param_7;
+  puVar1[0x20] = param_10;
+  puVar1[0x21] = param_11;
+  puVar1[0x22] = param_12;
+  return 0;
+}
+
+
+
+uint FUN_00402060(byte param_1,uint param_2,uint param_3)
+
+{
+  return (param_3 & 0xfffff8) << 8 | (param_2 & 0x1fffe0fc) << 3 | (uint)(param_1 >> 3);
+}
+
+
+
+void FUN_00402080(long param_1,int param_2,int param_3,uint param_4)
+
+{
+  *(uint *)(param_1 + (param_2 << 2)) = param_3 << 0x10 | param_4;
+  return;
+}
+
+
+
+bool FUN_00402090(char param_1,char param_2,char param_3,char param_4,char param_5,char param_6,
+                 char param_7,char param_8)
+
+{
+  if ((param_1 == param_5) && (param_2 == param_6)) {
+    return param_4 == param_8 && param_3 == param_7;
+  }
+  return false;
+}
+
+
+
+bool FUN_004020c0(char param_1,char param_2,char param_3,char param_4,char param_5,char param_6)
+
+{
+  return param_1 == param_4 && (param_3 == param_6 && param_2 == param_5);
+}
+
+
+
+undefined8
+FUN_004020e0(undefined8 param_1,undefined8 param_2,int param_3,undefined8 param_4,int param_5)
+
+{
+  undefined8 uVar1;
+  
+  if (2 < param_5 - param_3) {
+    uVar1 = FUN_00401a00();
+    return uVar1;
+  }
+  return 0;
+}
+
+
+
+void FUN_00402100(uint param_1,byte param_2,uint param_3,byte param_4,undefined8 param_5,
+                 ulong param_6,undefined8 param_7,undefined8 param_8,int *param_9,
+                 undefined8 param_10)
+
+{
+  int iVar1;
+  
+  iVar1 = *param_9;
+  if (iVar1 != 0) {
+    if (0 < iVar1) {
+      *param_9 = iVar1 + -1;
+    }
+    param_7._0_4_ = (uint)param_4;
+    printf("first %s: j=%3d, cnt=%3d, R:%02X G:%02X B:%02X %c:%02X\n",param_10,param_6 & 0xffffffff,
+           (ulong)(param_1 & 0x7f),(ulong)param_2,(ulong)(param_3 & 0xff));
+    return;
+  }
+  return;
+}
+
+
+
+void FUN_00402170(byte param_1,int param_2,byte param_3,byte param_4,int param_5)
+
+{
+  ushort uVar1;
+  byte *pbVar2;
+  
+  uVar1 = (ushort)(param_2 << 3) & 0x7e0;
+  pbVar2 = DAT_00406328 + 1;
+  if (param_5 != 0) {
+    *DAT_00406328 = param_4;
+    DAT_00406328 = pbVar2;
+    pbVar2 = DAT_00406328 + 1;
+  }
+  *DAT_00406328 = param_3 & 0xf8 | (byte)(uVar1 >> 8);
+  DAT_00406328 = pbVar2;
+  pbVar2 = DAT_00406328 + 1;
+  *DAT_00406328 = (byte)uVar1 | param_1 >> 3;
+  DAT_00406328 = pbVar2;
+  return;
+}
+
+
+
+undefined8 FUN_004021e0(long param_1,long param_2,int param_3)
+
+{
+  char *pcVar1;
+  ulong uVar2;
+  bool bVar3;
+  char acStack_848 [32];
+  char local_828 [2056];
+  
+  local_828[0] = '\0';
+  pcVar1 = local_828;
+  if (0 < param_3) {
+    uVar2 = 0;
+    do {
+      if (*(char *)(param_1 + uVar2) != *(char *)(param_2 + uVar2)) {
+        return 0;
+      }
+      sprintf(acStack_848,"%02X, ");
+      pcVar1 = strcat(local_828,acStack_848);
+      bVar3 = param_3 - 1 != uVar2;
+      uVar2 = uVar2 + 1;
+    } while (bVar3);
+  }
+  printf("magic found for: %s\n",pcVar1);
+  return 1;
+}
+
+
+
+void * FUN_00402290(long param_1,uint *param_2,int param_3,int param_4,uint param_5)
+
+{
+  char *pcVar1;
+  char cVar2;
+  char cVar3;
+  bool bVar4;
+  char *pcVar5;
+  char cVar6;
+  int iVar7;
+  uint uVar8;
+  char cVar9;
+  char *pcVar10;
+  uint uVar11;
+  int iVar12;
+  int iVar13;
+  ulong uVar14;
+  char unaff_R13B;
+  char cVar15;
+  char unaff_R14B;
+  char *unaff_R15;
+  bool bVar16;
+  char local_89;
+  void *local_70;
+  ulong local_68;
+  uint local_5c;
+  int local_58;
+  int local_54;
+  char local_44;
+  
+  uVar11 = param_4 * 4;
+  local_58 = uVar11 + 0x1002;
+  local_70 = malloc((long)local_58);
+  if (local_70 != (void *)0x0) {
+    uVar14 = (ulong)(int)uVar11;
+    memset(local_70,0,uVar14);
+    pcVar10 = (char *)((long)local_70 + uVar14);
+    DAT_00406328 = pcVar10;
+    if (0 < param_4) {
+      local_54 = 0;
+      local_68 = 0;
+      do {
+        uVar14 = (long)pcVar10 - (long)local_70;
+        uVar11 = (uint)uVar14;
+        local_5c = uVar11;
+        if (0 < param_3) {
+          uVar14 = (ulong)param_5;
+          iVar12 = 0;
+          iVar13 = 0;
+          bVar16 = false;
+          pcVar10 = (char *)(local_54 * 4 + param_1);
+          cVar6 = unaff_R14B;
+          cVar15 = unaff_R13B;
+          do {
+            while( true ) {
+              pcVar5 = DAT_00406328;
+              unaff_R14B = pcVar10[2];
+              unaff_R13B = pcVar10[1];
+              cVar2 = *pcVar10;
+              cVar3 = pcVar10[3];
+              if (!bVar16) break;
+              if ((int)uVar14 == 0) {
+                if ((cVar2 == local_89) && (cVar6 == unaff_R14B && unaff_R13B == cVar15))
+                goto LAB_004025e7;
+LAB_0040246e:
+                pcVar1 = DAT_00406328 + 1;
+                if ((param_3 - iVar12 < 3) ||
+                   (iVar7 = FUN_00401a00(param_1,4,iVar12,(undefined4)local_68), iVar7 == 0)) {
+                  bVar16 = false;
+                  DAT_00406328 = pcVar1;
+                  *pcVar5 = '\x01';
+                  local_44 = cVar3;
+                  local_89 = cVar2;
+                  cVar6 = unaff_R14B;
+                  cVar15 = unaff_R13B;
+                }
+                else {
+                  DAT_00406328 = pcVar1;
+                  *pcVar5 = -0x7f;
+                  local_44 = cVar3;
+                  local_89 = cVar2;
+                  cVar6 = unaff_R14B;
+                  cVar15 = unaff_R13B;
+                }
+              }
+              else {
+                if (((cVar6 != unaff_R14B || unaff_R13B != cVar15) || (cVar2 != local_89)) ||
+                   (cVar3 != local_44)) goto LAB_0040246e;
+LAB_004025e7:
+                if (*unaff_R15 != -1) {
+                  *unaff_R15 = *unaff_R15 + '\x01';
+                  goto LAB_004023f6;
+                }
+                DAT_00406328 = DAT_00406328 + 1;
+                if (param_3 - iVar12 < 3) {
+                  cVar9 = '\x01';
+                  bVar4 = false;
+                }
+                else {
+                  iVar7 = FUN_00401a00(param_1,4,iVar12,(undefined4)local_68);
+                  cVar9 = (-(iVar7 == 0) & 0x80U) + 0x81;
+                  bVar4 = false;
+                  if (iVar7 != 0) {
+                    bVar4 = bVar16;
+                  }
+                }
+                *pcVar5 = cVar9;
+                bVar16 = bVar4;
+              }
+              FUN_00402170(cVar6,cVar15,local_89,local_44,uVar14 & 0xffffffff);
+              iVar12 = iVar12 + 1;
+              pcVar10 = pcVar10 + 4;
+              iVar13 = ((int)uVar14 != 0) + 3 + iVar13;
+              unaff_R15 = pcVar5;
+              local_89 = cVar2;
+              local_44 = cVar3;
+              cVar6 = unaff_R14B;
+              cVar15 = unaff_R13B;
+              if (param_3 == iVar12) goto LAB_004024fb;
+            }
+            if ((param_3 - iVar12 < 3) ||
+               (iVar7 = FUN_00401a00(param_1,4,iVar12,(undefined4)local_68), pcVar5 = DAT_00406328,
+               iVar7 == 0)) {
+              pcVar5 = DAT_00406328;
+              if ((iVar12 == 0) || (*unaff_R15 == '\x7f')) {
+                iVar13 = iVar13 + 1;
+                cVar6 = '\x01';
+                pcVar1 = DAT_00406328 + 1;
+                *DAT_00406328 = '\0';
+                DAT_00406328 = pcVar1;
+                unaff_R15 = pcVar5;
+              }
+              else {
+                cVar6 = *unaff_R15 + '\x01';
+              }
+              *unaff_R15 = cVar6;
+            }
+            else {
+              bVar16 = true;
+              iVar13 = iVar13 + 1;
+              pcVar1 = DAT_00406328 + 1;
+              *DAT_00406328 = -0x7f;
+              DAT_00406328 = pcVar1;
+              unaff_R15 = pcVar5;
+            }
+            FUN_00402170(unaff_R14B,unaff_R13B,cVar2,cVar3,uVar14 & 0xffffffff);
+            iVar13 = ((int)uVar14 != 0) + 2 + iVar13;
+LAB_004023f6:
+            iVar12 = iVar12 + 1;
+            pcVar10 = pcVar10 + 4;
+            local_89 = cVar2;
+            local_44 = cVar3;
+            cVar6 = unaff_R14B;
+            cVar15 = unaff_R13B;
+          } while (param_3 != iVar12);
+LAB_004024fb:
+          local_5c = uVar11 | iVar13 << 0x15;
+          uVar14 = (long)DAT_00406328 - (long)local_70;
+          uVar11 = (uint)uVar14;
+          pcVar10 = DAT_00406328;
+          local_89 = cVar2;
+          local_44 = cVar3;
+        }
+        if ((int)(local_58 - uVar11) < 0x1000) {
+          local_58 = local_58 + 0x1000;
+          local_70 = realloc(local_70,(long)local_58);
+          uVar14 = (ulong)(int)uVar11;
+          pcVar10 = (char *)((long)local_70 + uVar14);
+          DAT_00406328 = pcVar10;
+        }
+        *(uint *)((long)local_70 + local_68 * 4) = local_5c;
+        local_54 = local_54 + param_3;
+        bVar16 = param_4 - 1 != local_68;
+        local_68 = local_68 + 1;
+      } while (bVar16);
+    }
+    *param_2 = uVar11;
+    if ((uVar14 & 3) != 0) {
+      uVar8 = (uint)((int)uVar11 >> 0x1f) >> 0x1e;
+      iVar12 = (uVar8 - (uVar11 + uVar8 & 3)) + 4;
+      iVar13 = 0;
+      DAT_00406328 = pcVar10;
+      do {
+        iVar13 = iVar13 + 1;
+        pcVar10 = DAT_00406328 + 1;
+        *DAT_00406328 = '\0';
+        DAT_00406328 = pcVar10;
+      } while (iVar12 != iVar13);
+      *param_2 = *param_2 + iVar12;
+    }
+  }
+  return local_70;
+}
+
+
+
+void * FUN_00402760(long param_1)
+
+{
+  byte bVar1;
+  int iVar2;
+  char *__s;
+  bool bVar3;
+  bool bVar4;
+  int iVar5;
+  int iVar6;
+  int iVar7;
+  size_t sVar8;
+  void *__ptr;
+  void *__ptr_00;
+  void *__src;
+  long lVar9;
+  undefined8 *puVar10;
+  uint uVar11;
+  void *pvVar12;
+  uint local_1e8;
+  char local_1b6 [2];
+  int local_1b4;
+  char local_1ad [5];
+  undefined8 local_1a8;
+  undefined4 local_1a0;
+  int local_19c;
+  int local_198;
+  undefined4 local_194;
+  char local_138 [256];
+  undefined1 local_38;
+  
+  lVar9 = 0xd;
+  __s = *(char **)(param_1 + 8);
+  builtin_strncpy(local_1ad,".png",5);
+  puVar10 = &local_1a8;
+  for (; lVar9 != 0; lVar9 = lVar9 + -1) {
+    *puVar10 = 0;
+    puVar10 = puVar10 + 1;
+  }
+  local_1a0 = 1;
+  sVar8 = strlen(__s);
+  bVar1 = *(byte *)(param_1 + 1);
+  if (__s[(long)(int)sVar8 + -1] == '/') {
+    if (bVar1 < 2) {
+      return (void *)0x0;
+    }
+    bVar4 = false;
+    local_1e8 = (uint)bVar1;
+    bVar3 = true;
+  }
+  else if (bVar1 < 2) {
+    strncpy(local_138,__s,0x100);
+    local_38 = 0;
+    local_1e8 = 1;
+    bVar4 = false;
+    bVar3 = false;
+  }
+  else {
+    strncpy(local_138,__s,0x100);
+    local_38 = 0;
+    local_1e8 = 1;
+    bVar4 = true;
+    bVar3 = false;
+  }
+  iVar2 = *(int *)(param_1 + 0x14);
+  __ptr_00 = (void *)0x0;
+  uVar11 = 0;
+  do {
+    while (!bVar3) {
+      iVar6 = png_image_begin_read_from_file(&local_1a8,local_138);
+      if (iVar6 == 0) goto LAB_0040282f;
+LAB_00402898:
+      iVar5 = local_198;
+      iVar6 = local_19c;
+      local_194 = 3;
+      __ptr = malloc((ulong)(uint)(local_198 * local_19c * 4));
+      *(short *)(param_1 + 0x18) = (short)iVar6;
+      if ((__ptr != (void *)0x0) &&
+         (iVar7 = png_image_finish_read(&local_1a8,0,__ptr,0,0), iVar7 != 0)) {
+        if (bVar4) {
+          bVar1 = *(byte *)(param_1 + 1);
+          *(undefined4 *)(param_1 + 0x6c) = 0;
+          if (bVar1 != 0) {
+            lVar9 = 0;
+            pvVar12 = __ptr;
+            do {
+              __src = (void *)FUN_00402290(pvVar12,&local_1b4,*(undefined2 *)(param_1 + 0x18));
+              __ptr_00 = realloc(__ptr_00,(ulong)(uint)(local_1b4 + *(int *)(param_1 + 0x6c)));
+              memcpy((void *)((ulong)*(uint *)(param_1 + 0x6c) + (long)__ptr_00),__src,
+                     (long)local_1b4);
+              free(__src);
+              *(int *)(param_1 + 0x6c) = *(int *)(param_1 + 0x6c) + local_1b4;
+              pvVar12 = (void *)((long)pvVar12 +
+                                (long)(int)(iVar6 * (iVar5 / (int)(uint)bVar1) * ((iVar2 == 2) + 3))
+                                );
+              *(int *)(param_1 + 0x30 + lVar9 * 4) = local_1b4;
+              lVar9 = lVar9 + 1;
+            } while ((int)lVar9 < (int)(uint)*(byte *)(param_1 + 1));
+          }
+        }
+        else {
+          __ptr_00 = (void *)FUN_00402290(__ptr,&local_1b4,*(undefined2 *)(param_1 + 0x18));
+          *(int *)(param_1 + 0x6c) = local_1b4;
+        }
+      }
+      uVar11 = uVar11 + 1;
+      free(__ptr);
+      if (local_1e8 == uVar11) goto LAB_0040292b;
+    }
+    strncpy(local_138,*(char **)(param_1 + 8),0x7f);
+    local_1b6[0] = (char)uVar11 + '0';
+    local_1b6[1] = 0;
+    strncat(local_138,local_1b6,0x7f);
+    strncat(local_138,local_1ad,0x7f);
+    iVar6 = png_image_begin_read_from_file(&local_1a8,local_138);
+    if (iVar6 != 0) goto LAB_00402898;
+LAB_0040282f:
+    uVar11 = uVar11 + 1;
+  } while (local_1e8 != uVar11);
+LAB_0040292b:
+  png_image_free(&local_1a8);
+  return __ptr_00;
+}
+
+
+
+void FUN_00402a90(byte *param_1,byte *param_2,byte *param_3,char *param_4)
+
+{
+  byte bVar1;
+  byte bVar2;
+  
+  bVar1 = *param_1;
+  bVar2 = param_1[1];
+  *param_2 = bVar1 & 0xf8;
+  *param_3 = (byte)((int)(uint)CONCAT11(bVar1,bVar2) >> 3) & 0xfc;
+  *param_4 = bVar2 << 3;
+  return;
+}
+
+
+
+ulong FUN_00402ac0(ushort *param_1,long param_2,int *param_3,uint param_4,undefined8 param_5,
+                  int param_6,int param_7)
+
+{
+  byte bVar1;
+  int iVar2;
+  uint uVar3;
+  uint uVar4;
+  byte *pbVar5;
+  int iVar6;
+  uint uVar7;
+  ulong uVar8;
+  byte bVar9;
+  long lVar10;
+  uint uVar11;
+  uint uVar12;
+  ulong uVar13;
+  int iVar14;
+  ulong uVar15;
+  ulong unaff_R15;
+  uint local_58;
+  
+  iVar6 = 0;
+  uVar15 = (ulong)*param_1;
+  printf("      decode_rgba_buff: offs=0: %02X %02X %02X %02X sorok:(4*%d) 0.sor offs=%d ww=%d hh=%d\n"
+         ,(ulong)(byte)*param_1,(ulong)*(byte *)((long)param_1 + 1),(ulong)(byte)param_1[1],
+         (ulong)*(byte *)((long)param_1 + 3),(ulong)(*param_1 >> 2),uVar15,(ulong)param_4,param_5);
+  local_58 = 0;
+  if (0 < (int)(uint)param_5) {
+    do {
+      uVar13 = 0;
+      if (0 < (int)param_4) {
+        do {
+          iVar14 = (int)uVar15;
+          uVar7 = iVar14 + 1;
+          bVar9 = *(byte *)((long)param_1 + (long)iVar14);
+          uVar12 = (uint)bVar9;
+          pbVar5 = (byte *)((long)(int)uVar7 + (long)param_1);
+          if (bVar9 == 0) {
+            if (param_7 == 0) {
+              uVar3 = (uint)*pbVar5;
+              uVar12 = 1;
+            }
+            else {
+              puts("cnt=0 , exiting...");
+              uVar12 = 1;
+              uVar3 = (uint)*pbVar5;
+            }
+LAB_00402b82:
+            uVar15 = (ulong)uVar7;
+            uVar8 = 0;
+            while( true ) {
+              iVar14 = (int)uVar15;
+              if (param_6 == 0) {
+                pbVar5 = (byte *)((long)iVar14 + (long)param_1);
+              }
+              else {
+                iVar14 = iVar14 + 1;
+                unaff_R15 = (ulong)uVar3;
+                pbVar5 = (byte *)((long)iVar14 + (long)param_1);
+                uVar3 = (uint)*pbVar5;
+              }
+              uVar15 = (ulong)(iVar14 + 2U);
+              uVar7 = uVar3 << 8 | (uint)pbVar5[1];
+              *(byte *)(param_2 + iVar6) = (byte)uVar3 & 0xf8;
+              *(byte *)(param_2 + (iVar6 + 1)) = (byte)((int)uVar7 >> 3) & 0xfc;
+              *(char *)(param_2 + (iVar6 + 2)) = (char)(uVar7 << 3);
+              iVar2 = iVar6 + 3;
+              if (param_6 != 0) {
+                *(char *)(param_2 + (iVar6 + 3)) = (char)unaff_R15;
+                iVar2 = iVar6 + 4;
+              }
+              iVar6 = iVar2;
+              uVar7 = (int)uVar8 + 1;
+              uVar8 = (ulong)uVar7;
+              if (uVar7 == uVar12) break;
+              uVar3 = (uint)*(byte *)((long)param_1 + (long)(int)(iVar14 + 2U));
+            }
+            uVar7 = (int)uVar13 + uVar7;
+            uVar13 = (ulong)uVar7;
+            if (param_7 != 0) {
+              printf("egyedi: cnt=%d j=%d i=%d\n",uVar8,(ulong)local_58,uVar13);
+              uVar13 = (ulong)uVar7;
+            }
+          }
+          else {
+            uVar3 = (uint)*pbVar5;
+            if (-1 < (char)bVar9) goto LAB_00402b82;
+            bVar9 = bVar9 & 0x7f;
+            if (param_6 != 0) {
+              uVar7 = iVar14 + 2;
+              unaff_R15 = (ulong)uVar3;
+              pbVar5 = (byte *)((long)(int)uVar7 + (long)param_1);
+              uVar3 = (uint)*pbVar5;
+            }
+            bVar1 = pbVar5[1];
+            uVar15 = (ulong)(uVar7 + 2);
+            uVar11 = uVar3 << 8 | (uint)bVar1;
+            uVar7 = uVar3 << 8 & 0xf800;
+            uVar3 = (int)uVar11 >> 3;
+            uVar12 = (uint)bVar9;
+            if (bVar9 != 0) {
+              uVar4 = 0;
+              iVar14 = iVar6;
+              do {
+                while( true ) {
+                  iVar6 = iVar14 + 3;
+                  *(char *)(param_2 + iVar14) = (char)(uVar7 >> 8);
+                  *(byte *)(param_2 + (iVar14 + 1)) = (byte)uVar3 & 0xfc;
+                  *(char *)(param_2 + (iVar14 + 2)) = (char)(uVar11 << 3);
+                  if (param_6 != 0) break;
+                  uVar4 = uVar4 + 1;
+                  iVar14 = iVar6;
+                  if (uVar4 == uVar12) goto LAB_00402d2e;
+                }
+                lVar10 = (long)iVar6;
+                uVar4 = uVar4 + 1;
+                iVar6 = iVar14 + 4;
+                *(char *)(param_2 + lVar10) = (char)unaff_R15;
+                iVar14 = iVar6;
+              } while (uVar4 != uVar12);
+            }
+LAB_00402d2e:
+            uVar12 = (int)uVar13 + uVar12;
+            uVar13 = (ulong)uVar12;
+            if (param_7 != 0) {
+              printf("ism   : cnt=%d r=%d g=%d b=%d a=%d j=%d i=%d\n",(ulong)bVar9,
+                     (ulong)(uVar7 >> 8),(ulong)(uVar3 & 0xfc),(ulong)((bVar1 & 0x1f) << 3),
+                     unaff_R15 & 0xff,(ulong)local_58,uVar13);
+              uVar13 = (ulong)uVar12;
+            }
+          }
+        } while ((int)uVar13 < (int)param_4);
+      }
+      if (param_7 != 0) {
+        printf("%2d.sor %d pixel\n",(ulong)local_58,uVar13);
+      }
+      local_58 = local_58 + 1;
+    } while ((uint)param_5 != local_58);
+  }
+  *param_3 = iVar6;
+  uVar13 = uVar15;
+  if ((uVar15 & 3) != 0) {
+    uVar7 = ((uint)uVar15 - ((uint)uVar15 & 3)) + 4;
+    uVar13 = (ulong)uVar7;
+    printf("align %d to %d\n",uVar15,(ulong)uVar7);
+  }
+  return uVar13;
+}
+
+
+
+uint FUN_00402df0(uint param_1)
+
+{
+  uint uVar1;
+  
+  if ((int)param_1 % 4 < 1) {
+    return param_1;
+  }
+  uVar1 = (param_1 - (int)param_1 % 4) + 4;
+  printf("align %d to %d\n",(ulong)param_1,(ulong)uVar1);
+  return uVar1;
+}
+
+
+
+ulong FUN_00402e30(FILE *param_1)
+
+{
+  ulong uVar1;
+  
+  fseek(param_1,0,2);
+  uVar1 = ftell(param_1);
+  fseek(param_1,0,0);
+  return uVar1 & 0xffffffff;
+}
+
+
+
+ushort * FUN_00402e70(long param_1)
+
+{
+  ushort uVar1;
+  ushort uVar2;
+  uint uVar3;
+  FILE *__stream;
+  ushort *__ptr;
+  size_t sVar4;
+  ulong uVar5;
+  
+  printf("load_encoded_file: fname=\"%s\"\n",*(undefined8 *)(param_1 + 8));
+  __stream = fopen(*(char **)(param_1 + 8),"rb");
+  if (__stream == (FILE *)0x0) {
+    __ptr = (ushort *)0x0;
+    puts("open error");
+  }
+  else {
+    uVar3 = FUN_00402e30(__stream);
+    printf("file size = %d\n",(ulong)uVar3);
+    if (0 < (int)uVar3 % 4) {
+      uVar5 = (ulong)uVar3;
+      uVar3 = (uVar3 - (int)uVar3 % 4) + 4;
+      printf("align %d to %d\n",uVar5,(ulong)uVar3);
+    }
+    __ptr = (ushort *)calloc((long)(int)uVar3,1);
+    sVar4 = fread(__ptr,1,(long)(int)uVar3,__stream);
+    printf("readed = %d byte\n",sVar4);
+    fclose(__stream);
+    uVar1 = *__ptr;
+    uVar2 = uVar1 >> 2;
+    *(ushort *)(param_1 + 0x1a) = uVar2;
+    printf("load_encoded_file: first line offs= %04X, -> height= %d\n",(ulong)uVar1,(ulong)uVar2);
+    if ((ushort)(*(short *)(param_1 + 0x1a) - 0x1d2U) < 2) {
+      uVar5 = 0x1d2;
+      *(undefined2 *)(param_1 + 0x18) = 0x1d2;
+    }
+    else if (*(short *)(param_1 + 0x1a) == 0x118) {
+      uVar5 = 0x118;
+      *(undefined2 *)(param_1 + 0x18) = 0x118;
+    }
+    else {
+      uVar5 = (ulong)*(ushort *)(param_1 + 0x18);
+    }
+    *(uint *)(param_1 + 0x6c) = uVar3;
+    printf("sx = %d , sy = %d\n",uVar5);
+  }
+  return __ptr;
+}
+
+
+
+void FUN_00402fb0(int param_1)
+
+{
+  if ((int)(uint)DAT_00407744 <= param_1) {
+    return;
+  }
+  FUN_00401ae0();
+  return;
+}
+
+
+
+void FUN_00402fd0(void)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  if (DAT_00407744 != 0) {
+    iVar1 = 0;
+    do {
+      iVar2 = iVar1 + 1;
+      FUN_00401ae0(iVar1);
+      iVar1 = iVar2;
+    } while (iVar2 < (int)(uint)DAT_00407744);
+    return;
+  }
+  return;
+}
+
+
+
+undefined8 FUN_00403010(void)
+
+{
+  return 0;
+}
+
+
+
+void FUN_00403020(undefined4 param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  long lVar1;
+  
+  _DT_INIT();
+  lVar1 = 0;
+  do {
+    (*(code *)(&__DT_INIT_ARRAY)[lVar1])(param_1,param_2,param_3);
+    lVar1 = lVar1 + 1;
+  } while (lVar1 != 1);
+  return;
+}
+
+
+
+void FUN_00403090(void)
+
+{
+  return;
+}
+
+
+
+void _DT_FINI(void)
+
+{
+  return;
+}
+
+
+

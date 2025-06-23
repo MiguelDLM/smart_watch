@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <FrameLayout android:background="@drawable/nsdk_route_search_filter_brand_selector" android:layout_width="40dp" android:layout_height="40dp">
+        <TextView android:textSize="10dp" android:textColor="#333333" android:gravity="center" android:layout_gravity="center" android:id="@+id/route_search_filter_brand_button" android:layout_width="25dp" android:layout_height="40dp" android:text="中国银行"/>
+    </FrameLayout>
+    <View android:layout_gravity="center_horizontal" android:id="@+id/route_search_filter_brand_split_line" android:background="#e9e9e9" android:layout_width="28dp" android:layout_height="0.5dp"/>
+</LinearLayout>

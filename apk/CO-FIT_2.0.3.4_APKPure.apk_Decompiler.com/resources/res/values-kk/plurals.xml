@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">%d секунд алға айналдыру</item>
+        <item quantity="other">%d секунд алға айналдыру</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">%d секунд артқа айналдыру</item>
+        <item quantity="other">%d секунд артқа айналдыру</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">Терезе %1$s секунд ішінде жабылады.</item>
+        <item quantity="other">Терезе %1$s секунд ішінде жабылады.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">%1$s күн таңдауын есте сақтау</item>
+        <item quantity="other">%1$s күн таңдауын есте сақтау</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d сек</item>
+        <item quantity="other">%1$d сек</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d жаңа хабарландыру</item>
+        <item quantity="other">%d жаңа хабарландыру</item>
+    </plurals>
+</resources>

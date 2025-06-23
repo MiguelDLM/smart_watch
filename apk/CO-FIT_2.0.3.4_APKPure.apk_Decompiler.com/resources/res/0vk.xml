@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/sport" app:startDestination="@+id/main_sport">
+    <fragment android:label="@string/bottom_sport" android:name="com.sma.smartv3.ui.sport.SportFragment" android:id="@+id/main_sport"/>
+</navigation>

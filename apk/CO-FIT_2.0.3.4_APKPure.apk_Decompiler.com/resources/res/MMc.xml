@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:id="@+id/energy_type_info_layout" android:background="@color/nsdk_white_color" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:layout_width="@dimen/navi_dimens_15dp" android:layout_height="@dimen/navi_dimens_15dp" android:src="@drawable/nsdk_drawable_mileage_right_arrow" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView android:textSize="15dp" android:textColor="#ff222222" android:id="@+id/energy_type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="车型信息" android:includeFontPadding="false"/>
+        <TextView android:textSize="15dp" android:textColor="#ff222222" android:textColorHint="#999999" android:ellipsize="end" android:id="@+id/energy_type_edit" android:background="#ffffffff" android:layout_width="@dimen/navi_dimens_200dp" android:layout_height="wrap_content" android:hint="完善车型，续航预判更准" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="@dimen/navi_dimens_30dp" android:layout_marginEnd="@dimen/navi_dimens_30dp"/>
+    </LinearLayout>
+</RelativeLayout>

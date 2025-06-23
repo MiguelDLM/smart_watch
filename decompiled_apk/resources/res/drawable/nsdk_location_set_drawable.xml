@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:gravity="center"
+        android:height="13dp"
+        android:width="13dp"
+        android:drawable="@drawable/nsdk_location_set_icon"/>
+</selector>

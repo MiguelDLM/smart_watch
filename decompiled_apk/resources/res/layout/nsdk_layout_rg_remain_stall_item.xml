@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/banv_remain_stall_container"
+    android:background="@drawable/nsdk_bg_remain_stall_item"
+    android:paddingBottom="@dimen/navi_dimens_6dp"
+    android:layout_width="@dimen/navi_dimens_118dp"
+    android:layout_height="@dimen/navi_dimens_90dp"
+    android:paddingStart="@dimen/navi_dimens_18dp"
+    android:paddingEnd="@dimen/navi_dimens_18dp">
+    <TextView
+        android:textSize="@dimen/navi_dimens_15dp"
+        android:textStyle="bold"
+        android:textColor="#0abf92"
+        android:id="@+id/bnav_remain_stall_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/bn_bg_rg_remain_stall_item_progress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_4dp"
+        android:layout_marginTop="@dimen/navi_dimens_5dp">
+        <View
+            android:id="@+id/bnav_progress"
+            android:background="@drawable/bn_bg_rg_remain_stall_item_second_progress"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.6"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:textSize="@dimen/navi_dimens_14dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_remain_stall_card_item_text"
+        android:ellipsize="end"
+        android:id="@+id/bnav_floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:singleLine="true"/>
+</LinearLayout>

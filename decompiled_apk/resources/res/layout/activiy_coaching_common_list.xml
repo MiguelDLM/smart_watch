@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/l1_top_image"
+                android:layout_marginTop="0dp"
+                android:onClick="l1Coaching"
+                style="@style/coaching_common_item_bg">
+                <LinearLayout style="@style/coaching_common_item_content_ll">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l1"
+                        style="@style/coaching_common_item_content_tv"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l1_run_walk"
+                        style="@style/coaching_common_item_content_tv"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="@drawable/l2_easy_top_image"
+                android:onClick="l2EasyCoaching"
+                style="@style/coaching_common_item_bg">
+                <LinearLayout style="@style/coaching_common_item_content_ll">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l2"
+                        style="@style/coaching_common_item_content_tv"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l2_easy_fat_top_desc"
+                        style="@style/coaching_common_item_content_tv"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="@drawable/l2_maf_top_image"
+                android:onClick="l2MafCoaching"
+                style="@style/coaching_common_item_bg">
+                <LinearLayout style="@style/coaching_common_item_content_ll">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l2"
+                        style="@style/coaching_common_item_content_tv"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l2_maf_top_desc"
+                        style="@style/coaching_common_item_content_tv"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="@drawable/l3_top_image"
+                android:onClick="l3Coaching"
+                style="@style/coaching_common_item_bg">
+                <LinearLayout style="@style/coaching_common_item_content_ll">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l3"
+                        style="@style/coaching_common_item_content_tv"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/l3_top_desc"
+                        style="@style/coaching_common_item_content_tv"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

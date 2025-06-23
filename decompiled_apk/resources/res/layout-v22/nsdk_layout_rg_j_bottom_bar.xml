@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bn_rg_bottombar_setting_page_ly"
+    android:background="@color/nsdk_rg_transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:orientation="horizontal"
+        android:id="@+id/bn_rg_bottom_bar_head"
+        android:background="@color/nsdk_rg_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/bn_rg_setting_page_bg_view"
+        android:background="@color/nsdk_cl_bg_d"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bn_rg_bottom_bar_head"/>
+    <FrameLayout
+        android:id="@+id/bn_rg_setting_page_recycle_container"
+        android:paddingLeft="@dimen/nsdk_rg_setting_page_padding"
+        android:paddingRight="@dimen/nsdk_rg_setting_page_padding"
+        android:paddingBottom="@dimen/navi_dimens_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/nsdk_rg_setting_page_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bn_rg_bottom_bar_head">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bn_rg_setting_page_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+    <ViewStub
+        android:id="@+id/bnav_rg_setting_done_btn_stub"
+        android:layout="@layout/nsdk_layout_rg_new_setting_done_btn"
+        android:inflatedId="@+id/bnav_rg_setting_done_ly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_setting_page_done_ly_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

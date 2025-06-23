@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/bnav_nearby_search_item_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_31dp"
+        android:src="@drawable/nsdk_drawable_rg_route_search_gas_station"/>
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/bnav_nearby_search_item_tv"
+        android:layout_marginTop="@dimen/navi_dimens_12dp"
+        android:layout_marginBottom="@dimen/navi_dimens_19dp"
+        android:text="@string/nsdk_string_nearby_search_as_gas_station"
+        style="@style/Text_NaviMenuRouteSearchText"/>
+</LinearLayout>

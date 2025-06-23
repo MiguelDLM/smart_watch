@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:interpolator="@interpolator/m3_sys_motion_easing_emphasized_accelerate" android:duration="@integer/m3_sys_motion_duration_short3" android:shareInterpolator="true">
+    <alpha android:fromAlpha="1" android:toAlpha="0"/>
+</set>

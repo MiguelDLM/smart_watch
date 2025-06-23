@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_secondary_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="22sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="A"
+        android:layout_marginStart="22dp"/>
+</LinearLayout>

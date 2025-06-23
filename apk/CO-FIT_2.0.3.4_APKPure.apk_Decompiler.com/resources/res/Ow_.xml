@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <me.devilsen.czxing.view.scanview.DetectView android:id="@+id/detect_view" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <me.devilsen.czxing.view.scanview.ScanBoxView android:id="@+id/scan_box" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="150dp" android:layout_alignParentBottom="true">
+        <ImageView android:id="@+id/image_scan_flashlight" android:visibility="gone" android:layout_width="40dp" android:layout_height="80dp" android:src="@drawable/ic_highlight_close_24dp"/>
+        <TextView android:textColor="@android:color/white" android:id="@+id/text_scan_flashlight_notice" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View android:id="@+id/view_scan_mask" android:background="@color/czxing_line_mask" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ksad_landing_page_root"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/ksad_kwad_web_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ksad_activity_title_bar_height"
+        layout="@layout/ksad_activity_title_bar"/>
+    <com.kwad.sdk.core.webview.KsAdWebView
+        android:id="@+id/ksad_video_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ksad_kwad_titlebar"/>
+</LinearLayout>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bnav_driving_habit_page_split_line" android:background="#f7f7f7" android:layout_height="@dimen/navi_dimens_10dp" style="@style/NavCommonListSplitLine"/>

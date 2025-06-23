@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">הרצה %d שניות קדימה</item>
+        <item quantity="two">הרצה %d שניות קדימה</item>
+        <item quantity="other">הרצה %d שניות קדימה</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">הרצה %d שניות אחורה</item>
+        <item quantity="two">הרצה %d שניות אחורה</item>
+        <item quantity="other">הרצה %d שניות אחורה</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">החלון ייסגר בעוד שנייה %1$s.</item>
+        <item quantity="two">החלון ייסגר בעוד %1$s שניות.</item>
+        <item quantity="many">החלון ייסגר בעוד %1$s שניות.</item>
+        <item quantity="other">החלון ייסגר בעוד %1$s שניות.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">זכור את הבחירה למשך יום %1$s</item>
+        <item quantity="two">זכור את הבחירה למשך %1$s ימים</item>
+        <item quantity="many">זכור את הבחירה למשך %1$s ימים</item>
+        <item quantity="other">זכור את הבחירה למשך %1$s ימים</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d שניות</item>
+        <item quantity="two">%1$d שניות</item>
+        <item quantity="many">%1$d שניות</item>
+        <item quantity="other">%1$d שניות</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d התראות חדשות</item>
+        <item quantity="two">%d התראות חדשות</item>
+        <item quantity="other">%d התראות חדשות</item>
+    </plurals>
+</resources>

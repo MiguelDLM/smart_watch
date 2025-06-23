@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grid_container"
+    android:background="@drawable/nsdk_route_report_grid_item_bg_normal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:id="@+id/grid_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/navi_dimens_38dp"
+        android:text=""
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

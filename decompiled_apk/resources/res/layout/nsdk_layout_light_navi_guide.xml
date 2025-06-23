@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:ellipsize="end"
+            android:gravity="center"
+            android:id="@+id/bnav_lv_rg_next_dis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            style="@style/LightGuidePanel"/>
+        <ImageView
+            android:id="@+id/bnav_lv_rg_next_turn"
+            android:layout_width="@dimen/navi_dimens_19dp"
+            android:layout_height="@dimen/navi_dimens_19dp"
+            android:layout_marginLeft="@dimen/navi_dimens_5dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:scaleType="centerInside"/>
+        <TextView
+            android:ellipsize="end"
+            android:gravity="center"
+            android:id="@+id/bnav_lv_rg_next_road_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            style="@style/LightGuidePanel"/>
+    </LinearLayout>
+</RelativeLayout>

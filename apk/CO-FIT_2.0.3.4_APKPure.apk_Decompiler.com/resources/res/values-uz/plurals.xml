@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">%d soniya oldinga</item>
+        <item quantity="other">%d soniya oldinga</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">%d soniya orqaga</item>
+        <item quantity="other">%d soniya orqaga</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">Oyna %1$s soniyadan keyin yopiladi.</item>
+        <item quantity="other">Oyna %1$s soniyadan keyin yopiladi.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">Tanlov %1$s kunga eslab qolinsin</item>
+        <item quantity="other">Tanlov %1$s kunga eslab qolinsin</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d soniya</item>
+        <item quantity="other">%1$d soniya</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ta yangi bildirishnoma</item>
+        <item quantity="other">%d ta yangi bildirishnoma</item>
+    </plurals>
+</resources>

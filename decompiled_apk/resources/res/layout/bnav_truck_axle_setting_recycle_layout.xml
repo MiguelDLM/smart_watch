@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/truck_axle_recycle_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/navi_dimens_15dp"
+    android:layout_marginStart="@dimen/navi_dimens_19dp"
+    android:layout_marginEnd="@dimen/navi_dimens_19dp">
+    <com.baidu.navisdk.module.plate.layout.ItemInfoWidget
+        android:gravity="center_vertical"
+        android:id="@+id/truck_axle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_55dp"
+        app:nsdk_item_info_edit_hint="false"
+        app:nsdk_item_info_right_arrow="false"
+        app:nsdk_item_info_tips="true"
+        app:nsdk_item_info_title="true"
+        app:nsdk_item_info_unit="false"/>
+</RelativeLayout>

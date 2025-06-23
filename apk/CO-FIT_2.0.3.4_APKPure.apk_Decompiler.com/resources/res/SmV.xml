@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="vertical" android:id="@+id/testServerLl" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_marginTop="30dp" style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout android:onClick="testServer" style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium android:text="Test Server(Need Invitation Code)" style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:id="@+id/devServerLl" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_marginTop="30dp" style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout android:onClick="devServer" style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium android:text="Dev Server(Need Invitation Code)" style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:id="@+id/kaiServerLl" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_marginTop="30dp" style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout android:onClick="kaiServer" style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium android:text="KAI Server" style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:id="@+id/taoServerLl" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_marginTop="30dp" style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout android:onClick="taoServer" style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium android:text="TAO Server" style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

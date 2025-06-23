@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/bnav_rg_toolbox_resume_switch_layout"
+    android:background="@drawable/bnav_rg_setting_page_bg"
+    android:paddingLeft="@dimen/navi_dimens_8dp"
+    android:paddingRight="@dimen/navi_dimens_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/navi_dimens_8dp">
+    <TextView
+        android:gravity="center"
+        android:id="@+id/bnav_rg_quite_navi_cancel_btn"
+        android:clickable="true"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="@dimen/nsdk_rg_button_height"
+        android:text="@string/alert_cancel"
+        android:layout_weight="1"
+        style="@style/NsdkRGGrayBtnStyle"/>
+    <TextView
+        android:gravity="center"
+        android:id="@+id/bnav_rg_toolbox_quit_navi"
+        android:clickable="true"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="@dimen/nsdk_rg_button_height"
+        android:text="@string/nsdk_quit_navi"
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/navi_dimens_10dp"
+        style="@style/NsdkRGBlueBtnStyle"/>
+</LinearLayout>

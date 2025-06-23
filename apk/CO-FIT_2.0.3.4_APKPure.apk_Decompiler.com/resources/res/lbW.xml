@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/gpsLl" style="@style/sport_rl_gps_ll">
+    <com.sma.smartv3.view.text.PFMedium android:text="@string/gps" style="@style/sport_rl_gps_ll_gps_tv"/>
+    <com.adam.gpsstatus.GpsStatusImageView android:id="@+id/ivGpsSignal" android:src="@drawable/signal_1" app:drawable0="@drawable/signal_1" app:drawable1="@drawable/signal_1" app:drawable2="@drawable/signal_2" app:drawable3="@drawable/signal_3" app:thr_1_2="3" app:thr_2_3="8" style="@style/sport_rl_gps_ll_gps_iv"/>
+</LinearLayout>

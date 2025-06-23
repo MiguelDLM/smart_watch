@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/wsdk_light_pop_bg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/node"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:src="@drawable/wsdk_light_nav_node"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+    <ImageView
+        android:id="@+id/turn_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="4dp"
+        android:layout_toRightOf="@+id/node"/>
+    <TextView
+        android:textSize="17dp"
+        android:textColor="#fff"
+        android:id="@+id/turn_tv"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="9dp"
+        android:text=""
+        android:layout_toRightOf="@+id/turn_iv"/>
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srf"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:paddingTop="2dp"
+            android:paddingBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.sma.smartv3.view.ad.ADPCAdContainerView
+        android:id="@+id/adpcAdContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:acv_adUnitId="@string/adpc_unit_banner1_home_ai_records"
+        app:acv_autoLoad="false"/>
+    <com.sma.smartv3.view.ad.ADPAdContainerView
+        android:id="@+id/adpAdContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:acv_adUnitId="@string/adp_unit_banner1_home_ai_records"
+        app:acv_autoLoad="false"/>
+</LinearLayout>

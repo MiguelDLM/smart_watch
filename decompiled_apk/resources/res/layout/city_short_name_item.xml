@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="18sp"
+        android:textColor="#313233"
+        android:id="@+id/text_view"
+        android:background="@drawable/nsdk_bg_violation_query_keyboards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:text="京"/>
+</LinearLayout>

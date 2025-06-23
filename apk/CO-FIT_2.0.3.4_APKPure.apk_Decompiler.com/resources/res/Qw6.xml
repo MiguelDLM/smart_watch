@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/rl_step_context" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.sma.smartv3.view.StepProgressBar android:layout_gravity="center" android:id="@+id/stepPB" android:background="@drawable/common_ripple_borderless_color_1" android:layout_width="250dp" android:layout_height="250dp" android:layout_marginTop="20dp" android:layout_marginBottom="20dp" android:layout_centerHorizontal="true" android:layout_marginStart="20dp" android:layout_marginEnd="20dp" app:antiAlias="true" app:dottedRingColor="@color/view_page_five_bg" app:percentageColor="@color/status_step_view_percentage_color" app:percentageRingColor="@color/view_page_third_bg" app:percentageTextColor="@color/line_color" app:stepContentBgColor="@color/view_page_four_bg" app:stepProgressEndColor="@color/status_step_view_end_color" app:stepProgressMiddleColor="@color/status_step_view_middle_color" app:stepProgressStartColor="@color/status_step_view_start_color" app:stepTextColor="@color/text_color" app:stepUnitText="@string/steps"/>
+        <LinearLayout android:gravity="right" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:layout_marginEnd="8dp" android:layout_alignParentEnd="true">
+            <ImageView android:id="@+id/ivWeather" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_weather0"/>
+            <com.sma.smartv3.view.text.DINCondBold android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tvTemperature" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="23~26 °C"/>
+            <com.sma.smartv3.view.text.DINCondBold android:textSize="8sp" android:textColor="@color/line_color" android:id="@+id/tvWeatherTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <include layout="@layout/status_middle_function"/>
+</LinearLayout>

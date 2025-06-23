@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:paddingStart="22dp" android:paddingEnd="22dp">
+        <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/segment_name" app:my_font="4"/>
+        <com.sma.smartv3.view.text.FontEditText android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/edt_name" android:background="@null" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" app:my_font="4"/>
+        <View style="@style/h_divider_gray2"/>
+        <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/segment_type" app:my_font="4"/>
+        <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_stage" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setStage" android:drawableEnd="@drawable/icon_right_enter_normal" app:my_font="4"/>
+        <View style="@style/h_divider_gray2"/>
+        <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/segment_activity" app:my_font="4"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setActivity">
+            <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:gravity="center_vertical" android:id="@+id/tv_activity" android:paddingTop="16dp" android:paddingBottom="16dp" android:layout_width="0dp" android:layout_height="wrap_content" android:drawablePadding="23dp" android:layout_weight="1" android:drawableStart="@drawable/ic_segment_activity0" app:my_font="4"/>
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/icon_right_enter_normal"/>
+        </LinearLayout>
+        <View style="@style/h_divider_gray2"/>
+        <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/segment_completion_goal" app:my_font="4"/>
+        <LinearLayout android:orientation="horizontal" android:paddingTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setCompletionCondition">
+            <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/set_to" android:layout_weight="1" app:my_font="4"/>
+            <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/tv_1_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="16dp" android:drawableEnd="@drawable/icon_right_enter_normal" android:layout_marginStart="22dp" app:my_font="4"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setCondition2">
+            <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_2_1" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/hr_zone" android:layout_weight="1" app:my_font="4"/>
+            <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/tv_2_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="16dp" android:drawableEnd="@drawable/icon_right_enter_normal" android:layout_marginStart="22dp" app:my_font="4"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setCondition3">
+            <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_3_1" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:my_font="4"/>
+            <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/tv_3_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="16dp" android:drawableEnd="@drawable/icon_right_enter_normal" android:layout_marginStart="22dp" app:my_font="4"/>
+        </LinearLayout>
+    </LinearLayout>
+    <Button android:text="@string/save" style="@style/bottom_btn"/>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/fl_num"
+            android:background="@drawable/bg_count_down_radius_200"
+            android:layout_width="213dp"
+            android:layout_height="213dp"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:textSize="150dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"/>
+        </FrameLayout>
+        <TextView
+            android:textSize="24dp"
+            android:textColor="@color/white"
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="3秒后，开始录音"
+            android:layout_below="@+id/fl_num"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</FrameLayout>

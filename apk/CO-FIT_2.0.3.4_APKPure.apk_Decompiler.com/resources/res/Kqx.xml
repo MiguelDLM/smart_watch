@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:padding="20dp" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <com.sma.smartv3.view.ad.ADPCAdContainerView android:id="@+id/adpcAdContainerView" android:layout_width="match_parent" android:layout_height="wrap_content" app:acv_adUnitId="@string/adpc_unit_banner1_home_me_theme" app:acv_autoLoad="false"/>
+    <com.sma.smartv3.view.ad.ADPAdContainerView android:id="@+id/adpAdContainerView" android:layout_width="match_parent" android:layout_height="wrap_content" app:acv_adUnitId="@string/adp_unit_banner1_home_me_theme" app:acv_autoLoad="false"/>
+</LinearLayout>

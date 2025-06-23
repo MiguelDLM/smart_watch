@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="right"
+    android:id="@+id/reward_video_ad_stub_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/xadsdk_bg_paster_watchad"
+        android:paddingLeft="4dp"
+        android:paddingTop="2dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="3dp">
+        <TextView
+            android:textSize="8sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tv_splash_ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="广告"
+            android:lines="1"/>
+        <ImageView
+            android:id="@+id/iv_ad_logo"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginLeft="3dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/car_type_layout" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:textSize="@dimen/navi_dimens_18dp" android:textColor="#ff333333" android:id="@+id/car_type_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="车辆信息"/>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/nsdk_drawable_plate_normal_bg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_15dp" android:layout_below="@+id/car_type_info">
+        <TextView android:id="@+id/car_type_0" android:text="小汽车" style="@style/CarType"/>
+        <View android:id="@+id/divider_1" android:background="#ffd8d8d8" android:layout_width="@dimen/navi_dimens_1dp" android:layout_height="@dimen/navi_dimens_13dp"/>
+        <TextView android:id="@+id/car_type_pickup" android:text="皮卡" android:layout_marginStart="@dimen/navi_dimens_1dp" style="@style/CarType"/>
+        <View android:id="@+id/divider_2" android:background="#ffd8d8d8" android:layout_width="@dimen/navi_dimens_1dp" android:layout_height="@dimen/navi_dimens_13dp"/>
+        <TextView android:id="@+id/car_type_motor" android:text="摩托车" android:layout_marginStart="@dimen/navi_dimens_1dp" style="@style/CarType"/>
+        <View android:id="@+id/divider_3" android:background="#ffd8d8d8" android:layout_width="@dimen/navi_dimens_1dp" android:layout_height="@dimen/navi_dimens_13dp"/>
+        <TextView android:id="@+id/car_type_truck" android:text="货车" android:layout_marginStart="@dimen/navi_dimens_1dp" style="@style/CarType"/>
+    </LinearLayout>
+</RelativeLayout>

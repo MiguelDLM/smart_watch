@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/item_detail_layout" android:background="@drawable/rectangular_background" android:padding="15dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:layout_marginVertical="5dp">
+    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_name" android:text="小睡1" style="@style/status_item_info_tv_piecemeal"/>
+        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_time" android:layout_marginTop="10dp" android:text="3小时3分钟" style="@style/status_item_info_tv_piecemeal"/>
+    </LinearLayout>
+    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_date" android:text="15:47-17:37" style="@style/status_item_info_tv_piecemeal"/>
+</LinearLayout>

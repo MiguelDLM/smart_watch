@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:layout_marginTop="12dp" android:layout_marginBottom="12dp" android:src="@drawable/item_tera_box_dir_icon" android:layout_marginStart="22dp"/>
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/item_tera_box_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="4dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:id="@+id/item_tera_box_tip" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <ImageView android:layout_gravity="center_vertical" android:layout_marginEnd="22dp" style="@style/match_record_item_ll_rl_right_tv_right_iv_style"/>
+</LinearLayout>

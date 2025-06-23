@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/device_item_root_style">
+    <ImageView
+        android:id="@+id/game_store_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/device_game_item_style"/>
+    <include layout="@layout/device_item_split_line_1dp"/>
+</LinearLayout>

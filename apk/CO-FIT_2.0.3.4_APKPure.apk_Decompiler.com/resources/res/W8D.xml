@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:duration="150" android:drawable="@drawable/icon_simultaneous_audio_img0"/>
+    <item android:duration="150" android:drawable="@drawable/icon_simultaneous_audio_img1"/>
+    <item android:duration="150" android:drawable="@drawable/icon_simultaneous_audio_img3"/>
+    <item android:duration="150" android:drawable="@drawable/icon_simultaneous_audio_img4"/>
+    <item android:duration="150" android:drawable="@drawable/icon_simultaneous_audio_img2"/>
+</animation-list>

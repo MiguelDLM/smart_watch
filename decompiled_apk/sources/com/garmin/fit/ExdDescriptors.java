@@ -1,0 +1,126 @@
+package com.garmin.fit;
+
+/* loaded from: classes9.dex */
+public enum ExdDescriptors {
+    BIKE_LIGHT_BATTERY_STATUS(0),
+    BEAM_ANGLE_STATUS(1),
+    BATERY_LEVEL(2),
+    LIGHT_NETWORK_MODE(3),
+    NUMBER_LIGHTS_CONNECTED(4),
+    CADENCE(5),
+    DISTANCE(6),
+    ESTIMATED_TIME_OF_ARRIVAL(7),
+    HEADING(8),
+    TIME(9),
+    BATTERY_LEVEL(10),
+    TRAINER_RESISTANCE(11),
+    TRAINER_TARGET_POWER(12),
+    TIME_SEATED(13),
+    TIME_STANDING(14),
+    ELEVATION(15),
+    GRADE(16),
+    ASCENT(17),
+    DESCENT(18),
+    VERTICAL_SPEED(19),
+    DI2_BATTERY_LEVEL(20),
+    FRONT_GEAR(21),
+    REAR_GEAR(22),
+    GEAR_RATIO(23),
+    HEART_RATE(24),
+    HEART_RATE_ZONE(25),
+    TIME_IN_HEART_RATE_ZONE(26),
+    HEART_RATE_RESERVE(27),
+    CALORIES(28),
+    GPS_ACCURACY(29),
+    GPS_SIGNAL_STRENGTH(30),
+    TEMPERATURE(31),
+    TIME_OF_DAY(32),
+    BALANCE(33),
+    PEDAL_SMOOTHNESS(34),
+    POWER(35),
+    FUNCTIONAL_THRESHOLD_POWER(36),
+    INTENSITY_FACTOR(37),
+    WORK(38),
+    POWER_RATIO(39),
+    NORMALIZED_POWER(40),
+    TRAINING_STRESS_SCORE(41),
+    TIME_ON_ZONE(42),
+    SPEED(43),
+    LAPS(44),
+    REPS(45),
+    WORKOUT_STEP(46),
+    COURSE_DISTANCE(47),
+    NAVIGATION_DISTANCE(48),
+    COURSE_ESTIMATED_TIME_OF_ARRIVAL(49),
+    NAVIGATION_ESTIMATED_TIME_OF_ARRIVAL(50),
+    COURSE_TIME(51),
+    NAVIGATION_TIME(52),
+    COURSE_HEADING(53),
+    NAVIGATION_HEADING(54),
+    POWER_ZONE(55),
+    TORQUE_EFFECTIVENESS(56),
+    TIMER_TIME(57),
+    POWER_WEIGHT_RATIO(58),
+    LEFT_PLATFORM_CENTER_OFFSET(59),
+    RIGHT_PLATFORM_CENTER_OFFSET(60),
+    LEFT_POWER_PHASE_START_ANGLE(61),
+    RIGHT_POWER_PHASE_START_ANGLE(62),
+    LEFT_POWER_PHASE_FINISH_ANGLE(63),
+    RIGHT_POWER_PHASE_FINISH_ANGLE(64),
+    GEARS(65),
+    PACE(66),
+    TRAINING_EFFECT(67),
+    VERTICAL_OSCILLATION(68),
+    VERTICAL_RATIO(69),
+    GROUND_CONTACT_TIME(70),
+    LEFT_GROUND_CONTACT_TIME_BALANCE(71),
+    RIGHT_GROUND_CONTACT_TIME_BALANCE(72),
+    STRIDE_LENGTH(73),
+    RUNNING_CADENCE(74),
+    PERFORMANCE_CONDITION(75),
+    COURSE_TYPE(76),
+    TIME_IN_POWER_ZONE(77),
+    NAVIGATION_TURN(78),
+    COURSE_LOCATION(79),
+    NAVIGATION_LOCATION(80),
+    COMPASS(81),
+    GEAR_COMBO(82),
+    MUSCLE_OXYGEN(83),
+    ICON(84),
+    COMPASS_HEADING(85),
+    GPS_HEADING(86),
+    GPS_ELEVATION(87),
+    ANAEROBIC_TRAINING_EFFECT(88),
+    COURSE(89),
+    OFF_COURSE(90),
+    GLIDE_RATIO(91),
+    VERTICAL_DISTANCE(92),
+    VMG(93),
+    AMBIENT_PRESSURE(94),
+    PRESSURE(95),
+    VAM(96),
+    INVALID(255);
+
+    protected short value;
+
+    ExdDescriptors(short s) {
+        this.value = s;
+    }
+
+    public static ExdDescriptors getByValue(Short sh) {
+        for (ExdDescriptors exdDescriptors : values()) {
+            if (sh.shortValue() == exdDescriptors.value) {
+                return exdDescriptors;
+            }
+        }
+        return INVALID;
+    }
+
+    public static String getStringFromValue(ExdDescriptors exdDescriptors) {
+        return exdDescriptors.name();
+    }
+
+    public short getValue() {
+        return this.value;
+    }
+}

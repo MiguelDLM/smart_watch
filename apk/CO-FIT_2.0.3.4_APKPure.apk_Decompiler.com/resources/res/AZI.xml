@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:id="@+id/bnavi_hw_service_normal_panel" android:visibility="visible" android:layout_width="match_parent" android:layout_height="@dimen/nsdk_rg_land_hw_service_height">
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_4dp">
+            <TextView android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_name" android:textColor="@color/nsdk_rg_hw_service_info" android:ellipsize="end" android:id="@+id/bnavi_rg_hw_service_panel_name" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:layout_constraintVertical_chainStyle="0"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/nsdk_drawable_hw_service_change_info_background" android:layout_width="wrap_content" android:layout_height="@dimen/navi_dimens_20dp">
+                <ImageView android:visibility="visible" android:layout_width="@dimen/navi_dimens_18dp" android:layout_height="@dimen/navi_dimens_18dp" android:src="@drawable/nsdk_drawable_rg_hw_service_charging_station_orange"/>
+                <TextView android:textSize="@dimen/navi_dimens_13dp" android:textColor="@color/nsdk_rg_hw_service_charge_station_info" android:ellipsize="end" android:id="@+id/bnavi_rg_hw_service_panel_change_station_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_marginEnd="@dimen/navi_dimens_4dp"/>
+            </LinearLayout>
+            <ImageView android:id="@+id/bnavi_rg_hw_service_panel_subscript_icon" android:visibility="gone" android:layout_width="@dimen/nsdk_rg_hw_service_area_subscript_icon_size" android:layout_height="@dimen/nsdk_rg_hw_service_area_subscript_icon_size" android:src="@drawable/nsdk_drawable_rg_hw_service_subscribed" android:layout_marginStart="@dimen/navi_dimens_5dp" android:layout_marginEnd="@dimen/navi_dimens_10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@+id/bn_rg_hw_service_normal_panel_dist" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_dist" android:textColor="@color/nsdk_rg_hw_service_info" android:id="@+id/bnavi_rg_hw_service_panel_top_remain_dist" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true"/>
+        <TextView android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_unit" android:textColor="@color/nsdk_rg_hw_service_info" android:id="@+id/bnavi_rg_hw_service_panel_top_unit" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true"/>
+    </LinearLayout>
+</LinearLayout>

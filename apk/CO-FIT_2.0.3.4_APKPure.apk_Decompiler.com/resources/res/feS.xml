@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:background="@drawable/nsdk_drawable_common_loading_box" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <Button android:textSize="10sp" android:textColor="@color/nsdk_cl_text_a" android:id="@+id/create_issue_btn" android:background="#c7c7c7" android:layout_width="@dimen/navi_dimens_70dp" android:layout_height="@dimen/navi_dimens_40dp" android:layout_marginLeft="@dimen/navi_dimens_40dp" android:text="新问题" android:layout_centerHorizontal="true"/>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/issue_id_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_2dp" android:layout_below="@+id/create_issue_btn" android:layout_centerHorizontal="true">
+        <TextView android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center" android:id="@+id/issue_id_tx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="问题编号"/>
+        <Spinner android:id="@+id/issue_id_sp" android:layout_width="@dimen/nsdk_driving_tool_store_sp_width" android:layout_height="@dimen/nsdk_driving_tool_sp_height"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/issue_desp_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/issue_id_ll" android:layout_centerHorizontal="true">
+        <TextView android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center" android:id="@+id/issue_desp_tx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="问题描述"/>
+        <EditText android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:id="@+id/issue_desp_et" android:layout_width="@dimen/nsdk_driving_tool_store_sp_width" android:layout_height="@dimen/nsdk_driving_tool_sp_height" android:singleLine="true"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/issue_type_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/issue_desp_ll" android:layout_centerHorizontal="true">
+        <TextView android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center" android:id="@+id/issue_type_tx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="问题分类"/>
+        <Spinner android:id="@+id/issue_type_sp" android:layout_width="@dimen/nsdk_driving_tool_store_sp_width" android:layout_height="@dimen/nsdk_driving_tool_sp_height"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/responsible_pm_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/issue_type_ll" android:layout_centerHorizontal="true">
+        <TextView android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center" android:id="@+id/responsible_pm_tx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="责任产品"/>
+        <Spinner android:id="@+id/responsible_pm_sp" android:layout_width="@dimen/nsdk_driving_tool_store_sp_width" android:layout_height="@dimen/nsdk_driving_tool_sp_height"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/current_state_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/responsible_pm_ll" android:layout_centerHorizontal="true">
+        <TextView android:textSize="@dimen/nsdk_driving_tool_first_tx_size" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center" android:id="@+id/current_state_tx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="目前状态"/>
+        <Spinner android:id="@+id/current_state_sp" android:layout_width="@dimen/nsdk_driving_tool_store_sp_width" android:layout_height="@dimen/nsdk_driving_tool_sp_height"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/add_attach_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_2dp" android:layout_below="@+id/current_state_ll">
+        <Button android:textSize="10sp" android:textColor="@color/nsdk_cl_text_a" android:id="@+id/add_attch_btn" android:background="#c7c7c7" android:layout_width="@dimen/navi_dimens_80dp" android:layout_height="@dimen/navi_dimens_40dp" android:text="@string/nsdk_string_driving_tool_add_attach"/>
+        <TextView android:textSize="10sp" android:textColor="@color/nsdk_cl_text_a" android:gravity="center" android:id="@+id/select_picture_tx" android:layout_width="@dimen/nsdk_driving_tool_add_attch" android:layout_height="@dimen/navi_dimens_40dp" android:layout_marginLeft="@dimen/navi_dimens_20dp" android:text="图片数:0"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_2dp" android:layout_below="@+id/add_attach_ll" android:layout_centerHorizontal="true">
+        <Button android:textSize="10sp" android:textColor="@color/nsdk_cl_text_a" android:gravity="center" android:id="@+id/cancel_btn" android:background="#c7c7c7" android:layout_width="@dimen/navi_dimens_50dp" android:layout_height="@dimen/navi_dimens_40dp" android:text="取消"/>
+        <Button android:textSize="10sp" android:textColor="@color/nsdk_cl_text_a" android:gravity="center" android:id="@+id/store_btn" android:background="#c7c7c7" android:layout_width="@dimen/navi_dimens_50dp" android:layout_height="@dimen/navi_dimens_40dp" android:layout_marginLeft="@dimen/navi_dimens_50dp" android:text="保存"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/today_health_title_layout" android:visibility="gone" style="@style/sport_today_data_status_card_style">
+    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:text="@string/today_health_data" android:layout_marginStart="4dp" style="@style/status_card_style_1_title"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/status_item_today_health_data" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</LinearLayout>

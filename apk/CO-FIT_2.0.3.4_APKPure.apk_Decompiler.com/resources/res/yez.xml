@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#f2f2f2"/>
+            <corners android:bottomLeftRadius="12dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#ffffff"/>
+            <corners android:bottomLeftRadius="12dp"/>
+        </shape>
+    </item>
+</selector>

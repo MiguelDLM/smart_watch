@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="@dimen/navi_dimens_66dp" android:layout_height="@dimen/navi_dimens_66dp">
+    <View android:id="@+id/bnav_rg_cp_cur_overspeed_anim_view" android:background="@drawable/nsdk_drawable_rg_assist_overspeed_anim_bg" android:layout_width="@dimen/navi_dimens_60dp" android:layout_height="@dimen/navi_dimens_60dp" android:layout_centerInParent="true"/>
+    <RelativeLayout android:gravity="center" android:id="@+id/bnav_rg_cp_car_speed_bg" android:background="@drawable/nsdk_drawable_rg_assist_normal_speed" android:layout_width="@dimen/navi_dimens_60dp" android:layout_height="@dimen/navi_dimens_60dp" android:layout_centerInParent="true">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="@dimen/navi_dimens_28dp" android:textStyle="bold" android:textColor="#3884fc" android:id="@+id/bnav_rg_cp_cur_car_speed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:letterSpacing="-0.03"/>
+            <TextView android:textSize="@dimen/navi_dimens_10dp" android:textColor="#3884fc" android:id="@+id/bnav_rg_cp_cur_car_speed_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-5dp" android:text="km/h"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

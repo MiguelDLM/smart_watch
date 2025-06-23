@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView android:id="@+id/base_share_cardView" app:cardCornerRadius="15dp" app:cardElevation="10dp" style="@style/share_map_card_style">
+        <RelativeLayout android:id="@+id/share_card_rl" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/share_card_route_image" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/share_card_route_bg" android:scaleType="fitXY"/>
+            <ImageView android:id="@+id/share_card_route_image_figure" android:layout_width="120dp" android:layout_height="120dp" android:layout_marginTop="80dp"/>
+            <com.baidu.mapapi.map.TextureMapView android:id="@+id/bMapView" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:alpha="0"/>
+            <com.sma.smartv3.view.CustomGoogleMapView android:id="@+id/gMapView" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:alpha="0"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.ImageViewRound android:id="@+id/iv_avatar" android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/pic_avatar_default" app:borderWidth="0dp" app:isCustomize="true" app:type="linear"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/edt_nickname" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/tv_dateTime" style="@style/sport_detail_item_name"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.ImageViewRound android:layout_width="50dp" android:layout_height="50dp" android:layout_margin="10dp" android:src="@mipmap/ic_launcher" android:layout_alignParentRight="true"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+                <LinearLayout android:orientation="horizontal" android:id="@+id/route_distance_ll" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="25sp" android:textColor="@color/white" android:id="@+id/tv_distance_value" style="@style/sport_detail_item_name"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="25sp" android:textColor="@color/white" android:id="@+id/tv_distance_unit" android:text="@string/km_capital" style="@style/sport_detail_item_name"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="20sp" android:textColor="@color/white" android:id="@+id/tv_detail_name" style="@style/sport_detail_item_name"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/sport_detail_share_card_route_btn_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="25dp" android:layout_marginRight="25dp">
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/text_color" android:id="@+id/tv_duration" android:text="00:25:30" style="@style/sport_detail_item_name"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/use_time" style="@style/sport_detail_item_name"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/ll_pace_value" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/text_color" android:layout_gravity="center" android:id="@+id/tv_pace_value" android:text="@string/heart_rate" style="@style/sport_detail_item_name"/>
+            <com.sma.smartv3.view.text.PFMedium android:layout_gravity="center" android:text="@string/pace" style="@style/sport_detail_item_name"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/text_color" android:layout_gravity="right" android:id="@+id/tv_calories_value" android:text="@string/heart_rate" style="@style/sport_detail_item_name"/>
+            <com.sma.smartv3.view.text.PFMedium android:layout_gravity="right" android:text="@string/kcal" style="@style/sport_detail_item_name"/>
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView android:layout_gravity="center_horizontal" android:id="@+id/share_card_map_camera" android:layout_width="50dp" android:layout_height="50dp" android:layout_marginTop="20dp" android:src="@drawable/share_card_camera"/>
+    <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <LinearLayout android:layout_gravity="end" android:orientation="vertical" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingEnd="5dp">
+        <CheckBox android:id="@+id/downloadGpxIb" android:background="@drawable/common_ripple_borderless" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="15dp" android:button="@drawable/icon_gpx"/>
+        <CheckBox android:id="@+id/btn_map_hot" android:background="@drawable/common_ripple_borderless" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="15dp" android:button="@drawable/selector_map_hot"/>
+        <CheckBox android:id="@+id/btn_map_3d" android:background="@drawable/common_ripple_borderless" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="15dp" android:button="@drawable/selector_map_3d"/>
+        <CheckBox android:id="@+id/btn_map_mark" android:background="@drawable/common_ripple_borderless" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="15dp" android:button="@drawable/selector_map_mark"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/data_panel" android:background="@drawable/shape_sport_detail_top_bg" android:paddingTop="20dp" android:paddingBottom="20dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:paddingStart="30dp" android:paddingEnd="30dp">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <Button android:textSize="15dp" android:textColor="@android:color/white" android:id="@+id/btn_track_play" android:background="@drawable/selector_btn_play" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="wrap_content" android:layout_height="40dp" android:text="@string/track_play" android:layout_centerVertical="true" android:paddingStart="20dp" android:paddingEnd="20dp" android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <LinearLayout android:gravity="start" android:visibility="gone" style="@style/sport_map_item_ll">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/heart_rate" style="@style/sport_detail_item_name"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_bpm_value" android:text="120" style="@style/sport_detail_item_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/bpm" style="@style/sport_detail_item_unit"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout style="@style/sport_map_item_ll">
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/distance" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/km" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:gravity="end" style="@style/sport_map_item_ll">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/sport_detail_item_name"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="27586" style="@style/sport_detail_item_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/kcal" style="@style/sport_detail_item_unit"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <Button android:textSize="15dp" android:textColor="@android:color/white" android:id="@+id/btn_share" android:background="@drawable/selector_btn_play" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="40dp" android:layout_margin="20dp" android:text="@string/share" android:layout_centerVertical="true" android:paddingStart="20dp" android:paddingEnd="20dp" android:layout_alignParentEnd="true"/>
+</LinearLayout>

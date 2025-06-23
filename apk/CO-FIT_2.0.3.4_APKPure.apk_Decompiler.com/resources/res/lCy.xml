@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent">
+    <EditText android:id="@+id/editText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="0.02%bac" android:editable="false"/>
+    <androidx.appcompat.widget.AppCompatButton android:id="@+id/start_tv1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="开始酒精标定1" android:onClick="toStartSendText1" android:textAllCaps="false"/>
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="0.08%bac" android:editable="false"/>
+    <androidx.appcompat.widget.AppCompatButton android:id="@+id/start_tv2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="开始酒精标定2" android:onClick="toStartSendText2" android:textAllCaps="false"/>
+    <androidx.appcompat.widget.AppCompatButton android:id="@+id/read_tv" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="读取" android:onClick="read" android:textAllCaps="false"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/value1_btn" android:layout_width="0dp" android:layout_height="wrap_content" android:text="标定值1" android:layout_weight="1" android:onClick="read" android:textAllCaps="false"/>
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/press1_btn" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:text="电压值1" android:layout_weight="1" android:onClick="read" android:textAllCaps="false"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/value2_btn" android:layout_width="0dp" android:layout_height="wrap_content" android:text="标定值" android:layout_weight="1" android:onClick="read" android:textAllCaps="false"/>
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/press2_btn" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:text="电压值2" android:layout_weight="1" android:onClick="read" android:textAllCaps="false"/>
+    </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Reply:"/>
+    <ListView android:id="@+id/list_view" android:scrollbars="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="20dp" android:layout_marginBottom="50dp" android:divider="@null"/>
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="oct_external_root"
+        path="."/>
+    <external-path
+        name="oct_external_download"
+        path="OctDownload"/>
+    <external-files-path
+        name="oct_external_files_download"
+        path="OctDownload"/>
+    <files-path
+        name="oct_internal_file_download"
+        path="OctDownload"/>
+    <cache-path
+        name="oct_internal_cache_download"
+        path="OctDownload"/>
+</paths>

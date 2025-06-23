@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:animateLayoutChanges="true">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout android:orientation="vertical" android:padding="20dp" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/llNameAndGender" android:paddingBottom="0dp" android:visibility="visible" style="@style/personal_info_rl">
+            <LinearLayout android:orientation="horizontal" android:layout_centerInParent="true" style="@style/personal_info_ll">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <com.sma.smartv3.view.ImageViewRound android:id="@+id/iv_avatar" android:layout_width="96dp" android:layout_height="96dp" android:src="@drawable/personal_info_default_avatar" android:onClick="selectAvatar" android:layout_marginStart="0dp" app:borderWidth="2dp" app:isCustomize="true" app:type="linear"/>
+                    <RelativeLayout android:layout_marginTop="20dp" style="@style/edittext_rl">
+                        <View android:visibility="gone" android:layout_marginBottom="8dp" style="@style/edittext_bottom_line"/>
+                        <com.google.android.material.textfield.TextInputLayout android:gravity="center" android:hint="@string/nickname" style="@style/reset_password_ll_one_style">
+                            <com.google.android.material.textfield.TextInputEditText android:gravity="center" android:id="@+id/edtNickname" android:maxLines="1" android:inputType="textPersonName" style="@style/reset_password_ll_one_et_style"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout android:gravity="bottom|center_vertical|center_horizontal|center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <View android:id="@+id/nickNameLine" android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="-10dp" android:layout_marginStart="3dp" android:layout_marginEnd="3dp"/>
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/gender" style="@style/personal_info_tv_style"/>
+                    <RadioGroup android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp">
+                        <RadioButton android:id="@+id/rbMale" android:text="@string/male" style="@style/bottom_btn.gender"/>
+                        <RadioButton android:id="@+id/rbFemale" android:text="@string/female" android:layout_marginStart="30dp" style="@style/bottom_btn.gender"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+            <Button android:text="@string/next" android:onClick="nameAndGenderClick" style="@style/bottom_btn.personal_info_next"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/llBirthdayAndUnit" android:paddingBottom="0dp" android:visibility="gone" style="@style/personal_info_rl">
+            <LinearLayout android:orientation="horizontal" android:layout_centerInParent="true" style="@style/personal_info_ll">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/birthday" style="@style/personal_info_tv_style"/>
+                    <com.sma.smartv3.view.picker.DatePicker android:id="@+id/datePicker" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/unit" style="@style/personal_info_tv_style"/>
+                    <RadioGroup android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp">
+                        <RadioButton android:id="@+id/rbMetric" android:text="@string/metric" style="@style/bottom_btn.gender"/>
+                        <RadioButton android:id="@+id/rbImperial" android:text="@string/imperial" android:layout_marginStart="30dp" style="@style/bottom_btn.gender"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+            <Button android:text="@string/next" android:onClick="birthdayAndUnitClick" style="@style/bottom_btn.personal_info_next"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/llHeightAndWeight" android:paddingBottom="0dp" android:visibility="gone" style="@style/personal_info_rl">
+            <LinearLayout android:orientation="horizontal" android:layout_height="match_parent" android:layout_above="@+id/info_next" style="@style/personal_info_ll">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/height" style="@style/personal_info_tv_style"/>
+                    <com.sma.smartv3.view.picker.HeightPicker android:id="@+id/heightPicker" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/weight" style="@style/personal_info_tv_style"/>
+                    <com.sma.smartv3.view.picker.WeightPicker android:id="@+id/weightPicker" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <Button android:id="@+id/info_next" android:text="@string/next" android:onClick="heightAndWeightClick" style="@style/bottom_btn.personal_info_next"/>
+        </RelativeLayout>
+        <include android:visibility="gone" layout="@layout/layout_goal_set"/>
+    </LinearLayout>
+</LinearLayout>

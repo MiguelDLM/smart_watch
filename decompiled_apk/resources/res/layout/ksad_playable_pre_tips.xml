@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/ksad_playable_pre_tips_root"
+    android:background="@drawable/ksad_playable_pre_tips_bg"
+    android:paddingLeft="3dp"
+    android:visibility="gone"
+    android:layout_width="@dimen/ksad_reward_playable_pre_tips_width"
+    android:layout_height="@dimen/ksad_reward_playable_pre_tips_height">
+    <com.kwad.components.core.widget.KSCornerImageView
+        android:id="@+id/ksad_playabel_pre_tips_icon"
+        android:background="@color/ksad_playable_pre_tips_icon_bg"
+        android:padding="@dimen/ksad_reward_playable_pre_tips_icon_padding"
+        android:layout_width="@dimen/ksad_reward_playable_pre_tips_icon_size"
+        android:layout_height="@dimen/ksad_reward_playable_pre_tips_icon_size"
+        android:src="@drawable/ksad_interstitial_toast_logo"
+        app:ksad_radius="100dp"/>
+    <TextView
+        android:textSize="16sp"
+        android:textColor="#ffffffff"
+        android:id="@+id/ksad_playabel_pre_tips_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="试玩一下"
+        android:alpha="0"/>
+</LinearLayout>

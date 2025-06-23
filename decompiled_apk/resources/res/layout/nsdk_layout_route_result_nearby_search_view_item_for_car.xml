@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/bnav_nearby_search_item_iv"
+        android:layout_width="@dimen/navi_dimens_28dp"
+        android:layout_height="@dimen/navi_dimens_28dp"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/nsdk_drawable_rg_ic_pass_bank"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_12dp"
+        android:textColor="#333333"
+        android:id="@+id/bnav_nearby_search_item_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="19dp"
+        android:layout_below="@+id/bnav_nearby_search_item_iv"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

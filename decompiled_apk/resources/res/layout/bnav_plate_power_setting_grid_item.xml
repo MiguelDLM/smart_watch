@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/navi_dimens_14dp"
+    android:textColor="@color/bnav_color_power_grid_item"
+    android:gravity="center"
+    android:id="@+id/cb_power_grid_item"
+    android:background="@drawable/bnav_bg_power_grid_item_bg"
+    android:layout_width="@dimen/navi_dimens_95dp"
+    android:layout_height="@dimen/navi_dimens_32dp"
+    android:button="@null"/>

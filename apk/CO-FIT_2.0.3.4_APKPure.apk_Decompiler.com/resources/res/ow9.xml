@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/start_bg" android:scaleType="centerCrop"/>
+    <androidx.core.widget.NestedScrollView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="20dp">
+        <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:paddingTop="60dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <RelativeLayout android:id="@+id/googleRl" android:background="@drawable/start_gg" android:visibility="visible" android:onClick="google" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/login_gg_color_2" android:text="@string/google" android:drawableStart="@drawable/icon_google" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/faceBookRl" android:background="@drawable/start_fb" android:visibility="visible" android:onClick="faceBook" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/login_fb_color_2" android:text="@string/facebook" android:drawableStart="@drawable/icon_facebook" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/weChatRl" android:background="@drawable/start_wc" android:onClick="weChat" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/weight_show_3" android:text="@string/wechat" android:drawableStart="@drawable/icon_wechat" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/QQRl" android:background="@drawable/start_qq" android:onClick="qq" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/login_qq_color_1" android:text="@string/qq" android:drawableStart="@drawable/icon_qq" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/weiBoRl" android:background="@drawable/start_wb" android:onClick="weiBo" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/login_wb_color_1" android:text="@string/weibo" android:drawableStart="@drawable/icon_weibo" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/twitterRl" android:background="@drawable/start_tw" android:visibility="visible" android:onClick="twitter" style="@style/style_start_rl">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/login_tw_color_1" android:text="@string/twitter" android:drawableStart="@drawable/icon_twitter" style="@style/style_start_tv"/>
+            </RelativeLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/line_color" android:background="@drawable/common_ripple_borderless" android:padding="10dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40dp" android:text="@string/not_logged_in_yet" android:onClick="noLogin"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40dp" android:text="@string/other_login_methods"/>
+            <ImageButton android:background="@drawable/common_ripple_borderless" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:src="@drawable/start_email" android:onClick="emailLogin"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:onClick="startVisitor">
+                <ImageView android:layout_gravity="center_horizontal" android:layout_width="30dp" android:layout_height="30dp" android:layout_marginBottom="10dp" android:src="@drawable/start_visitor_icon"/>
+                <TextView android:textColor="@color/text_color" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/start_visitor"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

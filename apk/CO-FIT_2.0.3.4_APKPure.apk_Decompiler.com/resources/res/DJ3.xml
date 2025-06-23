@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" style="@style/sport_rl">
+    <include layout="@layout/layout_gps_status"/>
+    <RelativeLayout android:id="@+id/distanceLl" style="@style/sport_rl_distance_ll">
+        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/distanceNow" android:text="25.6" style="@style/sport_rl_distance_ll_tv"/>
+        <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowGoalUnit" android:text="@string/km" android:layout_toRightOf="@+id/distanceNow" android:layout_alignBaseline="@+id/distanceNow" style="@style/sport_rl_distance_ll_unit"/>
+    </RelativeLayout>
+    <LinearLayout android:id="@+id/cumulativeRunningLl" style="@style/sport_rl_cumulative_run_ll">
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/cumulative_running" style="@style/sport_rl_cumulative_run_ll_tv"/>
+        <ImageView android:src="@drawable/icon_right_enter_normal" style="@style/sport_rl_cumulative_run_ll_iv"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="50dp" android:paddingStart="20dp" android:paddingEnd="20dp">
+        <LinearLayout android:gravity="center" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.TintImageView android:id="@+id/sportGoalSet" android:src="@drawable/icon_run_goal_setting" android:tint="@color/text_color" style="@style/sport_rl_start_run_rl_goal"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="center" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1">
+            <ImageButton android:layout_gravity="center" android:id="@+id/sportStart" android:src="@drawable/icon_run_start" android:onClick="sportPauseClick" style="@style/sport_rl_start_run_rl_start"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="center" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.TintImageView android:id="@+id/sportSet" android:src="@drawable/icon_sport_fitness" android:tint="@color/text_color" android:onClick="sportSetClick" style="@style/sport_rl_start_run_rl_set"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

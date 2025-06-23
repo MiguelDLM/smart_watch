@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/charge_list_default_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/nsdk_energy_charge_default_red"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:textSize="16dp"
+            android:textColor="#ffff4d4d"
+            android:id="@+id/charge_list_default_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="后续行程充电站可能不足"
+            android:layout_below="@+id/charge_list_default_icon"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</RelativeLayout>

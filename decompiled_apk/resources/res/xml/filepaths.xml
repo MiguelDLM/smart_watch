@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-files-path
+        name="images"
+        path="images/"/>
+    <external-files-path
+        name="aigc"
+        path="aigc/"/>
+    <external-files-path
+        name="share"
+        path="share/"/>
+    <external-files-path
+        name="smart_watch_recording"
+        path="smart_watch_recording/"/>
+    <external-files-path
+        name="files_root"
+        path="mimoDownload"/>
+</paths>

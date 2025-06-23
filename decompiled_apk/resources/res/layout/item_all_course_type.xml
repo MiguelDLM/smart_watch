@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <View
+        android:id="@+id/course_type_view"
+        android:background="@color/colorAccent"
+        android:visibility="gone"
+        android:layout_width="3dp"
+        android:layout_height="15dp"
+        android:layout_centerVertical="true"/>
+    <TextView
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:id="@+id/course_type_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="类型"/>
+</RelativeLayout>

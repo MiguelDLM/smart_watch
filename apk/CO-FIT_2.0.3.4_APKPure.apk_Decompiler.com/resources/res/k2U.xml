@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/eta_root_view" android:background="@drawable/nsdk_drawable_future_trip_eta_bg" android:visibility="visible" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:id="@+id/container" android:paddingLeft="@dimen/navi_dimens_5dp" android:paddingRight="@dimen/navi_dimens_5dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_45dp" android:layout_alignParentBottom="true">
+        <RelativeLayout android:id="@+id/eta_panel" android:background="@drawable/nsdk_drawable_future_trip_eta_panel_bg" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_240dp" android:layout_above="@+id/time">
+            <RelativeLayout android:id="@+id/eta_main_panel" android:paddingBottom="@dimen/navi_dimens_10dp" android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:textSize="@dimen/navi_dimens_15dp" android:textColor="#333333" android:id="@+id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/navi_dimens_14dp" android:layout_marginTop="@dimen/navi_dimens_10dp" android:text="历史7天用时"/>
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_160dp" android:layout_alignParentBottom="true">
+                    <View android:id="@+id/mid_line" android:visibility="visible" android:layout_marginLeft="@dimen/navi_dimens_10dp" android:layout_marginRight="@dimen/navi_dimens_10dp" android:layout_marginBottom="@dimen/navi_dimens_23dp" android:layout_alignParentBottom="true" style="@style/FutureTripLineStyle"/>
+                    <LinearLayout android:gravity="bottom" android:orientation="horizontal" android:id="@+id/items_container" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentBottom="true">
+                        <include android:id="@+id/item_0" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_1" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_2" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_3" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_4" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_5" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                        <include android:id="@+id/item_6" layout="@layout/nsdk_layout_future_trip_eta_item" style="@style/FutureTripEtaPanelItemStyle"/>
+                    </LinearLayout>
+                </RelativeLayout>
+                <View android:id="@+id/bottom_line" android:visibility="visible" android:layout_marginLeft="@dimen/navi_dimens_10dp" android:layout_marginRight="@dimen/navi_dimens_10dp" android:layout_marginBottom="@dimen/navi_dimens_22dp" android:layout_alignParentBottom="true" style="@style/FutureTripLineStyle"/>
+            </RelativeLayout>
+            <include android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerInParent="true" layout="@layout/nsdk_layout_future_trip_eta_loading"/>
+        </RelativeLayout>
+        <TextView android:textSize="@dimen/navi_dimens_35dp" android:textStyle="bold" android:textColor="@android:color/white" android:layout_gravity="center_horizontal" android:id="@+id/time" android:background="@android:color/transparent" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-15dp" android:text="20:15"/>
+    </LinearLayout>
+</RelativeLayout>

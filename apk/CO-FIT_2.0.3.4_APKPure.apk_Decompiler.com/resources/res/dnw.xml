@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/view_page_secondary_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/go_fit_purchase_content_1"/>
+            <RelativeLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:layout_width="match_parent" android:layout_height="wrap_content" android:src="@drawable/purchase_tips_iv" android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/go_fit_purchase_content_2"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp">
+                <Button android:layout_width="0dp" android:text="@string/no_longer_remind" android:layout_weight="1" android:onClick="noRemindClick" style="@style/btn_common"/>
+                <Button android:layout_width="0dp" android:text="@string/confirm" android:layout_weight="1" android:onClick="confirmClick" android:layout_marginStart="20dp" style="@style/btn_common"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

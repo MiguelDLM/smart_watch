@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/points_recharge_bg_layout" android:background="@color/points_bg_color" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/ai_answer_fl_bg" android:background="@drawable/order_head_bg" android:layout_width="match_parent" android:layout_height="320dp"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView app:tint="@color/white" style="@style/abh_title_left"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" style="@style/abh_title_center"/>
+            <ImageView android:layout_gravity="center_vertical" android:paddingEnd="11dp" style="@style/abh_title_right"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/order_points_detail_title_bg" android:background="@drawable/rectangular_background" android:padding="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="15dp" android:layout_marginRight="20dp" android:layout_marginBottom="15dp" android:backgroundTint="@color/points_three_bg_color" android:layout_marginHorizontal="20dp" android:layout_marginVertical="15dp">
+            <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:layout_width="25dp" android:layout_height="25dp" android:src="@drawable/icon_points_tip"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cur_points" android:layout_marginStart="4dp"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="40sp" android:textColor="@color/colorAccent" android:layout_gravity="center_horizontal" android:id="@+id/tv_points" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp"/>
+            <Button android:textColor="@color/white" android:id="@+id/btn_recharge" android:layout_width="200dp" android:layout_marginTop="5dp" android:text="@string/recharge" android:backgroundTint="@color/order_points_detail_btn_bg" style="@style/btn_common"/>
+        </LinearLayout>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/points_detail" android:layout_marginStart="20dp"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_points_detail" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="20dp" android:layout_marginTop="15dp" android:layout_marginRight="20dp" android:layout_marginBottom="15dp" android:layout_marginHorizontal="20dp" android:layout_marginVertical="15dp"/>
+    </LinearLayout>
+</FrameLayout>

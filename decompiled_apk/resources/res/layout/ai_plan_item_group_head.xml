@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/abh_coach_layout_style_bg">
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="18dp"
+        android:textColor="@color/text_color"
+        android:id="@+id/plan_week_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/week"
+        android:layout_marginStart="16dp"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        style="@style/status_info_vp"/>
+</LinearLayout>

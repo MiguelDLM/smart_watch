@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/auto_bind_bg_color" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/top_panel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="80dp" android:layout_marginBottom="120dp" android:layout_marginStart="40dp" android:layout_marginEnd="40dp">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="22sp" android:textColor="@color/text_color" android:id="@+id/tv_tip1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/binding"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/tv_tip2" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/bind_tip"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/top_panel" android:layout_centerInParent="true">
+        <com.sma.smartv3.view.GifImageView android:id="@+id/iv_bind_tip_1" android:visibility="visible" android:layout_width="200dp" android:layout_height="170dp" android:scaleType="fitCenter" app:auth_play="true" app:end_last_frame="true" app:gif_src="@raw/pic_bind_tip_1"/>
+        <com.sma.smartv3.view.GifImageView android:id="@+id/iv_bind_tip_2" android:visibility="gone" android:layout_width="160dp" android:layout_height="160dp" app:auth_play="false" app:end_last_frame="true" app:gif_src="@raw/pic_bind_tip_2" app:play_count="1"/>
+    </LinearLayout>
+</RelativeLayout>

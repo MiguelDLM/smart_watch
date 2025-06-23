@@ -1,0 +1,26 @@
+{
+  "rr_neweng_car_brand_tesla": {
+    "cards": [{
+      "tplName": "default_mystique",
+      "data": {}
+    }]
+  },
+  "rr_neweng_car_brand_xiaopeng": {
+    "cards": [{
+      "tplName": "default_mystique",
+      "data": {}
+    }]
+  },
+  "rr_neweng_car_brand_nio": {
+    "cards": [{
+      "tplName": "default_mystique",
+      "data": {}
+    }]
+  },
+  "rr_neweng_car_brand_other": {
+    "cards": [{
+      "tplName": "default_mystique",
+      "data": {}
+    }]
+  }
+}

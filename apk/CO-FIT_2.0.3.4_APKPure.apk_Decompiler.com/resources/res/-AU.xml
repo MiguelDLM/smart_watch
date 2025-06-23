@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <LinearLayout android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/sportSourceIv" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_watch"/>
+                <ImageView android:id="@+id/sportTypeIv" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_run" android:layout_marginStart="10dp"/>
+                <ImageView android:id="@+id/gpsStatusIv" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_gps" android:layout_marginStart="10dp"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="13sp" android:textColor="@color/text_color" android:id="@+id/sportName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="sportName"/>
+        </LinearLayout>
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="14sp" android:textColor="@color/text_color" android:id="@+id/sportStartTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="07:30 AM 10/29/2019" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <View android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="0.8dp" android:layout_marginTop="10dp"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginBottom="10dp"/>
+</LinearLayout>

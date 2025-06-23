@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/bn_rg_setting_group_title_func"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nsdk_setting_group_title_item_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/NsdkSettingGroupTitle"/>
+    <TextView
+        android:id="@+id/bn_rg_setting_group_sort"
+        android:text="@string/nsdk_long_press_sort"
+        app:layout_constraintBottom_toBottomOf="@+id/bn_rg_setting_group_title_func"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bn_rg_setting_group_title_func"
+        style="@style/BNSettingSortTextStyle"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

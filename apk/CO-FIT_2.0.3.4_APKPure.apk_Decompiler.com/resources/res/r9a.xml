@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <View style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@+id/iv_icon" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="22dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_name" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+        <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_enabled" android:padding="11dp" style="@style/abh_checkbox"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout"
+    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+        android:text="开启车道线动画"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        style="@style/Text_NaviSettingsText"/>
+    <com.baidu.navisdk.ui.widget.StatusButton
+        android:gravity="center_vertical"
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="1px"
+        android:top="18px"
+        android:right="1px"
+        android:bottom="20px">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bnav_ar_common_transparent_bg"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="5dp">
+    <com.sma.smartv3.view.ad.ADPCAdContainerView android:id="@+id/adContainerView" android:layout_width="match_parent" android:layout_height="wrap_content" app:acv_adUnitId="@string/adpc_unit_banner1_home_ai" app:acv_autoLoad="false"/>
+</LinearLayout>

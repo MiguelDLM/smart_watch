@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/selector_main_bottom_status"
+        android:id="@+id/item_bottom_status"
+        android:title="@string/bottom_status"
+        android:contentDescription="@string/bottom_status"/>
+    <item
+        android:icon="@drawable/selector_main_bottom_sport"
+        android:id="@+id/item_bottom_sport"
+        android:visible="false"
+        android:title="@string/bottom_sport"
+        android:contentDescription="@string/bottom_sport"/>
+    <item
+        android:icon="@drawable/selector_main_bottom_ai"
+        android:id="@+id/item_bottom_ai"
+        android:visible="false"
+        android:title="@string/bottom_ai"
+        android:contentDescription="@string/bottom_ai"/>
+    <item
+        android:icon="@drawable/selector_main_bottom_device"
+        android:id="@+id/item_bottom_device"
+        android:title="@string/bottom_device"/>
+    <item
+        android:icon="@drawable/selector_main_bottom_me"
+        android:id="@+id/item_bottom_me"
+        android:title="@string/bottom_me"/>
+</menu>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        style="@style/abh_coach_layout_style_bg">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/abh_no_create_a_plan_icon"/>
+        <TextView
+            android:textSize="20dp"
+            android:textColor="@color/text_color"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/complete_plan"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/coach_item_create_plan"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/terminate_plan"
+        style="@style/abh_coach_bottom_style"/>
+</LinearLayout>

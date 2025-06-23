@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="53dp">
+    <TextView android:textSize="13dp" android:textColor="@color/nsdk_electric_text_color_selector" android:gravity="center" android:id="@+id/bnavi_ele_type" android:background="@drawable/nsdk_electric_text_bg_selector" android:paddingLeft="@dimen/navi_dimens_14dp" android:paddingRight="@dimen/navi_dimens_14dp" android:layout_width="wrap_content" android:layout_height="26dp" android:text="高速上"/>
+</LinearLayout>

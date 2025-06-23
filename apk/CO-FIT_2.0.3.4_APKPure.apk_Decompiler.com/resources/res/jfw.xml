@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+                <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar android:layout_width="30dp" android:layout_height="30dp" android:layout_centerInParent="true" style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/dataContent" style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowTimeDetails" style="@style/status_item_info_select_time"/>
+                <RelativeLayout android:layout_marginTop="20dp" style="@style/status_item_info_rl_two">
+                    <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" android:text="" style="@style/status_item_info_select_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/valueUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" style="@style/status_item_info_iv_right_spacing"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginEnd="20dp">
+                    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="176dp" android:layout_alignParentBottom="true" app:cardBackgroundColor="@color/sleep_chart_bg_color" app:cardCornerRadius="6dp" app:cardElevation="0dp"/>
+                        <com.github.mikephil.charting.charts.BarChart android:id="@+id/barChart" android:layout_height="160dp" android:layout_margin="8dp" style="@style/status_item_info_chat"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+                        <TextView android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/sleepStartTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="22:00" android:layout_alignParentStart="true"/>
+                        <TextView android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/sleepEndTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="08:00" android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <com.google.android.flexbox.FlexboxLayout android:id="@+id/flexboxLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="15dp" app:alignContent="5" app:alignItems="4" app:flexDirection="0" app:flexWrap="1" app:justifyContent="3">
+                    <LinearLayout android:backgroundTint="@color/sleep_show_5" style="@style/status_item_info_ll_three_ll_all_day">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/deep_sleep" style="@style/status_item_info_total_all_day"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/deepValue" android:text="--" style="@style/status_item_info_total_value_all_day"/>
+                    </LinearLayout>
+                    <LinearLayout android:backgroundTint="@color/sleep_show_3" style="@style/status_item_info_ll_three_ll_all_day">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/light_sleep" style="@style/status_item_info_total_all_day"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/lightValue" android:text="--" style="@style/status_item_info_total_value_all_day"/>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_info_rem" android:backgroundTint="@color/sleep_show_10" style="@style/status_item_info_ll_three_ll_all_day">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/rem" style="@style/status_item_info_total_all_day"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/remValue" android:text="--" style="@style/status_item_info_total_value_all_day"/>
+                    </LinearLayout>
+                    <LinearLayout android:backgroundTint="@color/sleep_show_1" style="@style/status_item_info_ll_three_ll_all_day">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/awake" style="@style/status_item_info_total_all_day"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/awakeValue" android:text="--" style="@style/status_item_info_total_value_all_day"/>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_info_piecemeal" android:backgroundTint="@color/sleep_show_8" style="@style/status_item_info_ll_three_ll_all_day">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/piecemeal" style="@style/status_item_info_total_all_day"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/piecemealValue" android:text="--" style="@style/status_item_info_total_value_all_day"/>
+                    </LinearLayout>
+                </com.google.android.flexbox.FlexboxLayout>
+                <LinearLayout android:orientation="vertical" android:id="@+id/ll_piecemeal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp">
+                    <LinearLayout android:orientation="vertical" android:background="@drawable/rectangular_background" android:padding="20dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <ImageView android:layout_width="35dp" android:layout_height="35dp" android:src="@drawable/icon_piecemeal"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textStyle="bold" android:layout_gravity="center_vertical" android:text="@string/piecemeal" android:layout_marginStart="4dp" style="@style/status_item_info_tv_piecemeal"/>
+                        </LinearLayout>
+                        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                            <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/total_duration" style="@style/status_item_info_tv_piecemeal"/>
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_total_piecemeal_time" android:layout_marginTop="10dp" style="@style/status_item_info_tv_piecemeal"/>
+                            </LinearLayout>
+                            <View android:background="@color/line_color" android:layout_width="1dp" android:layout_height="match_parent" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+                            <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/sleep_nap" style="@style/status_item_info_tv_piecemeal"/>
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_piecemeal_count" android:layout_marginTop="10dp" style="@style/status_item_info_tv_piecemeal"/>
+                            </LinearLayout>
+                            <View android:background="@color/line_color" android:layout_width="1dp" android:layout_height="match_parent" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+                            <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/ave_value" style="@style/status_item_info_tv_piecemeal"/>
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_piecemeal_avg" android:layout_marginTop="10dp" style="@style/status_item_info_tv_piecemeal"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_piecemeal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp"/>
+                </LinearLayout>
+                <include layout="@layout/status_item_health_btn_layout"/>
+                <LinearLayout style="@style/status_tip_layout_style">
+                    <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="0dp" android:text="@string/sleep_tip" style="@style/status_tip_style"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kwad.sdk.core.view.AdBaseFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ksad_tk_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/ksad_kwad_web_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ksad_activity_title_bar_height"
+        layout="@layout/ksad_activity_title_bar"/>
+    <FrameLayout
+        android:layout_gravity="top"
+        android:id="@+id/ksad_js_container"
+        android:background="#f8f8f8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="44dp"/>
+</com.kwad.sdk.core.view.AdBaseFrameLayout>

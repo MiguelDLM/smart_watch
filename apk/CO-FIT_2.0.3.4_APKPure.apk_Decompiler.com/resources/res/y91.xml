@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="vertical" android:paddingTop="7dp" android:paddingBottom="7dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="12dp" android:textColor="@color/nsdk_route_result_tab_desc_selector" android:gravity="center" android:id="@+id/prefer" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:textSize="19dp" android:textColor="@color/nsdk_route_result_tab_time_selector" android:gravity="center" android:id="@+id/time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:singleLine="true" android:includeFontPadding="false"/>
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/bottom_collection" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp">
+            <TextView android:textSize="12dp" android:textColor="@color/bnav_traffic_info_color_selector" android:gravity="center" android:id="@+id/distance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false"/>
+            <TextView android:textSize="12dp" android:textColor="@color/bnav_traffic_info_color_selector" android:gravity="center" android:id="@+id/traffic_light" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6dp" android:singleLine="true" android:includeFontPadding="false" android:drawableLeft="@drawable/bnav_traffic_light_selector" android:drawablePadding="1dp" android:layout_below="@+id/time"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

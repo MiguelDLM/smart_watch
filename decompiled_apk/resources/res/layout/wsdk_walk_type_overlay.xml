@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="20dp"
+    android:layout_height="20dp">
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/node_index_iv_up"
+        android:layout_width="20dp"
+        android:layout_height="10dp"/>
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/node_index_iv_down"
+        android:layout_width="20dp"
+        android:layout_height="10dp"
+        android:layout_below="@+id/node_index_iv_up"/>
+</RelativeLayout>

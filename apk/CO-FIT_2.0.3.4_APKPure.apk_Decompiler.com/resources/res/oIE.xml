@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:state_checked="true" android:drawable="@drawable/icon_map_3d_true"/>
+    <item android:state_checked="false" android:drawable="@drawable/icon_map_3d_false"/>
+    <item android:drawable="@drawable/icon_map_3d_false"/>
+</selector>

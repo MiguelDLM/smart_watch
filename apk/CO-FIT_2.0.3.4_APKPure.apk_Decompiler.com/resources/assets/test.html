@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{{set spm = (root.pageAttribute.spm) || {} }}
+<html>
+<head>
+    <meta name="spm-id" content="{{spm.spma}}">
+    <meta charset="utf-8"/>
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="viewport-spec" content="max-width=750">
+    <title>MamaBridge测试</title>
+    <link href="//unpkg.alipay.com/bootstrap@4.3.1/dist/css/bootstrap.css" rel="stylesheet" />
+    <style>
+    body {
+      padding: 20px
+    }
+    </style>
+<!--    <script crossorigin="anonymous" src="//unpkg.alipay.com/vconsole@3.3.4/dist/vconsole.min.js"></script>-->
+    <script src="vconsole.min.js"></script>
+    <script>new VConsole()</script>
+    <script>
+        function onMamaBridgeReady() {
+        alert('onMamaBridgeReady');
+        }
+    </script>
+</head>
+
+<body data-spm="{{spm.spmb}}" style="background-color:rgba(255,255,255,0.5);">
+
+<H2>MamaBridge</H2>
+<a href = 'javascript:Core_getSDKInfo();'>Core.getSDKInfo</a>
+<script>
+    function Core_getSDKInfo() {
+      window.MamaBridge.callHandler(
+        'Core.getSDKInfo',
+        {
+        },
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        },
+        function (e) {
+          alert(JSON.stringify(e))
+          console.error(e)
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_notifyWebDidMount();'>RewardVideo.notifyWebDidMount</a>
+<script>
+    function RewardVideo_notifyWebDidMount() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.notifyWebDidMount',
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        },
+        function (e) {
+          alert(JSON.stringify(e))
+          console.error(e)
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_getAd();'>RewardVideo.getAd</a>
+<script>
+    function RewardVideo_getAd() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.getAd',
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        },
+        function (e) {
+          alert(JSON.stringify(e))
+          console.error(e)
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_getPlayerInfo();'>RewardVideo.getPlayerInfo</a>
+<script>
+    function RewardVideo_getPlayerInfo() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.getPlayerInfo',
+        {
+        },
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        },
+        function (e) {
+          alert(JSON.stringify(e))
+          console.error(e)
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_setPlayerVocal();'>RewardVideo.setPlayer({muted: false})</a>
+<script>
+    function RewardVideo_setPlayerVocal() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.setPlayer',
+        {
+          muted: false
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_setPlayerMuted();'>RewardVideo.setPlayer({muted: true})</a>
+<script>
+    function RewardVideo_setPlayerMuted() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.setPlayer',
+        {
+          muted: true
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_setPlayerPausing();'>RewardVideo.setPlayer({pausing: true})</a>
+<script>
+    function RewardVideo_setPlayerPausing() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.setPlayer',
+        {
+          pausing: true
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_setPlayerNotPausing();'>RewardVideo.setPlayer({pausing: false})</a>
+<script>
+    function RewardVideo_setPlayerNotPausing() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.setPlayer',
+        {
+          pausing: false
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_notifyAdClose();'>RewardVideo.notifyAdClose</a>
+<script>
+    function RewardVideo_notifyAdClose() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.notifyAdClose'
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_notifyAdClick();'>RewardVideo.notifyAdClick</a>
+<script>
+    function RewardVideo_notifyAdClick() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.notifyAdClick'
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:RewardVideo_submitFeedback();'>RewardVideo.submitFeedback</a>
+<script>
+    function RewardVideo_submitFeedback() {
+      window.MamaBridge.callHandler(
+        'RewardVideo.submitFeedback',
+        {
+        },
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        },
+        function (e) {
+          alert(JSON.stringify(res))
+          console.error(e)
+        }
+      )
+    }
+  </script>
+<br/>
+
+<a href = 'javascript:listen_RewardVideo_playStateChange();'>监听 RewardVideo.playStateChange</a>
+<script>
+    function listen_RewardVideo_playStateChange() {
+      window.MamaBridge.addListener(
+        'RewardVideo.playStateChange',
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        }
+      )
+    }
+  </script>
+
+<br/>
+
+<a href = 'javascript:listen_RewardVideo_audioStateChange();'>监听 RewardVideo.audioStateChange</a>
+<script>
+    function listen_RewardVideo_audioStateChange() {
+      window.MamaBridge.addListener(
+        'RewardVideo.audioStateChange',
+        function (res) {
+          alert(JSON.stringify(res))
+          console.log(res)
+        }
+      )
+    }
+  </script>
+
+<br/>
+</body>
+</html>

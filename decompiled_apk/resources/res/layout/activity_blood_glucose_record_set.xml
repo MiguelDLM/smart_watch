@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout style="@style/abh_title">
+        <ImageView style="@style/abh_title_left"/>
+        <com.sma.smartv3.view.text.PFMedium style="@style/abh_title_center"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textColor="@color/line_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reset"
+            android:onClick="onReset"
+            android:layout_marginEnd="20dp"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.sma.smartv3.view.AbhSettingsItem
+                android:id="@+id/item_calendar"
+                android:onClick="onCalendar"
+                app:abh_left_text="@string/by_calendar"
+                style="@style/abh_settings_item"/>
+            <com.sma.smartv3.view.AbhSettingsItem
+                android:id="@+id/item_start_date"
+                android:onClick="onStartDate"
+                app:abh_left_text="@string/start_date"
+                style="@style/abh_settings_item"/>
+            <com.sma.smartv3.view.AbhSettingsItem
+                android:id="@+id/item_end_date"
+                android:onClick="onEndDate"
+                app:abh_left_text="@string/end_date"
+                style="@style/abh_settings_item"/>
+        </LinearLayout>
+        <Button
+            android:text="@string/confirm"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            style="@style/bottom_btn"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,2164 @@
+int64_t (* const)() _init()
+{
+    if (!__gmon_start__)
+        return __gmon_start__;
+    
+    return __gmon_start__();
+}
+
+int64_t sub_401020()
+{
+    int64_t var_8 = data_406008;
+    /* jump -> data_406010 */
+}
+
+void free(void* mem)
+{
+    /* tailcall */
+    return free(mem);
+}
+
+int64_t sub_401036()
+{
+    int64_t var_8 = 0;
+    /* tailcall */
+    return sub_401020();
+}
+
+char* strncpy(char* arg1, char const* arg2, uint64_t arg3)
+{
+    /* tailcall */
+    return strncpy(arg1, arg2, arg3);
+}
+
+int64_t sub_401046()
+{
+    int64_t var_8 = 1;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_GetObjectItem()
+{
+    /* tailcall */
+    return cJSON_GetObjectItem();
+}
+
+int64_t sub_401056()
+{
+    int64_t var_8 = 2;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_Print()
+{
+    /* tailcall */
+    return cJSON_Print();
+}
+
+int64_t sub_401066()
+{
+    int64_t var_8 = 3;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t puts(char const* str)
+{
+    /* tailcall */
+    return puts(str);
+}
+
+int64_t sub_401076()
+{
+    int64_t var_8 = 4;
+    /* tailcall */
+    return sub_401020();
+}
+
+uint64_t fread(void* buf, uint64_t size, uint64_t count, FILE* fp)
+{
+    /* tailcall */
+    return fread(buf, size, count, fp);
+}
+
+int64_t sub_401086()
+{
+    int64_t var_8 = 5;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t fclose(FILE* fp)
+{
+    /* tailcall */
+    return fclose(fp);
+}
+
+int64_t sub_401096()
+{
+    int64_t var_8 = 6;
+    /* tailcall */
+    return sub_401020();
+}
+
+uint64_t strlen(char const* arg1)
+{
+    /* tailcall */
+    return strlen(arg1);
+}
+
+int64_t sub_4010a6()
+{
+    int64_t var_8 = 7;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t printf(char const* format, ...)
+{
+    /* tailcall */
+    return printf();
+}
+
+int64_t sub_4010b6()
+{
+    int64_t var_8 = 8;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_Parse()
+{
+    /* tailcall */
+    return cJSON_Parse();
+}
+
+int64_t sub_4010c6()
+{
+    int64_t var_8 = 9;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t memset(void* arg1, int32_t arg2, uint64_t arg3)
+{
+    /* tailcall */
+    return memset(arg1, arg2, arg3);
+}
+
+int64_t sub_4010d6()
+{
+    int64_t var_8 = 0xa;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_GetArraySize()
+{
+    /* tailcall */
+    return cJSON_GetArraySize();
+}
+
+int64_t sub_4010e6()
+{
+    int64_t var_8 = 0xb;
+    /* tailcall */
+    return sub_401020();
+}
+
+char* strncat(char* arg1, char const* arg2, uint64_t arg3)
+{
+    /* tailcall */
+    return strncat(arg1, arg2, arg3);
+}
+
+int64_t sub_4010f6()
+{
+    int64_t var_8 = 0xc;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t calloc(uint64_t n, uint64_t elem_size)
+{
+    /* tailcall */
+    return calloc(n, elem_size);
+}
+
+int64_t sub_401106()
+{
+    int64_t var_8 = 0xd;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t strcmp(char const* arg1, char const* arg2)
+{
+    /* tailcall */
+    return strcmp(arg1, arg2);
+}
+
+int64_t sub_401116()
+{
+    int64_t var_8 = 0xe;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t ftell(FILE* fp)
+{
+    /* tailcall */
+    return ftell(fp);
+}
+
+int64_t sub_401126()
+{
+    int64_t var_8 = 0xf;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t memcpy(void* arg1, void const* arg2, uint64_t arg3)
+{
+    /* tailcall */
+    return memcpy(arg1, arg2, arg3);
+}
+
+int64_t sub_401136()
+{
+    int64_t var_8 = 0x10;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t png_image_begin_read_from_file()
+{
+    /* tailcall */
+    return png_image_begin_read_from_file();
+}
+
+int64_t sub_401146()
+{
+    int64_t var_8 = 0x11;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_GetArrayItem()
+{
+    /* tailcall */
+    return cJSON_GetArrayItem();
+}
+
+int64_t sub_401156()
+{
+    int64_t var_8 = 0x12;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t malloc(uint64_t bytes)
+{
+    /* tailcall */
+    return malloc(bytes);
+}
+
+int64_t sub_401166()
+{
+    int64_t var_8 = 0x13;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t fseek(FILE* fp, int64_t offset, int32_t whence)
+{
+    /* tailcall */
+    return fseek(fp, offset, whence);
+}
+
+int64_t sub_401176()
+{
+    int64_t var_8 = 0x14;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_GetNumberValue()
+{
+    /* tailcall */
+    return cJSON_GetNumberValue();
+}
+
+int64_t sub_401186()
+{
+    int64_t var_8 = 0x15;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t realloc(void* oldmem, uint64_t bytes)
+{
+    /* tailcall */
+    return realloc(oldmem, bytes);
+}
+
+int64_t sub_401196()
+{
+    int64_t var_8 = 0x16;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t png_image_finish_read()
+{
+    /* tailcall */
+    return png_image_finish_read();
+}
+
+int64_t sub_4011a6()
+{
+    int64_t var_8 = 0x17;
+    /* tailcall */
+    return sub_401020();
+}
+
+FILE* fopen(char const* filename, char const* mode)
+{
+    /* tailcall */
+    return fopen(filename, mode);
+}
+
+int64_t sub_4011b6()
+{
+    int64_t var_8 = 0x18;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t cJSON_GetStringValue()
+{
+    /* tailcall */
+    return cJSON_GetStringValue();
+}
+
+int64_t sub_4011c6()
+{
+    int64_t var_8 = 0x19;
+    /* tailcall */
+    return sub_401020();
+}
+
+char* strcat(char* arg1, char const* arg2)
+{
+    /* tailcall */
+    return strcat(arg1, arg2);
+}
+
+int64_t sub_4011d6()
+{
+    int64_t var_8 = 0x1a;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t sprintf(char* s, char const* format, ...)
+{
+    /* tailcall */
+    return sprintf();
+}
+
+int64_t sub_4011e6()
+{
+    int64_t var_8 = 0x1b;
+    /* tailcall */
+    return sub_401020();
+}
+
+void exit(int32_t status) __noreturn
+{
+    /* tailcall */
+    return exit(status);
+}
+
+int64_t sub_4011f6()
+{
+    int64_t var_8 = 0x1c;
+    /* tailcall */
+    return sub_401020();
+}
+
+uint64_t fwrite(void const* buf, uint64_t size, uint64_t count, FILE* fp)
+{
+    /* tailcall */
+    return fwrite(buf, size, count, fp);
+}
+
+int64_t sub_401206()
+{
+    int64_t var_8 = 0x1d;
+    /* tailcall */
+    return sub_401020();
+}
+
+char* strdup(char const* s)
+{
+    /* tailcall */
+    return strdup(s);
+}
+
+int64_t sub_401216()
+{
+    int64_t var_8 = 0x1e;
+    /* tailcall */
+    return sub_401020();
+}
+
+char* strstr(char const* arg1, char const* arg2)
+{
+    /* tailcall */
+    return strstr(arg1, arg2);
+}
+
+int64_t sub_401226()
+{
+    int64_t var_8 = 0x1f;
+    /* tailcall */
+    return sub_401020();
+}
+
+int64_t png_image_free()
+{
+    /* tailcall */
+    return png_image_free();
+}
+
+int64_t sub_401236()
+{
+    int64_t var_8 = 0x20;
+    /* tailcall */
+    return sub_401020();
+}
+
+int32_t main(int32_t argc, char** argv, char** envp)
+{
+    char* r15;
+    char* var_8 = r15;
+    
+    if (argc <= 1)
+    {
+        puts("Input file missing");
+        return 0;
+    }
+    
+    FILE* fp = fopen(argv[1], "r");
+    int64_t rbx_1 = sub_402e30(fp);
+    printf("input file size=%d Bytes\n", rbx_1);
+    int64_t buf_1 = malloc(rbx_1);
+    
+    if (rbx_1 != fread(buf_1, 1, rbx_1, fp))
+    {
+        puts("File reading error...");
+        exit(0);
+        /* no return */
+    }
+    
+    int32_t r14_1 = 0;
+    puts("Entire file loaded successfully.");
+    fclose(fp);
+    int64_t rax_3 = cJSON_Parse(buf_1);
+    cJSON_Print(rax_3);
+    strncpy(&data_407760, cJSON_GetStringValue(cJSON_GetObjectItem(rax_3, "dial_name")), 0xff);
+    data_40785f = 0;
+    int64_t rax_6 = cJSON_GetObjectItem(rax_3, "blocks");
+    int32_t rax_7 = cJSON_GetArraySize(rax_6);
+    printf("Number of input json blocks=%d\n", rax_7);
+    
+    if (rax_7 > 0)
+    {
+        do
+        {
+            uint64_t rsi_3 = r14_1;
+            r14_1 += 1;
+            int64_t rax_9 = cJSON_GetArrayItem(rax_6, rsi_3);
+            int64_t zmm0_1 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, &data_4045a8));
+            int64_t zmm0_2 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, &data_4045ac));
+            int64_t zmm0_3 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "alnx"));
+            int64_t zmm0_4 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "posy"));
+            int64_t zmm0_5 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "posx"));
+            int64_t zmm0_6 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "height"));
+            int64_t zmm0_7 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "width"));
+            char* rax_18 = cJSON_GetStringValue(cJSON_GetObjectItem(rax_9, "colsp"));
+            int64_t zmm0_8 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "reuse"));
+            char* rax_21 = cJSON_GetStringValue(cJSON_GetObjectItem(rax_9, "fname"));
+            int64_t zmm0_9 = cJSON_GetNumberValue(cJSON_GetObjectItem(rax_9, "frms"));
+            sub_401f40(cJSON_GetStringValue(cJSON_GetObjectItem(rax_9, "type")), zmm0_9, rax_21, 
+                zmm0_8, rax_18, zmm0_7, zmm0_6, zmm0_5, zmm0_4, zmm0_3, zmm0_2, zmm0_1);
+        } while (rax_7 != r14_1);
+    }
+    
+    uint64_t rbp_4 = 0;
+    free(buf_1);
+    uint32_t rbx_3 = data_407744;
+    printf("--------------- %s composer %s -…", "HK89", "v1.9.6");
+    uint32_t rdx_2 = data_407744;
+    
+    if (rdx_2)
+    {
+        void* rcx_3 = data_406320;
+        rbp_4 = 0;
+        char* rax_32 = rcx_3 + 1;
+        void* rcx_4 = rcx_3 + (rdx_2 - 1) * 0x78 + 0x79;
+        
+        do
+        {
+            rdx_2 = *rax_32;
+            rax_32 = &rax_32[0x78];
+            rbp_4 = rbp_4 + rdx_2;
+        } while (rcx_4 != rax_32);
+    }
+    
+    printf("Compilation of images... (pl_num…", rbp_4, rdx_2);
+    int32_t buf[0x102];
+    
+    if (data_407744)
+    {
+        int64_t var_508;
+        var_508 = rbp_4;
+        void* r9_2 = data_406320;
+        int32_t rbx_6 = 0;
+        r15 = nullptr;
+        int32_t r12_3 = 0;
+        
+        do
+        {
+            int64_t r14_2 = r15 * 0x78;
+            void* rbp_5 = r9_2 + r14_2;
+            
+            if (!strstr(*(rbp_5 + 8), ".png"))
+                *(rbp_5 + 0x28) = sub_402e70(rbp_5);
+            else
+                *(rbp_5 + 0x28) = sub_402760(rbp_5);
+            
+            r9_2 = data_406320;
+            void* rdi_43 = r9_2 + r14_2;
+            
+            if (!*(rdi_43 + 0x28))
+            {
+                printf("Failed to load file "%s"!(NULL p…", *(rdi_43 + 8));
+                return 0;
+            }
+            
+            uint32_t r10_1 = *(rdi_43 + 1);
+            
+            if (r10_1 == 1)
+            {
+                uint64_t rax_34 = rbx_6;
+                rbx_6 += 1;
+                buf[rax_34] = *(rdi_43 + 0x6c);
+            }
+            else if (r10_1)
+            {
+                void* rcx_5 = rdi_43 + 0x30;
+                int32_t rax_39 = rbx_6;
+                
+                do
+                {
+                    int32_t rsi_6 = *rcx_5;
+                    uint64_t rdx_6 = rax_39;
+                    rax_39 += 1;
+                    rcx_5 += 4;
+                    buf[rdx_6] = rsi_6;
+                } while (rax_39 != r10_1 + rbx_6);
+                
+                rbx_6 += r10_1;
+            }
+            
+            int32_t rax_35 = rbx_3 * 0x14 + 4 + (rbp_4 << 2) + r12_3;
+            r15 = &r15[1];
+            r12_3 += *(rdi_43 + 0x6c);
+            *(rdi_43 + 0x70) = rax_35;
+        } while (data_407744 > r15);
+        
+        rbp_4 = var_508;
+    }
+    
+    int32_t r12_4 = 0;
+    puts("Compilation of blocks...");
+    uint32_t rsi_7 = 0;
+    
+    if (data_407744)
+    {
+        void* rbx_7 = &data_406340;
+        int64_t r13_3 = 0;
+        r12_4 = 0;
+        int32_t r14_3 = 0;
+        
+        do
+        {
+            char* rax_45 = data_406320 + r13_3;
+            char rdx_7 = *rax_45;
+            *(rbx_7 + 0xf) = rdx_7;
+            uint64_t rdi_44 = *(rax_45 + 0x70);
+            *(rbx_7 + 0xa) = *(rax_45 + 0x1c);
+            *(rbx_7 + 0xc) = *(rax_45 + 0x1e);
+            uint64_t rcx_6 = *(rax_45 + 0x18);
+            *(rbx_7 + 6) = rcx_6;
+            uint64_t rsi_9 = *(rax_45 + 0x1a);
+            *rbx_7 = rdi_44;
+            *(rbx_7 + 8) = rsi_9;
+            uint32_t r10_2 = rax_45[1];
+            *(rbx_7 + 4) = r12_4;
+            *(rbx_7 + 0xe) = r10_2;
+            *(rbx_7 + 0x10) = rax_45[0x20] | 0x400;
+            r15 = rsi_9 > 0x1234;
+            *(rbx_7 + 0x12) = rax_45[0x21];
+            *(rbx_7 + 0x13) = rax_45[0x22];
+            r15 |= rcx_6 > 0x1e6;
+            
+            if (r15 || rdi_44 - 1 > 0xfffffffd)
+            {
+                puts("Invalid address, aborting!");
+                return 0;
+            }
+            
+            if (*(rax_45 + 0x14) == 2)
+                *(rbx_7 + 0xf) = rdx_7 | 0x80;
+            
+            r12_4 += r10_2;
+            *(rbx_7 + 0xf);
+            r13_3 += 0x78;
+            uint64_t var_518_2 = rdi_44;
+            rbx_7 += 0x14;
+            uint64_t var_520_2 = rsi_9;
+            uint64_t rsi_8 = r14_3;
+            r14_3 += 1;
+            uint64_t var_528_2 = rcx_6;
+            printf("%2d. blokk: type=0x%02X, %s px=%…", rsi_8);
+            rsi_7 = data_407744;
+        } while (rsi_7 > r14_3);
+    }
+    
+    printf("Filling in the info table... (nu…", rsi_7, r12_4, 2);
+    int64_t rbx_8 = 0;
+    char rax_48 = data_407744;
+    data_407740 = r12_4;
+    data_407743 = 2;
+    data_407742 = rax_48;
+    char var_4b8[0x80];
+    char* rax_49 = strncpy(&var_4b8, &data_407760, 0x80);
+    int64_t i = -1;
+    char* rdi_46 = rax_49;
+    
+    while (i)
+    {
+        bool cond:0_1 = 0 != *rdi_46;
+        rdi_46 = &rdi_46[1];
+        i -= 1;
+        
+        if (!cond:0_1)
+            break;
+    }
+    
+    FILE* fp_1 = fopen(strncat(rax_49, ".bin", i + 0x81), "wb");
+    fwrite(&data_407740, 4, 1, fp_1);
+    fwrite(&data_406340, 0x14, data_407744, fp_1);
+    fwrite(&buf, rbp_4 << 2, 1, fp_1);
+    uint64_t rdx_11 = data_407744;
+    int64_t rdx_13 = printf("The number of written blocks is …", rdx_11, rdx_11 * 0x14);
+    
+    while (data_407744 > rbx_8)
+    {
+        void* rdi_51 = rbx_8 * 0x78 + data_406320;
+        rbx_8 += 1;
+        int32_t result;
+        result = sub_401b30(rdi_51, fp_1, rdx_13);
+        
+        if (!result)
+            return result;
+    }
+    
+    fclose(fp_1);
+    return 1;
+}
+
+void _start(int64_t arg1, int64_t arg2, void (* arg3)()) __noreturn
+{
+    int64_t stack_end_1;
+    int64_t stack_end = stack_end_1;
+    void ubp_av;
+    __libc_start_main(main, __return_addr, &ubp_av, init, fini, arg3, &stack_end);
+    /* no return */
+}
+
+int64_t sub_401940() __pure
+{
+    return;
+}
+
+int64_t deregister_tm_clones()
+{
+    return 0x4062f0;
+}
+
+int64_t sub_401980()
+{
+    return 0;
+}
+
+void _FINI_0()
+{
+    if (data_406300)
+        return;
+    
+    deregister_tm_clones();
+    data_406300 = 1;
+}
+
+int64_t _INIT_0()
+{
+    /* tailcall */
+    return sub_401980();
+}
+
+uint64_t sub_401a00(char* arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6)
+{
+    int32_t rdx_1 = (arg3 + arg5 * arg4) * arg2;
+    int64_t rcx = rdx_1;
+    int32_t rdx_2 = rdx_1 + arg2;
+    int64_t rax = rdx_2;
+    char r10 = arg1[rcx + 2];
+    char rbx = arg1[rcx];
+    char r11 = arg1[rcx + 1];
+    int64_t rdx_4 = rdx_2 + arg2;
+    int32_t r8;
+    r8 = arg1[rax + 2] == r10;
+    char rbp = arg1[rax];
+    arg2 = arg1[rax + 1] == r11;
+    char r12 = arg1[rdx_4 + 2];
+    char r13 = arg1[rdx_4 + 1];
+    char r14 = arg1[rdx_4];
+    int32_t rsi = arg2 & r8;
+    
+    if (arg6)
+    {
+        char rcx_1 = arg1[rcx + 3];
+        
+        if (!rsi)
+            return 0;
+        
+        if (rbx == rbp && rcx_1 == arg1[rax + 3] && r10 == r12 && r11 == r13)
+        {
+            rsi = rbx == r14;
+            int32_t rax_2;
+            rax_2 = rcx_1 == arg1[rdx_4 + 3];
+            return rax_2 & rsi;
+        }
+    }
+    else if (rbx == rbp && rsi)
+    {
+        rax = r10 == r12;
+        rdx_4 = r11 == r13;
+        int32_t rax_4;
+        rax_4 = rbx == r14;
+        return rax_4 & rdx_4 & rax;
+    }
+    
+    return 0;
+}
+
+int64_t sub_401ae0(int32_t arg1)
+{
+    int64_t rdx_2 = arg1;
+    char* rax_3 = data_406320 + rdx_2 * 0x78;
+    return printf("block%2d: type=%2d; posx=%3d; po…", rdx_2, *rax_3, *(rax_3 + 0x1c), 
+        *(rax_3 + 0x1e), *(rax_3 + 0x18), *(rax_3 + 0x1a), rax_3[0x20]);
+}
+
+int64_t sub_401b30(void* arg1, FILE* arg2, int64_t arg3)
+{
+    uint64_t size = *(arg1 + 0x6c);
+    
+    if (size > 0x177000)
+    {
+        printf("append_pix: picture is too large…", size, arg3, arg2);
+        return 0;
+    }
+    
+    fwrite(*(arg1 + 0x28), size, 1, arg2);
+    printf("Added to output %d bytes\n", *(arg1 + 0x6c));
+    return 1;
+}
+
+uint64_t sub_401b80(char* arg1)
+{
+    for (int64_t i = 0; i != 0x1b; i += 1)
+    {
+        if (!strcmp(arg1, (&data_406140)[i * 2]))
+            return *((i << 4) + 0x406148);
+    }
+    
+    return 0;
+}
+
+uint64_t sub_401be0(char* arg1)
+{
+    int64_t i = 0xa;
+    void* const rdi = "BLK_PREVI";
+    char* rsi = arg1;
+    int32_t r8 = 1;
+    bool c;
+    bool z;
+    
+    while (i)
+    {
+        char temp0_1 = *rsi;
+        char temp1_1 = *rdi;
+        c = temp0_1 < temp1_1;
+        z = temp0_1 == temp1_1;
+        rsi = &rsi[1];
+        rdi += 1;
+        i -= 1;
+        
+        if (!z)
+            break;
+    }
+    
+    bool c_1 = false;
+    bool z_1 = !((!z && !c) - 0);
+    
+    if (!z_1)
+    {
+        void* const rdi_1 = "BLK_BGIMG";
+        int64_t i_1 = 0xa;
+        char* rsi_1 = arg1;
+        r8 = 2;
+        
+        while (i_1)
+        {
+            char temp2_1 = *rsi_1;
+            char temp3_1 = *rdi_1;
+            c_1 = temp2_1 < temp3_1;
+            z_1 = temp2_1 == temp3_1;
+            rsi_1 = &rsi_1[1];
+            rdi_1 += 1;
+            i_1 -= 1;
+            
+            if (!z_1)
+                break;
+        }
+        
+        bool c_2 = false;
+        bool z_2 = !((!z_1 && !c_1) - 0);
+        
+        if (!z_2)
+        {
+            void* const rdi_2 = "BLK_ARMH";
+            int64_t i_2 = 9;
+            char* rsi_2 = arg1;
+            r8 = 3;
+            
+            while (i_2)
+            {
+                char temp4_1 = *rsi_2;
+                char temp5_1 = *rdi_2;
+                c_2 = temp4_1 < temp5_1;
+                z_2 = temp4_1 == temp5_1;
+                rsi_2 = &rsi_2[1];
+                rdi_2 += 1;
+                i_2 -= 1;
+                
+                if (!z_2)
+                    break;
+            }
+            
+            bool c_3 = false;
+            bool z_3 = !((!z_2 && !c_2) - 0);
+            
+            if (!z_3)
+            {
+                void* const rdi_3 = "BLK_ARMM";
+                int64_t i_3 = 9;
+                char* rsi_3 = arg1;
+                r8 = 4;
+                
+                while (i_3)
+                {
+                    char temp6_1 = *rsi_3;
+                    char temp7_1 = *rdi_3;
+                    c_3 = temp6_1 < temp7_1;
+                    z_3 = temp6_1 == temp7_1;
+                    rsi_3 = &rsi_3[1];
+                    rdi_3 += 1;
+                    i_3 -= 1;
+                    
+                    if (!z_3)
+                        break;
+                }
+                
+                bool c_4 = false;
+                bool z_4 = !((!z_3 && !c_3) - 0);
+                
+                if (!z_4)
+                {
+                    void* const rdi_4 = "BLK_ARMS";
+                    int64_t i_4 = 9;
+                    char* rsi_4 = arg1;
+                    r8 = 5;
+                    
+                    while (i_4)
+                    {
+                        char temp8_1 = *rsi_4;
+                        char temp9_1 = *rdi_4;
+                        c_4 = temp8_1 < temp9_1;
+                        z_4 = temp8_1 == temp9_1;
+                        rsi_4 = &rsi_4[1];
+                        rdi_4 += 1;
+                        i_4 -= 1;
+                        
+                        if (!z_4)
+                            break;
+                    }
+                    
+                    bool c_5 = false;
+                    bool z_5 = !((!z_4 && !c_4) - 0);
+                    
+                    if (!z_5)
+                    {
+                        void* const rdi_5 = "BLK_YEAR";
+                        int64_t i_5 = 9;
+                        char* rsi_5 = arg1;
+                        r8 = 6;
+                        
+                        while (i_5)
+                        {
+                            char temp10_1 = *rsi_5;
+                            char temp11_1 = *rdi_5;
+                            c_5 = temp10_1 < temp11_1;
+                            z_5 = temp10_1 == temp11_1;
+                            rsi_5 = &rsi_5[1];
+                            rdi_5 += 1;
+                            i_5 -= 1;
+                            
+                            if (!z_5)
+                                break;
+                        }
+                        
+                        bool c_6 = false;
+                        bool z_6 = !((!z_5 && !c_5) - 0);
+                        
+                        if (!z_6)
+                        {
+                            void* const rdi_6 = "BLK_MONTH";
+                            int64_t i_6 = 0xa;
+                            char* rsi_6 = arg1;
+                            r8 = 7;
+                            
+                            while (i_6)
+                            {
+                                char temp12_1 = *rsi_6;
+                                char temp13_1 = *rdi_6;
+                                c_6 = temp12_1 < temp13_1;
+                                z_6 = temp12_1 == temp13_1;
+                                rsi_6 = &rsi_6[1];
+                                rdi_6 += 1;
+                                i_6 -= 1;
+                                
+                                if (!z_6)
+                                    break;
+                            }
+                            
+                            bool c_7 = false;
+                            bool z_7 = !((!z_6 && !c_6) - 0);
+                            
+                            if (!z_7)
+                            {
+                                void* const rdi_7 = "BLK_DAY";
+                                int64_t i_7 = 8;
+                                char* rsi_7 = arg1;
+                                r8 = 8;
+                                
+                                while (i_7)
+                                {
+                                    char temp14_1 = *rsi_7;
+                                    char temp15_1 = *rdi_7;
+                                    c_7 = temp14_1 < temp15_1;
+                                    z_7 = temp14_1 == temp15_1;
+                                    rsi_7 = &rsi_7[1];
+                                    rdi_7 += 1;
+                                    i_7 -= 1;
+                                    
+                                    if (!z_7)
+                                        break;
+                                }
+                                
+                                bool c_8 = false;
+                                bool z_8 = !((!z_7 && !c_7) - 0);
+                                
+                                if (!z_8)
+                                {
+                                    void* const rdi_8 = "BLK_HOUR";
+                                    int64_t i_8 = 9;
+                                    char* rsi_8 = arg1;
+                                    r8 = 9;
+                                    
+                                    while (i_8)
+                                    {
+                                        char temp16_1 = *rsi_8;
+                                        char temp17_1 = *rdi_8;
+                                        c_8 = temp16_1 < temp17_1;
+                                        z_8 = temp16_1 == temp17_1;
+                                        rsi_8 = &rsi_8[1];
+                                        rdi_8 += 1;
+                                        i_8 -= 1;
+                                        
+                                        if (!z_8)
+                                            break;
+                                    }
+                                    
+                                    bool c_9 = false;
+                                    bool z_9 = !((!z_8 && !c_8) - 0);
+                                    
+                                    if (!z_9)
+                                    {
+                                        void* const rdi_9 = "BLK_MIN";
+                                        int64_t i_9 = 8;
+                                        char* rsi_9 = arg1;
+                                        r8 = 0xa;
+                                        
+                                        while (i_9)
+                                        {
+                                            char temp18_1 = *rsi_9;
+                                            char temp19_1 = *rdi_9;
+                                            c_9 = temp18_1 < temp19_1;
+                                            z_9 = temp18_1 == temp19_1;
+                                            rsi_9 = &rsi_9[1];
+                                            rdi_9 += 1;
+                                            i_9 -= 1;
+                                            
+                                            if (!z_9)
+                                                break;
+                                        }
+                                        
+                                        bool c_10 = false;
+                                        bool z_10 = !((!z_9 && !c_9) - 0);
+                                        
+                                        if (!z_10)
+                                        {
+                                            void* const rdi_10 = "BLK_SEC";
+                                            int64_t i_10 = 8;
+                                            char* rsi_10 = arg1;
+                                            r8 = 0xb;
+                                            
+                                            while (i_10)
+                                            {
+                                                char temp20_1 = *rsi_10;
+                                                char temp21_1 = *rdi_10;
+                                                c_10 = temp20_1 < temp21_1;
+                                                z_10 = temp20_1 == temp21_1;
+                                                rsi_10 = &rsi_10[1];
+                                                rdi_10 += 1;
+                                                i_10 -= 1;
+                                                
+                                                if (!z_10)
+                                                    break;
+                                            }
+                                            
+                                            bool c_11 = false;
+                                            bool z_11 = !((!z_10 && !c_10) - 0);
+                                            
+                                            if (!z_11)
+                                            {
+                                                void* const rdi_11 = "BLK_AMPM";
+                                                int64_t i_11 = 9;
+                                                char* rsi_11 = arg1;
+                                                r8 = 0xc;
+                                                
+                                                while (i_11)
+                                                {
+                                                    char temp22_1 = *rsi_11;
+                                                    char temp23_1 = *rdi_11;
+                                                    c_11 = temp22_1 < temp23_1;
+                                                    z_11 = temp22_1 == temp23_1;
+                                                    rsi_11 = &rsi_11[1];
+                                                    rdi_11 += 1;
+                                                    i_11 -= 1;
+                                                    
+                                                    if (!z_11)
+                                                        break;
+                                                }
+                                                
+                                                bool c_12 = false;
+                                                bool z_12 = !((!z_11 && !c_11) - 0);
+                                                
+                                                if (!z_12)
+                                                {
+                                                    void* const rdi_12 = "BLK_WEEKD";
+                                                    int64_t i_12 = 0xa;
+                                                    char* rsi_12 = arg1;
+                                                    r8 = 0xd;
+                                                    
+                                                    while (i_12)
+                                                    {
+                                                        char temp24_1 = *rsi_12;
+                                                        char temp25_1 = *rdi_12;
+                                                        c_12 = temp24_1 < temp25_1;
+                                                        z_12 = temp24_1 == temp25_1;
+                                                        rsi_12 = &rsi_12[1];
+                                                        rdi_12 += 1;
+                                                        i_12 -= 1;
+                                                        
+                                                        if (!z_12)
+                                                            break;
+                                                    }
+                                                    
+                                                    bool c_13 = false;
+                                                    bool z_13 = !((!z_12 && !c_12) - 0);
+                                                    
+                                                    if (!z_13)
+                                                    {
+                                                        void* const rdi_13 = "BLK_STEPS";
+                                                        int64_t i_13 = 0xa;
+                                                        char* rsi_13 = arg1;
+                                                        r8 = 0xe;
+                                                        
+                                                        while (i_13)
+                                                        {
+                                                            char temp26_1 = *rsi_13;
+                                                            char temp27_1 = *rdi_13;
+                                                            c_13 = temp26_1 < temp27_1;
+                                                            z_13 = temp26_1 == temp27_1;
+                                                            rsi_13 = &rsi_13[1];
+                                                            rdi_13 += 1;
+                                                            i_13 -= 1;
+                                                            
+                                                            if (!z_13)
+                                                                break;
+                                                        }
+                                                        
+                                                        bool c_14 = false;
+                                                        bool z_14 = !((!z_13 && !c_13) - 0);
+                                                        
+                                                        if (!z_14)
+                                                        {
+                                                            void* const rdi_14 = "BLK_PULS";
+                                                            int64_t i_14 = 9;
+                                                            char* rsi_14 = arg1;
+                                                            r8 = 0xf;
+                                                            
+                                                            while (i_14)
+                                                            {
+                                                                char temp28_1 = *rsi_14;
+                                                                char temp29_1 = *rdi_14;
+                                                                c_14 = temp28_1 < temp29_1;
+                                                                z_14 = temp28_1 == temp29_1;
+                                                                rsi_14 = &rsi_14[1];
+                                                                rdi_14 += 1;
+                                                                i_14 -= 1;
+                                                                
+                                                                if (!z_14)
+                                                                    break;
+                                                            }
+                                                            
+                                                            bool c_15 = false;
+                                                            bool z_15 = !((!z_14 && !c_14) - 0);
+                                                            
+                                                            if (!z_15)
+                                                            {
+                                                                void* const rdi_15 = "BLK_CALOR";
+                                                                int64_t i_15 = 0xa;
+                                                                char* rsi_15 = arg1;
+                                                                r8 = 0x10;
+                                                                
+                                                                while (i_15)
+                                                                {
+                                                                    char temp30_1 = *rsi_15;
+                                                                    char temp31_1 = *rdi_15;
+                                                                    c_15 = temp30_1 < temp31_1;
+                                                                    z_15 = temp30_1 == temp31_1;
+                                                                    rsi_15 = &rsi_15[1];
+                                                                    rdi_15 += 1;
+                                                                    i_15 -= 1;
+                                                                    
+                                                                    if (!z_15)
+                                                                        break;
+                                                                }
+                                                                
+                                                                bool c_16 = false;
+                                                                bool z_16 = !((!z_15 && !c_15) - 0);
+                                                                
+                                                                if (!z_16)
+                                                                {
+                                                                    void* const rdi_16 = "BLK_DIST";
+                                                                    int64_t i_16 = 9;
+                                                                    char* rsi_16 = arg1;
+                                                                    r8 = 0x11;
+                                                                    
+                                                                    while (i_16)
+                                                                    {
+                                                                        char temp32_1 = *rsi_16;
+                                                                        char temp33_1 = *rdi_16;
+                                                                        c_16 = temp32_1 < temp33_1;
+                                                                        z_16 = temp32_1 == temp33_1;
+                                                                        rsi_16 = &rsi_16[1];
+                                                                        rdi_16 += 1;
+                                                                        i_16 -= 1;
+                                                                        
+                                                                        if (!z_16)
+                                                                            break;
+                                                                    }
+                                                                    
+                                                                    if ((!z_16 && !c_16) - 0)
+                                                                    {
+                                                                        if (!strcmp(arg1, "BLK_BATTN"))
+                                                                            r8 = 0x12;
+                                                                        else if (!strcmp(arg1, "BLK_BERRY"))
+                                                                            r8 = 0x16;
+                                                                        else if (!strcmp(arg1, "BLK_ANIM"))
+                                                                            r8 = 0x17;
+                                                                        else if (!strcmp(arg1, "BLK_BATTS"))
+                                                                            r8 = 0x18;
+                                                                        else if (!strcmp(arg1, "BLK_WEAT"))
+                                                                            r8 = 0x19;
+                                                                        else if (!strcmp(arg1, "BLK_TEMP"))
+                                                                            r8 = 0x1a;
+                                                                        else if (!strcmp(arg1, "BLK_HOURH"))
+                                                                            r8 = 0x27;
+                                                                        else if (!strcmp(arg1, "BLK_HOURL"))
+                                                                            r8 = 0x28;
+                                                                        else if (!strcmp(arg1, "BLK_MINH"))
+                                                                            r8 = 0x29;
+                                                                        else
+                                                                        {
+                                                                            int32_t rax_10;
+                                                                            rax_10 = strcmp(arg1, "BLK_MINL");
+                                                                            
+                                                                            if (!rax_10)
+                                                                                r8 = 0x2a;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return r8;
+}
+
+int64_t sub_401f40(char* arg1, char arg2, char* arg3, int64_t arg4, char* arg5, int16_t arg6, int16_t arg7, int16_t arg8, int16_t arg9, char arg10, char arg11, char arg12)
+{
+    char rax = sub_401b80(arg1);
+    uint64_t rax_1 = data_407744;
+    int32_t rbx = rax_1;
+    int64_t bytes = (rax_1 + 1) * 0x78;
+    int64_t rax_3 = realloc(data_406320, bytes);
+    
+    if (!rax_3)
+    {
+        puts("Allocation error!");
+        exit(0);
+        /* no return */
+    }
+    
+    printf("New list_dblock size=%d\n", bytes);
+    bool c = rbx >= 0xffffffff;
+    bool z = rbx == 0xffffffff;
+    char* rsi_2 = arg5;
+    data_407744 = rbx + 1;
+    void* const rdi_1 = "RGBA";
+    data_406320 = rax_3;
+    int64_t i = 5;
+    *(rax_3 + bytes - 0x78) = rax;
+    
+    while (i)
+    {
+        char temp1_1 = *rsi_2;
+        char temp2_1 = *rdi_1;
+        c = temp1_1 < temp2_1;
+        z = temp1_1 == temp2_1;
+        rsi_2 = &rsi_2[1];
+        rdi_1 += 1;
+        i -= 1;
+        
+        if (!z)
+            break;
+    }
+    
+    *(rax_3 + bytes - 0x64) = !((!z && !c) - 0) + 1;
+    char* rax_8 = strdup(arg3);
+    *(rax_3 + bytes - 0x60) = arg6;
+    *(rax_3 + bytes - 0x70) = rax_8;
+    *(rax_3 + bytes - 0x77) = arg2;
+    *(rax_3 + bytes - 0x5c) = arg8;
+    *(rax_3 + bytes - 0x5a) = arg9;
+    *(rax_3 + bytes - 0x5e) = arg7;
+    *(rax_3 + bytes - 0x58) = arg10;
+    *(rax_3 + bytes - 0x57) = arg11;
+    *(rax_3 + bytes - 0x56) = arg12;
+    return 0;
+}
+
+uint64_t sub_402060(uint8_t arg1, int32_t arg2, int32_t arg3) __pure
+{
+    int32_t rsi;
+    rsi = (arg2 << 3) & 0x7e0;
+    int32_t rax_2;
+    rax_2 = (arg3 << 8) & 0xf800;
+    return rax_2 | rsi | arg1 >> 3;
+}
+
+int64_t sub_402080(int32_t* arg1, int32_t arg2, int32_t arg3, int32_t arg4)
+{
+    *(arg1 + (arg2 << 2)) = arg3 << 0x10 | arg4;
+}
+
+uint64_t sub_402090(char arg1, char arg2, int32_t arg3, char arg4, char arg5, char arg6, char arg7, char arg8) __pure
+{
+    if (arg1 != arg5 || arg2 != arg6)
+        return 0;
+    
+    arg3 = arg3 == arg7;
+    int32_t rax;
+    rax = arg4 == arg8;
+    return rax & arg3;
+}
+
+uint64_t sub_4020c0(char arg1, char arg2, int32_t arg3, char arg4, char arg5, char arg6) __pure
+{
+    int32_t rax;
+    rax = arg2 == arg5;
+    arg3 = arg3 == arg6;
+    int32_t rax_1;
+    rax_1 = arg1 == arg4;
+    return rax_1 & arg3 & rax;
+}
+
+int64_t sub_4020e0(char* arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6)
+{
+    if (arg5 - arg3 <= 2)
+        return 0;
+    
+    /* tailcall */
+    return sub_401a00(arg1, arg2, arg3, arg4, arg5, arg6);
+}
+
+int64_t sub_402100(int32_t arg1, char arg2, char arg3, char arg4, char arg5, int32_t arg6, int32_t* arg7, int64_t arg8)
+{
+    int32_t r9 = *arg7;
+    
+    if (!r9)
+        return arg3;
+    
+    if (r9 > 0)
+    {
+        r9 -= 1;
+        *arg7 = r9;
+    }
+    
+    arg7 = arg5;
+    uint32_t arg_8 = arg4;
+    arg6 = ((r9 - r9) & 0xffffffec) + 0x41;
+    /* tailcall */
+    return printf("first %s: j=%3d, cnt=%3d, R:%02X…", arg8);
+}
+
+char* sub_402170(uint8_t arg1, int32_t arg2, int32_t arg3, char arg4, int32_t arg5)
+{
+    char* rax = data_406328;
+    int16_t rdx_1 = (arg3 << 8 & 0xf800) | (arg2 << 3 & 0x7e0) | arg1 >> 3;
+    void* rsi_2 = &rax[1];
+    
+    if (arg5)
+    {
+        data_406328 = rsi_2;
+        *rax = arg4;
+        rax = data_406328;
+        rsi_2 = &rax[1];
+    }
+    
+    data_406328 = rsi_2;
+    *rax = (rdx_1 >> 8);
+    char* result = data_406328;
+    data_406328 = &result[1];
+    *result = rdx_1;
+    return result;
+}
+
+int64_t sub_4021e0(char* arg1, char* arg2, int32_t arg3)
+{
+    char var_828[0x808];
+    var_828[0] = 0;
+    char (* r8)[0x808] = &var_828;
+    
+    if (arg3 > 0)
+    {
+        int64_t rbx_1 = 0;
+        
+        while (true)
+        {
+            char rdx = arg1[rbx_1];
+            
+            if (rdx != arg2[rbx_1])
+                return 0;
+            
+            char s[0x20];
+            sprintf(&s, "%02X, ", rdx);
+            r8 = strcat(&var_828, &s);
+            
+            if (arg3 - 1 == rbx_1)
+                break;
+            
+            rbx_1 += 1;
+        }
+    }
+    
+    printf("magic found for: %s\n", r8);
+    return 1;
+}
+
+void* sub_402290(char* arg1, int32_t* arg2, int32_t arg3, int64_t arg4, int32_t arg5, uint64_t arg6 @ r13, uint64_t arg7 @ r14, char* arg8 @ r15)
+{
+    char* var_8 = arg8;
+    uint64_t var_10 = arg7;
+    uint64_t var_18 = arg6;
+    int32_t rbp = arg4 << 2;
+    int32_t rbx = arg4;
+    int32_t var_58 = rbp + 0x1002;
+    void* oldmem_1 = malloc(rbp + 0x1002);
+    void* oldmem = oldmem_1;
+    
+    if (oldmem_1)
+    {
+        int64_t r12_1 = rbp;
+        memset(oldmem_1, 0, r12_1);
+        char* rdx_1 = oldmem + r12_1;
+        data_406328 = rdx_1;
+        int64_t rax_5;
+        
+        if (rbx <= 0)
+            rax_5 = r12_1;
+        else
+        {
+            int32_t var_54_1 = 0;
+            int64_t var_68_1 = 0;
+            
+            while (true)
+            {
+                int32_t rax_3 = var_68_1;
+                rax_5 = rdx_1 - oldmem;
+                int32_t var_5c_1 = rax_5;
+                
+                if (arg3 <= 0)
+                    rbp = rax_5;
+                else
+                {
+                    int32_t rbp_1 = 0;
+                    int32_t r12_2 = 0;
+                    int32_t var_84_1 = 0;
+                    void* rbx_3 = &arg1[var_54_1 << 2];
+                    
+                    while (true)
+                    {
+                        uint8_t r11_1 = arg7;
+                        char r10_1 = arg6;
+                        arg7 = *(rbx_3 + 2);
+                        arg6 = *(rbx_3 + 1);
+                        char var_89;
+                        char var_80_1 = var_89;
+                        var_89 = *rbx_3;
+                        char var_44;
+                        char var_43_1 = var_44;
+                        var_44 = *(rbx_3 + 3);
+                        
+                        if (!var_84_1)
+                        {
+                            int32_t rax_9;
+                            
+                            if (arg3 - rbp_1 > 2)
+                                rax_9 = sub_401a00(arg1, 4, rbp_1, rax_3, arg3, arg5);
+                            
+                            if (arg3 - rbp_1 <= 2 || !rax_9)
+                            {
+                                char rax_23;
+                                
+                                if (rbp_1)
+                                    rax_23 = *arg8;
+                                
+                                char rax_25;
+                                
+                                if (rbp_1 && rax_23 != 0x7f)
+                                    rax_25 = rax_23 + 1;
+                                else
+                                {
+                                    arg8 = data_406328;
+                                    r12_2 += 1;
+                                    data_406328 = &arg8[1];
+                                    rax_25 = 1;
+                                    *arg8 = 0;
+                                }
+                                
+                                *arg8 = rax_25;
+                            }
+                            else
+                            {
+                                arg8 = data_406328;
+                                var_84_1 = 1;
+                                r12_2 += 1;
+                                data_406328 = &arg8[1];
+                                *arg8 = 0x81;
+                            }
+                            
+                            sub_402170(arg7, arg6, var_89, var_44, arg5);
+                            int32_t r12_3;
+                            r12_3 = arg5;
+                            r12_2 = r12_3 + r12_2 + 2;
+                        }
+                        else
+                        {
+                            int32_t rax_16;
+                            rax_16 = r11_1 == arg7;
+                            rdx_1 = arg6 == r10_1;
+                            char rax_17 = rax_16 & rdx_1;
+                            
+                            if (!arg5)
+                            {
+                                if (var_89 != var_80_1 || !rax_17)
+                                    goto label_402473;
+                                
+                                goto label_4025e7;
+                            }
+                            
+                            char rcx_5;
+                            uint32_t rdx_5;
+                            uint32_t rsi_1;
+                            uint8_t rdi_5;
+                            
+                            if (!rax_17 || var_89 != var_80_1 || var_44 != var_43_1)
+                            {
+                                label_402473:
+                                arg8 = data_406328;
+                                void* r10_2 = &arg8[1];
+                                int32_t rax_20;
+                                
+                                if (arg3 - rbp_1 > 2)
+                                {
+                                    var_80_1 = r10_2;
+                                    rax_20 = sub_401a00(arg1, 4, rbp_1, rax_3, arg3, arg5);
+                                    r10_2 = var_80_1;
+                                }
+                                
+                                if (arg3 - rbp_1 <= 2 || !rax_20)
+                                {
+                                    data_406328 = r10_2;
+                                    var_84_1 = 0;
+                                    *arg8 = 1;
+                                }
+                                else
+                                {
+                                    data_406328 = r10_2;
+                                    *arg8 = 0x81;
+                                }
+                                
+                                rcx_5 = var_44;
+                                rdx_5 = var_89;
+                                rsi_1 = arg6;
+                                rdi_5 = arg7;
+                                label_4024d3:
+                                sub_402170(rdi_5, rsi_1, rdx_5, rcx_5, arg5);
+                                int32_t r12_4;
+                                r12_4 = arg5;
+                                rbp_1 += 1;
+                                rbx_3 += 4;
+                                r12_2 = r12_4 + r12_2 + 3;
+                                
+                                if (arg3 == rbp_1)
+                                    break;
+                                
+                                continue;
+                            }
+                            else
+                            {
+                                label_4025e7:
+                                char rax_26 = *arg8;
+                                
+                                if (rax_26 == 0xff)
+                                {
+                                    arg8 = data_406328;
+                                    data_406328 = &arg8[1];
+                                    char rdx_10;
+                                    
+                                    if (arg3 - rbp_1 <= 2)
+                                    {
+                                        var_84_1 = 0;
+                                        rdx_10 = 1;
+                                    }
+                                    else
+                                    {
+                                        int32_t rax_31;
+                                        int32_t rdx_7;
+                                        rax_31 = sub_401a00(arg1, 4, rbp_1, rax_3, arg3, arg5);
+                                        rdx_10 = ((rdx_7 - rdx_7) & 0x80) - 0x7f;
+                                        int32_t rax_32 = 0;
+                                        
+                                        if (rax_31)
+                                            rax_32 = var_84_1;
+                                        
+                                        var_84_1 = rax_32;
+                                    }
+                                    
+                                    *arg8 = rdx_10;
+                                    rcx_5 = var_43_1;
+                                    rsi_1 = r10_1;
+                                    rdi_5 = r11_1;
+                                    rdx_5 = var_80_1;
+                                    goto label_4024d3;
+                                }
+                                
+                                *arg8 = rax_26 + 1;
+                            }
+                        }
+                        
+                        rbp_1 += 1;
+                        rbx_3 += 4;
+                        
+                        if (arg3 == rbp_1)
+                            break;
+                    }
+                    
+                    rdx_1 = data_406328;
+                    var_5c_1 |= r12_2 << 0x15;
+                    rax_5 = rdx_1 - oldmem;
+                    rbp = rax_5;
+                }
+                
+                if (var_58 - rbp <= 0xfff)
+                {
+                    var_58 += 0x1000;
+                    void* oldmem_2 = realloc(oldmem, var_58);
+                    oldmem = oldmem_2;
+                    rax_5 = rbp;
+                    rdx_1 = oldmem_2 + rax_5;
+                    data_406328 = rdx_1;
+                }
+                
+                *(oldmem + (var_68_1 << 2)) = var_5c_1;
+                var_54_1 += arg3;
+                
+                if (rbx - 1 == var_68_1)
+                    break;
+                
+                var_68_1 += 1;
+            }
+        }
+        
+        *arg2 = rbp;
+        
+        if (rax_5 & 3)
+        {
+            uint32_t rax_35 = rbp >> 0x1f >> 0x1e;
+            int32_t rax_37 = 0;
+            
+            while (true)
+            {
+                rax_37 += 1;
+                data_406328 = &rdx_1[1];
+                *rdx_1 = 0;
+                
+                if (rax_35 - ((rbp + rax_35) & 3) + 4 == rax_37)
+                    break;
+                
+                rdx_1 = data_406328;
+            }
+            
+            *arg2 += rax_35 - ((rbp + rax_35) & 3) + 4;
+        }
+    }
+    
+    return oldmem;
+}
+
+char* sub_402760(void* arg1)
+{
+    char* r12 = *(arg1 + 8);
+    void s;
+    void* r14 = &s;
+    int32_t var_1ad;
+    __builtin_strncpy(&var_1ad, ".png", 5);
+    __builtin_memset(&s, 0, 0x68);
+    int32_t var_1a0 = 1;
+    int32_t rax = strlen(r12);
+    char rdx = *(arg1 + 1);
+    int32_t var_1ec_1;
+    uint32_t var_1e8_1;
+    int32_t var_1cc_1;
+    char (* rbp_1)[0x100];
+    char var_138[0x100];
+    
+    if (r12[rax - 1] == 0x2f)
+    {
+        if (rdx <= 1)
+            return nullptr;
+        
+        var_1cc_1 = 0;
+        rbp_1 = &var_138;
+        var_1e8_1 = rdx;
+        var_1ec_1 = 1;
+    }
+    else
+    {
+        rbp_1 = &var_138;
+        char* rdi_1 = &var_138;
+        
+        if (rdx <= 1)
+        {
+            strncpy(rdi_1, r12, 0x100);
+            char var_38_2 = 0;
+            var_1e8_1 = 1;
+            var_1cc_1 = 0;
+            var_1ec_1 = 0;
+        }
+        else
+        {
+            strncpy(rdi_1, r12, 0x100);
+            char var_38_1 = 0;
+            var_1e8_1 = 1;
+            var_1cc_1 = 1;
+            var_1ec_1 = 0;
+        }
+    }
+    int32_t rax_2;
+    rax_2 = *(arg1 + 0x14) == 2;
+    int32_t r12_1 = 0;
+    char* oldmem = nullptr;
+    
+    while (true)
+    {
+        if (!var_1ec_1)
+        {
+            if (png_image_begin_read_from_file(&s, rbp_1, var_1ec_1))
+            {
+                label_40289c:
+                int32_t var_19c;
+                uint64_t r13_1 = var_19c;
+                int32_t var_194_1 = 3;
+                int32_t var_198;
+                char* rax_8 = malloc((var_198 * r13_1) << 2);
+                *(arg1 + 0x18) = r13_1;
+                
+                if (rax_8 && png_image_finish_read(&s, 0, rax_8, 0, 0))
+                {
+                    int32_t var_1b4;
+                    
+                    if (var_1cc_1)
+                    {
+                        uint32_t rsi_8 = *(arg1 + 1);
+                        *(arg1 + 0x6c) = 0;
+                        int32_t temp0_1 = var_198 / rsi_8;
+                        
+                        if (rsi_8)
+                        {
+                            int32_t* var_1d8_1 = &var_1b4;
+                            char* r12_2 = rax_8;
+                            int64_t rbp_2 = 0;
+                            int32_t var_1e0_1;
+                            var_1e0_1 = r13_1 * temp0_1 * (rax_2 + 3);
+                            
+                            do
+                            {
+                                r13_1 = sub_402290(r12_2, var_1d8_1, *(arg1 + 0x18), temp0_1, 
+                                    rax_2, r13_1, r14, oldmem);
+                                char* oldmem_1 = realloc(oldmem, var_1b4 + *(arg1 + 0x6c));
+                                oldmem = oldmem_1;
+                                memcpy(&oldmem_1[*(arg1 + 0x6c)], r13_1, var_1b4);
+                                free(r13_1);
+                                int32_t rax_22 = var_1b4;
+                                *(arg1 + 0x6c) += rax_22;
+                                r12_2 += var_1e0_1;
+                                *(arg1 + (rbp_2 << 2) + 0x30) = rax_22;
+                                rbp_2 += 1;
+                            } while (*(arg1 + 1) > rbp_2);
+                        }
+                    }
+                    else
+                    {
+                        oldmem = sub_402290(rax_8, &var_1b4, *(arg1 + 0x18), *(arg1 + 0x1a), rax_2, 
+                            r13_1, r14, oldmem);
+                        *(arg1 + 0x6c) = var_1b4;
+                    }
+                }
+                
+                r12_1 += 1;
+                free(rax_8);
+                
+                if (var_1e8_1 == r12_1)
+                    break;
+                
+                continue;
+            }
+        }
+        else
+        {
+            strncpy(rbp_1, *(arg1 + 8), 0x7f);
+            char var_1b6 = r12_1 + 0x30;
+            char var_1b5_1 = 0;
+            strncat(rbp_1, &var_1b6, 0x7f);
+            strncat(rbp_1, &var_1ad, 0x7f);
+            
+            if (png_image_begin_read_from_file(&s, rbp_1))
+                goto label_40289c;
+        }
+        
+        r12_1 += 1;
+        
+        if (var_1e8_1 == r12_1)
+            break;
+    }
+    
+    png_image_free(&s);
+    return oldmem;
+}
+
+int64_t sub_402a90(char* arg1, char* arg2, char* arg3, uint8_t* arg4)
+{
+    uint16_t rax_2 = arg1[1] | *arg1 << 8;
+    uint32_t rdx_1 = rax_2;
+    *arg2 = *rax_2[1] & 0xf8;
+    char result = rdx_1 >> 3 & 0xfc;
+    *arg3 = result;
+    *arg4 = rdx_1 << 3;
+    return result;
+}
+
+uint64_t sub_402ac0(int16_t* arg1, char* arg2, int32_t* arg3, int32_t arg4, int64_t arg5, int32_t arg6, uint64_t arg7 @ r15, int32_t arg8)
+{
+    uint64_t var_8 = arg7;
+    int32_t rbx = 0;
+    uint64_t r12 = *arg1;
+    int32_t var_44 = arg5;
+    int32_t r9;
+    r9 = r12 >> 2;
+    printf("      decode_rgba_buff: offs=0: …", *arg1, *(arg1 + 1), arg1[1], *(arg1 + 3), 
+        r9 & 0x3fff, r12, arg4, arg5);
+    int32_t var_58 = 0;
+    
+    if (var_44 > 0)
+    {
+        do
+        {
+            uint64_t r10_1 = 0;
+            
+            if (arg4 > 0)
+            {
+                do
+                {
+                    int32_t rsi_1 = r12 + 1;
+                    uint32_t rdi = *(arg1 + r12);
+                    void* rcx_2 = rsi_1 + arg1;
+                    char temp0_1 = rdi;
+                    uint32_t rdx_1;
+                    
+                    if (!temp0_1)
+                    {
+                        if (arg8)
+                        {
+                            puts("cnt=0 , exiting...");
+                            rdi = 1;
+                            r10_1 = r10_1;
+                            rdx_1 = *rcx_2;
+                        }
+                        else
+                        {
+                            rdx_1 = *rcx_2;
+                            rdi = 1;
+                        }
+                        
+                        goto label_402b82;
+                    }
+                    
+                    rdx_1 = *rcx_2;
+                    
+                    if (temp0_1 >= 0)
+                    {
+                        label_402b82:
+                        r12 = rsi_1;
+                        int32_t rcx_3 = rbx;
+                        int32_t rsi_2 = 0;
+                        
+                        while (true)
+                        {
+                            uint32_t rax_5;
+                            char* r8_2;
+                            
+                            if (!arg6)
+                            {
+                                rax_5 = rdx_1;
+                                r8_2 = r12 + arg1;
+                            }
+                            else
+                            {
+                                r12 = r12 + 1;
+                                arg7 = rdx_1;
+                                r8_2 = r12 + arg1;
+                                rax_5 = *r8_2;
+                            }
+                            
+                            r12 = r12 + 2;
+                            uint16_t rax_7 = rax_5 << 8 | r8_2[1];
+                            uint32_t rdx_3 = rax_7;
+                            arg2[rbx] = *rax_7[1] & 0xf8;
+                            int64_t rax_11 = rbx + 1;
+                            rbx += 3;
+                            arg2[rax_11] = rdx_3 >> 3 & 0xfc;
+                            arg2[rcx_3 + 2] = rdx_3 << 3;
+                            
+                            if (arg6)
+                            {
+                                arg2[rbx] = arg7;
+                                rbx = rcx_3 + 4;
+                            }
+                            
+                            rsi_2 += 1;
+                            
+                            if (rsi_2 == rdi)
+                                break;
+                            
+                            rcx_3 = rbx;
+                            rdx_1 = *(arg1 + r12);
+                        }
+                        
+                        r10_1 = r10_1 + rsi_2;
+                        
+                        if (arg8)
+                        {
+                            printf("egyedi: cnt=%d j=%d i=%d\n", rsi_2, var_58, r10_1);
+                            r10_1 = r10_1;
+                        }
+                    }
+                    else
+                    {
+                        char rdi_3 = rdi & 0x7f;
+                        
+                        if (arg6)
+                        {
+                            rsi_1 = r12 + 2;
+                            arg7 = rdx_1;
+                            rcx_2 = rsi_1 + arg1;
+                            rdx_1 = *rcx_2;
+                        }
+                        
+                        r12 = rsi_1 + 2;
+                        uint32_t rsi_4 = rdi_3;
+                        uint16_t rdx_8 = rdx_1 << 8 | *(rcx_2 + 1);
+                        uint32_t r8_8 = rdx_8;
+                        
+                        if (rdi_3)
+                        {
+                            int32_t rcx_6 = 0;
+                            
+                            while (true)
+                            {
+                                arg2[rbx] = *rdx_8[1] & 0xf8;
+                                arg2[rbx + 1] = r8_8 >> 3 & 0xfc;
+                                arg2[rbx + 2] = (r8_8 << 3);
+                                
+                                if (arg6)
+                                {
+                                    int64_t rdi_4 = rbx + 3;
+                                    rcx_6 += 1;
+                                    rbx += 4;
+                                    arg2[rdi_4] = arg7;
+                                    
+                                    if (rcx_6 == rsi_4)
+                                        break;
+                                }
+                                else
+                                {
+                                    rcx_6 += 1;
+                                    rbx += 3;
+                                    
+                                    if (rcx_6 == rsi_4)
+                                        break;
+                                }
+                            }
+                        }
+                        
+                        r10_1 = r10_1 + rsi_4;
+                        
+                        if (arg8)
+                        {
+                            uint64_t var_70_1 = r10_1;
+                            uint64_t var_78_1 = var_58;
+                            printf("ism   : cnt=%d r=%d g=%d b=%d a=…");
+                            r10_1 = r10_1;
+                        }
+                    }
+                } while (arg4 > r10_1);
+            }
+            
+            if (arg8)
+                printf("%2d.sor %d pixel\n", var_58, r10_1);
+            
+            var_58 += 1;
+        } while (var_44 != var_58);
+    }
+    
+    *arg3 = rbx;
+    int32_t rax_18 = r12 & 3;
+    
+    if (rax_18)
+    {
+        uint64_t rsi_3 = r12;
+        uint64_t rdx_6 = r12 - rax_18 + 4;
+        r12 = r12 - rax_18 + 4;
+        printf("align %d to %d\n", rsi_3, rdx_6);
+    }
+    
+    return r12;
+}
+
+uint64_t sub_402df0(int32_t arg1)
+{
+    uint32_t rcx_1 = arg1 >> 0x1f >> 0x1e;
+    int32_t rdx_2 = ((arg1 + rcx_1) & 3) - rcx_1;
+    
+    if (rdx_2 <= 0)
+        return arg1;
+    
+    printf("align %d to %d\n", arg1, arg1 - rdx_2 + 4);
+    return arg1 - rdx_2 + 4;
+}
+
+uint64_t sub_402e30(FILE* arg1)
+{
+    fseek(arg1, 0, 2);
+    int32_t rax = ftell(arg1);
+    fseek(arg1, 0, 0);
+    return rax;
+}
+
+int16_t* sub_402e70(void* arg1)
+{
+    printf("load_encoded_file: fname="%s"\n", *(arg1 + 8));
+    FILE* fp = fopen(*(arg1 + 8), "rb");
+    int16_t* result;
+    
+    if (!fp)
+    {
+        result = nullptr;
+        puts("open error");
+    }
+    else
+    {
+        int32_t rax_1 = sub_402e30(fp);
+        int32_t rbp_1 = rax_1;
+        printf("file size = %d\n", rax_1);
+        uint32_t rdx_3 = rbp_1 >> 0x1f >> 0x1e;
+        int32_t rax_5 = ((rbp_1 + rdx_3) & 3) - rdx_3;
+        
+        if (rax_5 > 0)
+        {
+            uint64_t rsi_2 = rbp_1;
+            uint64_t rdx_4 = rbp_1 - rax_5 + 4;
+            rbp_1 = rbp_1 - rax_5 + 4;
+            printf("align %d to %d\n", rsi_2, rdx_4);
+        }
+        
+        uint64_t r14_1 = rbp_1;
+        int16_t* buf = calloc(r14_1, 1);
+        result = buf;
+        printf("readed = %d byte\n", fread(buf, 1, r14_1, fp));
+        fclose(fp);
+        *(arg1 + 0x1a) = *result >> 2;
+        printf("load_encoded_file: first line of…");
+        int16_t rdx_7 = *(arg1 + 0x1a);
+        uint64_t rsi_5;
+        
+        if (rdx_7 - 0x1d2 <= 1)
+        {
+            rsi_5 = 0x1d2;
+            *(arg1 + 0x18) = 0x1d2;
+        }
+        else if (rdx_7 == 0x118)
+        {
+            rsi_5 = 0x118;
+            *(arg1 + 0x18) = 0x118;
+        }
+        else
+            rsi_5 = *(arg1 + 0x18);
+        
+        *(arg1 + 0x6c) = rbp_1;
+        printf("sx = %d , sy = %d\n", rsi_5);
+    }
+    
+    return result;
+}
+
+uint32_t sub_402fb0(int32_t arg1)
+{
+    uint32_t result = data_407744;
+    
+    if (result > arg1)
+        /* tailcall */
+        return sub_401ae0(arg1);
+    
+    return result;
+}
+
+void sub_402fd0()
+{
+    if (!data_407744)
+        return;
+    
+    int32_t i = 0;
+    
+    do
+    {
+        int32_t i_1 = i;
+        i += 1;
+        sub_401ae0(i_1);
+    } while (data_407744 > i);
+}
+
+int64_t sub_403010() __pure
+{
+    return 0;
+}
+
+void init()
+{
+    _init();
+    int64_t i = 0;
+    
+    do
+    {
+        int64_t rdx;
+        int64_t rsi;
+        int32_t rdi;
+        (&init_array)[i](rdi, rsi, rdx);
+        i += 1;
+    } while (1 != i);
+}
+
+void fini() __pure
+{
+    return;
+}
+
+int64_t _fini() __pure
+{
+    return;
+}
+

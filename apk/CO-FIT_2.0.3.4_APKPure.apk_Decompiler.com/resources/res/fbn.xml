@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bnav_rg_toolbox_resume_switch_layout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:visibility="gone" layout="@layout/bnav_layout_rg_bottombar_new_quite_navi"/>
+    <include android:visibility="visible" layout="@layout/bnav_layout_rg_bottombar_new_quite_navi_land"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

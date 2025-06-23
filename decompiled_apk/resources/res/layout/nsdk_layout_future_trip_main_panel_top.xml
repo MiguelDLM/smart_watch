@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <include
+        android:layout_gravity="center_vertical"
+        android:id="@+id/left_timing_layout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/navi_dimens_60dp"
+        android:layout_weight="1"
+        layout="@layout/nsdk_layout_future_trip_main_panel_top_timing"/>
+    <include
+        android:layout_gravity="center_vertical"
+        android:id="@+id/right_timing_layout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/navi_dimens_60dp"
+        android:layout_weight="1"
+        layout="@layout/nsdk_layout_future_trip_main_panel_top_timing"/>
+</merge>

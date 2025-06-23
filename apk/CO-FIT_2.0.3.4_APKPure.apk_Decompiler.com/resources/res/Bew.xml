@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="center" android:id="@+id/right_area_container" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_width="match_parent" android:layout_height="65dp">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/row_button" android:layout_centerInParent="true">
+        <ImageView android:id="@+id/left_image" android:visibility="gone" android:layout_width="45dp" android:layout_height="45dp" android:layout_marginRight="9dp" android:scaleType="centerCrop" android:layout_centerVertical="true"/>
+        <TextView android:textSize="16dp" android:textColor="#333333" android:ellipsize="end" android:id="@+id/content_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_toRightOf="@+id/left_image"/>
+        <TextView android:textSize="12dp" android:ellipsize="end" android:id="@+id/sub_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:singleLine="true" android:layout_toRightOf="@+id/content_title" android:layout_alignBottom="@+id/content_title"/>
+        <LinearLayout android:orientation="horizontal" android:id="@+id/content_sub_text_items" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:layout_toRightOf="@+id/left_image" android:layout_below="@+id/content_title">
+            <TextView android:textSize="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="哈哈哈"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <com.baidu.navisdk.module.routeresultbase.view.template.cell.row.RowButton android:id="@+id/row_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerInParent="true"/>
+</RelativeLayout>

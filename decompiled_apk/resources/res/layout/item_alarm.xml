@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.TimeView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="22dp"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="12sp"
+        android:textColor="@color/line_color"
+        android:ellipsize="end"
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_alignBottom="@+id/time_view"
+        android:layout_marginStart="12dp"
+        android:layout_toStartOf="@+id/check_enabled"
+        android:layout_toEndOf="@+id/time_view"/>
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/check_enabled"
+        android:padding="15dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentEnd="true"
+        style="@style/abh_checkbox"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="13sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/time_view"
+        android:layout_alignStart="@+id/time_view"/>
+    <View
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tv_repeat"
+        style="@style/h_divider_gray2_margin22"/>
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/hiad_24_dp"
+    android:paddingRight="@dimen/hiad_24_dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:ellipsize="end"
+        android:gravity="center"
+        android:id="@+id/hiad_permissions_dialog_content_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hiad_56_dp"
+        android:layout_marginTop="@dimen/hiad_24_dp"
+        android:maxLines="2"
+        style="@style/HIAD_Permissions_title_text"/>
+    <ListView
+        android:id="@+id/hiad_permissions_dialog_content_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"/>
+</LinearLayout>

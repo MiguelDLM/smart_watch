@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <RelativeLayout android:orientation="vertical" android:background="@drawable/markers_new1" android:layout_width="40px" android:layout_height="60px">
+        <TextView android:textSize="25px" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@android:id/text1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2px" android:text="9" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</FrameLayout>

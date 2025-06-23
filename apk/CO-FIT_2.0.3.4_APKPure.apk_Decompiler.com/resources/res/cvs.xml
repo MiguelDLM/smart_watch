@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/controlRoot" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/controlContent" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:id="@+id/controlIv" android:layout_width="21dp" android:layout_height="21dp" android:src="@drawable/dial_control_pop_0"/>
+        <TextView android:textColor="@color/light" android:id="@+id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="50"/>
+    </LinearLayout>
+    <ImageView android:id="@+id/controlDelete" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/icon_close_sport_map" android:layout_centerInParent="true"/>
+</RelativeLayout>

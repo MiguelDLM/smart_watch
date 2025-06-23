@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/device"
+    app:startDestination="@+id/main_device">
+    <fragment
+        android:label="@string/bottom_device"
+        android:name="com.sma.smartv3.ui.device.DeviceFragment"
+        android:id="@+id/main_device"/>
+</navigation>

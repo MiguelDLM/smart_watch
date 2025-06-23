@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <View android:background="#dddddd" android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="@dimen/ccs_item_padding" android:layout_marginRight="@dimen/ccs_item_padding"/>
+    <LinearLayout android:orientation="horizontal" android:padding="@dimen/ccs_item_padding" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <TextView android:textSize="18dp" android:textColor="@android:color/black" android:id="@+id/country_name" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextAppearance.AppCompat.Body2"/>
+            <TextView android:textSize="12dp" android:id="@+id/country_name_english" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" style="@style/TextAppearance.AppCompat.Small"/>
+        </LinearLayout>
+        <TextView android:textSize="18dp" android:textColor="#777777" android:layout_gravity="center_vertical" android:id="@+id/county_code" android:paddingLeft="8dp" android:paddingRight="8dp" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextAppearance.AppCompat.Body2"/>
+        <ImageView android:layout_gravity="center_vertical" android:id="@+id/active" android:layout_width="wrap_content" android:layout_height="wrap_content" app:srcCompat="@drawable/ccs_ic_done_black_24dp"/>
+    </LinearLayout>
+</LinearLayout>

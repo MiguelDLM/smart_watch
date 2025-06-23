@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">%d सेकंद फास्ट फॉरवर्ड करा</item>
+        <item quantity="other">%d सेकंद फास्ट फॉरवर्ड करा</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">%d सेकंद रिवाइंड करा</item>
+        <item quantity="other">%d सेकंद रिवाइंड करा</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">विंडो %1$s सेकंदात बंद होईल.</item>
+        <item quantity="other">विंडो %1$s सेकंदांमध्ये बंद होईल.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">%1$s दिवसासाठी निवड लक्षात ठेवा</item>
+        <item quantity="other">%1$s दिवसांसाठी निवड लक्षात ठेवा</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d सेकंद</item>
+        <item quantity="other">%1$d सेकंद</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d नवीन सूचना</item>
+        <item quantity="other">%d नवीन सूचना</item>
+    </plurals>
+</resources>

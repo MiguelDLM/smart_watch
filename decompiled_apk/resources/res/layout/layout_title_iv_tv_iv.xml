@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/abh_title">
+    <ImageView style="@style/abh_title_left"/>
+    <com.sma.smartv3.view.text.PFMedium style="@style/abh_title_center"/>
+    <ImageView style="@style/abh_title_other_right"/>
+    <ImageView style="@style/abh_title_right"/>
+</LinearLayout>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/me" app:startDestination="@+id/main_me">
+    <fragment android:label="@string/bottom_me" android:name="com.sma.smartv3.ui.me.CbActiveMeFragment" android:id="@+id/main_me"/>
+</navigation>

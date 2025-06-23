@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/abh_coach_layout_style_bg">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@+id/item_detail_item_icon" android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/plan_detail_interval_run_icon"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/item_detail_item_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Interval Run" android:layout_marginStart="20dp"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+        <LinearLayout android:gravity="left" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/time"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/item_detail_item_time_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10:00"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="left" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="2">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abh_coach_heart_rate_range"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/item_detail_item_hr_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="118 - 143 bpm"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="left" android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abh_coach_pace_range"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/item_detail_item_pace_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

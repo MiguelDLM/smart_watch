@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/nsdk_layout_route_sort_light_background" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+    <RelativeLayout android:id="@+id/nav_nearby_search_title_rl" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="52dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_centerHorizontal="true">
+            <ImageView android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:src="@drawable/nsdk_drawable_rg_route_search_title_icon" android:scaleType="fitXY"/>
+            <TextView android:textSize="18dp" android:textColor="@color/nsdk_cl_text_a" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:text="沿途搜索"/>
+        </LinearLayout>
+        <TextView android:textSize="12dp" android:textColor="#3385ff" android:gravity="center" android:id="@+id/nearby_nearby_select_search" android:background="@drawable/bnav_cr_nearby_search_select_search_background" android:visibility="gone" android:layout_width="70dp" android:layout_height="24dp" android:layout_marginRight="15dp" android:text="地图选点" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <View android:background="@color/nsdk_cl_bg_d_mm" android:layout_width="match_parent" android:layout_height="1px"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/nearby_search_gridview" android:visibility="visible" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:layout_marginBottom="12dp"/>
+</LinearLayout>

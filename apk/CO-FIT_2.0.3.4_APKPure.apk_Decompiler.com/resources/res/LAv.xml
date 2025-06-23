@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView android:layout_gravity="end" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="-5dp" android:src="@drawable/popup_view_btn_bg_vector" android:layout_marginEnd="15dp"/>
+    <LinearLayout android:orientation="vertical" android:background="@drawable/popup_view_btn_bg" android:paddingLeft="15dp" android:paddingRight="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="10dp">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/black" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/popup_make_plans_again" android:layout_width="wrap_content" android:layout_height="40dp" android:text="@string/abh_coach_make_plans_again" android:maxLines="1"/>
+        <View android:layout_gravity="center_horizontal" android:id="@+id/popup_switch_ai_model_view" android:background="@color/gray_E5E5E5" android:layout_width="120dp" android:layout_height="1px" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/black" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/popup_terminate_plan" android:layout_width="wrap_content" android:layout_height="40dp" android:text="@string/terminate_plan" android:maxLines="1"/>
+    </LinearLayout>
+</LinearLayout>

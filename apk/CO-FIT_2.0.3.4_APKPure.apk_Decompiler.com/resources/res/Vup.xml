@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+                <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar android:layout_width="30dp" android:layout_height="30dp" android:layout_centerInParent="true" style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/dataContent" style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowTimeDetails" android:text="12:00" style="@style/status_item_info_select_time"/>
+                <RelativeLayout style="@style/status_item_info_rl_two">
+                    <ImageView android:id="@+id/image" android:src="@drawable/icon_bog" style="@style/status_item_info_iv_flag"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" android:text="0" style="@style/status_item_info_select_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/valueUnit" android:text="@string/percent" style="@style/status_item_info_value_unit"/>
+                </RelativeLayout>
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/lineChart" style="@style/status_item_info_chat"/>
+                <LinearLayout style="@style/status_item_info_ll_three">
+                    <LinearLayout android:id="@+id/ll_max_value" style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/maxValueTV" android:text="@string/max_value" style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/maxValue" android:text="0" style="@style/status_item_info_total_value"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/maxValueUnit" android:text="@string/percent" style="@style/status_item_info_total_unit"/>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_avg_value" style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/avValueTV" android:text="@string/ave_value" style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/avValue" android:text="0" style="@style/status_item_info_total_value"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/avValueUnit" android:text="@string/percent" style="@style/status_item_info_total_unit"/>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_min_value" style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/minValueTV" android:text="@string/min_value" style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/minValue" android:text="0" style="@style/status_item_info_total_value"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/minValueUnit" android:text="@string/percent" style="@style/status_item_info_total_unit"/>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_monitoring_results_value" android:visibility="gone" style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/monitoring_results" style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/monitoring_results_value" android:text="" style="@style/status_item_info_total_value"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="" style="@style/status_item_info_total_unit"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:visibility="gone" style="@style/status_measure_layout_style">
+                    <Button android:text="@string/measure" style="@style/status_measure_btn_style"/>
+                </LinearLayout>
+                <include layout="@layout/status_item_health_btn_layout"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

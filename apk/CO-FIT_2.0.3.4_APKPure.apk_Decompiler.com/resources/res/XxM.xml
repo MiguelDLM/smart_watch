@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <TextView android:textSize="@dimen/navi_dimens_14dp" android:textColor="#00be9b" android:id="@+id/tv_plate_province" android:background="@drawable/bnav_drawable_plate_province_bg" android:paddingLeft="@dimen/navi_dimens_2dp" android:paddingRight="@dimen/navi_dimens_2dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView android:textSize="@dimen/navi_dimens_14dp" android:textColor="@android:color/white" android:id="@+id/tv_plate_number" android:background="@drawable/bnav_drawable_plate_number_bg" android:paddingLeft="@dimen/navi_dimens_5dp" android:paddingRight="@dimen/navi_dimens_5dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/shape_radius_white" android:padding="13dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginTop="10dp" android:layout_marginRight="10dp">
+    <TextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/item_ai_records_question" android:layout_width="match_parent" android:layout_height="wrap_content" android:textIsSelectable="true"/>
+    <TextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/item_ai_records_results" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textIsSelectable="true"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+        <TextView android:textSize="14sp" android:textColor="@color/line_color" android:id="@+id/item_ai_records_time" android:layout_width="0dp" android:layout_height="wrap_content" android:text="2024-22-22 11:11:11" android:layout_weight="1"/>
+        <ImageView android:id="@+id/item_ai_records_delete" android:layout_width="22dp" android:layout_height="22dp" android:layout_marginRight="20dp" android:src="@drawable/ai_records_delete_icon"/>
+        <ImageView android:id="@+id/item_ai_records_share" android:layout_width="22dp" android:layout_height="22dp" android:layout_marginRight="12dp" android:src="@drawable/ai_records_share_icon"/>
+    </LinearLayout>
+</LinearLayout>

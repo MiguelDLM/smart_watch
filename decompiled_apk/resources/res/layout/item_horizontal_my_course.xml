@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorAccent"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp">
+    <ImageView
+        android:background="@color/line_color"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"/>
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.PFBold
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="马甲线养成"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天练过 k1入门 15分钟"/>
+    </LinearLayout>
+</LinearLayout>

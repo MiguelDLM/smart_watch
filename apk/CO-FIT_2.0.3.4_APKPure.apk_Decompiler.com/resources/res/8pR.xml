@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:oneshot="true">
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00000"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00001"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00002"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00003"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00004"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00005"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00006"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00007"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00008"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00009"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00010"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00011"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00012"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00013"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00014"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00015"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00016"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00017"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00018"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00019"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00020"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00021"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00022"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00023"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00024"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00025"/>
+    <item android:duration="55" android:drawable="@drawable/nsdk_voice_forbid_awake_icon_00026"/>
+</animation-list>

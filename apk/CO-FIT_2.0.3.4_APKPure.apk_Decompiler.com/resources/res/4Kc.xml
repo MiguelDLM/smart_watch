@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.lightnavi.widget.LightNaviContainerRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:id="@+id/bottom_ourter_container" android:layout_width="match_parent" android:layout_height="@dimen/nsdk_light_navi_bottom_bar_height" android:layout_alignParentBottom="true" layout="@layout/nsdk_layout_light_navi_bottom_panel"/>
+    <FrameLayout android:id="@+id/bnav_rg_route_sort_panel" android:background="#66000000" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <FrameLayout android:layout_gravity="bottom" android:id="@+id/bnav_rg_route_sort_container" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </FrameLayout>
+    <com.baidu.navisdk.ugc.report.ui.UgcReportPanelLayout android:id="@+id/bnav_rg_ugc_menu_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <include layout="@layout/nsdk_layout_ugc_detail_panel"/>
+    <RelativeLayout android:id="@+id/ipo_toolbox_container_mask" android:background="@color/nsdk_ugc_menu_background" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/ipo_toolbox_container" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_85dp" android:layout_marginRight="@dimen/navi_dimens_10dp" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/share_bg" android:background="@color/nsdk_share_route_bg" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView android:textSize="@dimen/navi_dimens_19dp" android:textColor="#ffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_206dp" android:text="@string/nsdk_string_rg_cp_safety_guide" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/nearby_search_panel_outter_container" android:background="#66000000" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <RelativeLayout android:id="@+id/nearby_search_panel_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/ipo_moss_guide_container_mask" android:background="#66000000" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/ipo_moss_guide_container" android:background="@drawable/bnav_bg_nearby_search_panel" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_376dp" android:layout_alignParentBottom="true">
+            <RelativeLayout android:id="@+id/moss_guide_panel_title_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/navi_dimens_18dp" android:layout_marginTop="@dimen/navi_dimens_30dp" android:layout_marginRight="@dimen/navi_dimens_16dp" android:layout_marginBottom="@dimen/navi_dimens_23dp">
+                <TextView android:textSize="@dimen/navi_dimens_19dp" android:textColor="#333333" android:id="@+id/moss_guide_panel_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="试一下新朋友熟路模式吧" android:layout_centerVertical="true"/>
+                <ImageView android:id="@+id/moss_guide_panel_close_btn" android:layout_width="@dimen/navi_dimens_15dp" android:layout_height="@dimen/navi_dimens_15dp" android:src="@drawable/nsdk_drawable_rg_route_search_close" android:scaleType="centerCrop" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <LinearLayout android:orientation="horizontal" android:id="@+id/moss_guide_panel_item_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:weightSum="2" android:divider="@drawable/bnav_divider_light_moss_guide_child_item" android:layout_below="@+id/moss_guide_panel_title_container" android:layout_centerHorizontal="true" android:showDividers="middle">
+                <RelativeLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <include android:id="@+id/moss_guide_left_item" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" layout="@layout/nsdk_layout_light_nai_moss_guide_child_item"/>
+                </RelativeLayout>
+                <RelativeLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <include android:id="@+id/moss_guide_right_item" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" layout="@layout/nsdk_layout_light_nai_moss_guide_child_item"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <TextView android:textSize="@dimen/navi_dimens_16dp" android:textColor="@drawable/nsdk_light_navi_to_nav_text_selector" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/ipo_moss_guide_panel_confirm_btn" android:background="@drawable/nsdk_light_navi_to_nav_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_43dp" android:layout_marginLeft="@dimen/navi_dimens_20dp" android:layout_marginTop="@dimen/navi_dimens_23dp" android:layout_marginRight="@dimen/navi_dimens_20dp" android:layout_marginBottom="@dimen/navi_dimens_13dp" android:text="选择此模式" android:layout_below="@+id/moss_guide_panel_item_container"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <ViewStub android:id="@+id/user_guide_stub" android:layout="@layout/nsdk_layout_light_navi_user_guide" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</com.baidu.navisdk.lightnavi.widget.LightNaviContainerRelativeLayout>

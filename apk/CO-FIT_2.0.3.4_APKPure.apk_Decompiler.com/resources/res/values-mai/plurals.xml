@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="zero">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+        <item quantity="one">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+        <item quantity="two">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+        <item quantity="few">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+        <item quantity="many">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+        <item quantity="other">विंडो %1$s सेकेंड मे बंद भए जायत।</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="zero">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+        <item quantity="one">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+        <item quantity="two">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+        <item quantity="few">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+        <item quantity="many">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+        <item quantity="other">पसिन्न कयल गेल केँ %1$s दिन धरि स्मरण राखू</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="zero">%1$d सेकेंड</item>
+        <item quantity="one">%1$d सेकेंड</item>
+        <item quantity="two">%1$d सेकेंड</item>
+        <item quantity="few">%1$d सेकेंड</item>
+        <item quantity="many">%1$d सेकेंड</item>
+        <item quantity="other">%1$d सेकेंड</item>
+    </plurals>
+</resources>

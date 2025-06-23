@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:layout_gravity="center" android:id="@+id/poi_title_back" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/nsdk_rr_route_error_pic" android:scaleType="centerInside"/>
+    <LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@+id/route_error_repeat_button" android:layout_width="wrap_content" android:layout_height="40dp">
+        <TextView android:textSize="12dp" android:textColor="#666666" android:layout_gravity="center" android:id="@+id/route_error_text_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="路线规划失败，"/>
+        <TextView android:textSize="12dp" android:textColor="#3385ff" android:layout_gravity="center" android:id="@+id/route_error_repeat_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="重试"/>
+    </LinearLayout>
+</LinearLayout>

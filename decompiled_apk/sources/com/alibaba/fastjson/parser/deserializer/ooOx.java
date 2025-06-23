@@ -1,0 +1,10 @@
+package com.alibaba.fastjson.parser.deserializer;
+
+import java.util.OptionalDouble;
+
+/* loaded from: classes.dex */
+public final /* synthetic */ class ooOx {
+    public static /* bridge */ /* synthetic */ OptionalDouble oIX0oI(Object obj) {
+        return (OptionalDouble) obj;
+    }
+}

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/title_bar" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" style="@style/charge_title_bar">
+    <com.sma.smartv3.view.text.PFMedium style="@style/charge_larger_title"/>
+    <com.sma.smartv3.view.text.PFMedium style="@style/charge_larger_sub_title"/>
+</LinearLayout>

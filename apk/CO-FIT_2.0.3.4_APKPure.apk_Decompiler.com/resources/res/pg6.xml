@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:oneshot="false">
+    <item android:duration="600" android:drawable="@drawable/nsdk_vdr_location_signal_03"/>
+    <item android:duration="600" android:drawable="@drawable/nsdk_vdr_location_signal_01"/>
+    <item android:duration="600" android:drawable="@drawable/nsdk_vdr_location_signal_02"/>
+</animation-list>

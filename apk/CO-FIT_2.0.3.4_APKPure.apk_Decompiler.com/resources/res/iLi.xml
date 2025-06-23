@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:icon="@drawable/ic_action_search" android:id="@+id/mcp_action_search" android:orderInCategory="100" android:title="@string/abc_search_hint" app:showAsAction="always"/>
+</menu>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/yb_container" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="150dp">
+        <Button android:textSize="12dp" android:textColor="#333333" android:id="@+id/bank" android:background="@drawable/bnav_tab_background" android:visibility="gone" android:layout_width="65dp" android:layout_height="35dp" android:text="银行" android:textAllCaps="false"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/ld_container" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="150dp" android:layout_alignParentRight="true" android:layout_marginEnd="5dp">
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/city" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="65dp" android:layout_height="35dp" android:text="@string/via_city" android:textAllCaps="false"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/route" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="65dp" android:layout_height="35dp" android:layout_marginTop="5dp" android:text="@string/via_road" android:textAllCaps="false"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/service" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="65dp" android:layout_height="35dp" android:layout_marginTop="5dp" android:text="@string/service_area" android:textAllCaps="false"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/checkpoint" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="65dp" android:layout_height="35dp" android:layout_marginTop="5dp" android:text="@string/checkpoint" android:textAllCaps="false"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/weather" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="65dp" android:layout_height="35dp" android:layout_marginTop="5dp" android:text="@string/nav_weather" android:textAllCaps="false"/>
+    </LinearLayout>
+    <FrameLayout android:layout_gravity="bottom" android:id="@+id/fl_retry" android:background="@drawable/bnav_tab_background" android:visibility="gone" android:layout_width="match_parent" android:layout_height="150dp" android:layout_margin="10dp" android:layout_centerInParent="true">
+        <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:id="@+id/ll_retry" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textColor="#d2d2d2" android:gravity="center" android:background="@drawable/bnav_shape_du" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="du"/>
+            <TextView android:textColor="#3385ff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/calculate_route_tip"/>
+        </LinearLayout>
+    </FrameLayout>
+    <RelativeLayout android:layout_gravity="bottom" android:id="@+id/rl_button" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dp">
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/btn_start_navi2" android:background="@drawable/bnav_tab_background" android:layout_width="55dp" android:layout_height="40dp" android:layout_marginBottom="5dp" android:text="@string/analog_nav" android:layout_above="@+id/btn_fullView" android:textAllCaps="false" android:paddingStart="5dp" android:paddingEnd="5dp" android:elevation="1dp" android:stateListAnimator="@null"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/btn_fullView" android:background="@drawable/bnav_tab_background" android:layout_width="55dp" android:layout_height="40dp" android:layout_marginBottom="5dp" android:text="@string/nav_overview" android:layout_above="@+id/btn_road" android:textAllCaps="false" android:elevation="1dp" android:stateListAnimator="@null"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/btn_road" android:background="@drawable/bnav_tab_background" android:layout_width="55dp" android:layout_height="40dp" android:layout_marginBottom="5dp" android:text="@string/road_conditions" android:layout_above="@+id/btn_prefer" android:textAllCaps="false" android:elevation="1dp" android:stateListAnimator="@null"/>
+        <Button android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:id="@+id/btn_prefer" android:background="@drawable/bnav_tab_background" android:layout_width="55dp" android:layout_height="40dp" android:text="@string/pref_default" android:layout_alignParentBottom="true" android:textAllCaps="false" android:elevation="1dp" android:stateListAnimator="@null"/>
+    </RelativeLayout>
+    <com.baidu.mapclient.liteapp.custom.BNScrollLayout android:orientation="vertical" android:id="@+id/layout_scroll" android:padding="5dp" android:layout_width="match_parent" android:layout_height="match_parent" app:exitOffset="0dp" app:isSupportExit="false">
+        <com.baidu.mapclient.liteapp.custom.BNScrollView android:id="@+id/content_scroll" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+                <LinearLayout android:orientation="vertical" android:id="@+id/layout_3tab" android:background="@drawable/bnav_tab_background" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="2dp">
+                    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+                        <include android:id="@+id/route_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" layout="@layout/item_route_result_tab"/>
+                        <include android:id="@+id/route_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" layout="@layout/item_route_result_tab"/>
+                        <include android:id="@+id/route_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" layout="@layout/item_route_result_tab"/>
+                    </LinearLayout>
+                    <View android:background="#eaeaea" android:layout_width="match_parent" android:layout_height="1px"/>
+                    <TextView android:textSize="16dp" android:textColor="@color/bnav_text_selector" android:gravity="center" android:id="@+id/btn_start_navi" android:background="@drawable/bnav_tv_background" android:layout_width="match_parent" android:layout_height="38dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:text="@string/start_nav" android:layout_weight="1"/>
+                </LinearLayout>
+                <com.baidu.mapclient.liteapp.custom.BNRecyclerView android:id="@+id/rv" android:background="@drawable/bnav_tab_background" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:elevation="2dp"/>
+            </LinearLayout>
+        </com.baidu.mapclient.liteapp.custom.BNScrollView>
+    </com.baidu.mapclient.liteapp.custom.BNScrollLayout>
+</RelativeLayout>

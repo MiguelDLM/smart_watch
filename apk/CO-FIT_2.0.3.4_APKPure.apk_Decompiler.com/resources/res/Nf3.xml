@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="start" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="26dp" android:layout_marginTop="5dp" android:layout_marginRight="26dp" android:layout_marginBottom="5dp">
+    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/color_live_record_item" android:id="@+id/tv_original" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

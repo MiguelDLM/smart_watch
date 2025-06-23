@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="#40000000" android:layout_marginBottom="0px" android:layout_marginStart="0px" android:layout_marginEnd="0px" style="@style/pop_common_container_style">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="10dp">
+        <View android:id="@+id/share_edit_white_view" android:background="@color/white" android:layout_width="40dp" android:layout_height="40dp"/>
+        <View android:id="@+id/share_edit_black_view" android:background="@color/black" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginLeft="15dp" android:layout_toRightOf="@+id/share_edit_white_view"/>
+        <ImageView android:id="@+id/action2" android:layout_width="wrap_content" android:layout_height="40dp" android:src="@drawable/share_card_edit_submit" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <EditText android:textSize="18sp" android:textColor="@color/text_color_light" android:gravity="left" android:id="@+id/edt" android:background="@color/white" android:padding="20dp" android:layout_width="match_parent" android:layout_height="150dp" android:layout_marginTop="10dp" android:hint="@string/content"/>
+</LinearLayout>

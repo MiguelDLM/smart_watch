@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNLoadingView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bottom_loading_view" android:paddingLeft="5dp" android:paddingTop="5dp" android:paddingRight="5dp" android:paddingBottom="5dp" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_100dp"/>

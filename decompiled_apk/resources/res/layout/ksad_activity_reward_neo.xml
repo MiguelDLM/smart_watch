@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kwad.sdk.core.view.AdBaseFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ksad_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.kwad.sdk.widget.KSFrameLayout
+        android:id="@+id/ksad_js_reward_card"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ViewStub
+        android:id="@+id/ksad_native_container_stub"
+        android:layout="@layout/ksad_activity_reward_neo_native"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.kwad.sdk.core.webview.KsAdWebView
+        android:id="@+id/ksad_playable_webview"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</com.kwad.sdk.core.view.AdBaseFrameLayout>

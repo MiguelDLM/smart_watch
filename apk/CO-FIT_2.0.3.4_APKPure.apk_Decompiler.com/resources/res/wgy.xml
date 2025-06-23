@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/scenic_details_container" android:background="@drawable/bnav_bg_attribution_panel" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/scenic_details_close" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="20dp" android:layout_alignBottom="@+id/scenic_details_title" android:layout_alignParentEnd="true">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bnav_plate_limit_setting_close" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <TextView android:textSize="20dp" android:textColor="#ff333333" android:id="@+id/scenic_details_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="预定须知" android:includeFontPadding="true" android:layout_centerHorizontal="true"/>
+    <View android:id="@+id/divider" android:background="#eeeeee" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginTop="20dp" android:layout_below="@+id/scenic_details_title"/>
+    <include android:id="@+id/booking_detail_panel" android:layout_width="match_parent" android:layout_height="500dp" android:layout_below="@+id/divider" layout="@layout/nsdk_layout_booking_details_panel"/>
+    <RelativeLayout android:id="@+id/net_work_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="500dp" android:layout_below="@+id/divider">
+        <com.baidu.navisdk.ui.widget.BNLoadingView android:id="@+id/scenic_detail_loading_view" android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="@dimen/navi_dimens_5dp" android:layout_centerInParent="true"/>
+        <TextView android:enabled="false" android:textSize="14dp" android:id="@+id/request_error_tip" android:paddingBottom="10dp" android:clickable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="网络连接失败" android:layout_above="@+id/retry_request" android:layout_centerHorizontal="true"/>
+        <TextView android:textSize="16dp" android:textColor="#ff333333" android:id="@+id/retry_request" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="点击重试" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">තත්පර %dක් වේගයෙන් ඉදිරියට</item>
+        <item quantity="other">තත්පර %dක් වේගයෙන් ඉදිරියට</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">තත්පර %dක් ආපස්සට</item>
+        <item quantity="other">තත්පර %dක් ආපස්සට</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">කවුළුව %1$s තත්පරයකින් වැසෙනු ඇත.</item>
+        <item quantity="other">කවුළුව තත්පර %1$s කින් වැසෙනු ඇත.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">තේරීම %1$s දිනකට මතක තබාගන්න</item>
+        <item quantity="other">තේරීම දින %1$s කට මතක තබාගන්න</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">තත් %1$d</item>
+        <item quantity="other">තත් %1$d</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">නව දැනුම්දීම් %dක්</item>
+        <item quantity="other">නව දැනුම්දීම් %dක්</item>
+    </plurals>
+</resources>

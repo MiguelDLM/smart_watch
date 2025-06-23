@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/pop_common_container_style">
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        android:paddingBottom="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.FontTextView
+            android:textSize="20dp"
+            android:textColor="@color/text_color"
+            android:gravity="center"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="44dp"
+            android:paddingEnd="44dp"
+            app:my_font="pf_medium"/>
+        <com.sma.smartv3.view.text.FontTextView
+            android:textSize="17dp"
+            android:textColor="#706f6f"
+            android:id="@+id/tv_content"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="10"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            app:my_font="pf_medium"/>
+    </LinearLayout>
+    <include layout="@layout/layout_pop_bottom_btn"/>
+</LinearLayout>

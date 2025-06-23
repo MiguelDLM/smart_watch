@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/charge_list_other_container" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.chargelist.widget.ChargeListHeadLocation android:id="@+id/charge_list_single_head_location_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <com.baidu.navisdk.ui.chargelist.widget.ChargeListItemView android:id="@+id/charge_list_single_item" android:visibility="visible" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="6dp" android:layout_below="@+id/charge_list_single_head_location_container"/>
+    <RelativeLayout android:id="@+id/charge_list_bubble_container" android:background="@drawable/bnav_energy_item_normal_radius_bg" android:visibility="visible" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_margin="6dp" android:layout_below="@+id/charge_list_single_head_location_container">
+        <TextView android:textSize="13dp" android:textColor="#ffff7723" android:ellipsize="end" android:id="@+id/charge_list_other_des" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="绕路可到达绕路可到达绕路可到达绕路可到达绕路可到达绕路可到达绕路可到达绕路可到达绕路可" android:maxLines="2" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+    </RelativeLayout>
+</RelativeLayout>

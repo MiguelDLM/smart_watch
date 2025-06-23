@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/fuzzy_panel"
+    android:background="@drawable/bn_bg_rg_default_guide_view"
+    android:visibility="visible"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/nsdk_rg_default_top_guide_panel_height"
+    android:elevation="@dimen/nsdk_rg_new_guide_view_elevation">
+    <ImageView
+        android:id="@+id/fuzzy_logo"
+        android:background="@drawable/bnav_drawable_set_off"
+        android:visibility="visible"
+        android:layout_width="@dimen/navi_dimens_57dp"
+        android:layout_height="@dimen/navi_dimens_57dp"
+        android:layout_marginStart="@dimen/navi_dimens_15dp"
+        android:layout_marginEnd="@dimen/navi_dimens_5dp"/>
+    <TextView
+        android:textSize="@dimen/nsdk_rg_guide_txt_size_normal_chinese"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_rg_main_info"
+        android:ellipsize="end"
+        android:id="@+id/fuzzy_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_marginStart="@dimen/navi_dimens_10dp"
+        android:layout_marginEnd="@dimen/navi_dimens_33dp"/>
+</LinearLayout>

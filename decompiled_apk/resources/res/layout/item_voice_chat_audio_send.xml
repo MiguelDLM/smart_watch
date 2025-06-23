@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:id="@+id/chat_send_time"
+        android:background="@drawable/voice_chat_time_bg"
+        android:padding="4dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4月12日 早上07:51"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <com.sma.smartv3.view.ImageViewRound
+            android:id="@+id/iv_send_picture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_voice_chat_gpt"
+            android:layout_alignParentEnd="true"
+            app:isCustomize="true"
+            app:radius="8dp"
+            app:type="radial"/>
+        <TextView
+            android:textColor="#191919"
+            android:id="@+id/tv_send_content"
+            android:background="@drawable/chat_tv_send"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hello"
+            android:textIsSelectable="true"
+            android:paddingStart="10dp"
+            android:paddingEnd="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/iv_send_picture"
+            android:backgroundTint="#cba67d"/>
+        <ImageView
+            android:id="@+id/btn_play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/icon_play"
+            android:layout_toLeftOf="@+id/tv_send_content"
+            android:layout_marginStart="50dp"/>
+    </RelativeLayout>
+</LinearLayout>

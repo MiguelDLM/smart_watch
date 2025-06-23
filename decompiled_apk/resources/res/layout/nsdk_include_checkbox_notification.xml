@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/bg_item_border"
+        android:background="@drawable/nsdk_bg_ugc_event_check_item"
+        android:layout_width="@dimen/navi_dimens_97dp"
+        android:layout_height="@dimen/navi_dimens_97dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/iv_button_icon"
+        android:layout_width="@dimen/navi_dimens_45dp"
+        android:layout_height="@dimen/navi_dimens_45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bg_item_border"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bg_item_border"
+        app:layout_constraintVertical_bias="0.3"/>
+    <TextView
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:ellipsize="end"
+        android:id="@+id/tv_button_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:maxEms="6"
+        app:layout_constraintBottom_toBottomOf="@+id/bg_item_border"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_button_icon"
+        app:layout_constraintRight_toRightOf="@+id/iv_button_icon"
+        app:layout_constraintTop_toBottomOf="@+id/iv_button_icon"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

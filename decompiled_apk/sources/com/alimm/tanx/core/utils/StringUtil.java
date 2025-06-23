@@ -1,0 +1,32 @@
+package com.alimm.tanx.core.utils;
+
+import android.text.TextUtils;
+
+/* loaded from: classes.dex */
+public class StringUtil implements NotConfused {
+    public static String filterNonPrintableCharacters(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "";
+        }
+        long currentTimeMillis = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (isPrintable(c)) {
+                sb.append(c);
+            }
+        }
+        LogUtils.d("StringUtil耗时" + (System.currentTimeMillis() - currentTimeMillis), new String[0]);
+        return sb.toString();
+    }
+
+    public static boolean isNull(String str) {
+        return TextUtils.isEmpty(str);
+    }
+
+    public static boolean isPrintable(char c) {
+        if (!Character.isISOControl(c) && Character.getType(c) != 0) {
+            return true;
+        }
+        return false;
+    }
+}

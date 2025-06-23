@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item
+                android:gravity="center"
+                android:height="14dp"
+                android:width="14dp"
+                android:drawable="@drawable/icon_switch_add_checked"
+                android:right="5dp"/>
+        </layer-list>
+    </item>
+    <item android:state_checked="false">
+        <layer-list>
+            <item
+                android:gravity="center"
+                android:height="14dp"
+                android:width="14dp"
+                android:drawable="@drawable/icon_switch_add_unchecked"
+                android:right="5dp"/>
+        </layer-list>
+    </item>
+</selector>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:keepScreenOn="true">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" android:visibility="gone" style="@style/status_item_info_nsv">
+        <RelativeLayout style="@style/status_item_info_rl_top">
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_rl_top"/>
+            <LinearLayout android:orientation="horizontal" android:id="@+id/dataContent" style="@style/status_item_info_rl_top"/>
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" style="@style/status_item_info_ib_one"/>
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowTimeDetails" style="@style/status_item_info_ib_one"/>
+            <com.sma.smartv3.view.text.PFMedium android:id="@+id/valueUnit" style="@style/status_item_info_now_time"/>
+            <ImageView android:id="@+id/image" style="@style/status_item_info_now_time"/>
+            <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+            <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+            <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center" android:id="@+id/tv_view" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:text="@string/no_data"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view" android:paddingBottom="20dp" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</LinearLayout>

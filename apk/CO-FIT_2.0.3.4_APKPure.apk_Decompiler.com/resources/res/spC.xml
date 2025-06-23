@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/pop_common_container_style">
+    <com.sma.smartv3.view.text.PFMedium android:text="@string/security_code" style="@style/popup_title"/>
+    <View style="@style/pop_top_line_style"/>
+    <com.sma.smartv3.view.text.FontTextView android:textSize="16dp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/tv_content" android:scrollbars="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="22dp" android:layout_marginRight="22dp" android:text="@string/input_security_code_tip" android:layout_marginHorizontal="22dp"/>
+    <EditText android:textSize="20dp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/edt" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="22dp" android:layout_marginTop="22dp" android:layout_marginRight="22dp" android:maxLines="1" android:singleLine="true" android:inputType="number" android:imeOptions="actionDone" android:layout_marginHorizontal="22dp"/>
+    <include layout="@layout/layout_pop_bottom_btn"/>
+</LinearLayout>

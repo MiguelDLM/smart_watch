@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kwad.sdk.core.view.AdBasePvFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ksad_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.kwad.sdk.widget.KSRelativeLayout
+        android:id="@+id/ksad_live_container"
+        android:background="@color/ksad_black_alpha100"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ksad_live_bg_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+        <View
+            android:background="@color/ksad_black_alpha35"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <RelativeLayout
+            android:id="@+id/ksad_live_video_container"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.kwad.sdk.widget.KSRelativeLayout>
+    <com.kwad.sdk.core.webview.KsAdWebView
+        android:scrollbarStyle="insideOverlay"
+        android:id="@+id/ksad_web_card_webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layerType="software"/>
+</com.kwad.sdk.core.view.AdBasePvFrameLayout>

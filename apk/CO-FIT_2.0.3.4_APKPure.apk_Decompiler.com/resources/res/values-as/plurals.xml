@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">%1$s ছেকেণ্ডত উইণ্ড&apos; বন্ধ হ&apos;ব।</item>
+        <item quantity="other">%1$s ছেকেণ্ডত উইণ্ড&apos; বন্ধ হ&apos;ব।</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">%1$s দিনৰ বাবে পছন্দ মনত ৰাখক</item>
+        <item quantity="other">%1$s দিনৰ বাবে পছন্দ মনত ৰাখক</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d ছেকেণ্ড</item>
+        <item quantity="other">%1$d ছেকেণ্ড</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+</resources>

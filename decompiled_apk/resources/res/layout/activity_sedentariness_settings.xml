@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.AbhSettingsHeader
+        android:id="@+id/item_header"
+        app:abh_description="@string/sedentary_tip"
+        app:abh_title="@string/sedentary"
+        style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_time_range"
+        android:onClick="onSetTimeRange"
+        app:abh_left_text="@string/time_settings"
+        style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_repeat"
+        android:onClick="onSetRepeat"
+        app:abh_left_text="@string/repeat"
+        style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_interval"
+        android:onClick="onSetInterval"
+        app:abh_left_text="@string/interval"
+        style="@style/abh_settings_item"/>
+</LinearLayout>

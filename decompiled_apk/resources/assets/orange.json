@@ -1,0 +1,156 @@
+{
+  "version": 0,
+  "commonSwitch":
+  {
+    "screen_view_exposure_monitor": "true",
+    "flow_view_exposure_monitor": "true",
+    "resolveActivitySwitch": "true",
+    "resolveActivitySwitch30": "true",
+    "useNewExposer": "false",
+    "useNewExposerSwitch": "true",
+    "useRealTimeExposer": "true",
+    "antiCheatingSwitch": "true",
+    "performClickCheckSwitch": "true",
+    "useNewConfig": "true"
+  },
+  "adSwitch":
+  {
+    "adFeed": true,
+    "adTemplateFeed": true,
+    "adTemplateSplash": true,
+    "adTemplateReward": true
+  },
+  "threshold":
+  {
+    "feedVideoMaxSize": 50
+  },
+  "ut":
+  {
+    "feedMonitor":
+    {
+      "minRatio": "0.2"
+    },
+    "splashMonitor":
+    {
+      "coverRatio": "0.2"
+    },
+    "utSwitch": true,
+    "utTanxExposerSwitch": false,
+    "uploadMaxCount": 5
+  },
+  "webConfigBeanList":
+  [
+    {
+      "key": "default",
+      "closeInitWebPreload": false,
+      "closeNextWebPreload": false,
+      "sdkInitWebViewPreloadDelayed": 0    },
+    {
+      "key": "33459970",
+      "closeInitWebPreload": false,
+      "closeNextWebPreload": false,
+      "sdkInitWebViewPreloadDelayed": 1000
+    }
+  ],
+  "installStatusSwitch":
+  {
+    "com.taobao.taobao": true,
+    "com.xunmeng.pinduoduo": true,
+    "com.sankuai.meituan.takeoutnew": true,
+    "com.eg.android.AlipayGphone": true,
+    "com.taobao.litetao": true,
+    "com.tmall.wireless": true,
+    "com.sdu.didi.psnger": true,
+    "com.jingdong.app.mall": true,
+    "com.achievo.vipshop": true,
+    "com.sankuai.meituan": true,
+    "com.baidu.searchbox": true,
+    "ctrip.android.view": true,
+    "com.homelink.android": true
+  },
+  "feedInteractionParam":
+  {
+    "directionSlideDistance": "55",
+    "allSlideDistance": "1200",
+    "slideDirection": "1",
+    "feedInteractionGifUrl": "https://img.alicdn.com/imgextra/i3/O1CN01yaPRML1GyyqsOZP7R_!!6000000000692-1-tps-1200-432.gif"
+  },
+  "imageSwitch":
+  {
+    "AllApp": true,
+    "33459970": true,
+    "30167938": true
+  },
+  "webSuffixWhiteList":
+  {
+    "com": true,
+    "cn": true,
+    "htm": true,
+    "html": true,
+    "php": true,
+    "tf": true
+  },
+  "exposureConfig":
+  [
+    {
+      "key": "33459970",
+      "adType": 1,
+      "showRatio": 0.5,
+      "showTime": 0
+    },
+    {
+      "key": "33459970",
+      "adType": 2,
+      "showRatio": 0.5,
+      "showTime": 1000
+    },
+    {
+      "key": "33459970",
+      "adType": 3,
+      "showRatio": 0.5,
+      "showTime": 0
+    },
+    {
+      "key": "30167938",
+      "adType": 1,
+      "showRatio": 0.5,
+      "showTime": 0
+    },
+    {
+      "key": "30167938",
+      "adType": 2,
+      "showRatio": 0.5,
+      "showTime": 20
+    },
+    {
+      "key": "30167938",
+      "adType": 3,
+      "showRatio": 0.5,
+      "showTime": 0
+    },
+    {
+      "key": "24544874",
+      "adType": 2,
+      "showRatio": 0.5,
+      "showTime": 20
+    },
+    {
+      "key": "default",
+      "adType": 1,
+      "showRatio": 0.5,
+      "showTime": 0
+    },
+    {
+      "key": "default",
+      "adType": 2,
+      "showRatio": 0.5,
+      "showTime": 1000
+    },
+    {
+      "key": "default",
+      "adType": 3,
+      "showRatio": 0.5,
+      "showTime": 0
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navi_rg_new_energy_charge_list_layout"
+    android:background="@color/nsdk_rg_transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

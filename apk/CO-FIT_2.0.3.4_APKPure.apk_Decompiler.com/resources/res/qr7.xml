@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/abh_coach_btn_layout_style_top_bg">
+        <ImageView android:id="@+id/iv_plan_detail_image" android:layout_width="80dp" android:layout_height="80dp" android:layout_margin="16dp" android:src="@drawable/plan_pr_icon"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/coach_plan_title" android:layout_toRightOf="@+id/iv_plan_detail_image"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/plan_detail_day_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:text="@string/days" android:layout_toRightOf="@+id/iv_plan_detail_image" android:layout_above="@+id/plan_detail_progress"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/plan_detail_completed_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:layout_above="@+id/plan_detail_progress" android:layout_alignParentRight="true" android:layout_marginEnd="16dp"/>
+        <ImageView android:id="@+id/plan_detail_arrow_iv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:src="@drawable/plan_detail_arrow_icon" android:layout_alignParentRight="true" android:layout_marginEnd="15dp"/>
+        <ProgressBar android:id="@+id/plan_detail_progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_toRightOf="@+id/iv_plan_detail_image" android:layout_alignBottom="@+id/iv_plan_detail_image" android:layout_marginEnd="16dp" style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="22dp" android:paddingEnd="22dp" style="@style/abh_coach_btn_layout_style_top_bg">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="60dp">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/plan_cumulative_exercise_time" android:layout_weight="1"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/plan_cumulative_exercise_time_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 Min"/>
+        </LinearLayout>
+        <View android:background="@color/gray_E5E5E5" android:layout_width="match_parent" android:layout_height="0.8dp"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="60dp">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/plan_cumulative_mets" android:layout_weight="1"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/plan_cumulative_mets_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 METs"/>
+        </LinearLayout>
+        <View android:background="@color/gray_E5E5E5" android:layout_width="match_parent" android:layout_height="0.8dp"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="60dp">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/plan_cumulative_calories" android:layout_weight="1"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/plan_cumulative_calories_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 Kcal"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

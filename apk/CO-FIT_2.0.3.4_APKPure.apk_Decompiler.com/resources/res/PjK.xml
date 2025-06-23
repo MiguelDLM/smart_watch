@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/bnav_route_result_dynamic_card_button_bg" android:layout_width="match_parent" android:layout_height="37dp">
+    <ImageView android:id="@+id/left_icon" android:layout_width="17dp" android:layout_height="17dp" android:layout_marginRight="4dp" android:layout_toLeftOf="@+id/button" android:layout_centerVertical="true"/>
+    <TextView android:textSize="14dp" android:textColor="#333333" android:gravity="center" android:id="@+id/button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+    <ImageView android:id="@+id/arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2dp" android:layout_toRightOf="@+id/button" android:layout_centerVertical="true"/>
+</merge>

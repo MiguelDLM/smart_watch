@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/rv" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:animateLayoutChanges="true">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:padding="20dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <RelativeLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="80dp">
+                <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/login_bk" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp" android:paddingStart="20dp" android:paddingEnd="20dp">
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:src="@drawable/login_email"/>
+                    <RelativeLayout style="@style/edittext_rl">
+                        <View style="@style/edittext_bottom_line"/>
+                        <com.google.android.material.textfield.TextInputLayout android:theme="@style/common_til" android:textColorHint="@color/line_color" android:layout_width="match_parent" android:layout_height="match_parent" android:hint="@string/email">
+                            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/colorAccent" android:id="@+id/email" android:layout_width="match_parent" android:layout_height="match_parent" android:maxLines="1" android:inputType="textEmailAddress" android:imeOptions="actionNext"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+                    <RelativeLayout android:id="@+id/passwordTil" style="@style/edittext_rl">
+                        <View style="@style/edittext_bottom_line"/>
+                        <com.google.android.material.textfield.TextInputLayout android:theme="@style/common_til" android:textColorHint="@color/line_color" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="15dp" android:hint="@string/password" app:passwordToggleEnabled="true">
+                            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/colorAccent" android:id="@+id/password" android:layout_width="match_parent" android:layout_height="match_parent" android:maxLines="1" android:inputType="textPassword" android:imeOptions="actionDone"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+                    <LinearLayout android:id="@+id/verificationCodeLl" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                        <RelativeLayout android:layout_width="0dp" android:layout_weight="1" style="@style/edittext_rl">
+                            <View style="@style/edittext_bottom_line"/>
+                            <com.google.android.material.textfield.TextInputLayout android:theme="@style/common_til" android:textColorHint="@color/line_color" android:layout_width="match_parent" android:layout_height="match_parent" android:hint="@string/verification_code">
+                                <com.google.android.material.textfield.TextInputEditText android:textColor="@color/colorAccent" android:id="@+id/verificationCode" android:layout_width="match_parent" android:layout_height="match_parent" android:maxLines="1" android:inputType="number" android:imeOptions="actionDone"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>
+                        <Button android:textSize="13sp" android:layout_gravity="center" android:id="@+id/btGetVerificationCode" android:background="@drawable/common_ripple_borderless" android:paddingTop="10dp" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/get_verification_code" android:layout_weight="0.5" android:onClick="getVerificationCode" android:textAllCaps="false"/>
+                    </LinearLayout>
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:layout_marginBottom="40dp" android:paddingStart="10dp" android:paddingEnd="10dp">
+                        <Button android:gravity="left|center_vertical|center_horizontal|center|start" android:id="@+id/btLoginType" android:background="@drawable/common_ripple_borderless" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/code_login_2" android:layout_weight="1" android:onClick="passwordLoginType" android:textAllCaps="false"/>
+                        <Button android:gravity="right|center_vertical|center_horizontal|center|end" android:background="@drawable/common_ripple_borderless" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/forget_password" android:layout_weight="1" android:onClick="forgetPassword" android:textAllCaps="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <Button android:textSize="16sp" android:textColor="@color/line_color" android:id="@+id/btn_login" android:background="@drawable/login_bt" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/login" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:onClick="login" android:textAllCaps="false" android:layout_marginStart="60dp" android:layout_marginEnd="60dp"/>
+            </RelativeLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:id="@+id/loginRemind" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/email_login_remind_2"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

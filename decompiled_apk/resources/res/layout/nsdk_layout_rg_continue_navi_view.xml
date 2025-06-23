@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/navi_dimens_18dp"
+    android:textStyle="bold"
+    android:textColor="@color/nsdk_cl_text_g"
+    android:gravity="center"
+    android:id="@+id/bnav_rg_toolbox_continue_nav"
+    android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+    android:visibility="visible"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="@string/nsdk_string_rg_sg_continue_nav"
+    android:singleLine="true"/>

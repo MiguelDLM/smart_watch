@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:paddingLeft="30dp" android:paddingRight="30dp" android:layout_width="match_parent" android:layout_height="40dp" android:layout_alignParentTop="true">
+    <ImageView android:layout_gravity="center_horizontal" android:background="@drawable/wsdk_dir_wheel_arrow" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="27dp" android:layout_marginTop="-7dp">
+        <com.baidu.walknavi.widget.dirwheel.CycleScrollView android:id="@+id/cycle_scroll_view" android:layout_width="match_parent" android:layout_height="27dp"/>
+        <ImageView android:layout_gravity="center_horizontal" android:id="@+id/cycle_scroll_end_pop" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:src="@drawable/wsdk_dir_wheel_end_pop"/>
+    </FrameLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="0dp">
+        <ImageView android:id="@+id/left_two_dot" android:background="#10ffffff" android:layout_width="1dp" android:layout_height="3dp" android:layout_marginRight="65dp" android:layout_toLeftOf="@+id/left_one_dot" android:layout_centerVertical="true"/>
+        <ImageView android:id="@+id/left_one_dot" android:background="#80ffffff" android:layout_width="1dp" android:layout_height="3dp" android:layout_marginRight="65dp" android:layout_toLeftOf="@+id/mid_dot" android:layout_centerVertical="true"/>
+        <ImageView android:id="@+id/mid_dot" android:background="#ffffffff" android:layout_width="1dp" android:layout_height="3dp" android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+        <ImageView android:id="@+id/right_one_dot" android:background="#80ffffff" android:layout_width="1dp" android:layout_height="3dp" android:layout_marginLeft="65dp" android:layout_toRightOf="@+id/mid_dot" android:layout_centerVertical="true"/>
+        <ImageView android:id="@+id/right_two_dot" android:background="#10ffffff" android:layout_width="1dp" android:layout_height="3dp" android:layout_marginLeft="65dp" android:layout_toRightOf="@+id/right_one_dot" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="-3dp">
+        <ImageView android:background="@drawable/wsdk_dir_wheel_line" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/mid_arrow" android:layout_alignParentLeft="true"/>
+        <ImageView android:layout_gravity="center_horizontal" android:id="@+id/mid_arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true"/>
+        <ImageView android:background="@drawable/wsdk_dir_wheel_line2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/mid_arrow"/>
+    </RelativeLayout>
+</LinearLayout>

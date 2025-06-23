@@ -1,0 +1,5 @@
+package org.eclipse.paho.android.service;
+
+/* loaded from: classes6.dex */
+public final /* synthetic */ class I0Io {
+}

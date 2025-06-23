@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/rootViewHeartRate" android:layout_marginTop="6dp" style="@style/sport_record_item_bg">
+    <com.sma.smartv3.view.text.PFRegular android:text="@string/heart_rate" style="@style/item_sport_record_title_tv"/>
+    <RelativeLayout android:id="@+id/sportRecordAvgHRRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_avg" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/ave_hr" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordAvgHR" android:text="23" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/bpm" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordMaxHRRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_72" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/max_hr" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordMaxHR" android:text="180" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/bpm" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordLineChartHRRl" style="@style/item_sport_record_activity_rl">
+        <com.github.mikephil.charting.charts.LineChart android:id="@+id/sportRecordLineChartHR" android:layout_width="match_parent" android:layout_height="140dp"/>
+    </RelativeLayout>
+    <com.sma.smartv3.view.text.PFRegular android:text="@string/heart_rate_range" style="@style/item_sport_record_title_tv"/>
+    <RelativeLayout android:id="@+id/sportRecordStrenuousRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_strenuous" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/strenuous_exercise" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordStrenuous" android:text="1" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/min" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordAnaerobicRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_anaerobic" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/anaerobic_exercise" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordAnaerobic" android:text="1" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/min" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordAerobicRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_aerobic" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/aerobic_exercise" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordAerobic" android:text="1" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/min" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordFatBurningRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_fat_burning" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/fat_burning_exercise" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordFatBurning" android:text="1" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/min" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/sportRecordWarmUpRl" style="@style/item_sport_record_activity_rl">
+        <ImageView android:src="@drawable/icon_hr_warm_up" style="@style/item_sport_record_activity_rl_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/warm_up_exercise" style="@style/item_sport_record_activity_tv_description"/>
+        <LinearLayout style="@style/item_sport_record_activity_rl_ll">
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sportRecordWarmUp" android:text="1" style="@style/item_sport_record_activity_rl_tv_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/min" style="@style/item_sport_record_activity_rl_tv_unit"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

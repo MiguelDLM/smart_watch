@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="?android:attr/selectableItemBackground" android:padding="15dp" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toStartOf="@+id/rbSelectedState" android:layout_alignParentStart="true">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:id="@+id/tv_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Algerian Minister of Religious Affairs and Wakfs"/>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/line_color" android:id="@+id/tv_fajr" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fair:18.0°"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/line_color" android:id="@+id/tv_isha" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="lsha&apos;a: 17.0°" android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatRadioButton android:id="@+id/rbSelectedState" android:focusable="false" android:focusableInTouchMode="false" android:visibility="visible" android:clickable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:layout_centerVertical="true" android:layout_alignParentEnd="true" android:backgroundTint="@color/text_color"/>
+</RelativeLayout>

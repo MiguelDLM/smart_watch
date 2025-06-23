@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.RGRootViewFrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bnav_rg_mapmode_main_layout_new" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <FrameLayout android:id="@+id/bnav_rg_map_content" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/module_contains" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentBottom="true"/>
+    <View android:id="@+id/bnav_rg_top_base_background" android:background="@drawable/bnav_rg_guide_top_panel_base_backgroud_land" android:visibility="gone" android:layout_width="@dimen/navi_dimens_185dp" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/bnav_rg_content_panel_land" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include android:id="@+id/bnav_top_empty_view" layout="@layout/bnav_statusbar_empty_view_include"/>
+        <RelativeLayout android:id="@+id/bnav_rg_left_panel" android:background="@drawable/bnav_rg_guide_top_panel" android:layout_width="@dimen/nsdk_rg_land_left_panel_width" android:layout_height="match_parent" android:layout_below="@+id/bnav_top_empty_view">
+            <View android:background="#404a58" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_1dp" android:layout_marginBottom="@dimen/navi_dimens_78dp" android:layout_alignParentBottom="true"/>
+            <ViewStub android:id="@+id/nsdk_layout_rg_mapmode_main_sub_simple_guide_stub" android:visibility="visible" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_simple_guide_land" android:inflatedId="@+id/bnav_rg_simpleguide_open" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <ViewStub android:id="@+id/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_stub" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_land" android:inflatedId="@+id/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_panel" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <FrameLayout android:id="@+id/bnav_rg_highway_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <FrameLayout android:id="@+id/bnav_rg_device_status_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginRight="@dimen/navi_dimens_10dp"/>
+            <FrameLayout android:id="@+id/bnav_rg_next_deriction_indicator" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <include android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" layout="@layout/nsdk_layout_rg_mapmode_main_sub_eta_detail_land"/>
+            <TextView android:textSize="@dimen/navi_dimens_18dp" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_g" android:gravity="center" android:id="@+id/bnav_rg_cp_anolog_change_speed_land" android:visibility="gone" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_82dp" android:text="中速" android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/bnav_rg_right_panel" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_toRightOf="@+id/bnav_rg_left_panel" android:layout_below="@+id/bnav_top_empty_view">
+            <ViewStub android:id="@+id/common_debug_viewstub" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_common_debug" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <RelativeLayout android:id="@+id/bnav_rg_assist_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/nsdk_rg_assist_panel_margin_top_land">
+                <include layout="@layout/nsdk_layout_rg_mapmode_assist_panel_layout_land"/>
+            </RelativeLayout>
+            <ViewStub android:id="@+id/bnav_rg_control_panel_stub" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_control_panel" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/nsdk_rg_control_panel_margin_top_land" android:layout_marginBottom="@dimen/navi_dimens_5dp"/>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_rg_toolbox_convoy_time_layout" android:background="@drawable/nsdk_drawable_rg_assist_eta_arrival_time_bg" android:paddingLeft="@dimen/nsdk_rg_dest_arrivel_time_padding_left" android:paddingTop="@dimen/navi_dimens_3dp" android:paddingRight="@dimen/nsdk_rg_dest_arrivel_time_padding_left" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_1dp" android:layout_marginRight="@dimen/nsdk_rg_hw_simple_board_margin_right" android:layout_alignParentRight="true">
+                <TextView android:textSize="@dimen/navi_dimens_12dp" android:textStyle="bold" android:textColor="@color/nsdk_bottom_convoy_text_color" android:gravity="center" android:id="@+id/bnav_rg_toolbox_convoy" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_1dp" android:text="@string/nsdk_string_rg_convoy_in_process"/>
+                <TextView android:textSize="@dimen/navi_dimens_16dp" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_a" android:gravity="center" android:id="@+id/bnav_rg_toolbox_arrive_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="后天18:56到达"/>
+            </LinearLayout>
+            <ViewStub android:id="@+id/bnav_rg_nearby_search_stub" android:layout="@layout/nsdk_layout_rg_nearby_search_filter_panel_land" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginBottom="@dimen/nsdk_rg_control_panel_bottom_margin"/>
+            <RelativeLayout android:layout_gravity="right" android:id="@+id/bnav_rg_cur_road_name_container" android:background="@color/nsdk_rg_transparent" android:visibility="gone" android:clipChildren="false" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <RelativeLayout android:gravity="bottom" android:id="@+id/bnav_rg_toolbox_bottom_bar_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_4dp" android:layout_alignParentBottom="true"/>
+            <ViewStub android:id="@+id/bnav_rg_xd_voice_container_stub" android:visibility="gone" android:layout="@layout/nsdk_layout_rg_xd_voice_panel_land" android:inflatedId="@+id/bnav_rg_xd_voice_container" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="bottom" android:id="@+id/bnav_rg_toolbox_panel_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <com.baidu.navisdk.ugc.report.ui.UgcReportPanelLayout android:id="@+id/bnav_rg_ugc_menu_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" app:nsdk_panel_margin_left="@dimen/nsdk_rg_land_left_panel_width"/>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/bnav_rg_ugc_detail_menu_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:id="@+id/bnav_rg_ugc_detail_menu_container" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="@dimen/nsdk_rg_land_left_panel_width"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/bnav_rg_route_search_panel" android:background="@color/nsdk_cl_rg_bg_a" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:layout_gravity="bottom" android:id="@+id/bnav_rg_route_search_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/nsdk_rg_land_left_panel_width"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/bnav_rg_route_sort_panel" android:background="@color/nsdk_cl_rg_bg_a" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <View android:id="@+id/bnav_rg_route_sort_trans_top" android:layout_width="@dimen/nsdk_rg_land_left_panel_width" android:layout_height="match_parent"/>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="bottom" android:id="@+id/bnav_rg_route_sort_container" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <RelativeLayout android:id="@+id/bnav_rg_collada_view_rl" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/bnav_rg_collada_view" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentTop="true"/>
+        <ImageView android:id="@+id/bnav_rg_collada_open_close" android:paddingRight="@dimen/navi_dimens_0dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/navi_dimens_0dp" android:src="@drawable/nsdk_drawable_enlarge_close_l" android:scaleType="centerInside" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <ViewStub android:id="@+id/bnav_rg_enlarge_road_map_stub" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_enlarge_road_map" android:inflatedId="@+id/bnav_rg_enlarge_road_map_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/navi_rg_card_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/bnav_rg_menu_more_setting_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ViewStub android:id="@+id/navi_rg_highway_subscript_stub" android:visibility="gone" android:layout="@layout/nsdk_layout_hw_subscript_view" android:inflatedId="@+id/navi_rg_highway_subscript_layout" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ViewStub android:id="@+id/open_the_door_for_me" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_open_the_door" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ViewStub android:id="@+id/bnav_rg_notification_debug_layout_stub" android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_notification_debug" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <RelativeLayout android:id="@+id/bnav_rg_notification_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <FrameLayout android:id="@+id/bnav_rg_notification_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/nsdk_rg_land_left_panel_width" android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <FrameLayout android:gravity="center_vertical" android:id="@+id/debug_view_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/navi_rg_first_enter_guide" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</com.baidu.navisdk.ui.widget.RGRootViewFrameLayout>

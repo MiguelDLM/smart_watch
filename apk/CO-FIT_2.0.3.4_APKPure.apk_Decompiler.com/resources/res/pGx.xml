@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:left="31dp">
+        <rotate android:fromDegrees="-45">
+            <shape>
+                <size android:height="8dp" android:width="50dp"/>
+                <solid android:color="@android:color/black"/>
+                <stroke android:width="1px" android:color="@android:color/transparent"/>
+                <corners android:radius="25dp" android:bottomLeftRadius="25dp" android:bottomRightRadius="25dp"/>
+            </shape>
+        </rotate>
+    </item>
+    <item android:right="32.5dp">
+        <rotate android:fromDegrees="45">
+            <shape>
+                <size android:height="8dp" android:width="50dp"/>
+                <solid android:color="@android:color/black"/>
+                <stroke android:width="1px" android:color="@android:color/transparent"/>
+                <corners android:radius="25dp" android:topLeftRadius="25dp" android:topRightRadius="25dp"/>
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

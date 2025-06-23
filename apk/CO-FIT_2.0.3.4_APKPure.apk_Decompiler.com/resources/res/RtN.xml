@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:orientation="vertical" android:background="@color/nsdk_rg_transparent" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="@dimen/navi_dimens_23dp" android:textStyle="bold" android:textColor="#ff3377ff" android:gravity="center" android:id="@+id/bnav_rg_bottombar_new_continue_nav" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/nsdk_string_rg_sg_continue_nav" android:singleLine="true"/>
+    <include layout="@layout/bnav_layout_rg_bottombar_driving_distance_time"/>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rv"
+    android:layout_width="90dp"
+    android:layout_height="90dp"
+    android:layout_margin="4dp">
+    <com.sma.smartv3.view.ImageViewRound
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:src="@drawable/pic_screensaver_1"
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        app:isCustomize="true"
+        app:radius="10dp"
+        app:type="radial"/>
+    <ImageView
+        android:id="@+id/selectStatus"
+        android:background="@drawable/shape_dial_pointer_select_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

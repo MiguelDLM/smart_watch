@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content" android:minWidth="@dimen/hiad_1_dp" android:minHeight="@dimen/hiad_1_dp">
+    <com.huawei.openalliance.ad.views.AutoScaleSizeRelativeLayout android:layout_gravity="center_horizontal" android:id="@+id/hiad_banner_ad" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.huawei.openalliance.ad.views.PPSNativeView android:id="@+id/hiad_banner_layout_1" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <ImageView android:id="@+id/hiad_banner_image_1" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:layout_centerInParent="true"/>
+        </com.huawei.openalliance.ad.views.PPSNativeView>
+        <com.huawei.openalliance.ad.views.PPSNativeView android:id="@+id/hiad_banner_layout_2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <ImageView android:id="@+id/hiad_banner_image_2" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:layout_centerInParent="true"/>
+        </com.huawei.openalliance.ad.views.PPSNativeView>
+        <ImageView android:id="@+id/hiad_banner_close_button" android:visibility="gone" android:layout_width="@dimen/hiad_24_dp" android:layout_height="@dimen/hiad_24_dp" android:layout_marginTop="@dimen/hiad_12_dp" android:src="@drawable/hiad_banner_close_btn" android:layout_alignParentTop="true" android:layout_marginEnd="@dimen/hiad_12_dp" android:layout_alignParentEnd="true"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/custom_ad_bg_layout_container" android:layout_width="wrap_content" android:layout_height="@dimen/hiad_16_dp" android:layout_marginTop="@dimen/hiad_12_dp" android:layout_alignParentTop="true" android:layout_marginStart="@dimen/hiad_12_dp" android:layout_marginEnd="@dimen/hiad_52_dp" android:layout_alignParentStart="true">
+            <com.huawei.openalliance.ad.views.PPSLabelSourceView android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/custom_ad_bg_layout" android:paddingLeft="@dimen/hiad_2_dp" android:visibility="gone" android:layout_width="0dp" android:layout_height="@dimen/hiad_16_dp" android:layout_weight="1" android:paddingStart="@dimen/hiad_2_dp"/>
+            <ImageView android:id="@+id/compliance_icon_banner" android:visibility="gone" android:layout_width="@dimen/hiad_24_dp" android:layout_height="@dimen/hiad_16_dp" android:src="@drawable/hiad_compliance_icon" android:layout_marginStart="@dimen/hiad_8_dp"/>
+        </LinearLayout>
+    </com.huawei.openalliance.ad.views.AutoScaleSizeRelativeLayout>
+</FrameLayout>

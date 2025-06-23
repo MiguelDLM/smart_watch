@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <com.baidu.navisdk.ui.widget.BNVoiceBtn android:id="@+id/xd_voice_btn" android:background="@drawable/nsdk_voice_head_bg" android:visibility="visible" style="@style/NavXdEntryStyle"/>
+    <RelativeLayout android:id="@+id/bnav_rg_xd_voice_guide_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignLeft="@+id/xd_voice_btn" android:layout_alignTop="@+id/xd_voice_btn"/>
+</merge>

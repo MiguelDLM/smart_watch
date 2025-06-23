@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bnav_rg_new_rec_parking_ll"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:textSize="@dimen/navi_dimens_20dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_b_mm_title"
+        android:gravity="center"
+        android:id="@+id/bnav_rg_new_rec_parking_tip"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推荐车位"
+        android:singleLine="true"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_20dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_b_mm_title"
+        android:gravity="center"
+        android:id="@+id/bnav_rg_new_rec_parking_location"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_2dp"
+        android:text="A008"
+        android:singleLine="true"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bnav_rg_new_rec_parking_tip"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

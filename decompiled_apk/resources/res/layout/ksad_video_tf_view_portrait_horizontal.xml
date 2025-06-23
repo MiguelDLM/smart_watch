@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/video_cover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ksad_video_thumb_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"/>
+        <com.kwad.components.core.widget.KsLogoView
+            android:layout_gravity="bottom|left"
+            android:id="@+id/ksad_video_tf_logo"
+            android:background="@drawable/ksad_splash_logo_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"/>
+    </FrameLayout>
+    <com.kwad.components.ad.widget.tailframe.appbar.TailFrameBarAppPortraitHorizontal
+        android:id="@+id/ksad_video_app_tail_frame"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <com.kwad.components.ad.reward.widget.tailframe.TailFrameBarH5View
+        android:id="@+id/ksad_video_h5_tail_frame"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="4dp">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:id="@+id/selectStatusAmount" android:background="@drawable/rectangular_background" android:padding="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="2dp">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/text_color" android:id="@+id/tv_pack_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="100积分"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="13dp" android:textColor="@color/line_color" android:id="@+id/tv_original_amount" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="100"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="22dp" android:textColor="@color/colorAccent" android:id="@+id/tv_amount" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="100"/>
+        </LinearLayout>
+        <FrameLayout android:id="@+id/recommendStatus" android:background="@drawable/rectangular_recomm_background" android:paddingLeft="15dp" android:paddingTop="1dp" android:paddingRight="5dp" android:paddingBottom="2dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="2dp" android:layout_alignParentRight="true">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/recommend_status_icon" android:layout_marginEnd="5dp"/>
+        </FrameLayout>
+    </RelativeLayout>
+</FrameLayout>

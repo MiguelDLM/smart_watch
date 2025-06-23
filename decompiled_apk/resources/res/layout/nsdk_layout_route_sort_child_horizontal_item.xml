@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNCommonCornerView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@color/nsdk_route_prefer_item_bg"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:circleRadius="4dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/nsdk_route_sort_item_branch"
+            android:visibility="gone"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/nsdk_route_sort_item_tv"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:textSize="13dp"
+            android:textColor="@color/nsdk_route_sort_item_text"
+            android:id="@+id/nsdk_route_sort_item_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nsdk_string_route_sort_item_default"
+            android:lines="1"
+            android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/nsdk_route_sort_item_branch"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginLeft="0dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_gravity="top|right"
+        android:id="@+id/nsdk_route_sort_item_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nsdk_route_sort_item_tip_selected"
+        android:layout_alignParentRight="true"/>
+</com.baidu.navisdk.ui.widget.BNCommonCornerView>

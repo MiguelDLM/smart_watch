@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+            <LinearLayout style="@style/measure_item_panel">
+                <LinearLayout
+                    android:id="@+id/ll_distance_unit"
+                    style="@style/measure_item_root_style3">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/metric_and_imperial_item"
+                        style="@style/measure_item_tv_left"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_distance_unit"
+                        style="@style/measure_item_tv_right"/>
+                    <ImageView style="@style/measure_item_right_iv_style"/>
+                </LinearLayout>
+                <View style="@style/me_item_bottom_ll_line"/>
+                <LinearLayout
+                    android:id="@+id/ll_temperature_unit"
+                    android:visibility="gone"
+                    style="@style/measure_item_root_style3">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/temperature_unit"
+                        style="@style/measure_item_tv_left"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_temperature_unit"
+                        style="@style/measure_item_tv_right"/>
+                    <ImageView style="@style/measure_item_right_iv_style"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

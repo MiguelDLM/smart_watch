@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="0dp"
+    android:layout_height="200dp"
+    style="@style/ai_function_item_hot_root_style">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ai_item_hot1_bg_icon"
+        android:scaleType="fitStart"/>
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="95dp"
+        android:layout_height="match_parent"
+        style="@style/ai_function_item_hot_iv"/>
+    <LinearLayout
+        android:padding="5dp"
+        style="@style/ai_function_item_text_panel_style">
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/tv_title"
+            style="@style/ai_function_item_hot_title"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/tv_desc"
+            style="@style/ai_function_item_hot_desc"/>
+    </LinearLayout>
+</RelativeLayout>

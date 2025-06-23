@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/ai_answer_fl_bg" android:background="@drawable/ai_answer_bg_1" android:layout_width="match_parent" android:layout_height="450dp"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView style="@style/abh_title_left"/>
+            <com.sma.smartv3.view.text.PFMedium style="@style/abh_title_center"/>
+            <ImageView android:layout_gravity="center_vertical" android:id="@+id/abh_title_other_right" android:onClick="onTitleOtherRightClick" android:paddingEnd="1dp" style="@style/abh_title_right"/>
+            <ImageView android:layout_gravity="center_vertical" android:paddingStart="1dp" android:paddingEnd="11dp" style="@style/abh_title_right"/>
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_weight="1">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/ai_answer_et_describe" android:layout_marginLeft="10dp" android:text="@string/content_describe" style="@style/exercise_course_info_item_two_tv_style"/>
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:layout_marginBottom="5dp">
+                    <EditText android:textSize="14sp" android:textColor="@color/text_color" android:textColorHint="@color/line_color" android:gravity="left" android:id="@+id/ai_answer_ed_content" android:background="@drawable/shape_radius_white" android:paddingLeft="12dp" android:paddingTop="12dp" android:paddingRight="12dp" android:paddingBottom="35dp" android:layout_width="match_parent" android:layout_height="150dp"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:id="@+id/ai_answer_et_count" android:layout_marginBottom="10dp" android:text="0/500" android:layout_toLeftOf="@+id/ai_answer_et_clear" android:layout_alignBottom="@+id/ai_answer_ed_content" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/text_color" android:id="@+id/ai_answer_et_clear" android:layout_marginLeft="5dp" android:layout_marginRight="18dp" android:layout_marginBottom="10dp" android:text="@string/clear" android:layout_alignBottom="@+id/ai_answer_ed_content" android:layout_alignParentRight="true" android:onClick="onClear" style="@style/exercise_course_info_item_two_tv_style"/>
+                </RelativeLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/line_color" android:id="@+id/ai_answer_tv_example" android:layout_marginLeft="10dp" android:text="@string/daily_weekly_example" style="@style/exercise_course_info_item_two_tv_style"/>
+                <LinearLayout android:orientation="vertical" android:id="@+id/ai_answer_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:minHeight="50dp"/>
+                <FrameLayout android:id="@+id/generate_results_frameLayout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/ai_results_tv_bg" android:layout_marginLeft="10dp" android:text="@string/generate_results" style="@style/exercise_course_info_item_two_tv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:gravity="left" android:id="@+id/ai_answer_tv_results" android:background="@drawable/shape_radius_stroke" android:padding="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:minHeight="60dp" android:textIsSelectable="true" style="@style/exercise_course_info_item_two_tv_style"/>
+                        <ImageButton android:id="@+id/ai_copy_imgBtn" android:background="@drawable/ai_copy_icon" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginLeft="8dp" android:layout_marginTop="5dp" android:onClick="onCopy"/>
+                    </LinearLayout>
+                    <ImageView android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="70dp" android:layout_marginRight="10dp" android:src="@drawable/icon_ai_function_ai" android:scaleType="fitEnd"/>
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <Button android:enabled="true" android:layout_width="match_parent" android:text="@string/generate" style="@style/bottom_btn"/>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/pop_common_container_style">
+    <EditText android:textSize="18dp" android:textColor="@color/text_color" android:textColorHint="@color/line_color" android:id="@+id/edt" android:background="@null" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginBottom="5dp" android:maxLines="1" android:singleLine="true" android:imeOptions="actionDone" android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+    <View style="@style/pop_top_line_style"/>
+    <GridLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@+id/number_panel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:columnCount="3">
+        <Button android:text="1" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="2" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="3" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="4" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="5" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="6" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="7" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="8" style="@style/pop_password_ll_num_style"/>
+        <Button android:text="9" style="@style/pop_password_ll_num_style"/>
+        <Space/>
+        <Button android:text="0" style="@style/pop_password_ll_num_style"/>
+        <Button android:textSize="18dp" android:text="DEL" style="@style/pop_password_ll_num_style"/>
+    </GridLayout>
+    <LinearLayout style="@style/pop_bottom_container_style">
+        <LinearLayout style="@style/pop_bottom_ll_style">
+            <com.sma.smartv3.view.text.PFMedium android:id="@+id/action2" android:text="@string/confirm" style="@style/pop_bottom_btn_2_style"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/hiad_12_dp"
+    android:textColor="@color/hiad_feedback_text"
+    android:ellipsize="end"
+    android:id="@+id/label_title"
+    android:background="@drawable/hiad_feedback_item"
+    android:paddingTop="@dimen/hiad_6_dp"
+    android:paddingBottom="@dimen/hiad_6_dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:lines="1"
+    android:fontFamily="HwChinese-regular"
+    android:paddingStart="@dimen/hiad_8_dp"
+    android:paddingEnd="@dimen/hiad_8_dp"/>

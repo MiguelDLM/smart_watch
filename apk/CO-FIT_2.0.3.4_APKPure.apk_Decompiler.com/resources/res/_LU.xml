@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:id="@+id/ivAdImg" android:layout_width="match_parent" android:layout_height="@dimen/sm_sdk_px_0" android:scaleType="centerCrop" app:layout_constraintBottom_toTopOf="@+id/ivClose" app:layout_constraintDimensionRatio="360:352" app:layout_constraintTop_toTopOf="0" app:layout_constraintVertical_chainStyle="2"/>
+        <ImageView android:id="@+id/ivClose" android:layout_width="@dimen/sm_sdk_px_22" android:layout_height="@dimen/sm_sdk_px_22" android:layout_marginTop="@dimen/sm_sdk_px_40" android:src="@drawable/main_dialog_close" app:layout_constraintBottom_toBottomOf="0" app:layout_constraintLeft_toLeftOf="0" app:layout_constraintRight_toRightOf="0" app:layout_constraintTop_toBottomOf="@+id/ivAdImg"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

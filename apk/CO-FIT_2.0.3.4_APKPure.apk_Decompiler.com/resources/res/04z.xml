@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_above="@+id/bikenav_bottom_bar_layout">
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/drawer_header" android:background="#00ff0000" android:layout_width="match_parent" android:layout_height="85dp">
+        <RelativeLayout android:layout_gravity="center_horizontal" android:id="@+id/arrow_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:layout_marginBottom="10dp">
+            <ImageView android:id="@+id/icon_arrow_up" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/wsdk_icon_route_result_up_arrow" android:layout_centerInParent="true"/>
+            <ImageView android:id="@+id/icon_arrow_down" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/wsdk_icon_route_result_down_arrow" android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="horizontal" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="13dp">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5dp">
+                    <TextView android:textSize="21dp" android:textColor="#333333" android:id="@+id/drawer_remain_dist" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+                    <TextView android:textSize="14dp" android:textColor="#999999" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="公里"/>
+                </LinearLayout>
+                <TextView android:textSize="12dp" android:textColor="#333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="剩余距离"/>
+            </LinearLayout>
+            <ImageView android:background="#d8d9da" android:layout_width="1px" android:layout_height="match_parent"/>
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5dp">
+                    <TextView android:textSize="21dp" android:textColor="#333333" android:id="@+id/drawer_remain_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+                    <TextView android:textSize="14dp" android:textColor="#999999" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="分钟"/>
+                </LinearLayout>
+                <TextView android:textSize="12dp" android:textColor="#333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="剩余时间"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout android:layout_gravity="center_horizontal" android:background="@drawable/wsdk_roundcorner_rectangle" android:layout_width="match_parent" android:layout_height="25dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="13dp">
+        <TextView android:textSize="13dp" android:textColor="#b9770e" android:id="@+id/drawer_progress_info_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="已骑行0公里 0分钟" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px" android:layout_alignParentBottom="true"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="70dp">
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+            <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5dp" android:src="@drawable/wsdk_bikenavi_speed"/>
+                <TextView android:textSize="15dp" android:textColor="#333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="当前时速"/>
+            </LinearLayout>
+            <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12dp">
+                <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_curspeed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+                <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="km/h"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+            <TextView android:textSize="15dp" android:textColor="#333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="平均时速"/>
+            <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_avgspeed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+                <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="km/h"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+            <TextView android:textSize="15dp" android:textColor="#333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="最高时速"/>
+            <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_maxspeed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+                <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="km/h"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:layout_alignParentBottom="true"/>
+    <RelativeLayout android:visibility="gone" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_centerVertical="true">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5dp" android:src="@drawable/wsdk_bikenavi_calorie"/>
+            <TextView android:textSize="15dp" android:textColor="#333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="消耗卡路里"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_calorie" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+            <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="kcal"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:layout_alignParentBottom="true"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_centerVertical="true">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5dp" android:src="@drawable/wsdk_bikenavi_climbup"/>
+            <TextView android:textSize="15dp" android:textColor="#333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="累计爬升" android:layout_centerVertical="true"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_altiDiff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+            <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="m"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:layout_alignParentBottom="true"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_centerVertical="true">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5dp" android:src="@drawable/wsdk_bikenavi_altitude"/>
+            <TextView android:textSize="15dp" android:textColor="#333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="当前海拔" android:layout_centerVertical="true"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <TextView android:textSize="15dp" android:textColor="#333333" android:id="@+id/drawer_altitude" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:text="0"/>
+            <TextView android:textSize="12dp" android:textColor="#999999" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="m"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView android:background="#d8d9da" android:layout_width="match_parent" android:layout_height="1px" android:layout_alignParentBottom="true"/>
+</LinearLayout>

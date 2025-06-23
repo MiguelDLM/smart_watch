@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/nsdk_more_setting_menu_item_height">
+    <ImageView
+        android:id="@+id/motor_setting_select_item_right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nsdk_drawable_common_ic_setting_right_arrow"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/motor_setting_select_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/MotorSettingItemTitleText"/>
+    <TextView
+        android:ellipsize="end"
+        android:gravity="right"
+        android:id="@+id/motor_setting_select_item_selected_tip"
+        android:paddingRight="@dimen/navi_dimens_20dp"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/motor_setting_select_item_right_arrow"
+        app:layout_constraintStart_toEndOf="@+id/motor_setting_select_item_title"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/MotorSettingItemTipsText"/>
+</merge>

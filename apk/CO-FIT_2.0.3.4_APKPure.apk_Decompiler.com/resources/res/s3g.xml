@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="100sp" android:textColor="@color/text_color" android:layout_gravity="center" android:id="@+id/nowGoalValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40dp" android:text="0"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/nowGoalUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/km"/>
+        <Button android:textColor="@color/line_color" android:id="@+id/customerGoalBt" android:background="@drawable/common_ripple_me" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="20dp" android:text="@string/customize" android:textAllCaps="false" android:layout_marginStart="100dp" android:layout_marginEnd="100dp" style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_above="@+id/startExerciseBt" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"/>
+        <Button android:id="@+id/startExerciseBt" android:layout_margin="20dp" android:text="@string/start_exercise" style="@style/bottom_btn.personal_info_next"/>
+    </RelativeLayout>
+</LinearLayout>

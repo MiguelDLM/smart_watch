@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:topLeftRadius="@dimen/navi_dimens_12dp"
+        android:topRightRadius="@dimen/navi_dimens_12dp"/>
+    <gradient
+        android:startColor="#db181f25"
+        android:endColor="#ff181f25"
+        android:angle="270"/>
+</shape>

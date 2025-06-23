@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/ksad_reward_btn_for_live_cover"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="68dp">
+    <com.kwad.components.ad.widget.DownloadProgressView
+        android:id="@+id/ksad_reward_app_download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_centerVertical="true"
+        app:ksad_backgroundDrawable="@drawable/ksad_reward_live_app_download_bg"
+        app:ksad_downloadLeftTextColor="@android:color/white"
+        app:ksad_downloadRightTextColor="@android:color/white"
+        app:ksad_downloadTextColor="@android:color/white"
+        app:ksad_downloadTextSize="16sp"
+        app:ksad_downloadingFormat="正在下载 %s%%"
+        app:ksad_progressDrawable="@drawable/ksad_reward_live_download_progress"
+        app:ksad_textColor="@android:color/white"
+        app:ksad_textSize="16sp"/>
+</RelativeLayout>

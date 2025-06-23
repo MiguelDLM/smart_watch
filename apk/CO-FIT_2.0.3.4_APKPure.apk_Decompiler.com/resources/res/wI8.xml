@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:shape="rectangle">
+    <corners android:topLeftRadius="0dp" android:topRightRadius="20dp" android:bottomLeftRadius="0dp" android:bottomRightRadius="20dp"/>
+    <solid android:color="@color/ksad_99_black"/>
+    <stroke android:width="0.5dp" android:color="@color/ksad_white_alpha_20"/>
+</shape>

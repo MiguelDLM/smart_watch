@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="other">ဝင်းဒိုးသည် %1$s စက္ကန့်အကြာတွင် ပိတ်သွားပါလိမ့်မည်။</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="other">ရွေးချယ်မှုအား %1$s ရက်ကြာ မှတ်ထားရန်</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="other">%1$d စက္ကန့်</item>
+    </plurals>
+</resources>

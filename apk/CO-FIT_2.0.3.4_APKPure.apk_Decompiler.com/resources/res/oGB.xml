@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:paddingLeft="19dp" android:paddingTop="20dp" android:paddingRight="19dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:textSize="21sp" android:textColor="#333333" android:ellipsize="end" android:id="@+id/city_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="济南市" android:maxLines="1" android:fontFamily="HwChinese-medium"/>
+    <LinearLayout android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5.5dp">
+        <LinearLayout android:gravity="center" android:id="@+id/stytle_view" android:background="@drawable/bnav_bg_traffic_record_stytle" android:padding="2dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/type_icon" android:layout_width="11dp" android:layout_height="11dp" android:layout_marginLeft="2dp" android:src="@drawable/bnav_traffic_record_guanfangsq"/>
+            <TextView android:textSize="10sp" android:textColor="#ffffff" android:ellipsize="end" android:id="@+id/record_stytle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:text="官方授权" android:maxLines="1"/>
+        </LinearLayout>
+        <TextView android:textSize="13sp" android:textColor="#666666" android:gravity="right" android:id="@+id/record_state" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="未备案" android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

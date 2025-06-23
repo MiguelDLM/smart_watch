@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/bn_rg_jmodel_bottombar_eta_ly"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_new_bottom_bar_height"
+        android:paddingStart="@dimen/navi_dimens_16dp"
+        android:paddingEnd="@dimen/navi_dimens_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout="@layout/nsdk_layout_rg_jmodel_bottombar_eta"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

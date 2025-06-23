@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="zero">Pārtīt uz priekšu par %d sekundēm</item>
+        <item quantity="one">Pārtīt uz priekšu par %d sekundi</item>
+        <item quantity="other">Pārtīt uz priekšu par %d sekundēm</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="zero">Attīt atpakaļ par %d sekundēm</item>
+        <item quantity="one">Attīt atpakaļ par %d sekundi</item>
+        <item quantity="other">Attīt atpakaļ par %d sekundēm</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="zero">Logs tiks aizvērts pēc %1$s sekundēm.</item>
+        <item quantity="one">Logs tiks aizvērts pēc %1$s sekundes.</item>
+        <item quantity="other">Logs tiks aizvērts pēc %1$s sekundēm.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="zero">Atcerēties izvēli %1$s dienas</item>
+        <item quantity="one">Atcerēties izvēli %1$s dienu</item>
+        <item quantity="other">Atcerēties izvēli %1$s dienas</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="zero">%1$d s</item>
+        <item quantity="one">%1$d s</item>
+        <item quantity="other">%1$d s</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="zero">%d jaunu paziņojumu</item>
+        <item quantity="one">%d jauns paziņojums</item>
+        <item quantity="other">%d jauni paziņojumi</item>
+    </plurals>
+</resources>

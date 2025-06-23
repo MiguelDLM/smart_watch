@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/navi_dimens_18dp"
+    android:textStyle="bold"
+    android:textColor="@color/nsdk_bottom_convoy_text_color"
+    android:gravity="center"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="@string/nsdk_string_rg_convoy_in_process"/>

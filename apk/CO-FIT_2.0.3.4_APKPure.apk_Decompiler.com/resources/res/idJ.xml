@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/segmentation_item_number" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/segmentation_title" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/segmentation_item_duration" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/action_details" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/segmentation_item_distance" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/segmentation_distance_title" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/segmentation_item_avgPace" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/avg_pace" android:layout_weight="1"/>
+    </LinearLayout>
+    <View android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="1dp"/>
+</LinearLayout>

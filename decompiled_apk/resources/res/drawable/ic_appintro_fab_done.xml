@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_appintro_fab_background"/>
+    <item
+        android:drawable="@drawable/ic_appintro_done"
+        android:left="@dimen/appintro2_fab_inset"
+        android:top="@dimen/appintro2_fab_inset"
+        android:right="@dimen/appintro2_fab_inset"
+        android:bottom="@dimen/appintro2_fab_inset"/>
+</layer-list>

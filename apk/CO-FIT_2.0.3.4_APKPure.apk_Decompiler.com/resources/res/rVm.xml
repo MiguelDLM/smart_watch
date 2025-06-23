@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:paddingTop="16dp" android:paddingBottom="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="12dp" android:paddingEnd="12dp">
+    <com.sma.smartv3.view.SquareImageView android:id="@+id/iv" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp">
+        <ImageView android:id="@+id/iv_icon" android:layout_width="18dp" android:layout_height="18dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/order_text_orange" android:gravity="center" android:id="@+id/pb_amount" android:layout_width="wrap_content" android:layout_height="28dp" style="@style/dial_pb_style"/>
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp">
+        <com.sma.smartv3.view.ProgressButtonV2 android:id="@+id/pb" android:layout_width="match_parent" android:layout_height="30dp" style="@style/dial_pb_style"/>
+        <FrameLayout android:id="@+id/item_dial_new_ll" android:background="@drawable/dial_new_bg" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium style="@style/dial_item_new_tv"/>
+        </FrameLayout>
+    </RelativeLayout>
+</LinearLayout>

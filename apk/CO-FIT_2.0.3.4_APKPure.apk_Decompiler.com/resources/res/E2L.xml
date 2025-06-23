@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:padding="30dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatSpinner android:id="@+id/sp_sims" android:layout_width="match_parent" android:layout_height="wrap_content" android:spinnerMode="dropdown"/>
+    <EditText android:id="@+id/et_phone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="" android:hint="手机号"/>
+    <EditText android:gravity="start" android:id="@+id/et_content" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="" android:hint="内容" android:lines="5"/>
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="发送" android:onClick="onSend"/>
+</LinearLayout>

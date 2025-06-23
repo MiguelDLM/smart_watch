@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/button_panorama" android:layout_width="92dp" android:layout_height="55dp" app:cardCornerRadius="8dp" app:cardElevation="0dp">
+    <com.baidu.navisdk.module.routeresultbase.view.template.cell.row.NoTouchScrollView android:id="@+id/image_scroll_view" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/panorama_bg_image" android:layout_width="138dp" android:layout_height="55dp" android:layout_marginLeft="-23dp" android:src="@drawable/nsdk_drawable_rr_dynamic_card_panorama_placeholder" android:scaleType="centerCrop"/>
+        </LinearLayout>
+    </com.baidu.navisdk.module.routeresultbase.view.template.cell.row.NoTouchScrollView>
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:background="#5c000000" android:layout_width="match_parent" android:layout_height="25dp" android:layout_centerInParent="true">
+        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="5dp" android:layout_marginTop="1dp" android:src="@drawable/nsdk_drawable_rr_dynamic_card_ic_panorama"/>
+        <TextView android:textSize="13dp" android:textColor="#ffffff" android:id="@+id/panorama_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:text="实景教程"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

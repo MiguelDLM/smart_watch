@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/content_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <LinearLayout android:orientation="vertical" android:background="@drawable/bnav_tab_background" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="10dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:id="@+id/all_distance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="全程：0km" android:layout_weight="1"/>
+            <TextView android:id="@+id/remain_distance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="剩余：0km" android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:id="@+id/all_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="全程：0分钟" android:layout_weight="1"/>
+            <TextView android:id="@+id/remain_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="剩余：0分钟" android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="right|center_vertical|center_horizontal|center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+        <Button android:id="@+id/pronavi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="专业导航"/>
+        <Button android:id="@+id/route_result" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="多路线"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+        <Button android:id="@+id/truck_route_plan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="��算路"/>
+        <Button android:id="@+id/route_plan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="��算路"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:layout_gravity="bottom" android:background="@drawable/bnav_tab_background" android:padding="10dp" android:layout_width="match_parent" android:layout_height="50dp" android:layout_margin="10dp">
+        <TextView android:id="@+id/distance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0米" android:layout_weight="1"/>
+        <ImageView android:id="@+id/turnIcon" android:layout_width="20dp" android:layout_height="20dp" android:tint="#000000" android:layout_weight="1"/>
+        <TextView android:gravity="center" android:id="@+id/route_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"/>
+        <TextView android:gravity="center" android:id="@+id/lights" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="红绿灯：" android:layout_weight="1"/>
+    </LinearLayout>
+</FrameLayout>

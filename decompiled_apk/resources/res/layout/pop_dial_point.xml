@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="20dp"
+    style="@style/pop_dial_common_container_style">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dial_pointer_pop_iv"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:textSize="18sp"
+                android:textColor="@color/text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pointer"
+                android:layout_marginStart="8dp"/>
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&amp;"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:textSize="18sp"
+                android:textColor="@color/text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scale"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/confirmButton"
+            android:text="@string/confirm"
+            style="@style/dial_pop_button"/>
+    </RelativeLayout>
+    <View
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pointer"/>
+    </LinearLayout>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPointer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scale"/>
+    </LinearLayout>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

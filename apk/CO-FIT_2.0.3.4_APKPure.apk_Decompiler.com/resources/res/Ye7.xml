@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/load_root" android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/load_plan_start" android:visibility="visible" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerVertical="true">
+        <RelativeLayout android:id="@+id/progress_cycle_normal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.baidu.navisdk.ui.widget.BNLoadingView android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/load_tip_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="161dp" android:layout_centerVertical="true">
+        <TextView android:gravity="center_horizontal" android:id="@+id/route_common_tv" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/nask_light_navi_yaw_tip" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/load_plan_result" android:visibility="gone" android:layout_width="match_parent" android:layout_height="161dp" android:layout_centerVertical="true">
+        <com.baidu.navisdk.ui.widget.BNResultErrorView android:id="@+id/route_error_view" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp"/>
+    </RelativeLayout>
+</RelativeLayout>

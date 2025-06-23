@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:id="@+id/nsdk_top_empty_view" layout="@layout/bnav_statusbar_empty_view_include"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/hw_subscript_content_view" android:background="@drawable/nsdk_nav_notification_background" android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView android:textSize="@dimen/navi_dimens_20dp" android:textColor="@color/nsdk_rg_hw_subscript_list_head_number_color" android:gravity="center" android:layout_gravity="center" android:id="@+id/hw_subscript_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_22dp" android:layout_marginBottom="@dimen/navi_dimens_10dp" android:text="高速全程信息"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/hw_subscript_list_view" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>

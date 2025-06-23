@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/me"
+    app:startDestination="@+id/main_me">
+    <fragment
+        android:label="@string/bottom_me"
+        android:name="com.sma.smartv3.ui.me.CbActiveMeFragment"
+        android:id="@+id/main_me"/>
+</navigation>

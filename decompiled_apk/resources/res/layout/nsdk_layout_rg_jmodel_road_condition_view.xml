@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.roadcondition.jmodel.BNJModelRoadConditionView
+        android:id="@+id/bnav_rg_cp_roadconditionbar"
+        android:background="@drawable/bn_rg_smart_road_condition_label_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:nsdk_bn_horizontal_bg_height="@dimen/navi_dimens_10dp"
+        app:nsdk_bn_horizontal_bg_margin_top="@dimen/navi_dimens_5dp"
+        app:nsdk_bn_horizontal_car_height="@dimen/navi_dimens_20dp"
+        app:nsdk_bn_horizontal_car_src="@drawable/nsdk_drawable_roadcondition_carpoint"
+        app:nsdk_bn_horizontal_car_width="@dimen/navi_dimens_34dp"/>
+</merge>

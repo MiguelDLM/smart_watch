@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/server_select_img_button"
+                    android:background="@null"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/icon_bind_help"
+                    android:onClick="moreSetting"
+                    android:layout_marginEnd="12dp"
+                    android:layout_alignParentEnd="true"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="22dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginEnd="22dp">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:textSize="24dp"
+                        android:textColor="@color/text_color"
+                        android:id="@+id/server_select_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/data_storage_server"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:textColor="@color/line_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/data_isolation_instructions"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="asiaPacific"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/asia_pacific"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/taiWanServerLl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_marginTop="30dp"
+                    style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout
+                    android:onClick="asiaPacificTaiWan"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/tai_wan"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="30dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="europAmerica"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/europe_and_america"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <View
+                android:layout_marginTop="30dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="SiliconValleyServerLl"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/silicon_valley_of_america_name"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:onClick="indiaBeatxp"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/india"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <View
+                android:layout_marginTop="30dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="chinaMainland"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/china_mainland"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <View
+                android:layout_marginTop="30dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="noLogin"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/not_logged_in_yet"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:textColor="@color/line_color"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/not_logged_in_yet_tip"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

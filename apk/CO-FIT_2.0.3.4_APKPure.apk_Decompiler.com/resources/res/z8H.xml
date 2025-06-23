@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huawei.hms.ads.nativead.NativeView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/adp_huawei_native_image_only_view" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+    <RelativeLayout android:id="@+id/adp_huawei_background" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.huawei.hms.ads.nativead.MediaView android:id="@+id/adp_huawei_ad_media" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:textSize="10sp" android:textStyle="bold" android:textColor="#ffffff" android:gravity="center" android:id="@+id/adp_huawei_ad_flag" android:background="@drawable/adp_huawei_native_flag_rounded_corners_shape" android:layout_width="20dp" android:layout_height="14dp" android:layout_marginBottom="8dp" android:text="@string/adp_huawei_ad_flag" android:layout_alignBottom="@+id/adp_huawei_ad_media" android:layout_marginStart="10dp"/>
+        <LinearLayout android:orientation="horizontal" android:layout_width="95dp" android:layout_height="26dp" android:layout_marginTop="20dp" android:layout_marginBottom="20dp" android:layout_alignBottom="@+id/adp_huawei_ad_media" android:layout_marginEnd="20dp" android:layout_alignParentEnd="true">
+            <Button android:textSize="10sp" android:textColor="#ffffff" android:id="@+id/adp_huawei_ad_call_to_action" android:background="@drawable/adp_huawei_emui_button_select" android:layout_width="72dp" android:layout_height="26dp"/>
+            <ImageView android:id="@+id/ads_huawei_close" android:background="@drawable/adp_ad_close" android:layout_width="12dp" android:layout_height="12dp" android:layout_marginLeft="10dp" android:layout_marginTop="6dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</com.huawei.hms.ads.nativead.NativeView>

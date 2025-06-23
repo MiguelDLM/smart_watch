@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hiad_whythisad_wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <HorizontalScrollView
+        android:id="@+id/hiad_whythisad_horizontal_List"
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:id="@+id/hiad_whythisad_horizional_ll_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </HorizontalScrollView>
+    <ScrollView
+        android:id="@+id/hiad_whythisad_vertical_feedback_List"
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:id="@+id/hiad_whythisad_vertical_ll_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+</RelativeLayout>

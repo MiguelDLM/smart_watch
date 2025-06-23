@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:background="@drawable/permission_explain_bg" android:padding="15dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp" android:elevation="6dp">
+        <TextView android:textColor="@android:color/black" android:gravity="center" android:id="@+id/tv_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="附近设备权限申请说明"/>
+        <TextView android:textColor="@android:color/black" android:id="@+id/tv_content" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="用于搜索附近蓝牙设备等场景"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/tv_tip" android:paddingTop="20dp" android:paddingBottom="13dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/schedule_max_tip" android:layout_marginStart="22dp"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <com.baoyz.swipemenulistview.SwipeMenuListView android:id="@+id/list_view" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null"/>
+        <TextView android:textSize="16sp" android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_gravity="center" android:id="@+id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/no_schedule" android:drawableTop="@drawable/pic_no_schedule" android:drawablePadding="16dp"/>
+    </FrameLayout>
+    <Button android:text="@string/add" style="@style/bottom_btn"/>
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/pop_common_container_style">
+    <com.sma.smartv3.view.text.PFMedium style="@style/popup_title"/>
+    <View style="@style/pop_top_line_style"/>
+    <com.sma.smartv3.view.picker.DurationPicker
+        android:id="@+id/duration_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View style="@style/pop_bottom_line_style"/>
+    <include layout="@layout/layout_pop_bottom_btn"/>
+</LinearLayout>

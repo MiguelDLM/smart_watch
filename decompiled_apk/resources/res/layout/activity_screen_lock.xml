@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.sma.smartv3.view.SlideLockView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:bg_text="Swipe right to unlock"
+        app:bg_text_color="@color/colorAccent"
+        app:bg_text_size="12sp"
+        app:enable_when_full="true"
+        app:gradient_color1="@color/text_color"
+        app:gradient_color2="@color/colorAccent"
+        app:gradient_color3="@color/text_color"
+        app:icon_drawable="@drawable/icon_screen_lock"
+        app:icon_ratio="0.2"
+        app:reset_not_full="true"
+        app:secondary_color="@color/line_color"/>
+</RelativeLayout>

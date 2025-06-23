@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton
+                    android:id="@+id/beforeTime"
+                    android:src="@drawable/selector_left_enter"
+                    style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/nowTime"
+                    android:text="@string/today"
+                    style="@style/status_item_info_now_time"/>
+                <ImageButton
+                    android:id="@+id/nextTime"
+                    android:src="@drawable/selector_right_enter"
+                    style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/loading"
+                style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/dataContent"
+                style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold
+                    android:id="@+id/nowTimeDetails"
+                    style="@style/status_item_info_select_time"/>
+                <RelativeLayout style="@style/status_item_info_rl_two">
+                    <ImageView
+                        android:id="@+id/image"
+                        android:src="@drawable/icon_sleep"
+                        android:layout_alignParentBottom="true"
+                        style="@style/status_item_info_iv_flag"/>
+                    <com.sma.smartv3.view.text.DINCondBold
+                        android:id="@+id/nowValue"
+                        android:text=""
+                        style="@style/status_item_info_select_value"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:id="@+id/valueUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        style="@style/status_item_info_iv_right_spacing"/>
+                </RelativeLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp">
+                    <LinearLayout style="@style/status_info_label_ll">
+                        <com.sma.smartv3.view.text.PFRegular
+                            android:text="@string/deep_sleep"
+                            android:drawableStart="@drawable/shape_sleep_deep"
+                            style="@style/status_info_label_ll_tv"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/status_info_label_ll">
+                        <com.sma.smartv3.view.text.PFRegular
+                            android:text="@string/light_sleep"
+                            android:drawableStart="@drawable/shape_sleep_light"
+                            style="@style/status_info_label_ll_tv"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/status_info_label_ll">
+                        <com.sma.smartv3.view.text.PFRegular
+                            android:text="@string/awake"
+                            android:drawableStart="@drawable/shape_sleep_awake"
+                            style="@style/status_info_label_ll_tv"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <RelativeLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        style="@style/status_item_info_chat"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="276dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp">
+                        <TextView
+                            android:textSize="12sp"
+                            android:textColor="@color/line_color"
+                            android:id="@+id/sleepStartTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="22:00"
+                            android:layout_alignParentStart="true"/>
+                        <TextView
+                            android:textSize="12sp"
+                            android:textColor="@color/line_color"
+                            android:id="@+id/sleepEndTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="08:00"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+                <LinearLayout style="@style/status_item_info_ll_three">
+                    <LinearLayout style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:text="@string/deep_sleep"
+                            style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold
+                            android:id="@+id/deepValue"
+                            android:text="--"
+                            style="@style/status_item_info_total_value"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:text="@string/light_sleep"
+                            style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold
+                            android:id="@+id/lightValue"
+                            android:text="--"
+                            style="@style/status_item_info_total_value"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/status_item_info_ll_three_ll">
+                        <com.sma.smartv3.view.text.PFMedium
+                            android:text="@string/awake"
+                            style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.DINCondBold
+                            android:id="@+id/awakeValue"
+                            android:text="--"
+                            style="@style/status_item_info_total_value"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout style="@style/status_tip_layout_style">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/sleep"
+                        style="@style/status_tip_title_style"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/sleep_tip"
+                        style="@style/status_tip_style"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

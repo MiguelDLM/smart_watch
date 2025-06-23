@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">Премотајте напред %d секунда</item>
+        <item quantity="other">Премотајте напред %d секунди</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">Премотајте %d секунда</item>
+        <item quantity="other">Премотајте %d секунди</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">Прозорецот ќе се затвори по %1$s секунда.</item>
+        <item quantity="other">Прозорецот ќе се затвори по %1$s секунди.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">Запомни го изборот %1$s ден</item>
+        <item quantity="other">Запомни го изборот %1$s дена</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d сек.</item>
+        <item quantity="other">%1$d сек.</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ново известување</item>
+        <item quantity="other">%d нови известувања</item>
+    </plurals>
+</resources>

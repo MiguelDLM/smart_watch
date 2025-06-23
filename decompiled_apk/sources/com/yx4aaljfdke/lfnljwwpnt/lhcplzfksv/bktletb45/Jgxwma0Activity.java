@@ -1,0 +1,203 @@
+package com.yx4aaljfdke.lfnljwwpnt.lhcplzfksv.bktletb45;
+
+import android.app.Activity;
+import android.os.Bundle;
+import com.facebook.internal.AnalyticsEvents;
+import com.sma.smartv3.co_fit.R;
+import java.util.Date;
+
+/* loaded from: classes13.dex */
+public class Jgxwma0Activity extends Activity {
+    public static void eqmuqy24(String[] args) {
+        System.out.println("Hello");
+    }
+
+    public static void lfoxtz25(String[] args) {
+        System.out.println("Hello");
+    }
+
+    public static void rlrqidb29(String[] args) {
+        System.out.println("Hello");
+    }
+
+    public static void xpnoabb27(String[] args) {
+        System.out.println("Hello");
+    }
+
+    public static void ydaulm12(String[] args) {
+        System.out.println("Hello");
+    }
+
+    public void asoqvc2() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void chlqkd3() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void dcqotg6() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void ebxalk10() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void fpkhkf5() {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (System.currentTimeMillis() < currentTimeMillis) {
+            System.out.println("Time travelling, woo hoo!");
+        } else if (System.currentTimeMillis() == currentTimeMillis) {
+            System.out.println("Time stood still!");
+        } else {
+            System.out.println("Ok, time still moving forward");
+        }
+    }
+
+    public void ftablo14() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void hsnigu20() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void iezdci8() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void ihvpda0() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void inxecw22() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public Date jewqfs18() {
+        return new Date();
+    }
+
+    public Date jezoit19() {
+        return new Date();
+    }
+
+    public void mttuyl11() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override // android.app.Activity
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.yjzlqpkckpxfflg_com_yx4aaljfdke_lfnljwwpnt_lhcplzfksv_bktletb45_activity_jgxwma0);
+    }
+
+    public void qbrqbv21() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void qdjfmr17() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void qeumah7() {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (System.currentTimeMillis() < currentTimeMillis) {
+            System.out.println("Time travelling, woo hoo!");
+        } else if (System.currentTimeMillis() == currentTimeMillis) {
+            System.out.println("Time stood still!");
+        } else {
+            System.out.println("Ok, time still moving forward");
+        }
+    }
+
+    public void rgygrx23() {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (System.currentTimeMillis() < currentTimeMillis) {
+            System.out.println("Time travelling, woo hoo!");
+        } else if (System.currentTimeMillis() == currentTimeMillis) {
+            System.out.println("Time stood still!");
+        } else {
+            System.out.println("Ok, time still moving forward");
+        }
+    }
+
+    public void rlqrsj9() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public Date rorwlp15() {
+        return new Date();
+    }
+
+    public void swsukn13() {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (System.currentTimeMillis() < currentTimeMillis) {
+            System.out.println("Time travelling, woo hoo!");
+        } else if (System.currentTimeMillis() == currentTimeMillis) {
+            System.out.println("Time stood still!");
+        } else {
+            System.out.println("Ok, time still moving forward");
+        }
+    }
+
+    public void vafvcb1() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void xvazqcb28() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void zcczvq16() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+
+    public void zwlltab26() {
+        try {
+            throw new Exception(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void zzayye4() {
+        for (int i = 0; i < 10; i++) {
+        }
+    }
+}

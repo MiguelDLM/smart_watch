@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/transparent" android:layout_width="230dp" android:layout_height="130dp" android:layout_weight="1" android:layout_marginEnd="10dp" app:cardCornerRadius="10dp" app:cardElevation="1dp">
+    <RelativeLayout android:id="@+id/course_recommend_layout" android:layout_width="match_parent" android:layout_height="130dp">
+        <ImageView android:id="@+id/course_recommend_icon" android:layout_width="wrap_content" android:layout_height="match_parent" android:src="@drawable/icon_course2" android:scaleType="fitXY" android:layout_alignParentEnd="true"/>
+        <View android:id="@+id/course_recommend_layout_view" android:background="@drawable/break_bg_course_recommend" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <LinearLayout android:orientation="vertical" android:paddingTop="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="15dp">
+            <com.sma.smartv3.view.text.PFBold android:textSize="12sp" android:textColor="@color/white" android:id="@+id/item_special_course_name" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="10sp" android:textColor="@color/white" android:id="@+id/tv_course_class" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/white" android:id="@+id/item_special_course_intro" android:paddingBottom="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:paddingStart="15dp"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/bnav_result_feedback_item_bg_selector_more"
+    android:layout_width="97dp"
+    android:layout_height="129dp">
+    <ImageView
+        android:id="@+id/navi_result_fb_page_item_icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="7.5dp"
+        android:src="@drawable/bnav_feedback_ic_nowait"/>
+    <TextView
+        android:textSize="12dp"
+        android:textColor="#666666"
+        android:id="@+id/navi_result_fb_page_item_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="无需排队"/>
+    <ImageView
+        android:id="@+id/navi_result_fb_page_item_selete_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

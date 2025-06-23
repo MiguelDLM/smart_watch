@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <View android:id="@+id/ugc_report_navi_line_layout" android:background="#f3f4f6" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_5dp" android:layout_marginTop="@dimen/navi_dimens_10dp" android:layout_marginBottom="@dimen/navi_dimens_10dp"/>
+</FrameLayout>

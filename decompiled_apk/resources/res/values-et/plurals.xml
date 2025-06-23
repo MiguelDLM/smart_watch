@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">Keri %d sekund edasi</item>
+        <item quantity="other">Keri %d sekundit edasi</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">Keri %d sekund tagasi</item>
+        <item quantity="other">Keri %d sekundit tagasi</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">Aken suletakse %1$s sekundi pärast.</item>
+        <item quantity="other">Aken suletakse %1$s sekundi pärast.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">Jäta valik meelde %1$s päevaks</item>
+        <item quantity="other">Jäta valik meelde %1$s päevaks</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d s</item>
+        <item quantity="other">%1$d s</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d uus märguanne</item>
+        <item quantity="other">%d uut märguannet</item>
+    </plurals>
+</resources>

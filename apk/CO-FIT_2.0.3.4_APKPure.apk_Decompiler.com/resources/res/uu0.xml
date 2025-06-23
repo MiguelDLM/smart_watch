@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <EditText android:id="@+id/notification_search" android:background="@color/view_page_secondary_bg" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:hint="@string/notification_search_hint" android:singleLine="true" android:layout_marginStart="22dp" android:layout_marginEnd="22dp"/>
+    <androidx.core.widget.NestedScrollView android:scrollbarThumbVertical="@color/colorAccent" android:id="@+id/scrollView" android:scrollbars="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:paddingTop="28dp" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="vertical" android:id="@+id/ll" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <View style="@style/h_divider_gray2_margin22"/>
+                    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="22dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notification_call"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/incoming_call" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+                        <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_call" android:padding="11dp" style="@style/abh_checkbox"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <View style="@style/h_divider_gray2_margin22"/>
+                    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notification_sms" android:layout_marginStart="22dp"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_name" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/sms" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+                        <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_sms" android:padding="11dp" style="@style/abh_checkbox"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <com.sma.smartv3.view.MyListView android:id="@+id/default_list_view" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null" android:nestedScrollingEnabled="false"/>
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View style="@style/h_divider_gray2_margin22"/>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/other" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_mirror_phone" android:padding="11dp" style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <FrameLayout android:id="@+id/other_panel" android:layout_width="match_parent" android:layout_height="match_parent">
+                <com.sma.smartv3.view.MyListView android:id="@+id/list_view" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null" android:nestedScrollingEnabled="false"/>
+                <TextView android:layout_gravity="center" android:id="@+id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/no_data"/>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

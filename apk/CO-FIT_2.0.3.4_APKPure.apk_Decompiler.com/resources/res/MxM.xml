@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+        <View android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="22dp" android:layout_marginEnd="22dp"/>
+        <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.segmentedbar.CircleThumbSegmentedBarView android:id="@+id/sbv" android:layout_marginTop="10dp" style="@style/sbv_circle_thumb_style"/>
+            <com.sma.smartv3.view.text.DINCondBold android:textSize="16sp" android:textColor="@color/text_secondary_color" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp" android:text="@string/pressure_tips"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

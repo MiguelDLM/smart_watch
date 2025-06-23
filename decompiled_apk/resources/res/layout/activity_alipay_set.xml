@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16dp"
+            android:textColor="@color/text_color"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:id="@+id/tv_tip"
+            android:padding="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activation_tip"
+            android:drawableTop="@drawable/pic_alipay"
+            android:drawablePadding="40dp"/>
+    </FrameLayout>
+    <Button
+        android:id="@+id/btn_active"
+        android:layout_marginBottom="@dimen/bottom_btn_margin"
+        android:text="@string/activation"
+        android:onClick="null"
+        style="@style/bottom_btn"/>
+</LinearLayout>

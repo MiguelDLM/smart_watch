@@ -1,0 +1,19 @@
+package com.baidu.ar.digital;
+
+/* loaded from: classes7.dex */
+public enum DigitalState {
+    SOCKET_OPEN,
+    SOCKET_CLOSE,
+    SOCKET_ERROR,
+    SOCKET_RESPONSE_FAIL,
+    SOCKET_SEND_MESSAGE,
+    SOCKET_FIRST_AUDIO_FRAME,
+    AUDIO_PLAYER_START,
+    AUDIO_PLAYER_FINISH,
+    SUBTITLE_TYPE_QUERY,
+    SUBTITLE_TYPE_REPLY,
+    RECORD_START,
+    RECORD_STOP,
+    RECORD_ERROR,
+    WIDGET_DATA
+}

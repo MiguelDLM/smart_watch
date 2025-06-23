@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:gravity="center" android:id="@+id/select_country" android:background="@drawable/ccs_select_country_selector" android:focusable="true" android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginLeft="32dp" android:layout_marginRight="32dp" android:text="@string/ccs_choose_a_country" android:drawableRight="@drawable/ccs_wrap_ic_arrow_drop_down_black_24dp" android:drawableEnd="@drawable/ccs_wrap_ic_arrow_drop_down_black_24dp" style="@style/TextAppearance.AppCompat.Body1"/>
+    <LinearLayout android:gravity="center_vertical" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginLeft="32dp" android:layout_marginTop="16dp" android:layout_marginRight="32dp">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" app:srcCompat="@drawable/ccs_ic_add_gray"/>
+        <EditText android:textSize="16dp" android:gravity="center" android:id="@+id/edit_country_code" android:layout_width="48dp" android:layout_height="wrap_content" android:text="1" android:maxLength="3" android:inputType="phone" android:backgroundTint="@color/ccs_default_color" android:backgroundTintMode="src_atop"/>
+        <EditText android:textSize="16dp" android:id="@+id/edit_phone_number" android:layout_width="0dp" android:layout_height="wrap_content" android:hint="@string/ccs_phone_hint" android:maxLength="17" android:layout_weight="1" android:inputType="phone" android:backgroundTint="@color/ccs_default_color" android:backgroundTintMode="src_atop"/>
+    </LinearLayout>
+</LinearLayout>

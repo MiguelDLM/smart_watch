@@ -1,0 +1,161 @@
+package com.tenmeter.smlibrary.utils.videocache;
+
+import android.text.TextUtils;
+import com.tenmeter.smlibrary.utils.videocache.file.FileCache;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.Locale;
+
+/* JADX INFO: Access modifiers changed from: package-private */
+/* loaded from: classes13.dex */
+public class HttpProxyCache extends ProxyCache {
+    private static final float NO_CACHE_BARRIER = 0.2f;
+    private final FileCache cache;
+    private CacheListener listener;
+    private final HttpUrlSource source;
+
+    public HttpProxyCache(HttpUrlSource httpUrlSource, FileCache fileCache) {
+        super(httpUrlSource, fileCache);
+        this.cache = fileCache;
+        this.source = httpUrlSource;
+    }
+
+    private String format(String str, Object... objArr) {
+        return String.format(Locale.US, str, objArr);
+    }
+
+    private boolean isUseCache(GetRequest getRequest) throws ProxyCacheException {
+        boolean z;
+        long length = this.source.length();
+        if (length > 0) {
+            z = true;
+        } else {
+            z = false;
+        }
+        long available = this.cache.available();
+        if (z && getRequest.partial && ((float) getRequest.rangeOffset) > ((float) available) + (((float) length) * 0.2f)) {
+            return false;
+        }
+        return true;
+    }
+
+    private String newResponseHeaders(GetRequest getRequest) throws IOException, ProxyCacheException {
+        long length;
+        boolean z;
+        long j;
+        boolean z2;
+        String str;
+        String str2;
+        String str3;
+        String mime = this.source.getMime();
+        boolean isEmpty = TextUtils.isEmpty(mime);
+        if (this.cache.isCompleted()) {
+            length = this.cache.available();
+        } else {
+            length = this.source.length();
+        }
+        if (length >= 0) {
+            z = true;
+        } else {
+            z = false;
+        }
+        boolean z3 = getRequest.partial;
+        if (z3) {
+            j = length - getRequest.rangeOffset;
+        } else {
+            j = length;
+        }
+        if (z && z3) {
+            z2 = true;
+        } else {
+            z2 = false;
+        }
+        StringBuilder sb = new StringBuilder();
+        if (getRequest.partial) {
+            str = "HTTP/1.1 206 PARTIAL CONTENT\n";
+        } else {
+            str = "HTTP/1.1 200 OK\n";
+        }
+        sb.append(str);
+        sb.append("Accept-Ranges: bytes\n");
+        String str4 = "";
+        if (!z) {
+            str2 = "";
+        } else {
+            str2 = format("Content-Length: %d\n", Long.valueOf(j));
+        }
+        sb.append(str2);
+        if (!z2) {
+            str3 = "";
+        } else {
+            str3 = format("Content-Range: bytes %d-%d/%d\n", Long.valueOf(getRequest.rangeOffset), Long.valueOf(length - 1), Long.valueOf(length));
+        }
+        sb.append(str3);
+        if (!isEmpty) {
+            str4 = format("Content-Type: %s\n", mime);
+        }
+        sb.append(str4);
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    private void responseWithCache(OutputStream outputStream, long j) throws ProxyCacheException, IOException {
+        byte[] bArr = new byte[8192];
+        while (true) {
+            int read = read(bArr, j, 8192);
+            if (read != -1) {
+                outputStream.write(bArr, 0, read);
+                j += read;
+            } else {
+                outputStream.flush();
+                return;
+            }
+        }
+    }
+
+    private void responseWithoutCache(OutputStream outputStream, long j) throws ProxyCacheException, IOException {
+        HttpUrlSource httpUrlSource = new HttpUrlSource(this.source);
+        try {
+            httpUrlSource.open((int) j);
+            byte[] bArr = new byte[8192];
+            while (true) {
+                int read = httpUrlSource.read(bArr);
+                if (read != -1) {
+                    outputStream.write(bArr, 0, read);
+                } else {
+                    outputStream.flush();
+                    httpUrlSource.close();
+                    return;
+                }
+            }
+        } catch (Throwable th) {
+            httpUrlSource.close();
+            throw th;
+        }
+    }
+
+    @Override // com.tenmeter.smlibrary.utils.videocache.ProxyCache
+    public void onCachePercentsAvailableChanged(int i) {
+        CacheListener cacheListener = this.listener;
+        if (cacheListener != null) {
+            cacheListener.onCacheAvailable(this.cache.file, this.source.getUrl(), i);
+        }
+    }
+
+    public void processRequest(GetRequest getRequest, Socket socket) throws IOException, ProxyCacheException {
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
+        bufferedOutputStream.write(newResponseHeaders(getRequest).getBytes("UTF-8"));
+        long j = getRequest.rangeOffset;
+        if (isUseCache(getRequest)) {
+            responseWithCache(bufferedOutputStream, j);
+        } else {
+            responseWithoutCache(bufferedOutputStream, j);
+        }
+    }
+
+    public void registerCacheListener(CacheListener cacheListener) {
+        this.listener = cacheListener;
+    }
+}

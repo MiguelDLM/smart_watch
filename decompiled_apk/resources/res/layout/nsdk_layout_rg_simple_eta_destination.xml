@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/bnav_rg_main_eta_details_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textSize="@dimen/navi_dimens_20dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_b_mm_title"
+        android:gravity="center_horizontal"
+        android:id="@+id/bnav_rg_toolbox_remain_time_and_dist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:includeFontPadding="false"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_18dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_c_mm"
+        android:gravity="center_horizontal"
+        android:id="@+id/bnav_rg_toolbox_arrive_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true"/>
+</LinearLayout>

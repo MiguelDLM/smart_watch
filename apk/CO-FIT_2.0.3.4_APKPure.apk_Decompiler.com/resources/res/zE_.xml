@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:orientation="vertical" android:id="@+id/container" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <com.sma.smartv3.view.text.PFMedium android:textSize="13dp" android:textColor="@color/text_color" android:id="@+id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:text="Sun"/>
+    <FrameLayout android:id="@+id/fl_bg_select" android:background="@drawable/bg_level_dot_shape" android:padding="2dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:backgroundTint="@color/transparent">
+        <FrameLayout android:id="@+id/fl_bg" android:background="@drawable/bg_level_dot_shape" android:layout_width="35dp" android:layout_height="35dp" android:backgroundTint="@color/bg_risk_0">
+            <ImageView android:layout_gravity="center" android:id="@+id/iv_risk_level_icon" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bg_risk"/>
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

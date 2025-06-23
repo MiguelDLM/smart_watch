@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/charge_list_tail_container" android:background="@drawable/nsdk_energy_charge_bg_green_down" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <FrameLayout android:id="@+id/charge_list_fold_container" android:background="@drawable/bnav_energy_item_bottom_radius_bg" android:layout_width="match_parent" android:layout_height="34dp" android:layout_marginBottom="6dp" android:layout_marginStart="6dp" android:layout_marginEnd="6dp">
+        <TextView android:textSize="11dp" android:gravity="center_vertical" android:layout_gravity="center" android:id="@+id/charge_list_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2个备选充电桩" android:drawablePadding="2dp" android:drawableEnd="@drawable/nsdk_energy_charge_arrow_up"/>
+    </FrameLayout>
+    <com.baidu.navisdk.ui.chargelist.widget.ChargeListItemView android:id="@+id/charge_list_large_item" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" android:layout_marginStart="6dp" android:layout_marginEnd="6dp"/>
+</FrameLayout>

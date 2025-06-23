@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginTop="6dp" android:layout_marginStart="10dp">
+        <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/ripple_ai_tab_seach_bg" android:layout_width="0dp" android:layout_height="match_parent" android:layout_margin="5dp" android:layout_weight="1" android:backgroundTint="@color/gray_ECECEC">
+            <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_ai_search" android:layout_marginStart="10dp"/>
+            <EditText android:textSize="16dp" android:textColor="@color/black" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/stock_add_edit" android:background="@null" android:layout_width="0dp" android:layout_height="match_parent" android:hint="@string/search" android:maxLines="1" android:singleLine="true" android:layout_weight="1" android:layout_marginStart="10dp"/>
+            <ImageView android:id="@+id/clear_edit_tv_img" android:visibility="invisible" android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/icon_close_sport_map" android:layout_marginEnd="10dp"/>
+        </LinearLayout>
+        <Button android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/stock_search_btn" android:background="@drawable/search_btn_bg" android:layout_width="wrap_content" android:layout_height="35dp" android:text="@string/search" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"/>
+    </LinearLayout>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <ListView android:id="@+id/list_view" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <TextView android:textSize="16sp" android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_gravity="center" android:id="@+id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawableTop="@drawable/no_stock" android:drawablePadding="16dp"/>
+    </FrameLayout>
+</LinearLayout>

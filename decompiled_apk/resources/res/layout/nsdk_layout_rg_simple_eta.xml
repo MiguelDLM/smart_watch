@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bn_rg_simple_eta_ly"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/bnav_rg_simple_eta_ly"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:layout_gravity="center_vertical"
+            android:id="@+id/bnav_rg_new_rec_parking_ll"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/nsdk_layout_rg_bottombar_new_rec_parking"/>
+        <FrameLayout
+            android:id="@+id/bnav_rg_new_eta_time_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/nsdk_layout_rg_simple_eta_destination"/>
+            <ViewStub
+                android:id="@+id/bnav_rg_toolbox_via_time_dist_ly_stub"
+                android:layout="@layout/nsdk_layout_rg_simple_eta_via"
+                android:inflatedId="@+id/bnav_rg_toolbox_via_time_and_dist_ly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <ViewStub
+                android:id="@+id/bnav_rg_bmbar_driving_info_ly_stub"
+                android:layout="@layout/nsdk_layout_rg_simple_eta_driving_distance_time"
+                android:inflatedId="@+id/bnav_rg_bmbar_driving_info_ly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+    </FrameLayout>
+    <include
+        android:id="@+id/bn_rg_bottombar_new_simple_continue_ly"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/nsdk_layout_rg_bottombar_new_continue_view"/>
+</FrameLayout>

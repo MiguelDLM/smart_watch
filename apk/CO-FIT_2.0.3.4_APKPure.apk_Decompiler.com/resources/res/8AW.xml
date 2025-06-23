@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="@dimen/navi_dimens_287dp" android:layout_height="wrap_content" android:minWidth="@dimen/navi_dimens_287dp">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/top_content" android:paddingLeft="@dimen/navi_dimens_19dp" android:paddingTop="12.5dp" android:paddingRight="@dimen/navi_dimens_19dp" android:paddingBottom="12.5dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="21sp" android:textStyle="bold" android:textColor="#333333" android:gravity="center" android:id="@+id/title_bar" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4.5dp"/>
+        <ScrollView android:layout_width="wrap_content" android:layout_height="match_parent">
+            <FrameLayout android:gravity="center" android:layout_gravity="center" android:id="@+id/content" android:layout_width="wrap_content" android:layout_height="@dimen/navi_dimens_0dp" android:layout_marginTop="@dimen/navi_dimens_16dp" android:layout_marginBottom="@dimen/navi_dimens_16dp" android:minWidth="@dimen/navi_dimens_112dp" android:layout_weight="1"/>
+        </ScrollView>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/bottom_bar" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_0dp">
+        <TextView android:textSize="17sp" android:gravity="center" android:id="@+id/first_btn" android:clickable="true" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_50dp" android:text="取消" android:layout_weight="1"/>
+        <TextView android:textSize="17sp" android:gravity="center" android:id="@+id/second_btn" android:clickable="true" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_50dp" android:text="确定" android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

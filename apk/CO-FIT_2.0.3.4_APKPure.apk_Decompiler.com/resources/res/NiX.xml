@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/rootView" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:keepScreenOn="true">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <ImageView android:id="@+id/iv" android:layout_width="match_parent" android:layout_height="250dp" android:scaleType="fitCenter"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView android:id="@+id/dial_watchface_detail_scrollview" android:background="@drawable/dial_watchface_detail_re_bg" android:paddingTop="20dp" android:paddingBottom="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_above="@+id/dial_pay_detail_btn">
+            <com.sma.smartv3.view.MyLinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+                <include layout="@layout/item_dial_pay_detail_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/item_dial_pay_detail_also_like" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:text="@string/dial_also_like" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view" android:layout_width="match_parent" android:layout_height="match_parent" android:minHeight="200dp"/>
+            </com.sma.smartv3.view.MyLinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/dial_pay_detail_btn" android:background="@color/dial_btn_bg_color" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+            <FrameLayout android:id="@+id/open_membership_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+                <com.sma.smartv3.view.ProgressButtonV2 android:layout_gravity="center_vertical" android:id="@+id/open_membership" android:background="@null" android:layout_width="match_parent" android:layout_margin="0dp" android:text="@string/dial_member_buy" style="@style/firmware_pb_style"/>
+            </FrameLayout>
+            <com.sma.smartv3.view.ProgressButtonV2 android:layout_gravity="center_vertical" android:background="@null" android:layout_width="match_parent" android:layout_margin="0dp" style="@style/firmware_pb_style"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

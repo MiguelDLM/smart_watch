@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="22dp">
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="72dp"
+                android:src="@mipmap/ic_launcher"
+                android:onClick="toDeveloper"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:textSize="16sp"
+                android:textColor="@color/text_color"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/app_name"/>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:textColor="@color/text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/version"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:textColor="@color/text_color"
+                    android:id="@+id/tvVersion"
+                    android:onClick="onVersion"
+                    android:layout_marginStart="10dp"
+                    style="@style/user_info_content"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="90dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="toPrivacyPolicy"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/privacy_policy"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_open_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="openSource"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/open_source_notification"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_icp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="ICP备案号"
+                        style="@style/user_info_title"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/app_icp"
+                        style="@style/user_info_content"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_upload_log"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onUploadLog">
+                <LinearLayout style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/upload_log"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

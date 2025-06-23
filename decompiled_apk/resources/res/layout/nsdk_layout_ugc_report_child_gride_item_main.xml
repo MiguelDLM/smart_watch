@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/ugc_report_child_iview"
+        style="@style/nsdk_ugc_report_grid_item_img_style"/>
+    <TextView
+        android:id="@+id/ugc_report_child_tview"
+        style="@style/nsdk_ugc_report_grid_item_text_style"/>
+</LinearLayout>

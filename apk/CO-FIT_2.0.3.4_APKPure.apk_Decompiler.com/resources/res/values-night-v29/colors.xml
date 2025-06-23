@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hiad_05_percent_black">#0dffffff</color>
+    <color name="hiad_20_percent_white">#33000000</color>
+    <color name="hiad_60_percent_black">#99ffffff</color>
+    <color name="hiad_activie_app_desc_color">#80ffffff</color>
+    <color name="hiad_app_down_installing_stroke">#0dffffff</color>
+    <color name="hiad_app_down_processing_text">#ffffff</color>
+    <color name="hiad_app_down_processing_text_icon">#ffffff</color>
+    <color name="hiad_black_text_color">#ffffff</color>
+    <color name="hiad_dark_mode_tag_color">#ff3f97e9</color>
+    <color name="hiad_dialog_gray_10">#ccffffff</color>
+    <color name="hiad_down_btn_installing">#5291ff</color>
+    <color name="hiad_down_btn_normal">#317af7</color>
+    <color name="hiad_down_btn_pressing_color">#26ffffff</color>
+    <color name="hiad_down_btn_process">#317af7</color>
+    <color name="hiad_down_btn_white">#f9f9f9</color>
+    <color name="hiad_endcard_default_bg">#262626</color>
+    <color name="hiad_feedback_0_percent_black">#00ffffff</color>
+    <color name="hiad_feedback_10_percent_black">#19ffffff</color>
+    <color name="hiad_feedback_60_percent_black">#99ffffff</color>
+    <color name="hiad_feedback_item_normal">#19ffffff</color>
+    <color name="hiad_feedback_item_pressed">#3fffffff</color>
+    <color name="hiad_feedback_mask">#65000000</color>
+    <color name="hiad_feedback_right_arrow">#dbffffff</color>
+    <color name="hiad_feedback_row_pressed">#25ffffff</color>
+    <color name="hiad_feedback_text">#dbffffff</color>
+    <color name="hiad_feedback_view_bg">#ff202224</color>
+    <color name="hiad_open_btn_normal_bg">#1affffff</color>
+    <color name="hiad_open_btn_pressed_bg">#2e2e2e</color>
+    <color name="hiad_whythisad_root_bg">#ffffff</color>
+</resources>

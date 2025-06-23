@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="bottom"
+    android:id="@+id/bnav_rg_normal_hd_map_anim_lay"
+    android:background="@drawable/nsdk_rg_normal_hd_map_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_gravity="end|top"
+        android:id="@+id/bn_normal_hd_close_bt"
+        android:background="@drawable/nsdk_rg_normal_hd_close_btn_bg"
+        android:padding="@dimen/navi_dimens_10dp"
+        android:layout_width="@dimen/navi_dimens_32dp"
+        android:layout_height="@dimen/navi_dimens_32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/bnav_ic_normal_hd_close"/>
+</FrameLayout>

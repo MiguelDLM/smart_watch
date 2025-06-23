@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:orientation="vertical" android:background="@drawable/rectangular_background" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="10dp" android:layout_marginRight="20dp" android:layout_marginBottom="10dp" android:layout_marginHorizontal="20dp" android:layout_marginVertical="10dp">
+                <com.sma.smartv3.view.text.PFMedium android:textSize="20dp" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/blood_glucose_range"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/line_color" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="@string/fasting_measurement"/>
+                <View android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_marginVertical="10dp"/>
+                <LinearLayout android:orientation="vertical" android:id="@+id/ll_no_measurement" android:visibility="visible" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="17dp" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/no_measurement_yet"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/line_color" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="6dp" android:layout_marginRight="20dp" android:text="@string/blood_glucose_measurement_tip" android:layout_marginHorizontal="20dp"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.segmentedbar.SegmentedBarView2 android:id="@+id/bar_view" android:paddingTop="2dp" android:paddingBottom="2dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="35dp" android:layout_marginTop="20dp" android:layout_marginRight="35dp" android:layout_marginHorizontal="35dp" app:sbv_arrow_height="10dp" app:sbv_arrow_width="50dp" app:sbv_segment_gap_width="0dp" app:sbv_segment_rule="0" app:sbv_show_description_text="true" app:sbv_side_style="1" app:sbv_value_sign_height="55dp" app:sbv_value_sign_round="0dp" app:sbv_value_sign_width="50dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp" android:layout_marginHorizontal="20dp">
+                    <LinearLayout style="@style/bg_trend_item_ll_level">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_normal" style="@style/bg_trend_item_ll_level_title"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:text="&lt;6.1" style="@style/bg_trend_item_ll_level_value"/>
+                        <View android:background="@drawable/bg_level_bar_shape" android:backgroundTint="@color/bg_level_color_normal" style="@style/bg_trend_item_ll_level_bar"/>
+                    </LinearLayout>
+                    <View android:background="@color/line_color" android:layout_width="1px" android:layout_height="match_parent"/>
+                    <LinearLayout style="@style/bg_trend_item_ll_level">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_prediabetes" style="@style/bg_trend_item_ll_level_title"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:text="6.1-6.9" style="@style/bg_trend_item_ll_level_value"/>
+                        <View android:background="@drawable/bg_level_bar_shape" android:backgroundTint="@color/bg_level_color_prediabetes" style="@style/bg_trend_item_ll_level_bar"/>
+                    </LinearLayout>
+                    <View android:background="@color/line_color" android:layout_width="1px" android:layout_height="match_parent"/>
+                    <LinearLayout style="@style/bg_trend_item_ll_level">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_diabetes" style="@style/bg_trend_item_ll_level_title"/>
+                        <com.sma.smartv3.view.text.DINCondBold android:text="&gt;6.9" style="@style/bg_trend_item_ll_level_value"/>
+                        <View android:background="@drawable/bg_level_bar_shape" android:backgroundTint="@color/bg_level_color_diabetes" style="@style/bg_trend_item_ll_level_bar"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:background="#e8e7e8" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_width="match_parent" android:layout_height="50dp" android:paddingHorizontal="10dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="#818386" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hrs_of_fasting"/>
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_bg_risk_help" android:onClick="onHelp" android:layout_marginStart="5dp"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="10dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="13dp" android:textColor="#818386" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/measured_at"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="13dp" android:textColor="#818386" android:id="@+id/tv_measure_date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:layout_marginStart="5dp"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="17dp" android:textColor="@color/light" android:gravity="center" android:id="@+id/btn_measure" android:background="@drawable/bg_level_bar_shape" android:layout_width="match_parent" android:layout_height="40dp" android:layout_margin="15dp" android:text="@string/measure" android:backgroundTint="@color/colorAccent"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:background="@drawable/rectangular_background" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="10dp" android:layout_marginRight="20dp" android:layout_marginBottom="10dp" android:layout_marginHorizontal="20dp" android:layout_marginVertical="10dp">
+                <com.sma.smartv3.view.text.PFMedium android:textSize="20dp" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/your_diabetic_risk"/>
+                <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/line_color" android:gravity="center" android:id="@+id/tv_no_record" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/no_records_yet"/>
+                    <ImageView android:layout_gravity="center" android:id="@+id/iv_risk_level" android:visibility="gone" android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_bg_risk_low"/>
+                </FrameLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="17dp" android:textColor="@color/light" android:gravity="center" android:id="@+id/btn_risk_level" android:background="@drawable/bg_level_bar_shape" android:layout_width="match_parent" android:layout_height="40dp" android:layout_margin="15dp" android:text="@string/diabetic_risk_level_0" android:backgroundTint="@color/bg_risk_0"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:background="@drawable/rectangular_background" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="10dp" android:layout_marginRight="20dp" android:layout_marginBottom="10dp" android:layout_marginHorizontal="20dp" android:layout_marginVertical="10dp">
+                <com.sma.smartv3.view.text.PFMedium android:textSize="17dp" android:gravity="center" android:id="@+id/tv_risk_range_date" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_risk_level" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"/>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/ll_diabetic_risk_insight" android:background="@drawable/rectangular_background" android:padding="10dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:backgroundTint="#e8e7e8">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/line_color" android:id="@+id/tv_diabetic_risk_insight" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/last_assessment"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:id="@+id/tv_risk_date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14 Sep 2023, 07:12 AM" android:layout_marginStart="3dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_marginVertical="10dp">
+                    <ImageView android:layout_width="18dp" android:layout_height="24dp" android:src="@drawable/ic_bg_risk_tip"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/text_color" android:id="@+id/tv_diabetic_risk_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/diabetic_risk_tips" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

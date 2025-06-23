@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <LinearLayout android:gravity="left" android:id="@+id/sport_detail_steps_layout" android:paddingLeft="20dp" style="@style/sport_map_item_ll">
+        <com.sma.smartv3.view.text.PFMedium android:id="@+id/item_sport_detail_title" style="@style/sport_detail_item_name"/>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:id="@+id/item_sport_detail_content" style="@style/sport_detail_item_value"/>
+            <com.sma.smartv3.view.text.PFMedium android:ellipsize="end" android:id="@+id/item_sport_detail_unit" android:maxLines="1" style="@style/sport_detail_item_unit_right"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

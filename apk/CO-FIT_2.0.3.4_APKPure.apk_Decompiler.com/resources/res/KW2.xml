@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_margin="30dp">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="110dp" android:layout_height="110dp" android:layout_marginTop="20dp" android:src="@drawable/icon_qrcode_select" android:onClick="onSelect"/>
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp">
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/qrcode_sycn_title1" style="@style/qrcode_sycn_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_tip1" android:text="@string/qrcode_sycn_tip1" style="@style/qrcode_sycn_tip"/>
+                <View style="@style/qrcode_sycn_line"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/qrcode_sycn_title2" style="@style/qrcode_sycn_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/qrcode_sycn_tip2" style="@style/qrcode_sycn_tip"/>
+                <View style="@style/qrcode_sycn_line"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/qrcode_sycn_title3" style="@style/qrcode_sycn_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/qrcode_sycn_tip3" style="@style/qrcode_sycn_tip"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/route_tab_time_layout" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="19dp" android:textColor="@color/nsdk_route_result_multi_car_tab_time_selector" android:ellipsize="end" android:id="@+id/route_tab_item_time" android:layout_width="0dp" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_weight="1"/>
+        <ImageView android:id="@+id/route_tab_item_tag" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="-2dp" android:src="@drawable/nsdk_drawable_multi_tab_right_top"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/bottom_collection" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp">
+        <TextView android:textSize="12dp" android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector" android:gravity="center" android:id="@+id/route_tab_item_distance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="3dp" android:singleLine="true" android:includeFontPadding="false"/>
+        <TextView android:textSize="12dp" android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector" android:gravity="center_horizontal" android:id="@+id/route_tab_item_tolls" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:drawableLeft="@drawable/nsdk_ic_route_result_road_toll_selector" android:drawablePadding="1dp" android:layout_below="@+id/time"/>
+    </LinearLayout>
+    <com.baidu.navisdk.ui.widget.BNHorizontalForbidScrollView android:id="@+id/route_tab_item_describe_layout" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/route_tab_item_describe" android:layout_width="wrap_content" android:layout_height="match_parent">
+            <TextView android:textSize="12dp" android:textStyle="bold" android:textColor="@color/nsdk_route_result_ext_tab_price_selector" android:gravity="center" android:id="@+id/route_tab_item_describe_tv" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginRight="3dp" android:singleLine="true"/>
+        </LinearLayout>
+    </com.baidu.navisdk.ui.widget.BNHorizontalForbidScrollView>
+    <LinearLayout android:orientation="vertical" android:id="@+id/route_tab_loading_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/route_tab_loading_expand_layout" android:visibility="visible" android:layout_width="match_parent" android:layout_height="match_parent">
+            <View android:background="@drawable/bnav_route_result_multi_tab_loading_bg" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_10dp" android:layout_marginTop="@dimen/navi_dimens_5dp" android:layout_marginRight="@dimen/navi_dimens_10dp"/>
+            <View android:background="@drawable/bnav_route_result_multi_tab_loading_bg" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_10dp" android:layout_marginRight="@dimen/navi_dimens_20dp" android:layout_centerVertical="true"/>
+            <View android:background="@drawable/bnav_route_result_multi_tab_loading_bg" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_10dp" android:layout_marginBottom="@dimen/navi_dimens_5dp" android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/route_tab_loading_hide_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="26dp" android:layout_marginLeft="7dp" android:layout_marginRight="7dp" android:layout_marginBottom="7dp">
+            <ProgressBar android:layout_width="@dimen/navi_dimens_14dp" android:layout_height="@dimen/navi_dimens_14dp" android:layout_centerInParent="true" android:indeterminateTint="#878d99"/>
+            <ImageView android:visibility="gone" android:layout_width="@dimen/navi_dimens_14dp" android:layout_height="@dimen/navi_dimens_14dp" android:src="@drawable/nsdk_drawable_multi_tab_retry" android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/route_tab_retry_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/route_tab_retry_hide_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="26dp" android:layout_marginLeft="7dp" android:layout_marginRight="7dp" android:layout_marginBottom="7dp">
+            <ImageView android:layout_width="@dimen/navi_dimens_14dp" android:layout_height="@dimen/navi_dimens_14dp" android:src="@drawable/nsdk_drawable_multi_tab_loading_error" android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/route_tab_retry_expend_layout" android:layout_width="match_parent" android:layout_height="match_parent">
+            <ImageView android:id="@+id/route_tab_retry_image" android:layout_width="@dimen/navi_dimens_16dp" android:layout_height="@dimen/navi_dimens_16dp" android:src="@drawable/nsdk_drawable_multi_tab_retry"/>
+            <TextView android:textSize="@dimen/navi_dimens_11dp" android:textColor="#5c6373" android:id="@+id/route_tab_retry_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_6dp" android:text="点击重试"/>
+        </LinearLayout>
+    </LinearLayout>
+</merge>

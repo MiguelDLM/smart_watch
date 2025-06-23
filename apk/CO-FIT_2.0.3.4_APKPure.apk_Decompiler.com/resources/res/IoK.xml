@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/plate_limit_setting_container" android:background="@drawable/bnav_bg_attribution_panel" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_234dp">
+    <RelativeLayout android:id="@+id/plate_btn_close_layout" android:layout_width="@dimen/navi_dimens_40dp" android:layout_height="@dimen/navi_dimens_40dp" android:layout_marginTop="@dimen/navi_dimens_10dp" android:layout_marginEnd="@dimen/navi_dimens_19dp" android:layout_alignParentEnd="true">
+        <ImageView android:id="@+id/plate_limit_setting_btn_close" android:layout_width="@dimen/navi_dimens_11dp" android:layout_height="@dimen/navi_dimens_11dp" android:src="@drawable/bnav_plate_limit_setting_close" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/plate_limit_setting_main_panel" android:paddingTop="@dimen/navi_dimens_20dp" android:paddingBottom="@dimen/navi_dimens_13dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/navi_dimens_19dp" android:textColor="#ff333333" android:gravity="center" android:id="@+id/base_plate_limit_setting_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="限行设置" android:fontFamily="sans-serif-medium" android:layout_marginStart="@dimen/navi_dimens_19dp"/>
+        <View android:id="@+id/divider" android:background="#eeeeee" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginTop="@dimen/navi_dimens_20dp" android:layout_below="@+id/plate_btn_close_layout"/>
+        <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingSwitchItem android:id="@+id/limit_setting_switch" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_17dp" android:layout_marginStart="@dimen/navi_dimens_19dp" android:layout_marginEnd="@dimen/navi_dimens_19dp"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/plate_limit_setting_recycle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_15dp"/>
+    </LinearLayout>
+</RelativeLayout>

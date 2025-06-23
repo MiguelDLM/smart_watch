@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:paddingLeft="14dp" android:paddingRight="14dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="20sp" android:textColor="@color/nav_phonedeclare_title" android:layout_gravity="center_horizontal" android:paddingTop="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="百度地图AR导航服务协议"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="13sp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="欢迎您使用百度地图AR驾车导航服务。百度地图AR驾车导航致力于将增强现技术与传统驾车导航相结合，为您带来全新的驾车导航体验。"/>
+        <TextView android:textSize="16sp" android:textColor="@color/nav_phonedeclare_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="关于AR驾车导航"/>
+        <TextView android:textSize="13sp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="AR增强现实(Augmented Reality)技术是一种将虚拟信息与真实世界巧妙融合的技术， AR驾车导航使用此技术，通过摄像头对真实世界道路和相关物体进行智能识别，结合精准导航数据计算生成图像，将传统导航与真实世界影像相结合，为你带来全新的驾车导航体验，提升导航的易用性。"/>
+        <TextView android:textSize="13sp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="在您选择使用百度地图AR驾车导航服务之前，请您认真阅读以下服务协议条款（以下简称“本服务协议”）"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="您需年满18周岁且具有完全民事行为能力的成年人方可使用本服务。如果你是未成年人，则需在监护人知晓并同意的前提下，陪同使用本服务。监护人应采取完备的预防和保护措施来保护或监督未成年人使用本服务。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="当您首次使用AR驾车导航服务时，百度地图导航将申请开启设备摄像头使用权限，通过影像和位置信息的使用，智能识别真实世界中的环境和物体，为您提供虚拟化、可视化的驾车导航服务。您可以选择“使用”或“拒绝使用”。若您选择“使用”。则表示您已知晓本和同意服务协议内容，下次使用本服务则不再提示本服务协议。您有权拒绝或随时在系统设置中取消上述信息/权限的授权。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="在使用AR驾车导航过程中，我们需要获取您的精确位置信息，在使用前述信息时我们会申请您授权使用手机系统位置服务权限。百度会严格遵守本协议和百度地图《服务协议》、《隐私政策》的通知声明，获取并处理您的个人信息。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="在使用AR驾车导航过程中，请务必关注周边路面情况和驾驶环境变化，切勿长时间关注手机等设备。在确保自身和同乘人及安全行驶的前提下，使用本服务。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="在使用AR驾车导航过程中，需要接入互联网，非WLAN网络下将会使用移动网络数据流量并产生相关流量费，该费用由运营商计算和收取。由于手机信号、网络、系统等客观或技术因素，该服务可能无法达到预期效果，或在未知情况下出现中断、延迟或受到干扰。您同意对前述问题或类似、相关故障导致的任何纠纷、事故或损伤，百度不承担任何责任。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="6."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="在使用AR驾车导航过程中，为了能提供更及时、准确的道路情况变化信息，服务用户驾车安全，百度地图导航将探测并使用道路情况变化信息，结合智能交通大数据分析，向用户提供及时、准确、合理的道路情况信息播报服务。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="百度地图导航对本服务运行中使用的所有非个人信息类数据，包括但不限于文本、视频、音频、图片及其他数据保留所有权利。您对本服务的访问、使用，并不构成本服务或其他内容的任何所有权，未经百度书面许可，您不得通过任何方式更改、复制、提取、修订或增添本服务中的任何内容，也不能出售、复制、传播、许可或滥用本服务相关的任何内容。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="8."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="您承诺并同意以合法方式依照协议使用本服务，不得以任何不法形式或出于非法目的，违反百度地图《服务协议》、《隐私政策》或本服务协议中的内容使用本服务。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="9."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="百度地图遵循相关法律规定，对用户使用本服务过程中所涉及的合法权利进行保护。"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginBottom="17dp">
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10."/>
+            <TextView android:textSize="13dp" android:textColor="@color/nav_phonedeclare_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7dp" android:text="如果您对本服务或协议由任何疑问，可随时通过百度客服联系我们：客服热线4000998998或发送邮件至map_service@baidu.com"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/bnav_rg_ic_ugc_report_iv_innavi"
+        android:layout_width="@dimen/ugc_rg_control_panel_icon_size"
+        android:layout_height="@dimen/ugc_rg_control_panel_icon_size"
+        android:src="@drawable/nsdk_rg_ic_ugc_report_innavi"
+        android:scaleType="centerInside"/>
+    <TextView
+        android:textSize="@dimen/ugc_rg_control_panel_btn_text_size"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:id="@+id/bnav_rg_ic_ugc_report_tv_innavi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ugc_rg_control_button_text_margin_top"
+        android:layout_marginRight="2dp"
+        android:text="上报"/>
+</merge>

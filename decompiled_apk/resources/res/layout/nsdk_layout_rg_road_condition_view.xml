@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <com.baidu.navisdk.ui.widget.BNStrokeTextView
+        android:textSize="@dimen/navi_dimens_14dp"
+        android:textStyle="bold"
+        android:textColor="@color/bn_road_condition_desc_color"
+        android:id="@+id/bn_rg_roadcondition_type_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bn_stroke_color="@color/bn_road_condition_desc_stroke_color"
+        app:bn_stroke_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bnav_rg_cp_roadconditionbar"
+        app:layout_constraintStart_toStartOf="@+id/bnav_rg_cp_roadconditionbar"/>
+    <com.baidu.navisdk.ui.roadcondition.view.BNRoadConditionView
+        android:id="@+id/bnav_rg_cp_roadconditionbar"
+        android:background="@drawable/nsdk_drawable_roadcondition_fg"
+        android:layout_width="@dimen/nsdk_rg_road_condition_bar_width"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_14dp"
+        app:layout_constraintBottom_toTopOf="@+id/bn_rg_roadcondition_type_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <FrameLayout
+        android:id="@+id/bn_rg_roadcondition_icon_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_14dp"
+        app:layout_constraintBottom_toTopOf="@+id/bn_rg_roadcondition_type_desc"
+        app:layout_constraintEnd_toEndOf="@+id/bnav_rg_cp_roadconditionbar"
+        app:layout_constraintTop_toTopOf="@+id/bnav_rg_cp_roadconditionbar"/>
+</merge>

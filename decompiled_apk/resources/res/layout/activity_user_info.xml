@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_marginTop="22dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:onClick="selectAvatar"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/avatar"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.ImageViewRound
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:onClick="selectAvatar"
+                    app:borderWidth="1dp"
+                    app:isCustomize="true"
+                    app:type="linear"
+                    style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="modifyNickName"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/nickname"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_nickname"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="selectGender"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/gender"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_gender"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="selectBirthday"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/birthday"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_birthday"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="selectHeight"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/height"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_height"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="selectWeight"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/weight"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_weight"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_email_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="setEmail"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/email"
+                        style="@style/user_info_title"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_email"
+                        style="@style/user_info_content"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_receive_phone_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="setReceivePhone"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/phone_number"
+                        style="@style/user_info_title"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_receive_phone"
+                        style="@style/user_info_content"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_phone_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="setPhone"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/phone_number"
+                        style="@style/user_info_title"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_phone"
+                        style="@style/user_info_content"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium
+                android:textColor="@color/order_text_orange"
+                android:id="@+id/user_info_getFreePoint_tip"
+                android:layout_width="match_parent"
+                android:text="@string/get_free_point_tip"
+                style="@style/user_info_container"/>
+            <Button
+                android:text="@string/save"
+                android:textAllCaps="false"
+                style="@style/bottom_btn"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

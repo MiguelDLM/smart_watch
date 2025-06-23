@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_info_ll">
+    <include layout="@layout/layout_title_iv_tv_iv_v2"/>
+    <com.google.android.material.tabs.TabLayout android:id="@+id/table" app:tabPaddingEnd="0dp" app:tabPaddingStart="0dp" app:tabTextAppearance="@style/TabLayoutTextStyle" style="@style/status_info_tba"/>
+    <View android:id="@+id/top_line" android:background="@color/view_page_tablayout_line_color" android:layout_width="match_parent" android:layout_height="1px"/>
+    <androidx.viewpager.widget.ViewPager android:id="@+id/view_pager" style="@style/status_info_vp"/>
+</LinearLayout>

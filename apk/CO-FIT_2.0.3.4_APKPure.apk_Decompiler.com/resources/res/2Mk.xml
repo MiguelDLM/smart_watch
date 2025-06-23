@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+                <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar android:layout_width="30dp" android:layout_height="30dp" android:layout_centerInParent="true" style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/dataContent" style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowTimeDetails" android:text="10.16 THU" style="@style/status_item_info_select_time"/>
+                <RelativeLayout style="@style/status_item_info_rl_two">
+                    <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" android:text="0" style="@style/status_item_info_select_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:id="@+id/valueUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5dp" android:text="@string/bg_unit" android:layout_alignBottom="@+id/nowValue" android:layout_marginStart="10dp" android:layout_toEndOf="@+id/nowValue"/>
+                </RelativeLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="#ffa226" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginTop="10dp" android:layout_marginRight="10dp" android:text="@string/bg_first_measurement_tip"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.CustomBarChartView android:id="@+id/barChart" android:layout_width="0dp" android:layout_weight="1" style="@style/status_item_info_chat"/>
+                    <com.sma.smartv3.view.segmentedbar.VerticalSegmentedBarView android:id="@+id/segmentedbar" android:layout_width="20dp" android:layout_height="300dp" android:layout_marginEnd="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp">
+                <LinearLayout style="@style/status_item_info_ll_three_ll_bg_level">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_normal" style="@style/status_item_info_bg_level_title"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:text="&lt;6.1" style="@style/status_item_info_bg_level_value"/>
+                </LinearLayout>
+                <LinearLayout style="@style/status_item_info_ll_three_ll_bg_level">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_prediabetes" style="@style/status_item_info_bg_level_title"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:text="6.1-6.9" style="@style/status_item_info_bg_level_value"/>
+                </LinearLayout>
+                <LinearLayout style="@style/status_item_info_ll_three_ll_bg_level">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/bg_diabetes" style="@style/status_item_info_bg_level_title"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:text="&gt;6.9" style="@style/status_item_info_bg_level_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="13dp" android:textColor="@color/line_color" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="20dp" android:layout_marginRight="20dp" android:text="@string/blood_glucose_warn_tip"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

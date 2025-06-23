@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/device_item_root_style">
+    <LinearLayout style="@style/device_item_root_style2">
+        <com.sma.smartv3.view.TintImageView
+            android:id="@+id/iv"
+            android:src="@drawable/icon_sos_control"
+            style="@style/device_item_iv_style"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="@string/sos_manager"
+            style="@style/device_item_tv_left"/>
+        <com.sma.smartv3.view.text.PFMedium style="@style/device_item_tv_right"/>
+        <ImageView style="@style/device_item_right_iv_style"/>
+    </LinearLayout>
+    <include layout="@layout/device_item_split_line_1dp"/>
+</LinearLayout>

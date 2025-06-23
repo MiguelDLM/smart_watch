@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/bnav_v_img_text_img"
+        android:layout_width="@dimen/navi_dimens_32dp"
+        android:layout_height="@dimen/navi_dimens_32dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/bnav_v_img_text_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_13dp"
+        android:textColor="@color/nsdk_cl_text_a"
+        android:gravity="center"
+        android:id="@+id/bnav_v_img_text_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bnav_v_img_text_img"/>
+    <Space
+        android:id="@+id/bnav_v_img_text_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/navi_dimens_6dp"
+        android:layout_marginEnd="@dimen/navi_dimens_0dp"
+        app:layout_constraintEnd_toEndOf="@+id/bnav_v_img_text_img"
+        app:layout_constraintStart_toStartOf="@+id/bnav_v_img_text_img"
+        app:layout_constraintTop_toTopOf="@+id/bnav_v_img_text_img"/>
+    <ImageView
+        android:id="@+id/bnav_v_img_text_tip"
+        android:visibility="gone"
+        android:layout_width="@dimen/navi_dimens_16dp"
+        android:layout_height="@dimen/navi_dimens_16dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/bnav_v_img_text_space"
+        app:layout_constraintStart_toEndOf="@+id/bnav_v_img_text_space"/>
+</merge>

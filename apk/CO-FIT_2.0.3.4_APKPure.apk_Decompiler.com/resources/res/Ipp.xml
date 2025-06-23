@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <View android:layout_marginTop="22dp" style="@style/h_divider_gray2_margin22"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout android:onClick="select" style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/language_pack_select" style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout android:onClick="repair" style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium android:text="@string/language_pack_repair" style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View style="@style/h_divider_gray2_margin22"/>
+</LinearLayout>

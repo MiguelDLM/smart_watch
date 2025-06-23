@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:textSize="15sp" android:textColor="#000000" android:ellipsize="end" android:id="@+id/ad_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="3dp" android:layout_marginRight="3dp" android:maxLines="2"/>
+    <FrameLayout android:id="@+id/fl_container" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:layout_weight="1">
+        <VideoView android:layout_gravity="center" android:id="@+id/ad_video" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <ImageView android:id="@+id/ad_image" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:contentDescription="@null"/>
+        <FrameLayout android:id="@+id/ad_compliance" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <ProgressBar android:layout_gravity="center" android:id="@+id/ad_loading" android:layout_width="38dp" android:layout_height="38dp" style="@style/OctopusAlertDialogStyle"/>
+    </FrameLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="3dp" android:layout_marginRight="3dp">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/ad_logo" android:layout_width="12dp" android:layout_height="12dp" android:scaleType="fitCenter" android:contentDescription="@null"/>
+            <ImageView android:id="@+id/ad_logo_text" android:layout_width="40dp" android:layout_height="20dp" android:layout_marginLeft="2dp" android:scaleType="fitCenter" android:contentDescription="@null" android:layout_marginStart="2dp"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_alignParentEnd="true">
+            <TextView android:textSize="11sp" android:textColor="#fa9e00" android:id="@+id/ad_action" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <ImageView android:id="@+id/ad_close" android:layout_width="13dp" android:layout_height="13dp" android:layout_marginLeft="3dp" android:src="@drawable/oct_close" android:contentDescription="@null" android:layout_marginStart="3dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

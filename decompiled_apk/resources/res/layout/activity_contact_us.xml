@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <View
+        android:layout_marginTop="20dp"
+        style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout
+        android:id="@+id/facebookLl"
+        android:onClick="contactFacebook"
+        style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="@string/facebook"
+            style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/facebookLlLine"
+        style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout
+        android:id="@+id/lineLl"
+        android:onClick="contactLine"
+        style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="LINE"
+            style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/lineLlLine"
+        style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout
+        android:id="@+id/whatsAppLl"
+        android:onClick="contactWhatsApp"
+        style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="WhatsApp"
+            style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/whatsAppLlLine"
+        style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout
+        android:id="@+id/wxLl"
+        android:onClick="contactWX"
+        style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="微信"
+            style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/wxLine"
+        style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout
+        android:id="@+id/qqLl"
+        android:onClick="contactQQ"
+        style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium
+            android:text="QQ"
+            style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/qqLine"
+        style="@style/h_divider_gray2_margin22"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

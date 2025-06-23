@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView android:id="@+id/image_place_holder_ourter_container" android:layout_width="147dp" android:layout_height="78dp" app:cardCornerRadius="5dp" app:cardElevation="0dp">
+        <RelativeLayout android:id="@+id/image_place_holder_container" android:background="#fff3f4f6" android:layout_width="match_parent" android:layout_height="match_parent">
+            <ImageView android:id="@+id/image_place_holder" android:background="@drawable/bnav_drawable_route_fullview_page_placeholder" android:layout_width="@dimen/navi_dimens_30dp" android:layout_height="@dimen/navi_dimens_40dp" android:scaleType="centerCrop" android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <ImageView android:id="@+id/image" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

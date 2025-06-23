@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bnav_ar_bar_layout" android:visibility="visible" android:layout_width="match_parent" android:layout_height="250dp" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+    <RelativeLayout android:orientation="horizontal" android:id="@+id/small_map_close_bottom_bar" android:visibility="gone" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:layout_marginBottom="8dp" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="vertical" android:id="@+id/ar_close" android:background="@drawable/wsdk_ar_btn_bg" android:layout_width="50dp" android:layout_height="match_parent" android:layout_alignParentLeft="true">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginTop="8dp" android:src="@drawable/wsdk_quit_white"/>
+            <TextView android:textSize="10dp" android:textColor="#fff" android:layout_gravity="center_horizontal" android:id="@+id/ar_close_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="退出"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/small_map_up_arrow" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_centerHorizontal="true">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:src="@drawable/wsdk_up_arrow"/>
+            <TextView android:textSize="17dp" android:textColor="#fff" android:id="@+id/remain_time_small_map_close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:shadowColor="#000000" android:shadowRadius="5" android:layout_below="@+id/small_map_up_arrow"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/ar_normal_nav_small_map_close" android:background="@drawable/wsdk_ar_btn_bg" android:layout_width="50dp" android:layout_height="match_parent" android:layout_alignParentRight="true">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginTop="8dp" android:src="@drawable/wsdk_normal_nav_white"/>
+            <TextView android:textSize="10dp" android:textColor="#fff" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="地图"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <com.baidu.platform.comapi.wnplatform.arclayout.ArcLayout android:id="@+id/small_map_shadow" android:visibility="gone" android:layout_width="match_parent" android:layout_height="21dp" android:layout_marginBottom="-16.5dp" android:layout_above="@+id/small_map_arc_layout" app:arc_cropDirection="2" app:arc_height="21dp" app:arc_position="2">
+        <RelativeLayout android:background="#04000000" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </com.baidu.platform.comapi.wnplatform.arclayout.ArcLayout>
+    <com.baidu.platform.comapi.wnplatform.arclayout.ArcLayout android:id="@+id/small_map_arc_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="200dp" android:layout_alignParentBottom="true" app:arc_cropDirection="2" app:arc_height="21dp" app:arc_position="2">
+        <RelativeLayout android:id="@+id/small_map_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <RelativeLayout android:id="@+id/small_map_down_arrow" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="10dp">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/wsdk_down_arrow" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </com.baidu.platform.comapi.wnplatform.arclayout.ArcLayout>
+    <ImageView android:id="@+id/ar_more_npc_btn" android:layout_width="43.5dp" android:layout_height="43.5dp" android:layout_marginTop="0dp" android:layout_marginRight="5dp" android:layout_alignParentTop="true" android:layout_alignParentRight="true"/>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/ar_search_poi" android:background="@drawable/wsdk_dark_bg" android:visibility="gone" android:layout_width="45dp" android:layout_height="45dp" android:layout_marginTop="5dp" android:layout_marginRight="5dp" android:layout_below="@+id/ar_more_npc_btn" android:layout_alignParentRight="true">
+        <ImageView android:layout_width="17dp" android:layout_height="17dp" android:layout_marginTop="6dp" android:layout_marginBottom="-1dp" android:src="@drawable/wsdk_indoor_poi"/>
+        <TextView android:textSize="9dp" android:textColor="#fff" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="周边"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/ar_vps_btn" android:background="@drawable/wsdk_dark_bg" android:visibility="gone" android:layout_width="45dp" android:layout_height="45dp" android:layout_marginTop="5dp" android:layout_marginRight="5dp" android:layout_below="@+id/ar_search_poi" android:layout_alignParentRight="true">
+        <ImageView android:layout_width="17dp" android:layout_height="17dp" android:layout_marginTop="6dp" android:layout_marginBottom="-1dp" android:src="@drawable/wsdk_vps_icon"/>
+        <TextView android:textSize="9dp" android:textColor="#fff" android:gravity="center" android:id="@+id/vps_btn_txt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="定位"/>
+    </LinearLayout>
+    <RelativeLayout android:orientation="horizontal" android:id="@+id/small_map_open_bottom_bar" android:background="@drawable/wsdk_drawable_bike_btn_bg_normal" android:visibility="visible" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:layout_marginBottom="4dp" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="vertical" android:id="@+id/ar_close_small_map_open" android:layout_width="48dp" android:layout_height="match_parent" android:layout_alignParentLeft="true">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginTop="6dp" android:src="@drawable/wsdk_quit_black"/>
+            <TextView android:textSize="10dp" android:textColor="#4d4e50" android:layout_gravity="center_horizontal" android:id="@+id/normal_close_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="退出"/>
+        </LinearLayout>
+        <ImageView android:background="#d7d8d9" android:layout_width="1px" android:layout_height="match_parent" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:layout_toRightOf="@+id/ar_close_small_map_open"/>
+        <TextView android:textSize="17dp" android:textColor="#313223" android:id="@+id/remain_time_small_map_open" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+        <ImageView android:background="#d7d8d9" android:layout_width="1px" android:layout_height="match_parent" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:layout_toLeftOf="@+id/ar_normal_nav_small_map_open"/>
+        <LinearLayout android:orientation="vertical" android:id="@+id/ar_normal_nav_small_map_open" android:layout_width="48dp" android:layout_height="match_parent" android:layout_alignParentRight="true">
+            <ImageView android:layout_gravity="center_horizontal" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginTop="6dp" android:src="@drawable/wsdk_normal_nav_black"/>
+            <TextView android:textSize="10dp" android:textColor="#4d4e50" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="地图"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:orientation="horizontal" android:id="@+id/ar_status_bar" android:background="@drawable/wsdk_drawable_bike_btn_bg_normal" android:visibility="gone" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:layout_marginBottom="4dp" android:layout_alignParentBottom="true">
+        <TextView android:textSize="16dp" android:textColor="#3385ff" android:id="@+id/clear_poi" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空结果并继续导航" android:layout_centerInParent="true"/>
+        <RelativeLayout android:id="@+id/net_status_bar" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+            <ImageView android:id="@+id/status_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+            <TextView android:textSize="16dp" android:textColor="#333333" android:id="@+id/status_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:layout_toRightOf="@+id/status_icon" android:layout_centerVertical="true"/>
+            <ImageView android:id="@+id/status_close" android:background="@drawable/wsdk_quit_black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView android:textSize="12dp" android:textColor="#ffffff" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/normal_nav_btn_tip" android:background="@drawable/wsdk_bubble_arrow_down" android:paddingLeft="5dp" android:paddingRight="5dp" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginRight="10dp" android:layout_marginBottom="62dp" android:text="切换普通导航" android:maxLines="1" android:maxLength="10" android:layout_above="@+id/small_map_open_bottom_bar" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"/>
+</RelativeLayout>

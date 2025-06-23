@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/view_page_main_bg" style="@style/status_info_ll">
+    <com.google.android.material.tabs.TabLayout android:id="@+id/table" android:background="@color/view_page_secondary_bg" app:tabRippleColor="@null" app:tabSelectedTextColor="@color/colorAccent" app:tabTextAppearance="@style/TabLayoutTextStyle" app:tabTextColor="@color/line_color" style="@style/status_info_tba"/>
+    <androidx.viewpager.widget.ViewPager android:id="@+id/view_pager" style="@style/status_info_vp"/>
+</LinearLayout>

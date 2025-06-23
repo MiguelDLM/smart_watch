@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:shape="rectangle">
+    <solid android:color="@color/tanx_exit_retention_button"/>
+    <gradient android:startColor="#ff6a6e" android:endColor="#e00b0b" android:angle="0" android:type="linear"/>
+    <corners android:radius="48dp"/>
+</shape>

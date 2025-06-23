@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="@dimen/sm_sdk_px_66" android:layout_marginTop="@dimen/sm_sdk_px_12">
+    <FrameLayout android:layout_width="@dimen/sm_sdk_px_66" android:layout_height="@dimen/sm_sdk_px_66" android:layout_marginLeft="@dimen/sm_sdk_px_7">
+        <com.tenmeter.smlibrary.widget.SMRoundedImageView android:id="@+id/iv_bg" android:layout_width="@dimen/sm_sdk_px_62" android:layout_height="@dimen/sm_sdk_px_62" android:layout_marginLeft="@dimen/sm_sdk_px_4" android:layout_marginTop="@dimen/sm_sdk_px_4" app:sm_riv_radius="@dimen/sm_sdk_px_8"/>
+        <ImageView android:id="@+id/iv_mask" android:layout_width="@dimen/sm_sdk_px_36" android:layout_height="@dimen/sm_sdk_px_40" android:scaleType="centerCrop"/>
+    </FrameLayout>
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="@dimen/sm_sdk_px_0" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/sm_sdk_px_20" android:layout_marginRight="@dimen/sm_sdk_px_6" android:layout_weight="1">
+        <TextView android:textSize="@dimen/sm_sdk_px_14" android:textStyle="bold" android:textColor="#222222" android:id="@+id/tv_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="@dimen/sm_sdk_px_188" android:maxLines="1" android:singleLine="true"/>
+        <TextView android:textSize="@dimen/sm_sdk_px_12" android:textColor="#6f6f6f" android:ellipsize="end" android:id="@+id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="@dimen/sm_sdk_px_188" android:maxLines="1"/>
+    </LinearLayout>
+    <TextView android:textSize="@dimen/sm_sdk_px_12" android:textColor="#ff6f6f6f" android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/tv_leisure_start" android:background="@drawable/leisure_game_start_btn_bg" android:visibility="invisible" android:layout_width="@dimen/sm_sdk_px_42" android:layout_height="@dimen/sm_sdk_px_21"/>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <shape>
+                    <corners android:radius="11dp"/>
+                    <stroke android:width="0.5dp" android:color="#3385ff"/>
+                    <solid android:color="#123385ff"/>
+                </shape>
+            </item>
+            <item android:gravity="top|right|center_vertical|center_horizontal|center" android:height="31.5dp" android:width="31.5dp" android:drawable="@drawable/bnav_feedback_ic_bg_gou" android:top="0.5dp" android:right="0.5dp"/>
+        </layer-list>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="11dp"/>
+            <stroke android:width="0.5dp" android:color="#dcdde0"/>
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+  tools:keep="
+  @drawable/ksad_notification_*,
+  @layout/ksad_notification_download_*,
+  @id/ksad_download_*,
+"
+  tools:ignore="ResourceName" />
+

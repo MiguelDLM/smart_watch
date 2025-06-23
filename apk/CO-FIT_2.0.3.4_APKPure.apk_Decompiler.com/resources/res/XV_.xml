@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+    <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:id="@+id/number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1"/>
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="30dp">
+        <com.sma.smartv3.view.PaceProgressBar android:id="@+id/pb" android:layout_width="match_parent" android:layout_height="16dp" app:bgColor="@color/line_color" app:pbColor="@color/colorAccent"/>
+        <com.sma.smartv3.view.text.DINCondBold android:textSize="12sp" android:textColor="@color/text_color" android:id="@+id/tvPace" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="8&apos;88&apos;&apos;" android:layout_centerVertical="true" android:layout_marginStart="6dp"/>
+    </RelativeLayout>
+</LinearLayout>

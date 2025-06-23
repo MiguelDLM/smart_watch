@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/bnav_energy_confirm_dailog_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="280dp" android:layout_height="wrap_content">
+        <TextView android:textSize="17dp" android:textColor="#ff333333" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/modify_dialog_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="27dp" android:text="标题" android:fontFamily="sans-serif-medium" android:paddingStart="20dp" android:paddingEnd="20dp"/>
+        <TextView android:textSize="14dp" android:textColor="#ff666666" android:ellipsize="end" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/modify_dialog_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="副标题" android:maxLines="2" android:paddingStart="20dp" android:paddingEnd="20dp"/>
+        <View android:background="#ffdddddd" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginTop="20dp"/>
+        <LinearLayout android:orientation="horizontal" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="15dp" android:paddingEnd="15dp">
+            <TextView android:textSize="14dp" android:textColor="#ff333333" android:gravity="center" android:id="@+id/modify_dialog_first_btn" android:background="@drawable/bnav_charge_route_confirm_first_bg" android:layout_width="120dp" android:layout_height="36dp"/>
+            <TextView android:textSize="14dp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/modify_dialog_second_btn" android:background="@drawable/bnav_charge_route_confirm_second_bg" android:layout_width="120dp" android:layout_height="36dp" android:layout_marginStart="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

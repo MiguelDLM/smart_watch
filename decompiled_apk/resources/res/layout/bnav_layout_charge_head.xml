@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@drawable/bnav_charge_head_bg"
+    android:padding="2dp"
+    android:layout_width="72dp"
+    android:layout_height="24dp">
+    <TextView
+        android:textSize="11dp"
+        android:textColor="#ffffffff"
+        android:gravity="center"
+        android:id="@+id/charge_head_first_btn"
+        android:background="@drawable/bnav_charge_head_selected_bg"
+        android:layout_width="34dp"
+        android:layout_height="20dp"
+        android:text="推荐"
+        android:includeFontPadding="false"/>
+    <TextView
+        android:textSize="11dp"
+        android:textColor="#ff11141a"
+        android:gravity="center"
+        android:id="@+id/charge_head_second_btn"
+        android:layout_width="34dp"
+        android:layout_height="20dp"
+        android:text="全部"
+        android:includeFontPadding="false"/>
+</LinearLayout>

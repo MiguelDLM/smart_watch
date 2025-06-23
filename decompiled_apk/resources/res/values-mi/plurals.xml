@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="zero">Ka kati te matapihi hei te %1$s hekona.</item>
+        <item quantity="one">Ka kati te matapihi hei te %1$s hekona.</item>
+        <item quantity="two">Ka kati te matapihi hei te %1$s hekona.</item>
+        <item quantity="few">Ka kati te matapihi hei te %1$s hekona.</item>
+        <item quantity="many">Ka kati te matapihi hei te %1$s hekona.</item>
+        <item quantity="other">Ka kati te matapihi hei te %1$s hekona.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="zero">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+        <item quantity="one">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+        <item quantity="two">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+        <item quantity="few">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+        <item quantity="many">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+        <item quantity="other">Kia maumahara ki te kōwhiringa mō te %1$s rā</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="zero">%1$d sec</item>
+        <item quantity="one">%1$d sec</item>
+        <item quantity="two">%1$d sec</item>
+        <item quantity="few">%1$d sec</item>
+        <item quantity="many">%1$d sec</item>
+        <item quantity="other">%1$d sec</item>
+    </plurals>
+</resources>

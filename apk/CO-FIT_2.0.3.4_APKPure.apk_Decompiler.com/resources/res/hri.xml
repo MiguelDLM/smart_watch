@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/bnav_rr_bottom_footer_bg" android:paddingLeft="14dp" android:paddingRight="14dp" android:layout_width="match_parent" android:layout_height="@dimen/nsdk_rr_bottom_footer_height">
+    <LinearLayout android:orientation="vertical" android:id="@+id/nsdk_fl_route_backway" android:paddingTop="3dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="19dp" android:layout_height="19dp" android:src="@drawable/nsdk_car_route_backway"/>
+        <TextView android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:layout_gravity="center_horizontal" android:layout_width="100dp" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="查看返程"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/nsdk_fl_route_fake_nav" android:paddingTop="3dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="19dp" android:layout_height="19dp" android:src="@drawable/nsdk_car_route_nav_dark"/>
+        <TextView android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:layout_gravity="center_horizontal" android:layout_width="100dp" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="模拟导航"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/nsdk_btn_navresult_favorite" android:paddingTop="3dp" android:visibility="gone" android:clipChildren="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+        <com.baidu.navisdk.ui.widget.likebutton.LikeButton android:layout_gravity="center_horizontal" android:id="@+id/iv_collect" android:clipChildren="false" android:layout_width="19dp" android:layout_height="19dp" app:nsdk_bn_circle_end_color="#ffb900" app:nsdk_bn_circle_start_color="#ffb900" app:nsdk_bn_dots_primary_color="#ffb900" app:nsdk_bn_dots_secondary_color="#ffb900" app:nsdk_bn_like_drawable="@drawable/nsdk_poi_detail_icon_fav_yes" app:nsdk_bn_unlike_drawable="@drawable/nsdk_poi_detail_icon_fave_no"/>
+        <TextView android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/tv_collect" android:layout_width="100dp" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="收藏"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@+id/nsdk_btn_navresult_share" android:paddingTop="3dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="19dp" android:layout_height="19dp" android:src="@drawable/nsdk_car_icon_poi_share"/>
+        <TextView android:textSize="12dp" android:textColor="#333333" android:gravity="center" android:layout_gravity="center_horizontal" android:layout_width="100dp" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="分享"/>
+    </LinearLayout>
+</LinearLayout>

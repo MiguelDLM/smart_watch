@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/bnav_rg_rl_scenic_broadcast"
+    android:layout_width="@dimen/nsdk_rg_control_panel_btn_width_new"
+    android:layout_height="@dimen/nsdk_rg_control_panel_btn_height_new">
+    <com.baidu.navisdk.ui.routeguide.subview.widget.BNAudioPlayView
+        android:id="@+id/bnav_rg_iv_scenic"
+        android:layout_width="@dimen/nsdk_rg_control_panel_btn_img_width"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_img_height"
+        android:src="@drawable/nsdk_drawable_audio_play"
+        android:scaleType="centerInside"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size_new"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_h"
+        android:id="@+id/bnav_rg_tv_scenic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nsdk_rg_control_panel_btn_img_txt_padding"
+        android:text="景区介绍"
+        android:layout_below="@+id/bnav_rg_iv_scenic"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

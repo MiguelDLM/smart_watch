@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/truck_axle_container" android:background="@drawable/bnav_bg_attribution_panel" android:paddingBottom="@dimen/navi_dimens_15dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/truck_axle_edit_back" android:layout_width="@dimen/navi_dimens_40dp" android:layout_height="@dimen/navi_dimens_40dp" android:layout_marginTop="@dimen/navi_dimens_20dp" android:layout_alignBottom="@+id/truck_axle_edit_title" android:layout_marginStart="@dimen/navi_dimens_20dp">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bnav_plate_edit_back" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <TextView android:textSize="@dimen/navi_dimens_19dp" android:textColor="#ff333333" android:id="@+id/truck_axle_edit_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_20dp" android:text="选择轴数" android:includeFontPadding="false" android:layout_centerHorizontal="true" android:fontFamily="sans-serif-medium"/>
+    <View android:id="@+id/divider" android:background="#eeeeee" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginTop="@dimen/navi_dimens_20dp" android:layout_below="@+id/truck_axle_edit_title"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/truck_axes_recycle" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_296dp" android:layout_below="@+id/divider"/>
+</RelativeLayout>

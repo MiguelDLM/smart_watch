@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textColor="@color/line_color"
+        android:id="@+id/tv_tip"
+        android:paddingTop="20dp"
+        android:paddingBottom="13dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm_max_tip"
+        android:layout_marginStart="22dp"/>
+    <include layout="@layout/item_world_clock"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"/>
+    </FrameLayout>
+    <Button
+        android:text="@string/add"
+        style="@style/bottom_btn"/>
+</LinearLayout>

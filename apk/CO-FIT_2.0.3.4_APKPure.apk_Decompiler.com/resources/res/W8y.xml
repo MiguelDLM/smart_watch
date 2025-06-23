@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+    <ImageView android:id="@+id/charge_list_head_location_img" android:background="@drawable/nsdk_energy_charge_location_green" android:layout_width="17dp" android:layout_height="17dp" android:layout_centerVertical="true" android:layout_marginStart="6dp"/>
+    <TextView android:textSize="13dp" android:textColor="#ffffffff" android:id="@+id/charge_list_head_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="第一次" android:includeFontPadding="false" android:layout_centerVertical="true" android:layout_marginStart="6dp" android:layout_toEndOf="@+id/charge_list_head_location_img"/>
+</RelativeLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll_v2">
+            <RelativeLayout style="@style/status_item_info_rl_top">
+                <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+                <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar android:layout_width="30dp" android:layout_height="30dp" android:layout_centerInParent="true" style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/dataContent" style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowTimeDetails" android:text="12:00" style="@style/status_item_info_select_time"/>
+                <RelativeLayout style="@style/status_item_info_rl_two">
+                    <ImageView android:id="@+id/image" android:src="@drawable/icon_step_info" android:layout_marginEnd="10dp" android:layout_toStartOf="@+id/nowValue" style="@style/status_item_info_iv_flag"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" android:text="0" style="@style/status_item_info_select_value"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/valueUnit" android:text="@string/steps" android:layout_marginStart="10dp" android:layout_toEndOf="@+id/nowValue" style="@style/status_item_info_value_unit"/>
+                </RelativeLayout>
+                <com.github.mikephil.charting.charts.BarChart android:id="@+id/barChart" android:paddingBottom="30dp" style="@style/status_item_info_chat"/>
+                <LinearLayout android:orientation="vertical" style="@style/status_item_info_ll_three_v2">
+                    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp" style="@style/status_item_info_now_time">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="20dp" android:layout_gravity="left" android:layout_marginTop="10dp" android:text="@string/current_device_data" android:layout_marginStart="20dp" style="@style/status_item_info_total"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/line_color" android:layout_gravity="left" android:layout_marginTop="6dp" android:text="@string/goal_progress" android:layout_marginStart="20dp" style="@style/status_item_info_total"/>
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <com.sma.smartv3.view.text.PFMedium android:textSize="25dp" android:layout_gravity="left" android:id="@+id/step_v2_goal_value" android:layout_marginTop="1dp" android:layout_marginStart="20dp" style="@style/status_item_info_total"/>
+                            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/step_v2_set_goal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_marginEnd="20dp">
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/line_color" android:layout_gravity="left" android:layout_marginTop="1dp" android:text="@string/goal" android:layout_alignParentRight="true" android:layout_marginEnd="6dp" style="@style/status_item_info_total"/>
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:src="@drawable/icon_edit_goal"/>
+                            </LinearLayout>
+                        </RelativeLayout>
+                        <ProgressBar android:id="@+id/step_v2_goal_pb_progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:maxHeight="20dp" android:progressDrawable="@drawable/seekbar_day_step_bg" android:minHeight="20dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp" style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/line_color" android:layout_gravity="left" android:id="@+id/step_v2_goal_tip" android:layout_marginTop="4dp" android:layout_marginBottom="10dp" android:layout_marginStart="20dp" style="@style/status_item_info_total"/>
+                        <LinearLayout android:layout_marginBottom="10dp" style="@style/status_item_info_ll_three">
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_blue" android:layout_marginTop="10dp" android:text="@string/segment_activity4" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/step_v2_distance_value" android:layout_marginTop="1dp" android:text="0" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="1dp" android:text="@string/km" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                            <View android:layout_gravity="center_vertical" android:background="@color/line_color" android:layout_width="1px" android:layout_height="50dp"/>
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_orange" android:gravity="center" android:id="@+id/twoTV" android:layout_marginTop="10dp" android:text="@string/stepnum" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/twoValue" android:layout_marginTop="1dp" android:text="4800" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/twoUnit" android:layout_marginTop="1dp" android:text="@string/steps" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                            <View android:layout_gravity="center_vertical" android:background="@color/line_color" android:layout_width="1px" android:layout_height="50dp" android:layout_marginTop="10dp"/>
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_purple" android:layout_marginTop="10dp" android:text="@string/step_v2_consume" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/step_v2_calories_value" android:layout_marginTop="1dp" android:text="0" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="1dp" android:text="@string/kcal" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:orientation="vertical" android:paddingBottom="30dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_marginBottom="20dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp" style="@style/status_item_info_now_time">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="20dp" android:layout_gravity="left" android:layout_marginTop="10dp" android:text="@string/total_steps" android:layout_marginStart="20dp" style="@style/status_item_info_total"/>
+                        <LinearLayout android:layout_marginBottom="10dp" style="@style/status_item_info_ll_three">
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_blue" android:layout_marginTop="10dp" android:text="@string/segment_activity4" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/step_v2_distance_value2" android:layout_marginTop="1dp" android:text="0" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="1dp" android:text="@string/km" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                            <View android:layout_gravity="center_vertical" android:background="@color/line_color" android:layout_width="1px" android:layout_height="50dp"/>
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_orange" android:id="@+id/oneTV" android:layout_marginTop="10dp" android:text="@string/stepnum" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/oneValue" android:layout_marginTop="1dp" android:text="4800" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/oneUnit" android:layout_marginTop="1dp" android:text="@string/steps" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                            <View android:layout_gravity="center_vertical" android:background="@color/line_color" android:layout_width="1px" android:layout_height="50dp" android:layout_marginTop="10dp"/>
+                            <LinearLayout style="@style/status_item_info_ll_three_ll">
+                                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/step_v2_purple" android:layout_marginTop="10dp" android:text="@string/step_v2_consume" style="@style/status_item_info_total"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/step_v2_calories_value2" android:layout_marginTop="1dp" android:text="0" style="@style/status_item_info_total_value_v2"/>
+                                <com.sma.smartv3.view.text.PFMedium android:layout_marginTop="1dp" android:text="@string/kcal" style="@style/status_item_info_total_unit_v2"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

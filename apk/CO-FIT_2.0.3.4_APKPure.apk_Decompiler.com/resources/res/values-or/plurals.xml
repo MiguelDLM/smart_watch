@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">ୱିଣ୍ଡୋ %1$s ସେକେଣ୍ଡରେ ବନ୍ଦ ହେବ।</item>
+        <item quantity="other">ୱିଣ୍ଡୋ %1$s ସେକେଣ୍ଡରେ ବନ୍ଦ ହେବ।</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">%1$s ଦିନ ପସନ୍ଦ କରିବା ପାଇଁ ମନେ ରଖନ୍ତୁ</item>
+        <item quantity="other">%1$s ଦିନ ପସନ୍ଦ କରିବା ପାଇଁ ମନେ ରଖନ୍ତୁ</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d ସେକେଣ୍ଡ</item>
+        <item quantity="other">%1$d ସେକେଣ୍ଡ</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+</resources>

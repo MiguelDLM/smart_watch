@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/toolbox_iv_collection" android:layout_width="26dp" android:layout_height="20dp" android:layout_marginTop="1dp" android:layout_centerHorizontal="true">
+        <ImageView android:id="@+id/toolbox_iv" android:layout_width="24dp" android:layout_height="20dp" android:src="@drawable/nsdk_drawable_route_result_charging_station" android:scaleType="centerInside" android:layout_centerHorizontal="true"/>
+        <TextView android:textSize="5dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/toolbox_label" android:background="@drawable/nsdk_drawable_route_result_toolbox_red_circle" android:visibility="gone" android:layout_width="7dp" android:layout_height="7dp" android:text="3" android:layout_alignParentTop="true" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <TextView android:textSize="9dp" android:textColor="@color/nsdk_route_result_button_text_color" android:ellipsize="middle" android:gravity="center" android:id="@+id/toolbox_tv" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_below="@+id/toolbox_iv_collection" android:layout_centerHorizontal="true"/>
+</RelativeLayout>

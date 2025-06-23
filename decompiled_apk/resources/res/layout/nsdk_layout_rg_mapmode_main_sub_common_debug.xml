@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_debug_layout"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_gravity="center_vertical"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_200dp"
+        android:fadeScrollbars="true">
+        <TextView
+            android:textSize="15sp"
+            android:textColor="#db5959"
+            android:id="@+id/common_debug_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="debug text\10debug text"/>
+    </ScrollView>
+</LinearLayout>

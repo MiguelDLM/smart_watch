@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:paddingTop="40dp" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="22dp" android:paddingEnd="22dp">
+    <ImageView android:id="@+id/iv" android:layout_width="wrap_content" android:layout_height="280dp" android:src="@drawable/pic_guide_blood_glucose"/>
+    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="22dp" android:text="@string/family_history_of_diabetes" style="@style/guide_title_style"/>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="40dp">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="24dp" android:gravity="center" android:id="@+id/tv_yes" android:background="@drawable/bg_level_dot_shape" android:layout_width="80dp" android:layout_height="80dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:text="@string/yes"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="24dp" android:gravity="center" android:id="@+id/tv_no" android:background="@drawable/bg_level_dot_shape" android:layout_width="80dp" android:layout_height="80dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:text="@string/no"/>
+    </LinearLayout>
+</LinearLayout>

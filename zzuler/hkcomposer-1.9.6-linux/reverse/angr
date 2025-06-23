@@ -1,0 +1,2189 @@
+extern struct_0 *g_405ff8;
+
+void sub_401000()
+{
+    if (g_405ff8)
+        g_405ff8();
+    return;
+}
+
+extern unsigned long long g_406008;
+extern unsigned long long g_406010;
+
+void sub_401020()
+{
+    unsigned long v0;  // [bp-0x8]
+
+    v0 = g_406008;
+    goto g_406010;
+}
+
+typedef struct struct_4 {
+    char padding_0[8];
+    char *field_8;
+} struct_4;
+
+typedef struct FILE_t {
+    unsigned int _flags;
+    char padding_4[4];
+    char *_IO_read_ptr;
+    char *_IO_read_end;
+    char *_IO_read_base;
+    char *_IO_write_base;
+    char *_IO_write_ptr;
+    char *_IO_write_end;
+    char *_IO_buf_base;
+    char *_IO_buf_end;
+    char *_IO_save_base;
+    char *_IO_backup_base;
+    char *_IO_save_end;
+    struct _IO_marker *_markers;
+    struct _IO_marker *_chain;
+    unsigned int _fileno;
+    unsigned int _flags2;
+    unsigned int _old_offset;
+    char padding_7c[4];
+    unsigned short _cur_column;
+    char _vtable_offset;
+    char _shortbuf[1];
+    char padding_84[4];
+    struct _IO_marker *_lock;
+    unsigned long long _offset;
+    struct _IO_codecvt *_codecvt;
+    struct _IO_wide_data *_wide_data;
+    void* _freeres_list;
+    char __pad5;
+    char padding_b1[7];
+    unsigned int _mode;
+    char _unused2[20];
+} FILE_t;
+
+typedef struct struct_5 {
+    char padding_0[1];
+    char field_1;
+} struct_5;
+
+typedef struct struct_3 {
+    char padding_0[8];
+    char *field_8;
+    char padding_10[24];
+    unsigned long long field_28;
+} struct_3;
+
+typedef struct struct_0 {
+    char padding_0[1];
+    char field_1;
+    char padding_2[6];
+    unsigned long long field_8;
+    char padding_10[24];
+    unsigned long long field_28;
+    unsigned int field_30;
+    char padding_34[56];
+    unsigned int field_6c;
+    unsigned int field_70;
+} struct_0;
+
+typedef struct struct_1 {
+    unsigned int field_0;
+    char field_4;
+    char padding_5[1];
+    unsigned short field_6;
+    unsigned short field_8;
+    unsigned short field_a;
+    unsigned short field_c;
+    char field_e;
+    char field_f;
+    unsigned short field_10;
+    char field_12;
+    char field_13;
+} struct_1;
+
+typedef struct struct_2 {
+    char field_0;
+    char field_1;
+    char padding_2[18];
+    unsigned int field_14;
+    unsigned short field_18;
+    unsigned short field_1a;
+    unsigned short field_1c;
+    unsigned short field_1e;
+    char field_20;
+    char field_21;
+    char field_22;
+    char padding_23[77];
+    unsigned int field_70;
+} struct_2;
+
+typedef struct _IO_marker {
+    struct _IO_marker *_next;
+    struct _IO_marker *_sbuf;
+    unsigned int _pos;
+} _IO_marker;
+
+typedef struct _IO_codecvt {
+    char __cd_out;
+} _IO_codecvt;
+
+typedef struct _IO_wide_data {
+    unsigned short *_IO_read_ptr;
+    unsigned short *_IO_read_end;
+    unsigned short *_IO_read_base;
+    unsigned short *_IO_write_base;
+    unsigned short *_IO_write_ptr;
+    unsigned short *_IO_write_end;
+    unsigned short *_IO_buf_base;
+    unsigned short *_IO_buf_end;
+    unsigned short *_IO_save_base;
+    unsigned short *_IO_backup_base;
+    unsigned short *_IO_save_end;
+    __mbstate_t _IO_state;
+    char padding_5d[3];
+    char _IO_last_state;
+    char padding_61[7];
+    unsigned short _shortbuf[1];
+    _IO_marker _wide_vtable;
+} _IO_wide_data;
+
+typedef struct __mbstate_t {
+    unsigned int __count;
+    char __value;
+} __mbstate_t;
+
+extern struct_5 *g_406320;
+extern struct_1 g_406340;
+extern unsigned short g_407740;
+extern char g_407742;
+extern char g_407743;
+extern char g_407744;
+extern char g_407760;
+extern char g_40785f;
+
+int main(unsigned int a0, struct_4 *a1)
+{
+    unsigned int v0;  // [bp-0x508], Other Possible Types: unsigned long long
+    unsigned int v1;  // [bp-0x508]
+    unsigned long long v2;  // [bp-0x500]
+    unsigned long long v3;  // [bp-0x4f8]
+    unsigned long long v4;  // [bp-0x4f0]
+    unsigned long long v5;  // [bp-0x4e8]
+    unsigned long long v6;  // [bp-0x4e0]
+    unsigned long long v7;  // [bp-0x4d8]
+    unsigned long long v8;  // [bp-0x4d0]
+    unsigned long long v9;  // [bp-0x4c8]
+    unsigned long long v10;  // [bp-0x4c0]
+    char v11;  // [bp-0x4b8]
+    char v12;  // [bp-0x438]
+    FILE_t *v15;  // rbp
+    unsigned long v16;  // rbx
+    void* v17;  // r12
+    unsigned int v18;  // r14d
+    unsigned long long v19;  // rbp
+    unsigned long long v21;  // rax
+    unsigned int v22;  // ebx
+    unsigned int v23;  // r14d
+    unsigned int v24;  // r14d
+    unsigned long long v25;  // rbp
+    unsigned long long v33;  // rax
+    unsigned long long v35;  // rax
+    void* v38;  // rbp
+    unsigned int v39;  // ebx
+    unsigned long v40;  // rax
+    unsigned long v41;  // rax
+    struct_5 *v42;  // r9
+    void* v43;  // rbx, Other Possible Types: unsigned long
+    void* v44;  // r15
+    unsigned int v45;  // r12d
+    unsigned int v46;  // r12d
+    unsigned long long v47;  // r14
+    struct_3 *v48;  // rdi
+    struct_0 *v49;  // rdi
+    unsigned long v50;  // r10
+    unsigned long v51;  // rbx
+    unsigned long v52;  // rcx
+    unsigned long long v53;  // rax
+    unsigned long v54;  // rax
+    unsigned long v55;  // rcx
+    unsigned int v56;  // r12d
+    void* v57;  // r12
+    void* v58;  // rsi
+    struct_1 *v59;  // rbx
+    void* v60;  // r13
+    unsigned int v61;  // r14d
+    struct_1 *v62;  // rbx
+    unsigned int v63;  // r14d
+    struct_2 *v64;  // rax
+    unsigned long v65;  // rdx
+    unsigned short v66;  // r8w
+    unsigned long v67;  // rdi
+    unsigned short v68;  // r9w
+    unsigned long v69;  // rcx
+    unsigned long v70;  // rsi
+    unsigned long v71;  // r10
+    struct_1 *v72;  // rbx
+    unsigned int v73;  // r14d
+    void* v74;  // rbx
+    unsigned long long v75;  // rcx
+    char *v76;  // r8
+    char *v77;  // r8
+    FILE_t *v78;  // r12
+    unsigned long long v79;  // rbx
+    unsigned long v80;  // rbx
+    unsigned int v81;  // eax
+
+    if (a0 <= 1)
+    {
+        puts("Input file missing");
+        return 0;
+    }
+    v15 = fopen(a1->field_8, "r");
+    v16 = (unsigned int)sub_402e30(v15);
+    printf("input file size=%d Bytes\n", v16 & 4294967295);
+    v17 = malloc(v16);
+    if (v16 != fread(v17, 1, v16, v15))
+    {
+        puts("File reading error...");
+        exit(0); /* do not return */
+    }
+    v18 = 0;
+    puts("Entire file loaded successfully.");
+    fclose(v15);
+    v19 = cJSON_Parse(v17);
+    cJSON_Print(v19);
+    strncpy(&g_407760, cJSON_GetStringValue(cJSON_GetObjectItem(v19, "dial_name")), 255);
+    g_40785f = 0;
+    v22 = cJSON_GetArraySize(cJSON_GetObjectItem(v19, "blocks"));
+    printf("Number of input json blocks=%d\n", v22);
+    if (v22 > 0)
+    {
+        v10 = v17;
+        do
+        {
+            v23 = v18;
+            v24 = v23 + 1;
+            v25 = cJSON_GetArrayItem(v21, v23);
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "cty"));
+            v9 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "ctx"));
+            v8 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "alnx"));
+            v7 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "posy"));
+            v6 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "posx"));
+            v5 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "height"));
+            v4 = v0;
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "width"));
+            v3 = v0;
+            v33 = cJSON_GetStringValue(cJSON_GetObjectItem(v25, "colsp"));
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "reuse"));
+            v2 = v0;
+            v35 = cJSON_GetStringValue(cJSON_GetObjectItem(v25, "fname"));
+            cJSON_GetNumberValue(cJSON_GetObjectItem(v25, "frms"));
+            v0 = v0;
+            sub_401f40(cJSON_GetStringValue(cJSON_GetObjectItem(v25, "type")), (unsigned int)v0, v35, (unsigned int)v2, v33, (unsigned int)v3, v4, v5, v6, v7, v8, v9);
+            v18 = v24;
+        } while (v22 != v18);
+        v17 = v10;
+    }
+    v38 = 0;
+    free(v17);
+    printf("--------------- %s composer %s ---------------\n", "HK89", "v1.9.6");
+    v39 = g_407744 * 20;
+    if (g_407744)
+    {
+        v38 = 0;
+        v40 = &g_406320->field_1;
+        do
+        {
+            v41 = v40 + 120;
+            v38 += *((char *)v40);
+            v40 = v41;
+        } while (&g_406320[60 + 60 * g_407744 + 60].field_1 != v40);
+    }
+    printf("Compilation of images... (pl_num=%d)\n", v38 & 4294967295);
+    if (g_407744)
+    {
+        v0 = (unsigned int)v38;
+        v42 = g_406320;
+        v43 = 0;
+        v44 = 0;
+        v45 = 0;
+        do
+        {
+            v46 = v45;
+            v47 = v44 * 120;
+            v48 = &(&v42->padding_0)[v47];
+            if (strstr(v48->field_8, ".png"))
+                v48->field_28 = sub_402760(v48);
+            else
+                v48->field_28 = sub_402e70(v48);
+            v42 = g_406320;
+            v49 = &(&g_406320->padding_0)[v47];
+            if (!v49->field_28)
+            {
+                printf("Failed to load file \"%s\"!(NULL ptr)\n", v49->field_8);
+                return 0;
+            }
+            v50 = v49->field_1;
+            if ((char)v50 == 1)
+            {
+                v51 = (unsigned int)v43 + 1;
+                *((unsigned int *)&(&v12)[4 * (v43 & 4294967295)]) = v49->field_6c;
+                v43 = v51;
+            }
+            else
+            {
+                v43 = v43;
+                if ((char)v50)
+                {
+                    v52 = &v49->field_30;
+                    v53 = v43 & 4294967295;
+                    do
+                    {
+                        v54 = (unsigned int)v53 + 1;
+                        v55 = v52 + 4;
+                        *((int *)&(&v12)[4 * (v53 & 4294967295)]) = *((int *)v52);
+                        v53 = v54;
+                        v52 = v55;
+                    } while ((unsigned short)v53 != ((unsigned short)v50 & 255) + (unsigned short)v43);
+                    v43 += v50;
+                }
+            }
+            v44 += 1;
+            v56 = v46 + v49->field_6c;
+            v49->field_70 = v39 + 4 + (unsigned int)v38 * 4 + v46;
+            v45 = v56;
+        } while (g_407744 > (unsigned int)v44);
+        v38 = v1;
+    }
+    v57 = 0;
+    puts("Compilation of blocks...");
+    v58 = 0;
+    if (g_407744)
+    {
+        v59 = &g_406340.field_0;
+        v60 = 0;
+        v57 = 0;
+        v61 = 0;
+        do
+        {
+            v62 = v59;
+            v63 = v61;
+            v64 = g_406320 + v60;
+            v65 = v64->field_0;
+            v62->field_f = v65;
+            v66 = v64->field_1c;
+            v67 = v64->field_70;
+            v62->field_a = v64->field_1c;
+            v68 = v64->field_1e;
+            v62->field_c = v64->field_1e;
+            v69 = v64->field_18;
+            v62->field_6 = v69;
+            v70 = v64->field_1a;
+            v62->field_0 = v67;
+            v62->field_8 = v70;
+            v71 = v64->field_1;
+            v62->field_4 = (char)v57;
+            v62->field_e = v71;
+            v62->field_10 = v64->field_20 | 0x400;
+            v62->field_12 = v64->field_21;
+            v62->field_13 = v64->field_22;
+            if ((unsigned short)v70 > 4660 || (unsigned short)v69 > 486 || (unsigned int)(v67 - 1) > -3)
+            {
+                puts("Invalid address, aborting!");
+                return 0;
+            }
+            if (v64->field_14 == 2)
+                v62->field_f = (char)v65 | 128;
+            v57 += v71;
+            v60 += 120;
+            v72 = v62 + 1;
+            v73 = v63 + 1;
+            printf("%2d. blokk: type=0x%02X, %s px=%3d, py=%3d, sx=%3d, sy=%3d, pic offs=0x%04X\n", v63, v65, (v62->field_f < 0 ? "RGBA" : "RGB "), v66, v68, v69, v70, v67);
+            v58 = g_407744;
+            v61 = v73;
+            v59 = v72;
+        } while (g_407744 > v61);
+    }
+    printf("Filling in the info table... (num_dblk=%d,num_pl=%d,par3=%d\n", v58, v57 & 4294967295, 2);
+    v74 = 0;
+    g_407740 = (unsigned short)v57;
+    g_407743 = 2;
+    g_407742 = g_407744;
+    v75 = 18446744073709551615;
+    v76 = strncpy(&v11, &g_407760, 128);
+    v77 = v76;
+    do
+    {
+        if (!v75)
+            break;
+    } while (*(v77));
+    v78 = fopen(strncat(v76, ".bin", v75 + 129), "wb");
+    fwrite(&g_407740, 4, 1, v78);
+    fwrite(&g_406340.field_0, 20, g_407744, v78);
+    fwrite(&v12, (unsigned int)v38 * 4, 1, v78);
+    printf("The number of written blocks is %d, their total size is %d bytes.\n", g_407744, g_407744 * 20);
+    while (true)
+    {
+        v79 = v74;
+        if (g_407744 <= (unsigned int)v79)
+        {
+            fclose(v78);
+            return 1;
+        }
+        v80 = v79 + 1;
+        v81 = sub_401b30(&g_406320[60 * v79], v78);
+        v74 = v80;
+        if (!v81)
+            return v81;
+    }
+}
+
+void _start(unsigned long a0, unsigned long a1, unsigned long long a2)
+{
+    unsigned long long v1;  // [bp+0x0]
+    unsigned long v2;  // [bp+0x8]
+    unsigned long long v3;  // rax
+
+    v1 = v3;
+    __libc_start_main(main, v1, &(char)v2, init, fini, a2, &v1, v1); /* do not return */
+}
+
+void sub_40193e()
+{
+    [D] Unsupported jumpkind Ijk_SigTRAP at address 4200766()
+}
+
+void sub_401940()
+{
+    return;
+}
+
+void sub_401950()
+{
+    return;
+}
+
+long long sub_401971()
+{
+    return 0;
+}
+
+extern char g_406300;
+
+void sub_4019c0()
+{
+    if (!g_406300)
+    {
+        sub_401950();
+        g_406300 = 1;
+    }
+    return;
+}
+
+void sub_4019f0()
+{
+}
+
+long long sub_401a00(char *a0, unsigned int a1, unsigned int a2, unsigned long a3, unsigned long a4, unsigned int a5)
+{
+    unsigned int v1;  // r8d
+    unsigned int v2;  // edx
+    unsigned long v3;  // rcx
+    unsigned int v4;  // edx
+    unsigned long v5;  // rax
+    char v6;  // r10b
+    char v7;  // bl
+    char v8;  // r11b
+    char *v9;  // rdx
+    unsigned long v10;  // rsi
+
+    v1 = a3 * a4;
+    v2 = a1 * (a2 + v1);
+    v3 = v2;
+    v4 = v2 + a1;
+    v5 = v4;
+    v6 = a0[2 + v3];
+    v7 = a0[v3];
+    v8 = a0[1 + v3];
+    v9 = v4 + a1 & 4294967295;
+    v10 = (a1 & 0xffffff00 | a0[1 + v5] == v8) & (v1 & 0xffffff00 | a0[2 + v5] == v6);
+    if (a5)
+    {
+        if (!(char)v10)
+        {
+            return 0;
+        }
+        else if (v7 != a0[v5])
+        {
+            return 0;
+        }
+        else if (a0[3 + v3] != a0[3 + v5])
+        {
+            return 0;
+        }
+        else if (v6 != *((char *)(a0 + v9 + 2)))
+        {
+            return 0;
+        }
+        else if (v8 == *((char *)(a0 + v9 + 1)))
+        {
+            return a0[3 + v3] == *((char *)(a0 + v9 + 3)) & ((unsigned int)v10 & 0xffffff00 | v7 == *((char *)(a0 + v9)));
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        if (v7 != a0[v5])
+        {
+            return 0;
+        }
+        else if (!(char)v10)
+        {
+            return 0;
+        }
+        else
+        {
+            return v7 == *((char *)(a0 + v9)) & ((unsigned int)v9 & 0xffffff00 | v8 == *((char *)(a0 + v9 + 1))) & ((unsigned int)v5 & 0xffffff00 | v6 == *((char *)(a0 + v9 + 2)));
+        }
+    }
+}
+
+void sub_401ae0(unsigned int a0, unsigned long long a1)
+{
+    sub_401ae3(a0, a1, a0);
+    return;
+}
+
+typedef struct struct_0 {
+    char field_0;
+    char padding_1[23];
+    unsigned short field_18;
+    unsigned short field_1a;
+    unsigned short field_1c;
+    unsigned short field_1e;
+    char field_20;
+} struct_0;
+
+extern unsigned long long g_406320;
+
+void sub_401ae3(unsigned long a0, unsigned long a1, unsigned long a2)
+{
+    struct_0 *v1;  // rax
+
+    v1 = g_406320 + a2 * 120;
+    printf("block%2d: type=%2d; posx=%3d; posy=%3d; sizex=%3d; sizey=%3d; align=%d\n", a2, v1->field_0, v1->field_1c, v1->field_1e, v1->field_18, v1->field_1a, v1->field_20);
+    return;
+}
+
+typedef struct struct_0 {
+    char padding_0[40];
+    void* field_28;
+    char padding_30[60];
+    unsigned int field_6c;
+} struct_0;
+
+typedef struct FILE_t {
+    unsigned int _flags;
+    char padding_4[4];
+    char *_IO_read_ptr;
+    char *_IO_read_end;
+    char *_IO_read_base;
+    char *_IO_write_base;
+    char *_IO_write_ptr;
+    char *_IO_write_end;
+    char *_IO_buf_base;
+    char *_IO_buf_end;
+    char *_IO_save_base;
+    char *_IO_backup_base;
+    char *_IO_save_end;
+    struct _IO_marker *_markers;
+    struct _IO_marker *_chain;
+    unsigned int _fileno;
+    unsigned int _flags2;
+    unsigned int _old_offset;
+    char padding_7c[4];
+    unsigned short _cur_column;
+    char _vtable_offset;
+    char _shortbuf[1];
+    char padding_84[4];
+    struct _IO_marker *_lock;
+    unsigned long long _offset;
+    struct _IO_codecvt *_codecvt;
+    struct _IO_wide_data *_wide_data;
+    void* _freeres_list;
+    char __pad5;
+    char padding_b1[7];
+    unsigned int _mode;
+    char _unused2[20];
+} FILE_t;
+
+typedef struct _IO_marker {
+    struct _IO_marker *_next;
+    struct _IO_marker *_sbuf;
+    unsigned int _pos;
+} _IO_marker;
+
+typedef struct _IO_codecvt {
+    char __cd_out;
+} _IO_codecvt;
+
+typedef struct _IO_wide_data {
+    unsigned short *_IO_read_ptr;
+    unsigned short *_IO_read_end;
+    unsigned short *_IO_read_base;
+    unsigned short *_IO_write_base;
+    unsigned short *_IO_write_ptr;
+    unsigned short *_IO_write_end;
+    unsigned short *_IO_buf_base;
+    unsigned short *_IO_buf_end;
+    unsigned short *_IO_save_base;
+    unsigned short *_IO_backup_base;
+    unsigned short *_IO_save_end;
+    __mbstate_t _IO_state;
+    char padding_5d[3];
+    char _IO_last_state;
+    char padding_61[7];
+    unsigned short _shortbuf[1];
+    _IO_marker _wide_vtable;
+} _IO_wide_data;
+
+typedef struct __mbstate_t {
+    unsigned int __count;
+    char __value;
+} __mbstate_t;
+
+long long sub_401b30(struct_0 *a0, FILE_t *a1)
+{
+    if (a0->field_6c > 0x177000)
+    {
+        printf("append_pix: picture is too large! (%d byte)\n", a0->field_6c);
+        return 0;
+    }
+    fwrite(a0->field_28, a0->field_6c, 1, a1);
+    printf("Added to output %d bytes\n", a0->field_6c);
+    return 1;
+}
+
+extern unsigned long long g_406140[4];
+extern char g_406148[4];
+
+long long sub_401b80(char *a0)
+{
+    void* v1;  // rbx
+
+    v1 = 0;
+    while (strcmp(a0, *((long long *)(0x10 * v1 + (char *)&g_406140[0]))))
+    {
+        v1 += 1;
+        if (v1 == 27)
+            return 0;
+    }
+    return g_406148[16 * (v1 & 4294967295)];
+}
+
+long long sub_401be0(char *a0)
+{
+    unsigned long long v1;  // rcx
+    char *v2;  // rdi
+    char *v3;  // 4096
+    unsigned long long v4;  // cc_op
+    unsigned long long v5;  // cc_dep1
+    unsigned long long v6;  // cc_dep2
+    unsigned long v7;  // cc_ndep
+    unsigned long long v8;  // cc_ndep
+    unsigned long long v9;  // cc_op
+    unsigned long v10;  // cc_dep1
+    void* v11;  // cc_dep2
+    char *v12;  // rdi
+    unsigned long long v13;  // rcx
+    unsigned long long v14;  // cc_ndep
+    unsigned long long v15;  // cc_op
+    unsigned long v16;  // cc_dep1
+    void* v17;  // cc_dep2
+    char *v18;  // rdi
+    unsigned long long v19;  // rcx
+    unsigned long long v20;  // cc_ndep
+    unsigned long long v21;  // cc_op
+    unsigned long v22;  // cc_dep1
+    void* v23;  // cc_dep2
+    char *v24;  // rdi
+    unsigned long long v25;  // rcx
+    unsigned long long v26;  // cc_ndep
+    unsigned long long v27;  // cc_op
+    unsigned long v28;  // cc_dep1
+    void* v29;  // cc_dep2
+    char *v30;  // rdi
+    unsigned long long v31;  // rcx
+    unsigned long long v32;  // cc_ndep
+    unsigned long long v33;  // cc_op
+    unsigned long v34;  // cc_dep1
+    void* v35;  // cc_dep2
+    char *v36;  // rdi
+    unsigned long long v37;  // rcx
+    unsigned long long v38;  // cc_ndep
+    unsigned long long v39;  // cc_op
+    unsigned long v40;  // cc_dep1
+    void* v41;  // cc_dep2
+    char *v42;  // rdi
+    unsigned long long v43;  // rcx
+    unsigned long long v44;  // cc_ndep
+    unsigned long long v45;  // cc_op
+    unsigned long v46;  // cc_dep1
+    void* v47;  // cc_dep2
+    char *v48;  // rdi
+    unsigned long long v49;  // rcx
+    unsigned long long v50;  // cc_ndep
+    unsigned long long v51;  // cc_op
+    unsigned long v52;  // cc_dep1
+    void* v53;  // cc_dep2
+    char *v54;  // rdi
+    unsigned long long v55;  // rcx
+    unsigned long long v56;  // cc_ndep
+    unsigned long long v57;  // cc_op
+    unsigned long v58;  // cc_dep1
+    void* v59;  // cc_dep2
+    char *v60;  // rdi
+    unsigned long long v61;  // rcx
+    unsigned long long v62;  // cc_ndep
+    unsigned long long v63;  // cc_op
+    unsigned long v64;  // cc_dep1
+    void* v65;  // cc_dep2
+    char *v66;  // rdi
+    unsigned long long v67;  // rcx
+    unsigned long long v68;  // cc_ndep
+    unsigned long long v69;  // cc_op
+    unsigned long v70;  // cc_dep1
+    void* v71;  // cc_dep2
+    char *v72;  // rdi
+    unsigned long long v73;  // rcx
+    unsigned long long v74;  // cc_ndep
+    unsigned long long v75;  // cc_op
+    unsigned long v76;  // cc_dep1
+    void* v77;  // cc_dep2
+    char *v78;  // rdi
+    unsigned long long v79;  // rcx
+    unsigned long long v80;  // cc_ndep
+    unsigned long long v81;  // cc_op
+    unsigned long v82;  // cc_dep1
+    void* v83;  // cc_dep2
+    char *v84;  // rdi
+    unsigned long long v85;  // rcx
+    unsigned long long v86;  // cc_ndep
+    unsigned long long v87;  // cc_op
+    unsigned long v88;  // cc_dep1
+    void* v89;  // cc_dep2
+    char *v90;  // rdi
+    unsigned long long v91;  // rcx
+    unsigned long long v92;  // cc_ndep
+    unsigned long long v93;  // cc_op
+    unsigned long v94;  // cc_dep1
+    void* v95;  // cc_dep2
+    char *v96;  // rdi
+    unsigned long long v97;  // rcx
+    unsigned long long v98;  // cc_op
+    unsigned long v99;  // cc_dep1
+    void* v100;  // cc_dep2
+    char *v101;  // rdi
+    unsigned long long v102;  // rcx
+    unsigned int v103;  // r8d
+
+    v1 = 10;
+    v2 = "BLK_PREVI";
+    v3 = a0;
+    do
+    {
+        if (!v1)
+            break;
+    } while (*(v3) == *(v2));
+    v8 = amd64g_calculate_rflags_c(v4, v5, v6, v7) & 1;
+    v9 = 17;
+    v10 = (char)amd64g_calculate_condition(7, v4, v5, v6, v7) - 0 - ((char)amd64g_calculate_rflags_c(v4, v5, v6, v7) & 1);
+    v11 = 0;
+    if (!(char)amd64g_calculate_condition(7, v4, v5, v6, v7) - ((char)amd64g_calculate_rflags_c(v4, v5, v6, v7) & 1))
+        return 1;
+    v12 = "BLK_BGIMG";
+    v13 = 10;
+    v3 = a0;
+    do
+    {
+        if (!v13)
+            break;
+    } while (*(v3) == *(v12));
+    v14 = amd64g_calculate_rflags_c(v9, v10, v11, v8) & 1;
+    v15 = 17;
+    v16 = (char)amd64g_calculate_condition(7, v9, v10, v11, v8) - 0 - ((char)amd64g_calculate_rflags_c(v9, v10, v11, v8) & 1);
+    v17 = 0;
+    if (!(char)amd64g_calculate_condition(7, v9, v10, v11, v8) - ((char)amd64g_calculate_rflags_c(v9, v10, v11, v8) & 1))
+        return 2;
+    v18 = "BLK_ARMH";
+    v19 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v19)
+            break;
+    } while (*(v3) == *(v18));
+    v20 = amd64g_calculate_rflags_c(v15, v16, v17, v14) & 1;
+    v21 = 17;
+    v22 = (char)amd64g_calculate_condition(7, v15, v16, v17, v14) - 0 - ((char)amd64g_calculate_rflags_c(v15, v16, v17, v14) & 1);
+    v23 = 0;
+    if (!(char)amd64g_calculate_condition(7, v15, v16, v17, v14) - ((char)amd64g_calculate_rflags_c(v15, v16, v17, v14) & 1))
+        return 3;
+    v24 = "BLK_ARMM";
+    v25 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v25)
+            break;
+    } while (*(v3) == *(v24));
+    v26 = amd64g_calculate_rflags_c(v21, v22, v23, v20) & 1;
+    v27 = 17;
+    v28 = (char)amd64g_calculate_condition(7, v21, v22, v23, v20) - 0 - ((char)amd64g_calculate_rflags_c(v21, v22, v23, v20) & 1);
+    v29 = 0;
+    if (!(char)amd64g_calculate_condition(7, v21, v22, v23, v20) - ((char)amd64g_calculate_rflags_c(v21, v22, v23, v20) & 1))
+        return 4;
+    v30 = "BLK_ARMS";
+    v31 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v31)
+            break;
+    } while (*(v3) == *(v30));
+    v32 = amd64g_calculate_rflags_c(v27, v28, v29, v26) & 1;
+    v33 = 17;
+    v34 = (char)amd64g_calculate_condition(7, v27, v28, v29, v26) - 0 - ((char)amd64g_calculate_rflags_c(v27, v28, v29, v26) & 1);
+    v35 = 0;
+    if (!(char)amd64g_calculate_condition(7, v27, v28, v29, v26) - ((char)amd64g_calculate_rflags_c(v27, v28, v29, v26) & 1))
+        return 5;
+    v36 = "BLK_YEAR";
+    v37 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v37)
+            break;
+    } while (*(v3) == *(v36));
+    v38 = amd64g_calculate_rflags_c(v33, v34, v35, v32) & 1;
+    v39 = 17;
+    v40 = (char)amd64g_calculate_condition(7, v33, v34, v35, v32) - 0 - ((char)amd64g_calculate_rflags_c(v33, v34, v35, v32) & 1);
+    v41 = 0;
+    if (!(char)amd64g_calculate_condition(7, v33, v34, v35, v32) - ((char)amd64g_calculate_rflags_c(v33, v34, v35, v32) & 1))
+        return 6;
+    v42 = "BLK_MONTH";
+    v43 = 10;
+    v3 = a0;
+    do
+    {
+        if (!v43)
+            break;
+    } while (*(v3) == *(v42));
+    v44 = amd64g_calculate_rflags_c(v39, v40, v41, v38) & 1;
+    v45 = 17;
+    v46 = (char)amd64g_calculate_condition(7, v39, v40, v41, v38) - 0 - ((char)amd64g_calculate_rflags_c(v39, v40, v41, v38) & 1);
+    v47 = 0;
+    if (!(char)amd64g_calculate_condition(7, v39, v40, v41, v38) - ((char)amd64g_calculate_rflags_c(v39, v40, v41, v38) & 1))
+        return 7;
+    v48 = "BLK_DAY";
+    v49 = 8;
+    v3 = a0;
+    do
+    {
+        if (!v49)
+            break;
+    } while (*(v3) == *(v48));
+    v50 = amd64g_calculate_rflags_c(v45, v46, v47, v44) & 1;
+    v51 = 17;
+    v52 = (char)amd64g_calculate_condition(7, v45, v46, v47, v44) - 0 - ((char)amd64g_calculate_rflags_c(v45, v46, v47, v44) & 1);
+    v53 = 0;
+    if (!(char)amd64g_calculate_condition(7, v45, v46, v47, v44) - ((char)amd64g_calculate_rflags_c(v45, v46, v47, v44) & 1))
+        return 8;
+    v54 = "BLK_HOUR";
+    v55 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v55)
+            break;
+    } while (*(v3) == *(v54));
+    v56 = amd64g_calculate_rflags_c(v51, v52, v53, v50) & 1;
+    v57 = 17;
+    v58 = (char)amd64g_calculate_condition(7, v51, v52, v53, v50) - 0 - ((char)amd64g_calculate_rflags_c(v51, v52, v53, v50) & 1);
+    v59 = 0;
+    if (!(char)amd64g_calculate_condition(7, v51, v52, v53, v50) - ((char)amd64g_calculate_rflags_c(v51, v52, v53, v50) & 1))
+        return 9;
+    v60 = "BLK_MIN";
+    v61 = 8;
+    v3 = a0;
+    do
+    {
+        if (!v61)
+            break;
+    } while (*(v3) == *(v60));
+    v62 = amd64g_calculate_rflags_c(v57, v58, v59, v56) & 1;
+    v63 = 17;
+    v64 = (char)amd64g_calculate_condition(7, v57, v58, v59, v56) - 0 - ((char)amd64g_calculate_rflags_c(v57, v58, v59, v56) & 1);
+    v65 = 0;
+    if (!(char)amd64g_calculate_condition(7, v57, v58, v59, v56) - ((char)amd64g_calculate_rflags_c(v57, v58, v59, v56) & 1))
+        return 10;
+    v66 = "BLK_SEC";
+    v67 = 8;
+    v3 = a0;
+    do
+    {
+        if (!v67)
+            break;
+    } while (*(v3) == *(v66));
+    v68 = amd64g_calculate_rflags_c(v63, v64, v65, v62) & 1;
+    v69 = 17;
+    v70 = (char)amd64g_calculate_condition(7, v63, v64, v65, v62) - 0 - ((char)amd64g_calculate_rflags_c(v63, v64, v65, v62) & 1);
+    v71 = 0;
+    if (!(char)amd64g_calculate_condition(7, v63, v64, v65, v62) - ((char)amd64g_calculate_rflags_c(v63, v64, v65, v62) & 1))
+        return 11;
+    v72 = "BLK_AMPM";
+    v73 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v73)
+            break;
+    } while (*(v3) == *(v72));
+    v74 = amd64g_calculate_rflags_c(v69, v70, v71, v68) & 1;
+    v75 = 17;
+    v76 = (char)amd64g_calculate_condition(7, v69, v70, v71, v68) - 0 - ((char)amd64g_calculate_rflags_c(v69, v70, v71, v68) & 1);
+    v77 = 0;
+    if (!(char)amd64g_calculate_condition(7, v69, v70, v71, v68) - ((char)amd64g_calculate_rflags_c(v69, v70, v71, v68) & 1))
+        return 12;
+    v78 = "BLK_WEEKD";
+    v79 = 10;
+    v3 = a0;
+    do
+    {
+        if (!v79)
+            break;
+    } while (*(v3) == *(v78));
+    v80 = amd64g_calculate_rflags_c(v75, v76, v77, v74) & 1;
+    v81 = 17;
+    v82 = (char)amd64g_calculate_condition(7, v75, v76, v77, v74) - 0 - ((char)amd64g_calculate_rflags_c(v75, v76, v77, v74) & 1);
+    v83 = 0;
+    if (!(char)amd64g_calculate_condition(7, v75, v76, v77, v74) - ((char)amd64g_calculate_rflags_c(v75, v76, v77, v74) & 1))
+        return 13;
+    v84 = "BLK_STEPS";
+    v85 = 10;
+    v3 = a0;
+    do
+    {
+        if (!v85)
+            break;
+    } while (*(v3) == *(v84));
+    v86 = amd64g_calculate_rflags_c(v81, v82, v83, v80) & 1;
+    v87 = 17;
+    v88 = (char)amd64g_calculate_condition(7, v81, v82, v83, v80) - 0 - ((char)amd64g_calculate_rflags_c(v81, v82, v83, v80) & 1);
+    v89 = 0;
+    if (!(char)amd64g_calculate_condition(7, v81, v82, v83, v80) - ((char)amd64g_calculate_rflags_c(v81, v82, v83, v80) & 1))
+        return 14;
+    v90 = "BLK_PULS";
+    v91 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v91)
+            break;
+    } while (*(v3) == *(v90));
+    v92 = amd64g_calculate_rflags_c(v87, v88, v89, v86) & 1;
+    v93 = 17;
+    v94 = (char)amd64g_calculate_condition(7, v87, v88, v89, v86) - 0 - ((char)amd64g_calculate_rflags_c(v87, v88, v89, v86) & 1);
+    v95 = 0;
+    if (!(char)amd64g_calculate_condition(7, v87, v88, v89, v86) - ((char)amd64g_calculate_rflags_c(v87, v88, v89, v86) & 1))
+        return 15;
+    v96 = "BLK_CALOR";
+    v97 = 10;
+    v3 = a0;
+    do
+    {
+        if (!v97)
+            break;
+    } while (*(v3) == *(v96));
+    v98 = 17;
+    v99 = (char)amd64g_calculate_condition(7, v93, v94, v95, v92) - 0 - ((char)amd64g_calculate_rflags_c(v93, v94, v95, v92) & 1);
+    v100 = 0;
+    if (!(char)amd64g_calculate_condition(7, v93, v94, v95, v92) - ((char)amd64g_calculate_rflags_c(v93, v94, v95, v92) & 1))
+        return 16;
+    v101 = "BLK_DIST";
+    v102 = 9;
+    v3 = a0;
+    do
+    {
+        if (!v102)
+            break;
+    } while (*(v3) == *(v101));
+    if (!(char)amd64g_calculate_condition(7, v98, v99, v100, amd64g_calculate_rflags_c(v93, v94, v95, v92) & 1) - ((char)amd64g_calculate_rflags_c(v98, v99, v100, amd64g_calculate_rflags_c(v93, v94, v95, v92) & 1) & 1))
+    {
+        return 17;
+    }
+    else if (!strcmp(a0, "BLK_BATTN"))
+    {
+        return 18;
+    }
+    else if (!strcmp(a0, "BLK_BERRY"))
+    {
+        return 22;
+    }
+    else if (!strcmp(a0, "BLK_ANIM"))
+    {
+        return 23;
+    }
+    else if (!strcmp(a0, "BLK_BATTS"))
+    {
+        return 24;
+    }
+    else if (!strcmp(a0, "BLK_WEAT"))
+    {
+        return 25;
+    }
+    else if (!strcmp(a0, "BLK_TEMP"))
+    {
+        return 26;
+    }
+    else if (!strcmp(a0, "BLK_HOURH"))
+    {
+        return 39;
+    }
+    else if (!strcmp(a0, "BLK_HOURL"))
+    {
+        return 40;
+    }
+    else if (!strcmp(a0, "BLK_MINH"))
+    {
+        return 41;
+    }
+    else if (!strcmp(a0, "BLK_MINL"))
+    {
+        return 42;
+    }
+    else
+    {
+        return v103;
+    }
+}
+
+extern void* g_406320;
+extern char g_407744;
+
+void sub_401f40(char *a0, char a1, char *a2, unsigned long a3, unsigned long a4, unsigned short a5, unsigned short a6, unsigned short a7, unsigned short a8, char a9, char a10, char a11)
+{
+    char *v0;  // [bp-0x48]
+    unsigned long long v1;  // [bp-0x40]
+    char v2;  // al
+    unsigned long long v3;  // rbp
+    unsigned long long v4;  // rax
+    unsigned long long v5;  // cc_op
+    unsigned long v6;  // cc_dep1
+    unsigned long long v7;  // cc_dep2
+    char *v8;  // rdi
+    unsigned long v9;  // rbx
+    unsigned long long v10;  // rcx
+    unsigned long v11;  // cc_ndep
+    unsigned long long v12;  // rax
+
+    v2 = sub_401b80(a0);
+    v3 = (g_407744 + 1) * 120;
+    v4 = realloc(g_406320, v3);
+    if (!v4)
+    {
+        puts("Allocation error!");
+        exit(0); /* do not return */
+    }
+    v1 = v4;
+    printf("New list_dblock size=%d\n", v3);
+    v5 = 3;
+    v6 = g_407744;
+    v7 = 1;
+    g_407744 = g_407744 + 1;
+    v8 = "RGBA";
+    v9 = v1 + v3 - 120;
+    g_406320 = v1;
+    v10 = 5;
+    *((char *)v9) = v2;
+    do
+    {
+        if (!v10)
+            break;
+    } while (*(v0) == *(v8));
+    *((unsigned int *)(v9 + 20)) = (!(char)amd64g_calculate_condition(7, v5, v6, v7, v11) - 0 - ((char)amd64g_calculate_rflags_c(v5, v6, v7, v11) & 1)) + 1;
+    v12 = strdup(a2);
+    *((unsigned short *)(v9 + 24)) = a5;
+    *((unsigned long long *)(v9 + 8)) = v12;
+    *((char *)(v9 + 1)) = a1;
+    *((unsigned short *)(v9 + 28)) = a7;
+    *((unsigned short *)(v9 + 30)) = a8;
+    *((unsigned short *)(v9 + 26)) = a6;
+    *((char *)(v9 + 32)) = a9;
+    *((char *)(v9 + 33)) = a10;
+    *((char *)(v9 + 34)) = a11;
+    return;
+}
+
+void sub_402060(char a0, unsigned long a1, unsigned long a2)
+{
+    return;
+}
+
+void sub_402080(unsigned long a0, unsigned int a1, unsigned int a2, unsigned int a3)
+{
+    *((unsigned int *)(a0 + a1 * 4)) = a2 * 0x10000 | a3;
+    return;
+}
+
+long long sub_402090(char a0, char a1, char a2, char a3, char a4, char a5, char a6, char a7)
+{
+    unsigned int v0;  // edx
+
+    if (a0 != a4)
+    {
+        return 0;
+    }
+    else if (a1 == a5)
+    {
+        return a3 == a7 & (v0 & 0xffffff00 | a2 == a6);
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void sub_4020c0(char a0, char a1, char a2, char a3, char a4, char a5)
+{
+    return;
+}
+
+long long sub_4020e0(char *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5)
+{
+    if (a4 - a2 <= 2)
+        return 0;
+    return sub_401a00(a0, a1, a2, a3, a4, a5);
+}
+
+long long sub_402100(unsigned int a0, char a1, unsigned int a2, char a3, char a4, unsigned int a5, unsigned long a6, unsigned int a7, unsigned int *a8, unsigned long a9)
+{
+    char v0;  // [bp+0x0]
+    unsigned int v1;  // r9d
+
+    v1 = *(a8);
+    if (!v1)
+        return a2;
+    if (v1 > 0)
+        *(a8) = v1 - 1;
+    vvar_8 = a4;
+    vvar_6 = a3;
+    return printf("first %s: j=%3d, cnt=%3d, R:%02X G:%02X B:%02X %c:%02X\n", a9, a5, a0 & 127, a1, a2, *((long long *)&v0), a6, *((long long *)&a7));
+}
+
+extern struct_0 *g_406328;
+
+void sub_402170(char a0, unsigned int a1, unsigned int a2, char a3, unsigned int a4)
+{
+    char *v1;  // rax
+    unsigned long v2;  // rdx
+    char *v3;  // rsi
+    char *v4;  // rax
+
+    v1 = g_406328;
+    v2 = a2 * 0x100 & 0xffff0000 | (unsigned short)a2 * 0x100 & 0xf800 | a1 * 8 & 0xffff0000 | (unsigned short)a1 * 8 & 2016 | a0 >> 3;
+    v3 = v1 + 1;
+    if (a4)
+    {
+        g_406328 = v3;
+        *(v1) = a3;
+        v1 = g_406328;
+        v3 = g_406328 + 1;
+    }
+    g_406328 = v3;
+    *(v1) = (unsigned short)v2 >> 8;
+    v4 = g_406328;
+    g_406328 = &v4[1];
+    *(v4) = v2;
+    return;
+}
+
+long long sub_4021e0(char *a0, char *a1, unsigned long a2)
+{
+    char v0[32];  // [bp-0x848]
+    char v1[2056];  // [bp-0x828]
+    char *v3;  // r8
+    char *v4;  // rbx
+
+    *(v1) = 0;
+    v3 = &v1;
+    if ((unsigned int)a2 > 0)
+    {
+        v4 = 0;
+        while (true)
+        {
+            if (*((char *)(a0 + v4)) != *((char *)(a1 + v4)))
+                return 0;
+            sprintf(&v0, "%02X, ", *((char *)(a0 + v4)));
+            v3 = strcat(&v1, &v0);
+            if ((a2 - 1 & 4294967295) == v4)
+                break;
+            v4 += 1;
+        }
+    }
+    printf("magic found for: %s\n", v3);
+    return 1;
+}
+
+extern struct_0 *g_406328;
+
+long long sub_402290(char *a0, unsigned int *a1, unsigned int a2, unsigned int a3, unsigned int a4)
+{
+    char v0;  // [bp-0x89]
+    unsigned int v1;  // [bp-0x88]
+    unsigned int v2;  // [bp-0x84]
+    char *v3;  // [bp-0x80], Other Possible Types: char
+    char v4;  // [bp-0x80]
+    unsigned int *v5;  // [bp-0x70]
+    void* v6;  // [bp-0x68]
+    unsigned int v7;  // [bp-0x60]
+    unsigned int v8;  // [bp-0x5c]
+    unsigned int v9;  // [bp-0x58]
+    unsigned int v10;  // [bp-0x54]
+    unsigned long v11;  // [bp-0x50]
+    unsigned int v12;  // [bp-0x48]
+    char v13;  // [bp-0x44]
+    char v14;  // [bp-0x43]
+    char v15;  // [bp-0x42]
+    char v16;  // [bp-0x41]
+    unsigned long long v18;  // rbp
+    unsigned long long v19;  // r12
+    unsigned int v21;  // ebp
+    unsigned int v22;  // r12d
+    char v23[4];  // rbx
+    unsigned int v24;  // r9d
+    char v25;  // r14b
+    unsigned long long v26;  // r13
+    unsigned int v27;  // r9d
+    char v28;  // r11b
+    unsigned long long v29;  // r10
+    char v30;  // al
+    char *v31;  // r15
+    char *v32;  // r10
+    char v33;  // al
+    unsigned int v34;  // r9d
+    unsigned int v35;  // eax
+    char v36;  // dl
+    unsigned int v37;  // r9d
+    char v38;  // cl
+    unsigned int v39;  // edx
+    unsigned int v40;  // esi
+    char v41;  // dil
+    char v45;  // al
+    unsigned int v46;  // eax
+    unsigned int v47;  // esi
+    unsigned int v48;  // eax
+    char *v52;  // rdx
+
+    v18 = a3 * 4;
+    v2 = a4;
+    v9 = (unsigned int)v18 + 4098;
+    v5 = malloc(v9);
+    if (!v5)
+        return v5;
+    v19 = v18 & 4294967295;
+    memset(v5, 0, v19);
+    v52 = (char *)v5 + v19;
+    g_406328 = v52;
+    if (a3 > 0)
+    {
+        v10 = 0;
+        v11 = a3 - 1;
+        v6 = 0;
+        v12 = v2;
+        while (true)
+        {
+            v7 = (int)v6;
+            v8 = v52 - v5;
+            if (a2 > 0)
+            {
+                v21 = 0;
+                v22 = 0;
+                v2 = 0;
+                v23 = &a0[4 * v10];
+                v24 = v12;
+                while (true)
+                {
+                    v27 = v24;
+                    v28 = v25;
+                    v29 = v26 & 4294967295;
+                    v25 = v23[2];
+                    v26 = v23[1];
+                    v3 = v0;
+                    v0 = v23[0];
+                    v14 = v13;
+                    v13 = v23[3];
+                    if (!v2)
+                    {
+                        if (a2 - v21 > 2 && (int)sub_401a00(a0, 4, v21, v7, a2, v27))
+                        {
+                            v31 = g_406328;
+                            v2 = 1;
+                            v22 += 1;
+                            g_406328 = &v31[1];
+                            *(v31) = 129;
+                        }
+                        else
+                        {
+                            if (!v21 || *(v31) == 127)
+                            {
+                                v31 = g_406328;
+                                v22 += 1;
+                                g_406328 = &v31[1];
+                                v33 = 1;
+                                *(v31) = 0;
+                            }
+                            else
+                            {
+                                v33 = *(v31) + 1;
+                            }
+                            *(v31) = v33;
+                        }
+                        sub_402170(v25, (unsigned int)v26 & 255, v0, v13, v37);
+                        v22 = (v37) + v22 + 2;
+                        v34 = v37;
+                        goto LABEL_4023f6;
+                    }
+                    v52 = v52 & 0xffffffffffffff00 | (char)v26 == (char)v29;
+                    v30 = v28 == v25 & (char)v52;
+                    if (!v27)
+                    {
+                        if (v0 == v4 && v30)
+                            goto LABEL_4025e7;
+LABEL_40246e:
+                        v31 = g_406328;
+                        v32 = v31 + 1;
+                        if (a2 - v21 > 2 && !((v3 = v32, v32 = v3, !(int)sub_401a00(a0, 4, v21, (unsigned long long)v7, a2, v27))))
+                        {
+                            g_406328 = v3;
+                            *(v31) = 129;
+                        }
+                        else
+                        {
+                            g_406328 = v32;
+                            v2 = 0;
+                            *(v31) = 1;
+                        }
+                        v38 = v13;
+                        v39 = v0;
+                        v40 = (unsigned int)v26 & 255;
+                        v41 = v25;
+                    }
+                    else
+                    {
+                        if (!(v30 && v0 == v4 && v13 == v14))
+                            goto LABEL_40246e;
+LABEL_4025e7:
+                        if (*(v31) != 255)
+                        {
+                            *(v31) = *(v31) + 1;
+                            v34 = v27;
+LABEL_4023f6:
+                            v21 += 1;
+                            v23 += 1;
+                            v24 = v34;
+                            if (a2 == v21)
+                                break;
+                            continue;
+                        }
+                        else
+                        {
+                            v31 = g_406328;
+                            g_406328 = &v31[1];
+                            if (v1 - v21 > 2)
+                            {
+                                v16 = v29;
+                                v15 = v28;
+                                v35 = sub_401a00(a0, 4, v21, v7, v1, v27);
+                                v28 = v15;
+                                v29 = v16;
+                                v36 = (-(v35 < 1) & 4294967168) - 127;
+                                v2 = (v35 ? v2 : 0);
+                            }
+                            else
+                            {
+                                v2 = 0;
+                                v36 = 1;
+                            }
+                            *(v31) = v36;
+                            v38 = v14;
+                            v40 = v29;
+                            v41 = v28;
+                            v39 = v4;
+                        }
+                    }
+                    sub_402170(v41, v40, v39, v38, v37);
+                    v21 += 1;
+                    v23 += 1;
+                    v22 = (v37) + v22 + 3;
+                    v24 = v37;
+                    if (a2 == v21)
+                        break;
+                }
+                v52 = g_406328;
+                v8 |= v22 * 0x200000;
+                v18 = g_406328 - v5 & 4294967295;
+            }
+            else
+            {
+                v18 = v8;
+            }
+            if ((unsigned int)(v9 - v18) <= 4095)
+            {
+                v9 += 0x1000;
+                v5 = realloc(v5, v9);
+                v52 = (char *)v5 + (v18 & 4294967295);
+                g_406328 = v52;
+            }
+            *((unsigned int *)((char *)v5 + 0x4 * v6)) = v8;
+            v10 += a2;
+            if (v11 == v6)
+                break;
+            v6 += 1;
+        }
+    }
+    *(a1) = v18;
+    if (!(v45 & 3))
+        return v5;
+    v46 = ((v18 & 4294967295) >> 31 & 4294967295) >> 30;
+    v47 = v46 - ((unsigned int)v18 + v46 & 3) + 4;
+    v48 = 0;
+    while (true)
+    {
+        v48 += 1;
+        g_406328 = &v52[1];
+        *(v52) = 0;
+        if (v47 == v48)
+            break;
+        v52 = g_406328;
+    }
+    *(a1) = *(a1) + v47;
+    return v5;
+}
+
+typedef struct struct_0 {
+    char padding_0[1];
+    char field_1;
+    char padding_2[6];
+    char *field_8;
+    char padding_10[4];
+    unsigned int field_14;
+    unsigned short field_18;
+    unsigned short field_1a;
+    char padding_1c[80];
+    unsigned int field_6c;
+} struct_0;
+
+long long sub_402760(struct_0 *a0)
+{
+    void* v0;  // [bp-0x1f8]
+    unsigned int v1;  // [bp-0x1ec]
+    unsigned int v2;  // [bp-0x1e8]
+    unsigned int v3;  // [bp-0x1e4]
+    unsigned int v4;  // [bp-0x1e0], Other Possible Types: unsigned long
+    unsigned int v5;  // [bp-0x1e0]
+    char *v6;  // [bp-0x1d8]
+    unsigned int v7;  // [bp-0x1d0]
+    unsigned int v8;  // [bp-0x1cc]
+    unsigned int v9;  // [bp-0x1c8]
+    unsigned int v10;  // [bp-0x1c4]
+    char *v11;  // [bp-0x1c0]
+    char v12;  // [bp-0x1b6]
+    char v13;  // [bp-0x1b6]
+    char v14;  // [bp-0x1b5]
+    int v15;  // [bp-0x1b4]
+    char v16[4];  // [bp-0x1ad]
+    char v17;  // [bp-0x1a9]
+    char v18;  // [bp-0x1a8]
+    unsigned int v19;  // [bp-0x1a0]
+    unsigned int v20;  // [bp-0x19c]
+    unsigned int v21;  // [bp-0x198]
+    unsigned int v22;  // [bp-0x194]
+    char v23;  // [sp-0x138]
+    char v24;  // [bp-0x38]
+    unsigned long long v26;  // rcx
+    char *v27;  // r12
+    void* *v28;  // rdi
+    unsigned int v29;  // eax
+    unsigned long v30;  // rdx
+    char *v31;  // rbp
+    char *v32;  // rsi
+    char *v33;  // rdi
+    unsigned int v34;  // r12d
+    unsigned long v35;  // r13
+    unsigned long long v36;  // rax
+    unsigned long v37;  // rsi
+    char *v38;  // r12
+    void* v39;  // rbp
+    void* v40;  // r15, Other Possible Types: unsigned long long
+    void* v41;  // r13
+    unsigned int v42;  // eax
+
+    v26 = 13;
+    v27 = a0->field_8;
+    strncpy(v16, ".png", 4);
+    v28 = &v18;
+    for (v17 = 0; v26; v28 += 1)
+    {
+        v26 -= 1;
+        *(v28) = 0;
+    }
+    v19 = 1;
+    v29 = strlen(v27);
+    v30 = a0->field_1;
+    if (v27[1 + v29] != 47)
+    {
+        v31 = &v23;
+        v32 = v27;
+        v33 = &v23;
+        if ((v30 & 255) > 1)
+        {
+            strncpy(v33, v32, 0x100);
+            v24 = 0;
+            v2 = 1;
+            v8 = 1;
+            v1 = 0;
+        }
+        else
+        {
+            strncpy(v33, v32, 0x100);
+            v24 = 0;
+            v2 = 1;
+            v8 = 0;
+            v1 = 0;
+        }
+    }
+    else if ((v30 & 255) > 1)
+    {
+        v8 = 0;
+        v31 = &v23;
+        v2 = (unsigned int)v30 & 255;
+        v1 = 1;
+    }
+    else
+    {
+        return 0;
+    }
+    v34 = 0;
+    v3 = a0->field_14 == 2;
+    v40 = 0;
+    v9 = v3 + 3;
+    while (true)
+    {
+        if (!v1)
+        {
+            v12 = v12;
+            if (!(!png_image_begin_read_from_file(&v18, v31)))
+                goto LABEL_402898;
+LABEL_40282f:
+            v34 += 1;
+            if (v2 == v34)
+                break;
+        }
+        else
+        {
+            strncpy(v31, a0->field_8, 127);
+            v13 = (char)v34 + 48;
+            v14 = 0;
+            strncat(v31, &v13, 127);
+            strncat(v31, &(unsigned int)v16, 127);
+            v12 = v13;
+            if (!png_image_begin_read_from_file(&v18, v31))
+                goto LABEL_40282f;
+LABEL_402898:
+            v35 = v20;
+            v22 = 3;
+            v4 = v21;
+            v36 = malloc((unsigned int)v35 * v4 * 4);
+            a0->field_18 = v35;
+            v0 = v36;
+            if (v0 && png_image_finish_read(&v18, 0))
+            {
+                if (!v8)
+                {
+                    v40 = sub_402290(v0, &v15, a0->field_18, a0->field_1a, v3);
+                    a0->field_6c = (int)v15;
+                }
+                else
+                {
+                    v37 = a0->field_1;
+                    a0->field_6c = 0;
+                    if ((unsigned int)v37)
+                    {
+                        v7 = (int)((v5 >> 31 CONCAT v5) % (v37 & 255)) CONCAT (int)((v5 >> 31 CONCAT v5) / (v37 & 255));
+                        v6 = &v15;
+                        v10 = v34;
+                        v38 = v0;
+                        v11 = v31;
+                        v39 = 0;
+                        v4 = v9 * v7 * (unsigned int)v35;
+                        do
+                        {
+                            v41 = sub_402290(v38, v6, a0->field_18, v7, v3);
+                            v40 = realloc(v40, (int)v15 + a0->field_6c);
+                            memcpy(a0->field_6c + v40, v41, (int)v15);
+                            free(v41);
+                            v42 = (int)v15;
+                            a0->field_6c = a0->field_6c + v42;
+                            v38 = &v38[v4];
+                            *((unsigned int *)(48 + &a0->padding_0[0] + 0x4 * v39)) = v42;
+                            v39 += 1;
+                        } while (a0->field_1 > (unsigned int)v39);
+                        v34 = v10;
+                        v31 = v11;
+                    }
+                }
+            }
+            v34 += 1;
+            free(v0);
+            if (v2 == v34)
+                break;
+        }
+    }
+    png_image_free(&v18);
+    return v40;
+}
+
+void sub_402a90(char a0[2], char *a1, char *a2, char *a3)
+{
+    unsigned long v1;  // rax
+    unsigned int v2;  // edx
+
+    v1 = a0[1] | a0[0] * 0x100;
+    v2 = v1;
+    *(a1) = (char)(v1 >> 8) & 248;
+    *(a2) = (char)(v2 >> 3) & 252;
+    *(a3) = (char)v2 * 8;
+    return;
+}
+
+typedef struct struct_0 {
+    char field_0;
+    char padding_1[1];
+    char field_2;
+    char field_3;
+} struct_0;
+
+long long sub_402ac0(struct_0 *a0, char *a1, unsigned int *a2, unsigned int a3, unsigned long a4, unsigned int a5, unsigned int a6)
+{
+    unsigned int v0;  // [bp-0x58]
+    unsigned int v1;  // [sp-0x54]
+    char v2[2];  // [bp-0x50]
+    unsigned int v3;  // [bp-0x48]
+    unsigned int v4;  // [bp-0x44]
+    unsigned long long v5;  // [bp-0x20]
+    unsigned long long v6;  // r12, Other Possible Types: unsigned long
+    unsigned int v7;  // ebx
+    unsigned long long v8;  // r15
+    void* v9;  // r10
+    unsigned int v10;  // esi
+    unsigned long v11;  // rdi
+    char v12[2];  // rcx
+    unsigned int v13;  // edx
+    unsigned long v14;  // rdi
+    unsigned int v15;  // ecx
+    void* v16;  // rsi
+    unsigned long long v17;  // rsi
+    unsigned long v18;  // rdx
+    unsigned int v19;  // r8d
+    unsigned long v20;  // r8
+    unsigned long v21;  // rdx
+    unsigned long v22;  // r9
+    unsigned int v23;  // ebx
+    unsigned int v24;  // eax
+    char v25[2];  // r8
+    unsigned long v26;  // rax
+    unsigned int v27;  // edx
+    unsigned int v28;  // ecx
+    unsigned int v29;  // ebx
+    unsigned int v30;  // ebx
+    unsigned int v31;  // ebx
+    unsigned int v33;  // ebx
+    unsigned int v34;  // eax
+    unsigned long v35;  // r12
+    unsigned int v36;  // ebx
+    unsigned long v37;  // r12
+
+    v5 = v6;
+    v7 = 0;
+    v6 = *((short *)&a0->field_0);
+    v4 = a4;
+    printf("      decode_rgba_buff: offs=0: %02X %02X %02X %02X sorok:(4*%d) 0.sor offs=%d ww=%d hh=%d\n", a0->field_0, (unsigned long long)a0->padding_1, a0->field_2, a0->field_3, ((unsigned int)v6 & 65535 & 0xffff0000 | (unsigned short)v6 >> 2) & 16383, v6, a3, a4);
+    v0 = 0;
+    if (v4 > 0)
+    {
+        do
+        {
+            v9 = 0;
+            if (a3 > 0)
+            {
+                do
+                {
+                    v10 = (unsigned int)v6 + 1;
+                    v11 = (&a0->field_0)[v6 & 4294967295];
+                    v12 = &(&a0->field_0)[v10];
+                    if ((char)v11)
+                    {
+                        v13 = v12[0];
+                        if ((char)v11 >= 0)
+                        {
+LABEL_402b82:
+                            v6 = v10;
+                            v15 = v7;
+                            v16 = 0;
+                            while (true)
+                            {
+                                if (!a5)
+                                {
+                                    v24 = v13;
+                                    v25 = &(&a0->field_0)[v6 & 4294967295];
+                                }
+                                else
+                                {
+                                    v6 = (unsigned int)v6 + 1;
+                                    v8 = v13;
+                                    v25 = &(&a0->field_0)[v6 & 4294967295];
+                                    v24 = v25[0];
+                                }
+                                v6 = (unsigned int)v6 + 2;
+                                v26 = v24 * 0x100 | v25[1];
+                                v27 = v26;
+                                a1[v7] = (char)(v26 >> 8) & 248;
+                                v7 += 3;
+                                a1[1 + v7] = (char)(v27 >> 3) & 252;
+                                a1[2 + v15] = (char)v27 * 8;
+                                if (a5)
+                                {
+                                    a1[v7] = v8;
+                                    v7 = v15 + 4;
+                                }
+                                v16 = (unsigned int)v16 + 1;
+                                if ((unsigned int)v16 == (unsigned int)v11)
+                                    break;
+                                v15 = v7;
+                                v13 = (&a0->field_0)[v6 & 4294967295];
+                            }
+                            v9 += v16;
+                            if (a6)
+                            {
+                                v1 = (unsigned int)v9;
+                                printf("egyedi: cnt=%d j=%d i=%d\n", v16, v0, v1);
+                                v9 = v1;
+                            }
+                        }
+                        else
+                        {
+                            v14 = (unsigned int)v11 & 127;
+                            if (a5)
+                            {
+                                v10 = (unsigned int)v6 + 2;
+                                v8 = v13;
+                                v12 = &(&a0->field_0)[v10];
+                                v13 = v12[0];
+                            }
+                            v6 = v10 + 2;
+                            v17 = v14 & 4294967295;
+                            v18 = v13 * 0x100 | v12[1];
+                            v19 = v18;
+                            v20 = v19 * 8;
+                            v21 = (unsigned int)(v18 >> 8) & 0xfffffff8;
+                            v22 = v19 >> 3 & 0xfffffffc;
+                            v23 = v7;
+                            if ((char)v14)
+                            {
+                                v28 = 0;
+                                v29 = v7;
+                                while (true)
+                                {
+                                    v30 = v29;
+                                    a1[v30] = v21;
+                                    a1[1 + v30] = v22;
+                                    a1[2 + v30] = v20;
+                                    if (a5)
+                                    {
+                                        v28 += 1;
+                                        v31 = v30 + 4;
+                                        a1[v33] = v8;
+                                        v23 = v31;
+                                        v29 = v31;
+                                        if (v28 == (unsigned int)v17)
+                                            break;
+                                    }
+                                    else
+                                    {
+                                        v28 += 1;
+                                        v33 = v30 + 3;
+                                        v23 = v33;
+                                        v29 = v33;
+                                        if (v28 == (unsigned int)v17)
+                                            break;
+                                    }
+                                }
+                            }
+                            v7 = v23;
+                            v9 += v17;
+                            if (a6)
+                            {
+                                v1 = (unsigned int)v9;
+                                printf("ism   : cnt=%d r=%d g=%d b=%d a=%d j=%d i=%d\n", v17, v21 & 4294967295, v22 & 4294967295, (unsigned int)v20 & 248, v8 & 4294967295, v0, v1);
+                                v9 = v1;
+                            }
+                        }
+                    }
+                    else if (!a6)
+                    {
+                        v13 = v12[0];
+                        v11 = 1;
+                        goto LABEL_402b82;
+                    }
+                    else
+                    {
+                        v3 = (unsigned int)v9;
+                        *(&v2) = v12;
+                        v1 = v10;
+                        puts("cnt=0 , exiting...");
+                        v10 = v1;
+                        v11 = 1;
+                        v9 = v3;
+                        v13 = v2[0];
+                        goto LABEL_402b82;
+                    }
+                } while (a3 > (unsigned int)v9);
+            }
+            if (a6)
+                printf("%2d.sor %d pixel\n", v0, v9 & 4294967295);
+            v0 += 1;
+        } while (v4 != v0);
+    }
+    *(a2) = v7;
+    v34 = v6;
+    v35 = v6;
+    if (((char)v34 & 3))
+    {
+        v36 = (unsigned int)((v6 & 4294967295) - (v34 & 3)) + 4;
+        v37 = v36;
+        printf("align %d to %d\n", v6 & 4294967295, v36);
+        v35 = v37;
+    }
+    return v35 & 4294967295;
+}
+
+long long sub_402df0(unsigned long a0)
+{
+    unsigned long long v0;  // [bp-0x8]
+    unsigned int v2;  // edx
+    unsigned long long v3;  // rbx
+
+    v2 = ((unsigned int)a0 + ((unsigned int)a0 >> 31 >> 30) & 3) - ((unsigned int)a0 >> 31 >> 30);
+    if (v2 > 0)
+    {
+        v0 = v3;
+        printf("align %d to %d\n", a0 & 4294967295, (unsigned int)((a0 & 4294967295) - v2) + 4);
+        return (unsigned int)((a0 & 4294967295) - v2) + 4;
+    }
+    return a0 & 4294967295;
+}
+
+typedef struct FILE_t {
+    unsigned int _flags;
+    char padding_4[4];
+    char *_IO_read_ptr;
+    char *_IO_read_end;
+    char *_IO_read_base;
+    char *_IO_write_base;
+    char *_IO_write_ptr;
+    char *_IO_write_end;
+    char *_IO_buf_base;
+    char *_IO_buf_end;
+    char *_IO_save_base;
+    char *_IO_backup_base;
+    char *_IO_save_end;
+    struct _IO_marker *_markers;
+    struct _IO_marker *_chain;
+    unsigned int _fileno;
+    unsigned int _flags2;
+    unsigned int _old_offset;
+    char padding_7c[4];
+    unsigned short _cur_column;
+    char _vtable_offset;
+    char _shortbuf[1];
+    char padding_84[4];
+    struct _IO_marker *_lock;
+    unsigned long long _offset;
+    struct _IO_codecvt *_codecvt;
+    struct _IO_wide_data *_wide_data;
+    void* _freeres_list;
+    char __pad5;
+    char padding_b1[7];
+    unsigned int _mode;
+    char _unused2[20];
+} FILE_t;
+
+typedef struct _IO_marker {
+    struct _IO_marker *_next;
+    struct _IO_marker *_sbuf;
+    unsigned int _pos;
+} _IO_marker;
+
+typedef struct _IO_codecvt {
+    char __cd_out;
+} _IO_codecvt;
+
+typedef struct _IO_wide_data {
+    unsigned short *_IO_read_ptr;
+    unsigned short *_IO_read_end;
+    unsigned short *_IO_read_base;
+    unsigned short *_IO_write_base;
+    unsigned short *_IO_write_ptr;
+    unsigned short *_IO_write_end;
+    unsigned short *_IO_buf_base;
+    unsigned short *_IO_buf_end;
+    unsigned short *_IO_save_base;
+    unsigned short *_IO_backup_base;
+    unsigned short *_IO_save_end;
+    __mbstate_t _IO_state;
+    char padding_5d[3];
+    char _IO_last_state;
+    char padding_61[7];
+    unsigned short _shortbuf[1];
+    _IO_marker _wide_vtable;
+} _IO_wide_data;
+
+typedef struct __mbstate_t {
+    unsigned int __count;
+    char __value;
+} __mbstate_t;
+
+long long sub_402e30(FILE_t *a0)
+{
+    unsigned int v1;  // eax
+
+    fseek(a0, 0, 2);
+    v1 = ftell(a0);
+    fseek(a0, 0, 0);
+    return v1;
+}
+
+typedef struct struct_0 {
+    char padding_0[8];
+    char *field_8;
+    char padding_10[8];
+    unsigned short field_18;
+    unsigned short field_1a;
+    char padding_1c[80];
+    unsigned int field_6c;
+} struct_0;
+
+typedef struct FILE_t {
+    unsigned int _flags;
+    char padding_4[4];
+    char *_IO_read_ptr;
+    char *_IO_read_end;
+    char *_IO_read_base;
+    char *_IO_write_base;
+    char *_IO_write_ptr;
+    char *_IO_write_end;
+    char *_IO_buf_base;
+    char *_IO_buf_end;
+    char *_IO_save_base;
+    char *_IO_backup_base;
+    char *_IO_save_end;
+    struct _IO_marker *_markers;
+    struct _IO_marker *_chain;
+    unsigned int _fileno;
+    unsigned int _flags2;
+    unsigned int _old_offset;
+    char padding_7c[4];
+    unsigned short _cur_column;
+    char _vtable_offset;
+    char _shortbuf[1];
+    char padding_84[4];
+    struct _IO_marker *_lock;
+    unsigned long long _offset;
+    struct _IO_codecvt *_codecvt;
+    struct _IO_wide_data *_wide_data;
+    void* _freeres_list;
+    char __pad5;
+    char padding_b1[7];
+    unsigned int _mode;
+    char _unused2[20];
+} FILE_t;
+
+typedef struct _IO_marker {
+    struct _IO_marker *_next;
+    struct _IO_marker *_sbuf;
+    unsigned int _pos;
+} _IO_marker;
+
+typedef struct _IO_codecvt {
+    char __cd_out;
+} _IO_codecvt;
+
+typedef struct _IO_wide_data {
+    unsigned short *_IO_read_ptr;
+    unsigned short *_IO_read_end;
+    unsigned short *_IO_read_base;
+    unsigned short *_IO_write_base;
+    unsigned short *_IO_write_ptr;
+    unsigned short *_IO_write_end;
+    unsigned short *_IO_buf_base;
+    unsigned short *_IO_buf_end;
+    unsigned short *_IO_save_base;
+    unsigned short *_IO_backup_base;
+    unsigned short *_IO_save_end;
+    __mbstate_t _IO_state;
+    char padding_5d[3];
+    char _IO_last_state;
+    char padding_61[7];
+    unsigned short _shortbuf[1];
+    _IO_marker _wide_vtable;
+} _IO_wide_data;
+
+typedef struct __mbstate_t {
+    unsigned int __count;
+    char __value;
+} __mbstate_t;
+
+long long sub_402e70(struct_0 *a0)
+{
+    void* v1;  // rax
+    FILE_t *v2;  // r12
+    unsigned int v3;  // eax
+    unsigned long v4;  // rbp
+    unsigned int v5;  // eax
+    unsigned long v6;  // rbp
+    unsigned int v7;  // r13d
+    unsigned long v8;  // rbp
+    unsigned long long v9;  // r14
+    unsigned short *v10;  // r13
+    unsigned int v12;  // esi
+    unsigned short v13;  // dx
+    unsigned long v14;  // rdx
+    unsigned long long v15;  // rsi
+
+    printf("load_encoded_file: fname=\"%s\"\n", a0->field_8);
+    v1 = fopen(a0->field_8, "rb");
+    if (!v1)
+    {
+        puts("open error");
+        return 0;
+    }
+    v2 = v1;
+    v3 = sub_402e30(v1);
+    v4 = v3;
+    printf("file size = %d\n", v3);
+    v5 = ((unsigned int)v4 + ((unsigned int)v4 >> 31 >> 30) & 3) - ((unsigned int)v4 >> 31 >> 30);
+    v6 = v4;
+    if (v5 > 0)
+    {
+        v7 = (unsigned int)((v4 & 4294967295) - v5) + 4;
+        v8 = v7;
+        printf("align %d to %d\n", v4 & 4294967295, v7);
+        v6 = v8;
+    }
+    v9 = v6 & 4294967295;
+    v10 = calloc(v9, 1);
+    printf("readed = %d byte\n", fread(v10, 1, v9, v2));
+    fclose(v2);
+    v12 = *(v10);
+    v13 = *(v10) >> 2;
+    a0->field_1a = v13;
+    printf("load_encoded_file: first line offs= %04X, -> height= %d\n", v12, v13);
+    v14 = a0->field_1a;
+    if ((v14 - 466 & 65535) * 0x1000000000000 <= 0x1000000000000)
+    {
+        v15 = 466;
+        a0->field_18 = 466;
+    }
+    else if ((unsigned short)v14 != 280)
+    {
+        v15 = a0->field_18;
+    }
+    else
+    {
+        v15 = 280;
+        a0->field_18 = 280;
+    }
+    a0->field_6c = v6;
+    printf("sx = %d , sy = %d\n", v15, v14);
+    return v10;
+}
+
+extern char g_407744;
+
+long long sub_402fb0(unsigned int a0, unsigned long long a1)
+{
+    if (g_407744 > a0)
+        return (unsigned long long)sub_401ae0(a0, a1);
+    return g_407744;
+}
+
+extern char g_407744;
+
+long long sub_402fd0(unsigned long a0, unsigned long long a1)
+{
+    unsigned long long v0;  // [bp-0x8]
+    unsigned long long v2;  // rbx
+    unsigned int v3;  // ebx
+    unsigned long v4;  // rax
+    unsigned int v5;  // ebx
+
+    if (!g_407744)
+        return v4;
+    v0 = v2;
+    v3 = 0;
+    do
+    {
+        v5 = v3 + 1;
+        sub_401ae0(v3, a1);
+        v3 = v5;
+    } while (g_407744 > v3);
+    return g_407744;
+}
+
+void sub_403010()
+{
+    return;
+}
+
+extern struct_1 g_405de0;
+
+void init(unsigned int a0, unsigned long long a1, unsigned long long a2)
+{
+    void* v1;  // rbx
+
+    sub_401000();
+    v1 = 0;
+    do
+    {
+        *((long long *)((char *)&g_405de0.field_0 + 0x8 * v1))(a0, a1, a2);
+        v1 += 1;
+    } while (v1 != 1);
+    return;
+}
+
+void fini()
+{
+    return;
+}
+
+void sub_403098()
+{
+    return;
+}
+

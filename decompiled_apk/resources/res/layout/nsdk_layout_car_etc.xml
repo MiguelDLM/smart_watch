@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@drawable/nsdk_drawable_plate_normal_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/car_etc_install"
+        android:text="已安装ETC"
+        style="@style/CarType"/>
+    <View
+        android:id="@+id/divider"
+        android:background="#ffd8d8d8"
+        android:layout_width="@dimen/navi_dimens_1dp"
+        android:layout_height="@dimen/navi_dimens_13dp"/>
+    <TextView
+        android:id="@+id/car_etc_uninstall"
+        android:text="未安装ETC"
+        android:layout_marginStart="@dimen/navi_dimens_1dp"
+        style="@style/CarType"/>
+</LinearLayout>

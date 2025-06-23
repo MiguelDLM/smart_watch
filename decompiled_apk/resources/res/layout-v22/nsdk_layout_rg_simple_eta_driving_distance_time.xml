@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/navi_dimens_17dp"
+    android:textColor="@color/nsdk_cl_text_b_mm_title"
+    android:ellipsize="end"
+    android:gravity="center"
+    android:id="@+id/bnav_rg_bmbar_driving_info_ly"
+    android:paddingLeft="@dimen/navi_dimens_6dp"
+    android:paddingRight="@dimen/navi_dimens_6dp"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:singleLine="true"
+    android:paddingHorizontal="@dimen/navi_dimens_6dp"/>

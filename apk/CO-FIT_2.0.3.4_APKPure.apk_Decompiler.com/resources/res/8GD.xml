@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates overridePins="true" src="system"/>
+            <certificates overridePins="true" src="user"/>
+        </trust-anchors>
+    </base-config>
+</network-security-config>

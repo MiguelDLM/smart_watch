@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dial_customize_3_bg"
+    android:padding="10dp"
+    android:layout_width="310dp"
+    android:layout_height="310dp">
+    <com.sma.smartv3.view.ImageViewRound
+        android:layout_gravity="center"
+        android:id="@+id/customBg"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        app:isCustomize="true"
+        app:radius="0dp"
+        app:type="radial"/>
+</FrameLayout>

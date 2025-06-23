@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/charge_list_complete_container" android:layout_width="match_parent" android:layout_height="68dp" android:layout_alignParentBottom="true">
+        <TextView android:textSize="13dp" android:gravity="center" android:id="@+id/charge_list_select_approach_node" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="请选择途经点" android:layout_centerVertical="true" android:layout_marginEnd="12dp" android:layout_toStartOf="@+id/charge_list_complete"/>
+        <FrameLayout android:gravity="center_horizontal" android:id="@+id/charge_list_complete" android:background="@drawable/nsdk_energy_charge_complete_bg" android:layout_width="100dp" android:layout_height="48dp" android:layout_centerVertical="true" android:layout_marginEnd="12dp" android:layout_alignParentEnd="true">
+            <TextView android:textSize="15dp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@+id/charge_list_complete_text" android:paddingBottom="2dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="完成"/>
+        </FrameLayout>
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/charge_list_complete_container">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/charge_list_recycle_view" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </LinearLayout>
+</RelativeLayout>

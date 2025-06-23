@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/ksad_split_texture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.kwad.sdk.widget.KSFrameLayout
+        android:id="@+id/ksad_video_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ksad_radius="8dp">
+        <ImageView
+            android:id="@+id/ksad_video_first_frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.kwad.sdk.widget.KSFrameLayout>
+    <ImageView
+        android:layout_gravity="right"
+        android:id="@+id/ksad_split_mini_close_btn"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="7dp"
+        android:src="@drawable/ksad_split_mini_video_close_btn"/>
+</FrameLayout>

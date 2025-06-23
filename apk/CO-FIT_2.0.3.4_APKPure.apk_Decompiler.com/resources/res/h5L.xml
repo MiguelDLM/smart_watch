@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:keepScreenOn="true">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <ListView android:id="@+id/list_view" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:gravity="center" android:id="@+id/tv_search_tip" android:padding="20dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:text="@string/firmware_repair_search_tip"/>
+        <androidx.core.widget.NestedScrollView android:id="@+id/ll_search_again" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:visibility="visible" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="30dp">
+                <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp" android:text="@string/firmware_repair_search_ota_mac_tip"/>
+                <Button android:id="@+id/btn_search_again" android:layout_width="match_parent" android:layout_margin="20dp" android:text="@string/search_again" style="@style/bottom_btn"/>
+                <LinearLayout android:orientation="vertical" android:id="@+id/ll_try_origin" android:background="@drawable/rectangular_background" android:padding="15dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/text_color" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/firmware_repair_use_origin_mac_tip"/>
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:ellipsize="end" android:id="@+id/tv_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:singleLine="true" android:layout_marginEnd="16dp" android:layout_toStartOf="@+id/iv_rssi"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:id="@+id/tv_address" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/tv_name"/>
+                        <ImageView android:id="@+id/iv_rssi" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/level_list_device_signal" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+</LinearLayout>

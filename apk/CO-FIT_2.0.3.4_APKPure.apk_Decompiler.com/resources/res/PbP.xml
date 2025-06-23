@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/total_memory_key"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/memory_all_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true"/>
+        <ProgressBar android:id="@+id/memory_progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:max="100" android:progress="1" android:layout_below="@+id/memory_all_tv" style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/used_memory_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/memory_progress"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/available_memory_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/memory_progress" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+</LinearLayout>

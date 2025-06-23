@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/coach_layout_margin_start_end">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/abh_per_confirm_tip"/>
+            <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" style="@style/abh_coach_layout_style_bg">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <View android:background="@color/coach_assessment_rank_1" style="@style/abh_coach_goal_view_rank"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/coach_rank_beginner_tv" android:text="@string/coach_rank_beginner" style="@style/abh_coach_goal_view_rank_tv"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <View android:background="@color/coach_assessment_rank_2" style="@style/abh_coach_goal_view_rank"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/coach_rank_elementary_tv" android:text="@string/coach_rank_elementary" style="@style/abh_coach_goal_view_rank_tv"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <View android:background="@color/coach_assessment_rank_3" style="@style/abh_coach_goal_view_rank"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/coach_rank_intermediate_tv" android:text="@string/coach_rank_intermediate" style="@style/abh_coach_goal_view_rank_tv"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <View android:background="@color/coach_assessment_rank_4" style="@style/abh_coach_goal_view_rank"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/coach_rank_challenger_tv" android:text="@string/coach_rank_challenger" style="@style/abh_coach_goal_view_rank_tv"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <View android:background="@color/coach_assessment_rank_5" style="@style/abh_coach_goal_view_rank"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/coach_rank_athletic_tv" android:text="@string/coach_rank_athletic" style="@style/abh_coach_goal_view_rank_tv"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/abh_coach_btn_layout_style_top_bg">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:id="@+id/start_title_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abh_start_btn_tip_title"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abh_start_btn_tip"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <RelativeLayout android:orientation="vertical" android:id="@+id/btn_layout_view" android:background="@color/coach_assessment_rank_2" android:padding="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/black" android:id="@+id/btn_layout_view_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abh_per_mets_goal"/>
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:layout_below="@+id/btn_layout_view_title">
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="20dp" android:textColor="@color/black" android:id="@+id/personal_goal_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="500"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="10dp" android:textColor="@color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="METs" android:layout_marginStart="4dp"/>
+                    </LinearLayout>
+                    <ImageView android:id="@+id/personal_tip_img" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/understand_situation_icon" android:layout_alignParentRight="true" app:tint="@color/line_color"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

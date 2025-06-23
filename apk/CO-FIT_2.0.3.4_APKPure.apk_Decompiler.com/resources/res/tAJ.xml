@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/status_card_style">
+    <RelativeLayout style="@style/status_card_style_1">
+        <com.sma.smartv3.view.TintImageView android:id="@+id/bpIv" android:src="@drawable/icon_bp" style="@style/status_card_style_1_iv"/>
+        <LinearLayout android:layout_toStartOf="@+id/value_panel" android:layout_toEndOf="@+id/bpIv" style="@style/status_card_style_1_ll">
+            <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_blood_pressure" android:text="@string/blood_pressure" style="@style/status_card_style_1_title"/>
+            <com.sma.smartv3.view.text.DINCondBold android:id="@+id/bpLastTime" android:text="2019.10.23 09:30" style="@style/status_card_style_1_time"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/value_panel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true">
+            <LinearLayout style="@style/status_card_bp_style">
+                <com.sma.smartv3.view.text.PFRegular android:text="@string/sbp" style="@style/unit_style"/>
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/sbp" android:text="120" style="@style/status_card_style_1_content"/>
+            </LinearLayout>
+            <LinearLayout style="@style/status_card_bp_style">
+                <com.sma.smartv3.view.text.PFRegular android:visibility="invisible" android:text="/" style="@style/unit_style"/>
+                <com.sma.smartv3.view.text.DINCondBold android:text="/" style="@style/status_card_style_1_content"/>
+            </LinearLayout>
+            <LinearLayout style="@style/status_card_bp_style">
+                <com.sma.smartv3.view.text.PFRegular android:text="@string/dbp" style="@style/unit_style"/>
+                <com.sma.smartv3.view.text.DINCondBold android:id="@+id/dbp" android:text="92" style="@style/status_card_style_1_content"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFRegular android:layout_gravity="bottom" android:text="@string/mmhg" android:layout_marginStart="6dp" style="@style/unit_style"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout style="@style/status_item_chart_rl_style">
+        <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/transparent" android:id="@+id/noData" style="@style/no_data_tv"/>
+        <FrameLayout android:background="@drawable/cofit_shape_status_item_bp_bg" android:layout_width="match_parent" android:layout_height="100dp">
+            <com.github.mikephil.charting.charts.BarChart android:id="@+id/bpChart" android:visibility="gone" android:layout_width="match_parent" android:layout_height="100dp"/>
+        </FrameLayout>
+    </RelativeLayout>
+</LinearLayout>

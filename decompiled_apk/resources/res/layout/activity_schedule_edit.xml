@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_title"
+        app:abh_edit="true"
+        app:abh_left_text="@string/title"
+        style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_time"
+        android:onClick="onSetDateTime"
+        app:abh_left_text="@string/time"
+        style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem
+        android:id="@+id/item_advance"
+        android:onClick="onSetAdvance"
+        app:abh_left_text="@string/remind"
+        style="@style/abh_settings_item"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
+        <EditText
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/line_color"
+            android:gravity="start"
+            android:id="@+id/edt_content"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/content"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="12dp"
+            android:textColor="@color/line_color"
+            android:id="@+id/edt_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/140"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <Button
+        android:text="@string/delete"
+        style="@style/bottom_btn"/>
+</LinearLayout>

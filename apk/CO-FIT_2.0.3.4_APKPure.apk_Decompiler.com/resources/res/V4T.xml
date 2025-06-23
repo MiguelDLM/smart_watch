@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="horizontal" android:id="@+id/container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/ll_content" android:background="@color/view_page_secondary_bg" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="2dp">
+        <ImageView android:id="@+id/iv_icon" android:background="@drawable/icon_qibla_fajr" android:layout_width="55dp" android:layout_height="55dp"/>
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:id="@+id/tv_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Morning Ritual"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/line_color" android:id="@+id/tv_time" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="05:17"/>
+        </LinearLayout>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/text_color" android:id="@+id/tv_min" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="8dp"/>
+    </LinearLayout>
+</FrameLayout>

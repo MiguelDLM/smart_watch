@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/sm_sdk_px_16">
+    <TextView android:textSize="@dimen/sm_sdk_px_14" android:textColor="#696969" android:ellipsize="middle" android:gravity="center" android:layout_gravity="center" android:id="@+id/tv_name" android:background="@drawable/style_type_text_bg" android:layout_width="@dimen/sm_sdk_px_55" android:layout_height="@dimen/sm_sdk_px_24" android:singleLine="true" android:includeFontPadding="false"/>
+</LinearLayout>

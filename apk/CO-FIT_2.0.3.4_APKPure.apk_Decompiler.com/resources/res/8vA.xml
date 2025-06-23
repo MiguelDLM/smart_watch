@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/image_container" android:visibility="visible" android:layout_width="@dimen/navi_dimens_100dp" android:layout_height="@dimen/navi_dimens_177dp">
+        <ImageView android:id="@+id/img" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop"/>
+    </RelativeLayout>
+    <TextView android:textSize="@dimen/navi_dimens_14dp" android:textColor="#333333" android:ellipsize="end" android:id="@+id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_5dp" android:singleLine="true"/>
+    <TextView android:textSize="@dimen/navi_dimens_12dp" android:textColor="#999999" android:ellipsize="end" android:id="@+id/sub_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true"/>
+</LinearLayout>

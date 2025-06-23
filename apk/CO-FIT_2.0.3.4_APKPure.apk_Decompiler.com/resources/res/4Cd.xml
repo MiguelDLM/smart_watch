@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/pop_common_container_style">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="25dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout android:gravity="center" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="翻译:" android:layout_marginStart="10dp"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/pop_translation_lan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="English" android:layout_marginStart="10dp"/>
+            <ImageView android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/icon_transform_language" android:layout_marginStart="10dp"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/colorAccent" android:id="@+id/pop_translation_to_lan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="中文" android:layout_marginStart="10dp"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="right" android:layout_width="250dp" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+            <ImageView android:layout_gravity="center_vertical" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_dialog_edit_img" android:layout_marginStart="10dp"/>
+            <EditText android:gravity="center" android:id="@+id/pop_save_edit" android:background="@drawable/shape_alarm_edit_stroke" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:minHeight="30dp" android:maxLines="1" android:singleLine="true" android:imeOptions="actionDone" android:paddingStart="10dp" android:paddingEnd="10dp" android:layout_marginStart="10dp" android:layout_marginEnd="5dp"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="right" android:visibility="gone" android:layout_width="250dp" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+            <ImageView android:layout_gravity="center_vertical" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/icon_dialog_location_img" android:layout_marginStart="10dp"/>
+            <TextView android:textSize="14dp" android:gravity="center" android:background="@drawable/shape_alarm_edit_stroke" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="200dp" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:paddingStart="15dp" android:paddingEnd="15dp" android:layout_marginStart="10dp"/>
+        </LinearLayout>
+        <TextView android:textColor="@color/line_color" android:gravity="right" android:id="@+id/pop_translation_time" android:layout_width="250dp" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="时长 : 00:05:00"/>
+    </LinearLayout>
+    <include layout="@layout/layout_pop_bottom_btn"/>
+</LinearLayout>

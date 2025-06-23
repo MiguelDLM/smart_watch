@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bn_rg_road_condition_car_size">24dp</dimen>
+    <dimen name="bn_rg_road_condition_label_big_height">28.4dp</dimen>
+    <dimen name="bn_rg_road_condition_label_big_left_margin_end">11.6dp</dimen>
+    <dimen name="bn_rg_road_condition_label_big_text_padding_end">15.1dp</dimen>
+    <dimen name="bn_rg_road_condition_label_icon_big_width">23.1dp</dimen>
+    <dimen name="bn_rg_road_condition_label_icon_normal_width">19.6dp</dimen>
+    <dimen name="bn_rg_road_condition_label_left_margin_end">9.8dp</dimen>
+    <dimen name="bn_rg_road_condition_label_normal_height">23.1dp</dimen>
+    <dimen name="bn_rg_road_condition_label_text_padding_end">12.4dp</dimen>
+    <dimen name="nsdk_rg_interval_camera_panel_size">53.3dp</dimen>
+    <dimen name="nsdk_rg_road_condition_bar_width">24.9dp</dimen>
+</resources>

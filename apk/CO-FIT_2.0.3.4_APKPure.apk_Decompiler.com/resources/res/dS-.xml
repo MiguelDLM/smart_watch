@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/points_recharge_bg_layout" android:background="@color/points_bg_color" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/ai_answer_fl_bg" android:background="@drawable/order_head_bg" android:layout_width="match_parent" android:layout_height="320dp"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView app:tint="@color/white" style="@style/abh_title_left"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" style="@style/abh_title_center"/>
+            <ImageView android:layout_gravity="center_vertical" android:paddingEnd="11dp" style="@style/abh_title_right"/>
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="0dp" android:fillViewport="true" android:layout_weight="1">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:layout_marginTop="15dp" android:layout_marginRight="15dp">
+                    <androidx.cardview.widget.CardView android:id="@+id/btRecharge" android:layout_width="wrap_content" android:layout_height="60dp" android:minWidth="140dp" android:layout_centerVertical="true" android:layout_marginStart="35dp" app:cardBackgroundColor="@color/points_bg_color_secondary" app:cardCornerRadius="60dp" app:cardElevation="0dp">
+                        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginStart="50dp" android:layout_marginEnd="15dp">
+                            <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/text_color" android:id="@+id/tv_nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="XXXXXX" android:singleLine="true"/>
+                            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/order_text_orange" android:id="@+id/tv_points" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="200"/>
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/points" android:singleLine="true" android:layout_marginStart="2dp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <com.sma.smartv3.view.ImageViewRound android:id="@+id/iv_avatar" android:layout_width="78dp" android:layout_height="78dp" android:src="@drawable/pic_avatar_default" android:layout_centerVertical="true" app:borderColor="@color/colorAccent" app:borderWidth="2dp" app:isCustomize="true" app:type="linear"/>
+                    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="-10dp" android:layout_alignParentEnd="true">
+                        <com.sma.smartv3.view.TintImageView android:layout_width="100dp" android:layout_height="100dp" android:src="@drawable/icon_points_tip"/>
+                    </LinearLayout>
+                </RelativeLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_marginBottom="12dp" android:text="@string/points_recharge" android:layout_marginStart="20dp"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_points_pack" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="200dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="15dp" android:textColor="@color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_marginBottom="12dp" android:text="@string/faq" android:layout_marginStart="20dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/line_color" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_weight="1"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="10dp" android:layout_marginRight="20dp">
+            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/cb_points_privacy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_privacy_check_orange"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:id="@+id/tv_points_privacy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/points_privacy_tip2" android:layout_marginStart="5dp"/>
+        </LinearLayout>
+        <Button android:enabled="true" android:id="@+id/btn_recharge" android:layout_width="match_parent" android:layout_marginLeft="20dp" android:layout_marginTop="12dp" android:layout_marginRight="20dp" android:layout_marginBottom="30dp" android:text="@string/now_to_recharge" style="@style/btn_common"/>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <TextView android:textSize="18sp" android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="80dp" android:layout_marginRight="20dp" android:layout_marginBottom="80dp" android:text="@string/find_watch_hint"/>
+    <ImageView android:layout_gravity="center_horizontal" android:id="@+id/find_watch_img_button" android:layout_width="200dp" android:layout_height="200dp" android:src="@drawable/icon_find_watch_start"/>
+</LinearLayout>

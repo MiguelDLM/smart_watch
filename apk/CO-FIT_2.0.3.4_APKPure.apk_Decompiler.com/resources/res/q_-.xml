@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.AbhSettingsHeader android:id="@+id/item_header" app:abh_title="@string/watch_password" style="@style/abh_settings_item"/>
+    <com.sma.smartv3.view.AbhSettingsItem android:id="@+id/item_reset_password" android:onClick="onResetPassword" app:abh_left_text="@string/reset_password" style="@style/abh_settings_item"/>
+</LinearLayout>

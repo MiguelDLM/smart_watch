@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/fl_bg" android:background="@drawable/pic_weather_bg3" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/fl_container" android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:paddingTop="70dp" android:paddingBottom="30dp" android:layout_width="match_parent" android:layout_height="match_parent">
+                <com.sma.smartv3.view.text.DINCondBold android:textSize="22dp" android:textColor="@android:color/white" android:layout_gravity="center_horizontal" android:id="@+id/tv_city_name" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <ImageView android:id="@+id/iv_weather" android:layout_width="60dp" android:layout_height="50dp" android:layout_marginTop="40dp" android:src="@drawable/ic_weather_larger1" android:scaleType="fitXY" android:layout_marginEnd="15dp" android:layout_toStartOf="@+id/tv_temperature_value"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="90dp" android:textColor="@android:color/white" android:id="@+id/tv_temperature_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="126.3" android:layout_centerHorizontal="true"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="45dp" android:textColor="@android:color/white" android:id="@+id/tv_temperature_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="@string/degree_centigrade" android:layout_marginStart="15dp" android:layout_toEndOf="@+id/tv_temperature_value"/>
+                </RelativeLayout>
+                <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp">
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="20dp" android:textColor="@android:color/white" android:id="@+id/tv_temperature_min" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="24°"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="20dp" android:textColor="@android:color/white" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="/" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="20dp" android:textColor="@android:color/white" android:id="@+id/tv_temperature_max" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="24°"/>
+                </LinearLayout>
+                <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="22dp" android:textColor="@android:color/white" android:id="@+id/tv_weather_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weather_name1"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_marginTop="40dp" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" style="@style/weather_common_ll_style">
+                    <LinearLayout style="@style/weather_ll_item_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/uvi" style="@style/weather_ll_item_title_style"/>
+                        <ImageView android:src="@drawable/icon_uvi" style="@style/weather_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_uvi_value" android:text="@string/high" style="@style/weather_ll_item_value_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="" style="@style/weather_ll_item_unit_style"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/weather_ll_item_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/humidity" style="@style/weather_ll_item_title_style"/>
+                        <ImageView android:src="@drawable/icon_humidity" style="@style/weather_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_humidity_value" android:text="24" style="@style/weather_ll_item_value_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="%rh" style="@style/weather_ll_item_unit_style"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/weather_ll_item_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/visibility" style="@style/weather_ll_item_title_style"/>
+                        <ImageView android:src="@drawable/icon_visibility" style="@style/weather_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_visibility_value" android:text="24" style="@style/weather_ll_item_value_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_visibility_unit" android:text="@string/km" style="@style/weather_ll_item_unit_style"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/weather_ll_item_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/wind_speed" style="@style/weather_ll_item_title_style"/>
+                        <ImageView android:src="@drawable/icon_wind_speed" style="@style/weather_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_wind_speed_value" android:text="24" style="@style/weather_ll_item_value_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_wind_speed_unit" android:text="km/h" style="@style/weather_ll_item_unit_style"/>
+                    </LinearLayout>
+                    <LinearLayout style="@style/weather_ll_item_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/precipitation" style="@style/weather_ll_item_title_style"/>
+                        <ImageView android:src="@drawable/icon_precipitation" style="@style/weather_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_precipitation_value" android:text="24" style="@style/weather_ll_item_value_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_precipitation_unit" android:text="mm" style="@style/weather_ll_item_unit_style"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:layout_marginStart="22dp" android:layout_marginEnd="22dp">
+                    <LinearLayout style="@style/weather_forecast_ll_item_style">
+                        <ImageView android:id="@+id/iv_weather1" android:src="@drawable/ic_weather_larger1" style="@style/weather_forecast_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="13sp" android:id="@+id/tv_weather_value1" android:text="24/25" style="@style/weather_ll_item_text_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_weather_date1" android:text="周一" style="@style/weather_ll_item_text_style"/>
+                    </LinearLayout>
+                    <Space android:layout_width="18dp" android:layout_height="wrap_content"/>
+                    <LinearLayout style="@style/weather_forecast_ll_item_style">
+                        <ImageView android:id="@+id/iv_weather2" android:src="@drawable/ic_weather_larger2" style="@style/weather_forecast_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="13sp" android:id="@+id/tv_weather_value2" android:text="24/25" style="@style/weather_ll_item_text_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_weather_date2" android:text="周二" style="@style/weather_ll_item_text_style"/>
+                    </LinearLayout>
+                    <Space android:layout_width="18dp" android:layout_height="wrap_content"/>
+                    <LinearLayout style="@style/weather_forecast_ll_item_style">
+                        <ImageView android:id="@+id/iv_weather3" android:src="@drawable/ic_weather_larger3" style="@style/weather_forecast_ll_item_iv_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="13sp" android:id="@+id/tv_weather_value3" android:text="24/25" style="@style/weather_ll_item_text_style"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_weather_date3" android:text="周二" style="@style/weather_ll_item_text_style"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout android:background="@null" style="@style/abh_title">
+            <ImageView app:tint="@color/light" style="@style/abh_title_left"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/light" style="@style/abh_title_center"/>
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

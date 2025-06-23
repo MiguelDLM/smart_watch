@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/common_ripple" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.sma.smartv3.view.ExpandableLayout android:orientation="vertical" android:id="@+id/expandable_layout" android:layout_width="match_parent" android:layout_height="wrap_content" app:expWithParentScroll="true">
+        <LinearLayout style="@style/weight_report_item_root_style">
+            <LinearLayout style="@style/weight_report_item_root_style2">
+                <com.sma.smartv3.view.TintImageView android:id="@+id/iv_icon" android:src="@drawable/icon_report_item_protein_ratio" style="@style/weight_report_item_iv_style"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_name" android:text="@string/protein_ratio" style="@style/weight_report_item_tv_left"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0%" style="@style/weight_report_item_tv_right"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_level" android:text="@string/normal" style="@style/weight_report_item_level"/>
+                <com.sma.smartv3.view.TintImageView android:id="@+id/switcher" android:layout_width="14dp" android:layout_height="wrap_content" style="@style/weight_report_item_arrow_style"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <View android:layout_marginStart="22dp" android:layout_marginEnd="22dp" style="@style/h_divider"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.segmentedbar.CircleThumbSegmentedBarView android:id="@+id/sbv" style="@style/sbv_circle_thumb_style"/>
+                <com.sma.smartv3.view.text.DINCondBold android:textSize="16sp" android:textColor="@color/text_secondary_color" android:id="@+id/tv_tips" android:layout_width="match_parent" android:layout_height="70dp" android:layout_margin="10dp"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerView" android:animationCache="false" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.sma.smartv3.view.ExpandableLayout>
+    <View android:layout_height="2dp" style="@style/h_divider"/>
+</LinearLayout>

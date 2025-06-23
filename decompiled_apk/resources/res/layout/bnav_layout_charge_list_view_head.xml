@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.chargelist.widget.ChargeListHeadLocation
+        android:id="@+id/charge_list_head_location_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.baidu.navisdk.ui.chargelist.widget.ChargeListItemView
+        android:id="@+id/charge_list_head_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/charge_list_head_location_container"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"/>
+</RelativeLayout>

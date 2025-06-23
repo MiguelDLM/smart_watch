@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.MyDigitalClock
+        android:textSize="35sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="HH:mm"
+        android:layout_marginStart="22dp"
+        android:format12Hour="hh:mm"
+        android:format24Hour="HH:mm"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="16sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="13012345678"
+        android:layout_below="@+id/tv_title"
+        android:layout_alignStart="@+id/tv_title"/>
+    <View
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tv_name"
+        style="@style/h_divider_gray2_margin22"/>
+</RelativeLayout>

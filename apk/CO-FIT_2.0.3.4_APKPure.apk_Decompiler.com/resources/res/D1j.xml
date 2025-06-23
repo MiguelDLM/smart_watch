@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:background="@drawable/dark_round_bg" android:layout_width="120dp" android:layout_height="120dp" android:layout_centerHorizontal="true" android:layout_centerVertical="true">
+        <ImageView android:layout_gravity="center_horizontal" android:id="@+id/ar_loading" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="30dp" android:src="@drawable/wsdk_ar_loading"/>
+        <TextView android:textSize="13dp" android:textColor="#fff" android:layout_gravity="center_horizontal" android:id="@+id/bm_progress_message" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2dp" android:layout_marginTop="10dp" android:layout_marginRight="4dp" android:text="启动中请稍后" android:maxLines="1" android:maxLength="8"/>
+    </LinearLayout>
+</RelativeLayout>

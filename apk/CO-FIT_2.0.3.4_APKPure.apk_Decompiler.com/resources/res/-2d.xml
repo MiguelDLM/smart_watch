@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/bp_line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="@string/recommended_for_you"/>
+    <LinearLayout android:orientation="vertical" android:background="@drawable/fitness_item_recommend_bg" android:paddingBottom="15dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:paddingStart="15dp">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/bp_line_color" android:id="@+id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/item_recommend_recycler_first" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="40dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/bp_line_color" android:id="@+id/tv_title2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/item_recommend_recycler_second" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="40dp"/>
+    </LinearLayout>
+</LinearLayout>

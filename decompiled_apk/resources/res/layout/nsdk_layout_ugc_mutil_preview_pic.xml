@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#18181c"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/ugc_preview_pic_view_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/navi_dimens_33dp"/>
+    <ImageView
+        android:gravity="center"
+        android:id="@+id/back_preview_pic"
+        android:padding="@dimen/navi_dimens_12dp"
+        android:layout_width="@dimen/navi_dimens_45dp"
+        android:layout_height="@dimen/navi_dimens_45dp"
+        android:src="@drawable/bnav_ugc_preview_back_white"
+        android:scaleType="fitCenter"/>
+    <ImageView
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:id="@+id/delete_preview_pic"
+        android:padding="@dimen/navi_dimens_12dp"
+        android:layout_width="@dimen/navi_dimens_45dp"
+        android:layout_height="@dimen/navi_dimens_45dp"
+        android:src="@drawable/bnav_ugc_preview_delete_icon"/>
+    <com.baidu.navisdk.ugc.pictures.previews.ViewPageIndicatorLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/ugc_preview_pic_indicator_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/navi_dimens_16dp"/>
+</FrameLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@drawable/cofit_ripple_status_item_temp" android:padding="0dp" style="@style/status_card_style">
+    <RelativeLayout android:layout_marginBottom="20dp" style="@style/status_card_style_1">
+        <com.sma.smartv3.view.TintImageView android:id="@+id/tempIv" android:src="@drawable/icon_temperature" style="@style/status_card_style_1_iv"/>
+        <LinearLayout android:layout_toStartOf="@+id/value_panel" android:layout_toEndOf="@+id/tempIv" style="@style/status_card_style_1_ll">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/light" android:text="@string/temperature" style="@style/status_card_style_1_title"/>
+            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/light" android:id="@+id/tempLastTime" android:text="2019.10.23 08:30" style="@style/status_card_style_1_time"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/value_panel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true">
+            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/light" android:id="@+id/tempLastValue" android:text="36.5" android:layout_marginEnd="6dp" style="@style/status_card_style_1_content"/>
+            <com.sma.smartv3.view.text.PFRegular android:textColor="@color/light" android:id="@+id/tmpUnit" android:text="@string/degree_centigrade" style="@style/unit_style"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

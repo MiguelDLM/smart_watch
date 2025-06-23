@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <View android:id="@+id/top_line" style="@style/h_divider_gray2_margin22"/>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="19dp" android:paddingBottom="19dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="22dp" android:paddingEnd="22dp">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@drawable/selector_text_color_white_gray8a" android:id="@+id/tv_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="13sp" android:textColor="@drawable/selector_text_color_white_gray8a" android:ellipsize="end" android:gravity="end" android:id="@+id/tv_value" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/app_name" android:singleLine="true" android:layout_weight="1"/>
+        <EditText android:textSize="13sp" android:textColor="@drawable/selector_text_color_white_gray8a" android:ellipsize="end" android:gravity="end" android:id="@+id/edt_value" android:background="@null" android:layout_width="0dp" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1"/>
+        <ImageView android:id="@+id/iv_enter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/icon_right_enter_normal" android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <View android:id="@+id/bottom_line" style="@style/h_divider_gray2_margin22"/>
+</LinearLayout>

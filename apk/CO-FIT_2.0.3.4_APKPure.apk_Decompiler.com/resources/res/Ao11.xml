@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:left="@dimen/appintro_indicator_inset" android:top="@dimen/appintro_indicator_inset" android:right="@dimen/appintro_indicator_inset" android:bottom="@dimen/appintro_indicator_inset">
+        <shape android:shape="oval">
+            <solid android:color="@color/appintro_icon_tint"/>
+            <size android:height="@dimen/appintro_indicator_size" android:width="@dimen/appintro_indicator_size"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.baidu.mapframework.widget.EmptyTopLayout android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <RelativeLayout android:id="@+id/title_bar" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="50dp">
+        <ImageView android:id="@+id/title_back" android:background="@drawable/common_icon_back_btn" android:layout_width="50dp" android:layout_height="match_parent" android:layout_alignParentLeft="true"/>
+        <TextView android:textSize="18dp" android:textColor="#333333" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="请选择你的导航员" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <View android:background="#eaeaea" android:layout_width="match_parent" android:layout_height="1px" android:layout_alignParentBottom="true"/>
+    <ScrollView android:id="@+id/scrollView" android:focusable="true" android:fadingEdge="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:fadeScrollbars="true">
+        <LinearLayout android:orientation="vertical" android:id="@+id/npc_item_view_ly" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"/>
+    </ScrollView>
+</LinearLayout>

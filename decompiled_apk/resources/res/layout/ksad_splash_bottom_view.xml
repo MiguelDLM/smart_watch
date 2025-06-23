@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kwad.sdk.core.view.AdBaseFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ksad_splash_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ViewStub
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/ksad_shake_layout"
+        android:layout="@layout/ksad_splash_shake_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ViewStub
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/ksad_rotate_layout"
+        android:layout="@layout/ksad_splash_rotate_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ViewStub
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/ksad_slide_layout"
+        android:layout="@layout/ksad_splash_slidelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.kwad.sdk.core.view.AdBaseFrameLayout>

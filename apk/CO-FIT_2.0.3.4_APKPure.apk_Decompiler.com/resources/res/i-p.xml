@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/item_ll" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <com.sma.smartv3.view.ImageViewRound android:id="@+id/iv" android:layout_width="80dp" android:layout_height="80dp" android:scaleType="fitCenter" app:isCustomize="true" app:radius="8dp" app:type="radial"/>
+</LinearLayout>

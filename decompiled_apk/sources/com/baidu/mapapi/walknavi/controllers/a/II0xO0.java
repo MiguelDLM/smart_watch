@@ -1,0 +1,5 @@
+package com.baidu.mapapi.walknavi.controllers.a;
+
+/* loaded from: classes7.dex */
+public final /* synthetic */ class II0xO0 {
+}

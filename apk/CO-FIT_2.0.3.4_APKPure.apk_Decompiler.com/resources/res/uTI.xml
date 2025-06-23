@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <ImageView android:layout_gravity="center_horizontal" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginTop="72dp" android:src="@drawable/logo_gfit"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="30sp" android:textColor="@color/text_color" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/google_fit" android:fontFamily="sans-serif-medium"/>
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="30dp">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Google Fit is an open platform that lets you control your fitness data from multiple apps and devices."/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/tvVersion" android:layout_marginTop="10dp" android:text="Connecting to Google Fit you can upload activity data, body measurement data,heart rate data, location data, and sleep data." style="@style/user_info_content"/>
+    </LinearLayout>
+    <Button android:layout_margin="20dp" android:text="Connecting to Google Fit" android:onClick="toGoogleFit" style="@style/bottom_btn"/>
+    <Button android:id="@+id/btn_revoke" android:visibility="visible" android:layout_margin="20dp" android:text="@string/revoke_authorization" android:onClick="onRevoke" style="@style/bottom_btn"/>
+</LinearLayout>

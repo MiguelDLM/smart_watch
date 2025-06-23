@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:color="@color/line_color">
+    <item>
+        <shape>
+            <corners android:radius="10dp"/>
+            <solid android:color="@color/ai_tab_selected_bg"/>
+        </shape>
+    </item>
+</ripple>

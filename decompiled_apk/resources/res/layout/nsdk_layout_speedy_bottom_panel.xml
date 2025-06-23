@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.widget.BNFrameLayout
+        android:id="@+id/speedy_preference"
+        android:paddingLeft="@dimen/navi_dimens_8dp"
+        android:paddingTop="@dimen/navi_dimens_10dp"
+        android:paddingRight="@dimen/navi_dimens_8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="#eaeaea"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <com.baidu.navisdk.ui.widget.BNFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.baidu.navisdk.ui.widget.BNFrameLayout
+            android:id="@+id/speedy_tab_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.baidu.navisdk.ui.widget.BNFrameLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/speedy_bottom_loading"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="148dp"/>
+    </com.baidu.navisdk.ui.widget.BNFrameLayout>
+</com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout>

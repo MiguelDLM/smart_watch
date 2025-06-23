@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="bottom" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.baidu.navisdk.ui.widget.BNHeadSelectedLayout android:id="@+id/charge_list_head_selected_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:layout_above="@+id/charge_list_container" android:layout_marginEnd="10dp" android:layout_alignParentEnd="true"/>
+    <RelativeLayout android:id="@+id/charge_list_container" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/charge_list_head_selected_container" android:layout_alignParentBottom="true">
+        <RelativeLayout android:id="@+id/charge_list_back_container" android:layout_width="match_parent" android:layout_height="44dp">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/nsdk_energy_charge_back" android:layout_centerVertical="true" android:layout_marginEnd="14dp" android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <com.baidu.navisdk.ui.chargelist.widget.ChargeListTabLayout android:id="@+id/charge_list_tab_layout" android:layout_width="match_parent" android:layout_height="52dp" android:layout_below="@+id/charge_list_back_container"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/charge_list_choose_electric_view_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/charge_list_tab_layout">
+            <androidx.recyclerview.widget.RecyclerView android:layout_gravity="center_vertical" android:id="@+id/charge_list_choose_electric_view" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <View android:background="@drawable/nsdk_shaow_line" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_10dp"/>
+        </LinearLayout>
+        <include android:id="@+id/bnav_layout_charge_list_view_default_container" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/charge_list_choose_electric_view_container" layout="@layout/bnav_layout_charge_list_view_default"/>
+        <include android:id="@+id/bnav_layout_charge_list_layout_container" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/charge_list_choose_electric_view_container" layout="@layout/bnav_layout_charge_list_layout"/>
+    </RelativeLayout>
+</RelativeLayout>

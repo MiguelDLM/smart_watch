@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/pop_common_container_style">
+    <com.sma.smartv3.view.text.PFMedium style="@style/popup_title"/>
+    <View style="@style/pop_top_line_style"/>
+    <LinearLayout android:orientation="horizontal" android:paddingBottom="8dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/year" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/month" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/day" android:layout_weight="1"/>
+    </LinearLayout>
+    <com.sma.smartv3.view.picker.DatePicker android:id="@+id/date_picker" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <View style="@style/pop_bottom_line_style"/>
+    <include layout="@layout/layout_pop_bottom_btn"/>
+</LinearLayout>

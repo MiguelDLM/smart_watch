@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.lightnavi.view.LightNaviTabsBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/light_tabs_bar"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_light_navi_bottom_tab_height">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/route_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/nsdk_layout_light_navi_tabs_item"/>
+        <include
+            android:id="@+id/route_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/nsdk_layout_light_navi_tabs_item"/>
+        <include
+            android:id="@+id/route_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/nsdk_layout_light_navi_tabs_item"/>
+    </LinearLayout>
+</com.baidu.navisdk.lightnavi.view.LightNaviTabsBar>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/pop_common_container_style">
+    <Button android:id="@+id/btn_scan_qrcode" android:layout_marginTop="24dp" android:text="@string/scan_qrcode" style="@style/btn_common"/>
+    <Button android:id="@+id/btn_add_device" android:layout_marginTop="20dp" android:text="@string/add_device" style="@style/btn_common"/>
+    <Button android:id="@+id/btn_cancel" android:layout_marginTop="40dp" android:layout_marginBottom="24dp" android:text="@string/cancel" style="@style/btn_common"/>
+</LinearLayout>

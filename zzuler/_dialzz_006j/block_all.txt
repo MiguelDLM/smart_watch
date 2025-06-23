@@ -1,0 +1,122 @@
+Number of block = 12 , (0x000C)
+Size of pltable = 79 , (0x004F)
+
+ 0.=47480 byte,  1.= 8848 byte,  2.= 5552 byte,  3.= 3156 byte,  4.= 4708 byte,  5.= 5096 byte,  6.= 4944 byte,  7.= 4880 byte
+ 8.= 4952 byte,  9.= 3392 byte, 10.= 5996 byte, 11.= 4928 byte, 12.= 5552 byte, 13.= 3156 byte, 14.= 4708 byte, 15.= 5096 byte
+16.= 4944 byte, 17.= 4880 byte, 18.= 4952 byte, 19.= 3392 byte, 20.= 5996 byte, 21.= 4928 byte, 22.= 4744 byte, 23.= 4988 byte
+24.= 4748 byte, 25.= 6880 byte, 26.= 5868 byte, 27.= 3964 byte, 28.= 5748 byte, 29.= 1796 byte, 30.= 1836 byte, 31.= 2344 byte
+32.= 1980 byte, 33.= 2612 byte, 34.= 1784 byte, 35.= 1656 byte, 36.= 2296 byte, 37.= 2104 byte, 38.= 1824 byte, 39.= 2304 byte
+40.= 1952 byte, 41.= 1064 byte, 42.=  696 byte, 43.=  816 byte, 44.=  940 byte, 45.=  780 byte, 46.=  856 byte, 47.=  904 byte
+48.=  692 byte, 49.= 1104 byte, 50.=  896 byte, 51.= 1064 byte, 52.=  696 byte, 53.=  816 byte, 54.=  940 byte, 55.=  780 byte
+56.=  856 byte, 57.=  904 byte, 58.=  692 byte, 59.= 1104 byte, 60.=  896 byte, 61.=  360 byte, 62.= 1084 byte, 63.=  644 byte
+64.=  764 byte, 65.=  824 byte, 66.=  812 byte, 67.=  760 byte, 68.= 1016 byte, 69.=  628 byte, 70.= 1108 byte, 71.= 1024 byte
+72.= 3084 byte, 73.= 3616 byte, 74.= 4000 byte, 75.= 4232 byte, 76.= 4104 byte, 77.= 3976 byte, 78.= 4924 byte
+summa=267420 byte
+
+ 0.=0000B978,  1.=00002290,  2.=000015B0,  3.=00000C54,  4.=00001264,  5.=000013E8,  6.=00001350,  7.=00001310
+ 8.=00001358,  9.=00000D40, 10.=0000176C, 11.=00001340, 12.=000015B0, 13.=00000C54, 14.=00001264, 15.=000013E8
+16.=00001350, 17.=00001310, 18.=00001358, 19.=00000D40, 20.=0000176C, 21.=00001340, 22.=00001288, 23.=0000137C
+24.=0000128C, 25.=00001AE0, 26.=000016EC, 27.=00000F7C, 28.=00001674, 29.=00000704, 30.=0000072C, 31.=00000928
+32.=000007BC, 33.=00000A34, 34.=000006F8, 35.=00000678, 36.=000008F8, 37.=00000838, 38.=00000720, 39.=00000900
+40.=000007A0, 41.=00000428, 42.=000002B8, 43.=00000330, 44.=000003AC, 45.=0000030C, 46.=00000358, 47.=00000388
+48.=000002B4, 49.=00000450, 50.=00000380, 51.=00000428, 52.=000002B8, 53.=00000330, 54.=000003AC, 55.=0000030C
+56.=00000358, 57.=00000388, 58.=000002B4, 59.=00000450, 60.=00000380, 61.=00000168, 62.=0000043C, 63.=00000284
+64.=000002FC, 65.=00000338, 66.=0000032C, 67.=000002F8, 68.=000003F8, 69.=00000274, 70.=00000454, 71.=00000400
+72.=00000C0C, 73.=00000E20, 74.=00000FA0, 75.=00001088, 76.=00001008, 77.=00000F88, 78.=0000133C
+summa=0x4149C byte
+Block  1.
+    0x81 type: Preview image RGBA (prev)
+    0x00000230    (    560) picture address
+    0x00,0x00     (  0,  0) picidx,valami2
+    0x0118,0x0118 (280,280) sx,sy
+    0x0000,0x0000 (  0,  0) posX,posY
+    0x01,0x81     (  1,129) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  2.
+    0x02 type: Background image  RGB (background2)
+    0x0000BBA8    (  48040) picture address
+    0x01,0x00     (  1,  0) picidx,valami2
+    0x01D2,0x01D2 (466,466) sx,sy
+    0x0000,0x0000 (  0,  0) posX,posY
+    0x01,0x02     (  1,  2) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  3.
+    0x89 type: Hours RGBA (hours)
+    0x0000DE38    (  56888) picture address
+    0x02,0x00     (  2,  0) picidx,valami2
+    0x0042,0x0060 ( 66, 96) sx,sy
+    0x0058,0x004A ( 88, 74) posX,posY
+    0x0A,0x89     ( 10,137) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  4.
+    0x8A type: Minutes RGBA (minutes)
+    0x0001982C    ( 104492) picture address
+    0x0C,0x00     ( 12,  0) picidx,valami2
+    0x0042,0x0060 ( 66, 96) sx,sy
+    0x00FC,0x004A (252, 74) posX,posY
+    0x0A,0x8A     ( 10,138) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  5.
+    0x8D type: Day of week RGBA ()
+    0x00025220    ( 152096) picture address
+    0x16,0x00     ( 22,  0) picidx,valami2
+    0x00D4,0x001C (212, 28) sx,sy
+    0x00E9,0x00B4 (233,180) posX,posY
+    0x07,0x8D     (  7,141) parts,blocktype
+    0x0A,0x04,0x00,0x00 ( 10,  4,  0,  0) align,compr,centX,centY
+Block  6.
+    0x87 type: Month RGBA (Month)
+    0x0002E26C    ( 189036) picture address
+    0x1D,0x00     ( 29,  0) picidx,valami2
+    0x0044,0x0022 ( 68, 34) sx,sy
+    0x008C,0x00E1 (140,225) posX,posY
+    0x0C,0x87     ( 12,135) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  7.
+    0x88 type: Day RGBA ()
+    0x00034214    ( 213524) picture address
+    0x29,0x00     ( 41,  0) picidx,valami2
+    0x0012,0x0020 ( 18, 32) sx,sy
+    0x00D9,0x00DC (217,220) posX,posY
+    0x0A,0x88     ( 10,136) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  8.
+    0x86 type: Year RGBA ()
+    0x00036440    ( 222272) picture address
+    0x33,0x00     ( 51,  0) picidx,valami2
+    0x0012,0x0020 ( 18, 32) sx,sy
+    0x010F,0x00DC (271,220) posX,posY
+    0x0A,0x86     ( 10,134) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block  9.
+    0x82 type: Background image RGBA (background9)
+    0x0003866C    ( 231020) picture address
+    0x3D,0x00     ( 61,  0) picidx,valami2
+    0x000A,0x0020 ( 10, 32) sx,sy
+    0x00FB,0x00E1 (251,225) posX,posY
+    0x01,0x82     (  1,130) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block 10.
+    0x8E type: Steps RGBA (steps)
+    0x000387D4    ( 231380) picture address
+    0x3E,0x00     ( 62,  0) picidx,valami2
+    0x0014,0x001C ( 20, 28) sx,sy
+    0x0096,0x014F (150,335) posX,posY
+    0x0A,0x8E     ( 10,142) parts,blocktype
+    0x0A,0x04,0x00,0x00 ( 10,  4,  0,  0) align,compr,centX,centY
+Block 11.
+    0x82 type: Background image RGBA (background11)
+    0x0003A9AC    ( 240044) picture address
+    0x48,0x00     ( 72,  0) picidx,valami2
+    0x005C,0x0023 ( 92, 35) sx,sy
+    0x006F,0x017C (111,380) posX,posY
+    0x01,0x82     (  1,130) parts,blocktype
+    0x00,0x04,0x00,0x00 (  0,  4,  0,  0) align,compr,centX,centY
+Block 12.
+    0x98 type: Battery strip RGBA (battery)
+    0x0003B5B8    ( 243128) picture address
+    0x49,0x00     ( 73,  0) picidx,valami2
+    0x0054,0x004B ( 84, 75) sx,sy
+    0x0141,0x014F (321,335) posX,posY
+    0x06,0x98     (  6,152) parts,blocktype
+    0x0A,0x04,0x00,0x00 ( 10,  4,  0,  0) align,compr,centX,centY

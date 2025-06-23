@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/bn_img_txt_btn_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_16dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_h"
+        android:id="@+id/bn_img_txt_btn_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_below="@+id/bn_img_txt_btn_icon"
+        android:layout_centerHorizontal="true"/>
+</merge>

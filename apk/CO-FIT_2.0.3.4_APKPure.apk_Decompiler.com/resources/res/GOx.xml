@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/text_color" android:gravity="center_horizontal" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/login_reminder_tip" android:drawableTop="@drawable/pic_login_reminder" android:drawablePadding="25dp" android:layout_marginStart="22dp" android:layout_marginEnd="22dp"/>
+    </FrameLayout>
+    <Button android:text="@string/login" style="@style/bottom_btn"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="16dp" android:textColor="@color/text_color" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/bottom_btn_margin" android:text="@string/not_logged_in_yet" android:onClick="noLogin"/>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <RelativeLayout android:id="@+id/tabs_container" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.baidu.navisdk.routetab.view.MultiTabHorizontalScrollView android:id="@+id/multi_tabs_horizontal_scrollView" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:overScrollMode="never">
+            <LinearLayout android:orientation="horizontal" android:id="@+id/multi_tabs_container" android:paddingLeft="2dp" android:paddingRight="2dp" android:layout_width="wrap_content" android:layout_height="76dp" android:layout_marginTop="4dp" android:layout_marginBottom="4dp">
+                <com.baidu.navisdk.routetab.view.item.multi.CarMultiRouteTabItem android:id="@+id/multi_tabs_one" android:visibility="gone" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" style="@style/CarMultiRouteTabItem"/>
+                <View android:id="@+id/multi_tabs_line1" android:background="#e9eaf0" android:layout_width="0.5dp" android:layout_height="match_parent" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"/>
+                <com.baidu.navisdk.routetab.view.item.multi.CarMultiRouteTabItem android:id="@+id/multi_tabs_two" android:visibility="gone" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" style="@style/CarMultiRouteTabItem"/>
+                <View android:id="@+id/multi_tabs_line2" android:background="#e9eaf0" android:layout_width="0.5dp" android:layout_height="match_parent" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"/>
+                <com.baidu.navisdk.routetab.view.item.multi.CarMultiRouteTabItem android:id="@+id/multi_tabs_three" android:visibility="gone" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" style="@style/CarMultiRouteTabItem"/>
+                <LinearLayout android:orientation="horizontal" android:id="@+id/multi_ext_tabs_layout" android:layout_width="wrap_content" android:layout_height="match_parent"/>
+            </LinearLayout>
+        </com.baidu.navisdk.routetab.view.MultiTabHorizontalScrollView>
+        <View android:id="@+id/multi_tabs_horizontal_mask" android:background="@drawable/nsdk_drawable_multi_tab_mask_bg" android:visibility="gone" android:layout_width="@dimen/navi_dimens_40dp" android:layout_height="76dp" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+        <FrameLayout android:id="@+id/single_tab_container" android:layout_width="match_parent" android:layout_height="66dp" android:layout_marginLeft="2dp" android:layout_marginTop="4dp" android:layout_marginRight="2dp" android:layout_marginBottom="4dp">
+            <com.baidu.navisdk.routetab.view.item.single.CarSingleRouteTabItem android:id="@+id/single_tab" android:background="@drawable/nsdk_drawable_tab_bg_default" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" app:bn_routetab_tolls_ic="@drawable/nsdk_ic_route_result_road_toll_selector" app:bn_routetab_traffic_ic="@drawable/nsdk_ic_route_result_traffic_light_selector" style="@style/CarSingleRouteTabItem"/>
+        </FrameLayout>
+    </RelativeLayout>
+</merge>

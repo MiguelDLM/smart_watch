@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="@color/bnav_ar_interval_over_speed_progress_bg"/>
+    <stroke
+        android:width="@dimen/navi_dimens_4dp"
+        android:color="@color/bnav_ar_interval_over_speed_progress_bar"/>
+</shape>

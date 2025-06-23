@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNLinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@drawable/nsdk_drawable_before_nav_dialog_background" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ImageView android:id="@+id/icon" android:layout_width="match_parent" android:layout_height="wrap_content" android:scaleType="fitXY" android:adjustViewBounds="true"/>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/content" android:paddingLeft="15dp" android:paddingTop="20dp" android:paddingRight="15dp" android:paddingBottom="20dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="20dp" android:textColor="#333333" android:gravity="center" android:id="@+id/title" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lineSpacingExtra="4dp"/>
+        <TextView android:textSize="20dp" android:textColor="#333333" android:gravity="center" android:id="@+id/message" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lineSpacingExtra="4dp"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/button_collection" android:paddingLeft="15dp" android:paddingRight="15dp" android:layout_width="match_parent" android:layout_height="74dp">
+        <TextView android:textSize="16dp" android:textColor="@color/nsdk_route_result_radar_btn_text_selector" android:gravity="center" android:id="@+id/negative_btn" android:background="@drawable/nsdk_route_result_light_btn_bg_selector" android:visibility="gone" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1"/>
+        <View android:id="@+id/btn_gap" android:visibility="gone" android:layout_width="6dp" android:layout_height="1px"/>
+        <TextView android:textSize="16dp" android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector" android:gravity="center" android:id="@+id/positive_btn" android:background="@drawable/nsdk_light_navi_to_nav_bg_selector" android:visibility="gone" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1"/>
+    </LinearLayout>
+</com.baidu.navisdk.ui.widget.BNLinearLayout>

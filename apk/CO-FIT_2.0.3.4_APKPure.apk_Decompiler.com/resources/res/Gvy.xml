@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:background="@drawable/v2_ai_bg" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/search_func_ll" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="40dp">
+        <ImageView style="@style/abh_title_left"/>
+        <LinearLayout android:background="@drawable/ripple_ai_tab_seach_bg" android:padding="5dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginRight="25dp">
+            <EditText android:textSize="16sp" android:textColor="@color/text_color" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/search_view" android:background="@null" android:paddingLeft="5dp" android:paddingRight="5dp" android:layout_width="0dp" android:layout_height="match_parent" android:hint="输入功能名称" android:maxLines="1" android:singleLine="true" android:layout_weight="1"/>
+            <View android:layout_gravity="center_vertical" android:background="@color/text_color" android:layout_width="1dp" android:layout_height="30dp"/>
+            <ImageView android:padding="3dp" android:layout_width="30dp" android:layout_height="30dp" android:layout_marginLeft="10dp" android:src="@drawable/search_icon" android:onClick="onSearch"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:textSize="15dp" android:textColor="@color/line_color" android:gravity="center_vertical" android:id="@+id/rv_empty" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="@string/search_no_data" android:layout_centerHorizontal="true"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/adpcAdContainerView" android:layout_below="@+id/search_func_ll"/>
+    <com.sma.smartv3.view.ad.ADPCAdContainerView android:id="@+id/adpcAdContainerView" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" app:acv_adUnitId="@string/adpc_unit_banner1_home_ai_search" app:acv_autoLoad="false"/>
+    <com.sma.smartv3.view.ad.ADPAdContainerView android:id="@+id/adpAdContainerView" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" app:acv_adUnitId="@string/adp_unit_banner1_home_ai_search" app:acv_autoLoad="false"/>
+</RelativeLayout>

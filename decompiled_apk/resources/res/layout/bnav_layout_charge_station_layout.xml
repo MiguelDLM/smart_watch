@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/charge_list_station_img"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+    <TextView
+        android:textSize="11dp"
+        android:textColor="#ffff7040"
+        android:gravity="center_vertical"
+        android:id="@+id/charge_list_station_info"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:text="空11/22"
+        android:includeFontPadding="false"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"/>
+</LinearLayout>

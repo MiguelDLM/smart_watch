@@ -1,0 +1,581 @@
+package com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect;
+
+import XXO0.oIX0oI;
+import com.baidu.platform.comapi.map.MapBundleKey;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.annotations.Beta;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.annotations.GwtCompatible;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.base.Function;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.base.Preconditions;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.base.Predicate;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.base.Predicates;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Collections2;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.math.IntMath;
+import com.google.firebase.crashlytics.buildtools.reloc.org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+@GwtCompatible
+/* loaded from: classes10.dex */
+public final class Collections2 {
+
+    /* loaded from: classes10.dex */
+    public static class FilteredCollection<E> extends AbstractCollection<E> {
+        final Predicate<? super E> predicate;
+        final Collection<E> unfiltered;
+
+        public FilteredCollection(Collection<E> collection, Predicate<? super E> predicate) {
+            this.unfiltered = collection;
+            this.predicate = predicate;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$forEach$0(Consumer consumer, Object obj) {
+            if (this.predicate.test(obj)) {
+                consumer.accept(obj);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ boolean lambda$removeIf$2(java.util.function.Predicate predicate, Object obj) {
+            boolean test;
+            if (this.predicate.apply(obj)) {
+                test = predicate.test(obj);
+                if (test) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ boolean lambda$retainAll$1(Collection collection, Object obj) {
+            return !collection.contains(obj);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean add(E e) {
+            Preconditions.checkArgument(this.predicate.apply(e));
+            return this.unfiltered.add(e);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean addAll(Collection<? extends E> collection) {
+            Iterator<? extends E> it = collection.iterator();
+            while (it.hasNext()) {
+                Preconditions.checkArgument(this.predicate.apply(it.next()));
+            }
+            return this.unfiltered.addAll(collection);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public void clear() {
+            Iterables.removeIf(this.unfiltered, this.predicate);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean contains(@NullableDecl Object obj) {
+            if (Collections2.safeContains(this.unfiltered, obj)) {
+                return this.predicate.apply(obj);
+            }
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean containsAll(Collection<?> collection) {
+            return Collections2.containsAllImpl(this, collection);
+        }
+
+        public FilteredCollection<E> createCombined(Predicate<? super E> predicate) {
+            return new FilteredCollection<>(this.unfiltered, Predicates.and(this.predicate, predicate));
+        }
+
+        @Override // java.lang.Iterable
+        public void forEach(final Consumer<? super E> consumer) {
+            Preconditions.checkNotNull(consumer);
+            this.unfiltered.forEach(new Consumer() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.oXIO0o0XI
+                @Override // java.util.function.Consumer
+                public final void accept(Object obj) {
+                    Collections2.FilteredCollection.this.lambda$forEach$0(consumer, obj);
+                }
+            });
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean isEmpty() {
+            return !Iterables.any(this.unfiltered, this.predicate);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+        public Iterator<E> iterator() {
+            return Iterators.filter(this.unfiltered.iterator(), this.predicate);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean remove(Object obj) {
+            if (contains(obj) && this.unfiltered.remove(obj)) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean removeAll(final Collection<?> collection) {
+            collection.getClass();
+            return removeIf(new java.util.function.Predicate() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.xOOOX
+                @Override // java.util.function.Predicate
+                public final boolean test(Object obj) {
+                    return collection.contains(obj);
+                }
+            });
+        }
+
+        @Override // java.util.Collection
+        public boolean removeIf(final java.util.function.Predicate<? super E> predicate) {
+            boolean removeIf;
+            Preconditions.checkNotNull(predicate);
+            removeIf = this.unfiltered.removeIf(new java.util.function.Predicate() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.xX0IIXIx0
+                @Override // java.util.function.Predicate
+                public final boolean test(Object obj) {
+                    boolean lambda$removeIf$2;
+                    lambda$removeIf$2 = Collections2.FilteredCollection.this.lambda$removeIf$2(predicate, obj);
+                    return lambda$removeIf$2;
+                }
+            });
+            return removeIf;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean retainAll(final Collection<?> collection) {
+            return removeIf(new java.util.function.Predicate() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.XIXIX
+                @Override // java.util.function.Predicate
+                public final boolean test(Object obj) {
+                    boolean lambda$retainAll$1;
+                    lambda$retainAll$1 = Collections2.FilteredCollection.lambda$retainAll$1(collection, obj);
+                    return lambda$retainAll$1;
+                }
+            });
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public int size() {
+            Iterator<E> it = this.unfiltered.iterator();
+            int i = 0;
+            while (it.hasNext()) {
+                if (this.predicate.apply(it.next())) {
+                    i++;
+                }
+            }
+            return i;
+        }
+
+        @Override // java.util.Collection, java.lang.Iterable
+        public Spliterator<E> spliterator() {
+            Spliterator spliterator;
+            spliterator = this.unfiltered.spliterator();
+            return CollectSpliterators.filter(spliterator, this.predicate);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public Object[] toArray() {
+            return Lists.newArrayList(iterator()).toArray();
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public <T> T[] toArray(T[] tArr) {
+            return (T[]) Lists.newArrayList(iterator()).toArray(tArr);
+        }
+    }
+
+    /* loaded from: classes10.dex */
+    public static final class OrderedPermutationCollection<E> extends AbstractCollection<List<E>> {
+        final Comparator<? super E> comparator;
+        final ImmutableList<E> inputList;
+        final int size;
+
+        public OrderedPermutationCollection(Iterable<E> iterable, Comparator<? super E> comparator) {
+            ImmutableList<E> sortedCopyOf = ImmutableList.sortedCopyOf(comparator, iterable);
+            this.inputList = sortedCopyOf;
+            this.comparator = comparator;
+            this.size = calculateSize(sortedCopyOf, comparator);
+        }
+
+        private static <E> int calculateSize(List<E> list, Comparator<? super E> comparator) {
+            int i = 1;
+            int i2 = 1;
+            int i3 = 1;
+            while (i < list.size()) {
+                if (comparator.compare(list.get(i - 1), list.get(i)) < 0) {
+                    i2 = IntMath.saturatedMultiply(i2, IntMath.binomial(i, i3));
+                    if (i2 == Integer.MAX_VALUE) {
+                        return Integer.MAX_VALUE;
+                    }
+                    i3 = 0;
+                }
+                i++;
+                i3++;
+            }
+            return IntMath.saturatedMultiply(i2, IntMath.binomial(i, i3));
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean contains(@NullableDecl Object obj) {
+            if (obj instanceof List) {
+                return Collections2.isPermutation(this.inputList, (List) obj);
+            }
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+        public Iterator<List<E>> iterator() {
+            return new OrderedPermutationIterator(this.inputList, this.comparator);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public int size() {
+            return this.size;
+        }
+
+        @Override // java.util.AbstractCollection
+        public String toString() {
+            return "orderedPermutationCollection(" + this.inputList + oIX0oI.I0Io.f4095I0Io;
+        }
+    }
+
+    /* loaded from: classes10.dex */
+    public static final class OrderedPermutationIterator<E> extends AbstractIterator<List<E>> {
+        final Comparator<? super E> comparator;
+
+        @NullableDecl
+        List<E> nextPermutation;
+
+        public OrderedPermutationIterator(List<E> list, Comparator<? super E> comparator) {
+            this.nextPermutation = Lists.newArrayList(list);
+            this.comparator = comparator;
+        }
+
+        public void calculateNextPermutation() {
+            int findNextJ = findNextJ();
+            if (findNextJ == -1) {
+                this.nextPermutation = null;
+                return;
+            }
+            Collections.swap(this.nextPermutation, findNextJ, findNextL(findNextJ));
+            Collections.reverse(this.nextPermutation.subList(findNextJ + 1, this.nextPermutation.size()));
+        }
+
+        public int findNextJ() {
+            for (int size = this.nextPermutation.size() - 2; size >= 0; size--) {
+                if (this.comparator.compare(this.nextPermutation.get(size), this.nextPermutation.get(size + 1)) < 0) {
+                    return size;
+                }
+            }
+            return -1;
+        }
+
+        public int findNextL(int i) {
+            E e = this.nextPermutation.get(i);
+            for (int size = this.nextPermutation.size() - 1; size > i; size--) {
+                if (this.comparator.compare(e, this.nextPermutation.get(size)) < 0) {
+                    return size;
+                }
+            }
+            throw new AssertionError("this statement should be unreachable");
+        }
+
+        @Override // com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.AbstractIterator
+        public List<E> computeNext() {
+            List<E> list = this.nextPermutation;
+            if (list == null) {
+                return endOfData();
+            }
+            ImmutableList copyOf = ImmutableList.copyOf((Collection) list);
+            calculateNextPermutation();
+            return copyOf;
+        }
+    }
+
+    /* loaded from: classes10.dex */
+    public static final class PermutationCollection<E> extends AbstractCollection<List<E>> {
+        final ImmutableList<E> inputList;
+
+        public PermutationCollection(ImmutableList<E> immutableList) {
+            this.inputList = immutableList;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean contains(@NullableDecl Object obj) {
+            if (obj instanceof List) {
+                return Collections2.isPermutation(this.inputList, (List) obj);
+            }
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+        public Iterator<List<E>> iterator() {
+            return new PermutationIterator(this.inputList);
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public int size() {
+            return IntMath.factorial(this.inputList.size());
+        }
+
+        @Override // java.util.AbstractCollection
+        public String toString() {
+            return "permutations(" + this.inputList + oIX0oI.I0Io.f4095I0Io;
+        }
+    }
+
+    /* loaded from: classes10.dex */
+    public static class PermutationIterator<E> extends AbstractIterator<List<E>> {
+        final int[] c;
+        int j;
+        final List<E> list;
+        final int[] o;
+
+        public PermutationIterator(List<E> list) {
+            this.list = new ArrayList(list);
+            int size = list.size();
+            int[] iArr = new int[size];
+            this.c = iArr;
+            int[] iArr2 = new int[size];
+            this.o = iArr2;
+            Arrays.fill(iArr, 0);
+            Arrays.fill(iArr2, 1);
+            this.j = Integer.MAX_VALUE;
+        }
+
+        public void calculateNextPermutation() {
+            int size = this.list.size() - 1;
+            this.j = size;
+            if (size == -1) {
+                return;
+            }
+            int i = 0;
+            while (true) {
+                int[] iArr = this.c;
+                int i2 = this.j;
+                int i3 = iArr[i2];
+                int i4 = this.o[i2] + i3;
+                if (i4 < 0) {
+                    switchDirection();
+                } else if (i4 == i2 + 1) {
+                    if (i2 != 0) {
+                        i++;
+                        switchDirection();
+                    } else {
+                        return;
+                    }
+                } else {
+                    Collections.swap(this.list, (i2 - i3) + i, (i2 - i4) + i);
+                    this.c[this.j] = i4;
+                    return;
+                }
+            }
+        }
+
+        public void switchDirection() {
+            int[] iArr = this.o;
+            int i = this.j;
+            iArr[i] = -iArr[i];
+            this.j = i - 1;
+        }
+
+        @Override // com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.AbstractIterator
+        public List<E> computeNext() {
+            if (this.j <= 0) {
+                return endOfData();
+            }
+            ImmutableList copyOf = ImmutableList.copyOf((Collection) this.list);
+            calculateNextPermutation();
+            return copyOf;
+        }
+    }
+
+    /* loaded from: classes10.dex */
+    public static class TransformedCollection<F, T> extends AbstractCollection<T> {
+        final Collection<F> fromCollection;
+        final Function<? super F, ? extends T> function;
+
+        public TransformedCollection(Collection<F> collection, Function<? super F, ? extends T> function) {
+            this.fromCollection = (Collection) Preconditions.checkNotNull(collection);
+            this.function = (Function) Preconditions.checkNotNull(function);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$forEach$0(Consumer consumer, Object obj) {
+            consumer.accept(this.function.apply(obj));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ boolean lambda$removeIf$1(java.util.function.Predicate predicate, Object obj) {
+            boolean test;
+            test = predicate.test(this.function.apply(obj));
+            return test;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public void clear() {
+            this.fromCollection.clear();
+        }
+
+        @Override // java.lang.Iterable
+        public void forEach(final Consumer<? super T> consumer) {
+            Preconditions.checkNotNull(consumer);
+            this.fromCollection.forEach(new Consumer() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.oOo
+                @Override // java.util.function.Consumer
+                public final void accept(Object obj) {
+                    Collections2.TransformedCollection.this.lambda$forEach$0(consumer, obj);
+                }
+            });
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public boolean isEmpty() {
+            return this.fromCollection.isEmpty();
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+        public Iterator<T> iterator() {
+            return Iterators.transform(this.fromCollection.iterator(), this.function);
+        }
+
+        @Override // java.util.Collection
+        public boolean removeIf(final java.util.function.Predicate<? super T> predicate) {
+            boolean removeIf;
+            Preconditions.checkNotNull(predicate);
+            removeIf = this.fromCollection.removeIf(new java.util.function.Predicate() { // from class: com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.O0X
+                @Override // java.util.function.Predicate
+                public final boolean test(Object obj) {
+                    boolean lambda$removeIf$1;
+                    lambda$removeIf$1 = Collections2.TransformedCollection.this.lambda$removeIf$1(predicate, obj);
+                    return lambda$removeIf$1;
+                }
+            });
+            return removeIf;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection
+        public int size() {
+            return this.fromCollection.size();
+        }
+
+        @Override // java.util.Collection, java.lang.Iterable
+        public Spliterator<T> spliterator() {
+            Spliterator spliterator;
+            spliterator = this.fromCollection.spliterator();
+            return CollectSpliterators.map(spliterator, this.function);
+        }
+    }
+
+    private Collections2() {
+    }
+
+    public static <T> Collection<T> cast(Iterable<T> iterable) {
+        return (Collection) iterable;
+    }
+
+    public static boolean containsAllImpl(Collection<?> collection, Collection<?> collection2) {
+        Iterator<?> it = collection2.iterator();
+        while (it.hasNext()) {
+            if (!collection.contains(it.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static <E> Collection<E> filter(Collection<E> collection, Predicate<? super E> predicate) {
+        if (collection instanceof FilteredCollection) {
+            return ((FilteredCollection) collection).createCombined(predicate);
+        }
+        return new FilteredCollection((Collection) Preconditions.checkNotNull(collection), (Predicate) Preconditions.checkNotNull(predicate));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static boolean isPermutation(List<?> list, List<?> list2) {
+        if (list.size() != list2.size()) {
+            return false;
+        }
+        return HashMultiset.create(list).equals(HashMultiset.create(list2));
+    }
+
+    public static StringBuilder newStringBuilderForCollection(int i) {
+        CollectPreconditions.checkNonnegative(i, MapBundleKey.OfflineMapKey.OFFLINE_TOTAL_SIZE);
+        return new StringBuilder((int) Math.min(i * 8, 1073741824L));
+    }
+
+    @Beta
+    public static <E extends Comparable<? super E>> Collection<List<E>> orderedPermutations(Iterable<E> iterable) {
+        return orderedPermutations(iterable, Ordering.natural());
+    }
+
+    @Beta
+    public static <E> Collection<List<E>> permutations(Collection<E> collection) {
+        return new PermutationCollection(ImmutableList.copyOf((Collection) collection));
+    }
+
+    public static boolean safeContains(Collection<?> collection, @NullableDecl Object obj) {
+        Preconditions.checkNotNull(collection);
+        try {
+            return collection.contains(obj);
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public static boolean safeRemove(Collection<?> collection, @NullableDecl Object obj) {
+        Preconditions.checkNotNull(collection);
+        try {
+            return collection.remove(obj);
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public static String toStringImpl(Collection<?> collection) {
+        StringBuilder newStringBuilderForCollection = newStringBuilderForCollection(collection.size());
+        newStringBuilderForCollection.append('[');
+        boolean z = true;
+        for (Object obj : collection) {
+            if (!z) {
+                newStringBuilderForCollection.append(", ");
+            }
+            if (obj == collection) {
+                newStringBuilderForCollection.append("(this Collection)");
+            } else {
+                newStringBuilderForCollection.append(obj);
+            }
+            z = false;
+        }
+        newStringBuilderForCollection.append(']');
+        return newStringBuilderForCollection.toString();
+    }
+
+    public static <F, T> Collection<T> transform(Collection<F> collection, Function<? super F, T> function) {
+        return new TransformedCollection(collection, function);
+    }
+
+    @Beta
+    public static <E> Collection<List<E>> orderedPermutations(Iterable<E> iterable, Comparator<? super E> comparator) {
+        return new OrderedPermutationCollection(iterable, comparator);
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/exercise_name" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <com.sma.smartv3.view.text.FontEditText android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/edt_name" android:background="@null" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/repeat_times" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <com.sma.smartv3.view.text.FontTextView android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_repeat" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="setRepeat" android:drawableEnd="@drawable/icon_right_enter_normal" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.text.FontTextView android:textSize="12sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="@string/exercise_description" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <com.sma.smartv3.view.text.FontEditText android:textSize="16sp" android:textColor="@color/text_color" android:gravity="top" android:id="@+id/edt_description" android:background="@null" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" app:my_font="4"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <Button android:text="@string/next" style="@style/bottom_btn"/>
+</LinearLayout>

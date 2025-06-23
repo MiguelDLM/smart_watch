@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/displacement_layout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:id="@+id/charging_reminder_image_1" android:layout_width="68dp" android:layout_height="68dp" android:src="@drawable/nsdk_drawable_mileage_find_pile"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:id="@+id/charging_reminder_image_2" android:layout_width="68dp" android:layout_height="68dp" android:src="@drawable/nsdk_drawable_mileage_charging"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
+        <ImageView android:id="@+id/charging_reminder_image_3" android:layout_width="68dp" android:layout_height="68dp" android:src="@drawable/nsdk_drawable_mileage_planning"/>
+    </LinearLayout>
+</LinearLayout>

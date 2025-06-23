@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/rootView" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:animateLayoutChanges="true">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <RelativeLayout android:id="@+id/ivExerciseBg" android:background="@drawable/l1_top_image" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tvExerciseDesc" android:padding="20dp" android:text="@string/l1_run_walk" android:layout_alignParentBottom="true" style="@style/exercise_course_info_item_tv_one_style"/>
+                <RelativeLayout android:id="@+id/syncRl" android:background="@color/hr_color" android:padding="3dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/syncTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/syncing" android:layout_centerInParent="true"/>
+                </RelativeLayout>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/exerciseL1" android:visibility="gone" style="@style/exercise_mode_ll_style">
+                <LinearLayout style="@style/exercise_course_info_item_ll">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:gravity="center" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <com.sma.smartv3.view.text.DINCondBold android:text="@string/l1" style="@style/exercise_course_info_item_tv_one_style"/>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/difficulty" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_centerHorizontal="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="23" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/min" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/time" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_alignParentEnd="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="125" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/kcal" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description_content_l1" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/action_details" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd_content_l1" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/exerciseL2Easy" android:visibility="gone" style="@style/exercise_mode_ll_style">
+                <LinearLayout style="@style/exercise_course_info_item_ll">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:gravity="center" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <com.sma.smartv3.view.text.DINCondBold android:text="@string/l2" style="@style/exercise_course_info_item_tv_one_style"/>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/difficulty" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_centerHorizontal="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="30" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/min" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/time" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_alignParentEnd="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="278" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/kcal" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description_content_l2_easy_fat" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/action_details" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/fifteen_minutes" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/rest" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_1" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_10" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd_content_l2_easy_fat" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/exerciseL2Amf" android:visibility="gone" style="@style/exercise_mode_ll_style">
+                <LinearLayout style="@style/exercise_course_info_item_ll">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:gravity="center" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <com.sma.smartv3.view.text.DINCondBold android:text="@string/l2" style="@style/exercise_course_info_item_tv_one_style"/>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/difficulty" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_centerHorizontal="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="24" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/min" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/time" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_alignParentEnd="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="279" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/kcal" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description_content_l2_maf" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/action_details" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_20" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd_content_l2_maf" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/exerciseL3" style="@style/exercise_mode_ll_style">
+                <LinearLayout style="@style/exercise_course_info_item_ll">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:gravity="center" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <com.sma.smartv3.view.text.DINCondBold android:text="@string/l3" style="@style/exercise_course_info_item_tv_one_style"/>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/difficulty" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_centerHorizontal="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="28" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/min" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/time" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_alignParentEnd="true" style="@style/exercise_course_info_item_tv_one_ll_style">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.DINCondBold android:text="257" style="@style/exercise_course_info_item_tv_one_style"/>
+                                <com.sma.smartv3.view.text.DINCondBold android:text="@string/kcal" style="@style/exercise_course_info_item_tv_one_unit_style"/>
+                            </LinearLayout>
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/exercise_course_info_item_tv_one_bottom_desc_style"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/course_description_content_l3" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/action_details" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/medium_speed" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/medium_speed" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/medium_speed" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/jogging" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/medium_speed" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_3" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_marginTop="12dp" style="@style/exercise_course_info_item_ad_rl">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/hurry_up" style="@style/exercise_course_info_item_ad_rl_tv_left"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/min_2" style="@style/exercise_course_info_item_ad_rl_tv_right"/>
+                    </RelativeLayout>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" style="@style/exercise_course_info_item_ll">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd" style="@style/exercise_course_info_item_two_tv_style"/>
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/suitable_for_the_crowd_content_l1" style="@style/exercise_course_info_item_two_tv_content_style"/>
+                    <View style="@style/exercise_course_info_item_line"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_marginBottom="20dp" style="@style/exercise_course_info_item_ll">
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/taboo_crowd" style="@style/exercise_course_info_item_two_tv_style"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/taboo_crowd_content" style="@style/exercise_course_info_item_two_tv_content_style"/>
+            </LinearLayout>
+            <Button android:id="@+id/btRemove" android:layout_margin="20dp" android:text="@string/remove" android:onClick="removeClick" style="@style/btn_common"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

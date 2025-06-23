@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/nsdk_drawable_common_loading_box"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+        android:textColor="#ff0000"
+        android:id="@+id/upload_result_tx"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_100dp"
+        android:hint="没有文件上传失败."
+        android:layout_centerHorizontal="true"/>
+    <View
+        android:id="@+id/line_sp"
+        android:background="@drawable/nsdk_drawable_common_line_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_2dp"
+        android:layout_below="@+id/upload_result_tx"/>
+    <TextView
+        android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+        android:id="@+id/upload_succes_result_tx"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_100dp"
+        android:hint="没有文件上传成功"
+        android:layout_below="@+id/line_sp"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+        android:id="@+id/continue_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="继续上传"
+        android:layout_below="@+id/upload_succes_result_tx"/>
+</RelativeLayout>

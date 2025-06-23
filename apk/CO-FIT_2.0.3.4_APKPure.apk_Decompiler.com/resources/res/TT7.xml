@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/nav_view_select_layout" android:background="@drawable/nav_settings_middle_selector" android:clickable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:baselineAligned="false">
+            <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:id="@+id/nav_view_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:layout_marginTop="12dp" android:layout_marginBottom="16dp" android:text="导航视角"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="horizontal" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:paddingBottom="@dimen/during_setting_btn_bottom_line_margin" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:divider="@drawable/bnav_setting_during_divider_medium" android:showDividers="middle">
+                <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/bnav_view_car3d_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:id="@+id/bnav_view_car3d_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="跟随车头" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/bnav_view_north2d_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:id="@+id/bnav_view_north2d_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8dp" android:text="正北朝上" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView style="@style/NavSettingDuringDivider"/>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/nav_day_night_mode_select_layout" android:background="@drawable/nav_settings_middle_selector" android:clickable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:baselineAligned="false">
+            <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:id="@+id/nav_day_night_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:layout_marginTop="12dp" android:layout_marginBottom="16dp" android:text="日夜模式"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="horizontal" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:paddingBottom="@dimen/during_setting_btn_bottom_line_margin" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:divider="@drawable/bnav_setting_during_divider_medium" android:showDividers="middle">
+                <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/bnav_auto_mode_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:id="@+id/bnav_auto_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="自动" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/bnav_day_mode_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:id="@+id/bnav_day_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="白天" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:id="@+id/bnav_night_mode_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:id="@+id/bnav_night_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="夜间" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView style="@style/NavSettingDuringDivider"/>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/nav_display_select_layout" android:background="@drawable/nav_settings_middle_selector" android:clickable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:baselineAligned="false">
+            <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:id="@+id/nav_display_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:layout_marginTop="12dp" android:layout_marginBottom="16dp" android:text="导航中图面显示"/>
+        </RelativeLayout>
+        <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@+id/nav_remaining_road_condition_layout" android:background="@drawable/nav_settings_middle_selector" android:paddingBottom="@dimen/during_setting_btn_bottom_line_margin" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp" android:divider="@drawable/bnav_setting_during_divider_medium" android:showDividers="middle">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_display_overview_mode_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:gravity="center" android:id="@+id/nav_display_overview_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="全览小窗" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_display_road_cond_mode_layout" android:background="@drawable/bnav_setting_btn_bg_selector" android:layout_width="match_parent" android:layout_height="@dimen/during_setting_btn_height" android:layout_weight="1">
+                    <TextView android:gravity="center" android:id="@+id/nav_display_road_condition_mode_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="路况条" style="@style/NavSettingDuringBtnText"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView style="@style/NavSettingDuringDivider"/>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="导航比例尺智能缩放"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中地图自动放大或缩小"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_scale_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="多路线推荐"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开启或关闭多路线推荐"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_multi_route_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="道路名"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中道路名显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_route_name_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="车道线"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中车道线显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_lane_line_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="区间测试"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中区间测速显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_measurement_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="高速面板"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中高速面板显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_highway_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="主辅路桥上桥下"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中主辅路桥上桥下按钮显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_bridge_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="导航工具箱"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中底部更多按钮显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_bottom_bar_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="路况按钮"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中路况按钮是否显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_road_condition_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="导航播报按钮"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中导航播报按钮是否显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_voice_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="路线刷新按钮"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中路线刷新按钮是否显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_refresh_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="底图缩放按钮"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中底图缩放按钮是否显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_zoom_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="诱导悬浮窗"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="导航中诱导悬浮窗是否显示"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/float_window_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <TextView android:textColor="#000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="new"/>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="定制icon"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="替换起点、终点、当前位置的icon（勾选默认修改车标）"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_iconset_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="icon显示"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="起点、终点、当前位置icon的显示状态（当前位置）"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_iconvisibility_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="设置车牌"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="使用车牌号"/>
+                    <EditText android:id="@+id/carnum_edit" android:layout_width="200dp" android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_carnum_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="终点连线"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="是否显示车标到终点红色连线(默认设置车辆类型-car)"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_redline_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="路口放大图"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="是否显示路口放大图(默认设置车辆类型-car)"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_RoadEnlargeView_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="自动退出"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="到达目的地时，导航是否自动退出"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_AutoQuit_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="100dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="车标偏移"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="仅针对专业导航Car3D竖屏模式有效，，底图中心为(0, 0)原点"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp">
+                    <TextView android:textColor="#000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="x="/>
+                    <EditText android:id="@+id/offset_x" android:layout_width="150dp" android:layout_height="wrap_content" android:hint="大于0时往右偏移" android:inputType="numberSigned"/>
+                    <TextView android:textColor="#000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="y="/>
+                    <EditText android:id="@+id/offset_y" android:layout_width="150dp" android:layout_height="wrap_content" android:hint="小于0时往下偏移" android:inputType="numberSigned"/>
+                </LinearLayout>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_CarIconOffset_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="屏幕边距"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="全览时路线距离屏幕边距（勾选默认为 40）"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_margin_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="路线偏好"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="路线偏好功能入口是否开放"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_RouteSort_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="沿途检索功能"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="沿途检索功能入口是否开放"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_RouteSearch_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="更多设置"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更多设置功能入口是否开放 "/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_moreset_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:background="@drawable/nav_settings_middle_selector" android:layout_width="match_parent" android:layout_height="60dp">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent">
+                <TextView android:textAppearance="@style/NavCommonListItemTitleText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:text="进导航时是否全览"/>
+                <TextView android:textAppearance="@style/NavCommonListItemTipsText" android:gravity="center_vertical" android:paddingLeft="15dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="进导航时是否全览"/>
+            </LinearLayout>
+            <CheckBox android:id="@+id/nav_seeallwhenbegin_cb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15dp" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="@null"/>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

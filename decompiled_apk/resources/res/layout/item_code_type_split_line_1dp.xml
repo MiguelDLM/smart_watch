@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_secondary_bg"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginStart="@dimen/device_item_split_line_1dp_margin_start"
+    android:layout_marginEnd="@dimen/device_item_split_line_1dp_margin_end"/>

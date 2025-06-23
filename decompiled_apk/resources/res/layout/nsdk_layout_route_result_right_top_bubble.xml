@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="13dp"
+    android:textColor="@android:color/white"
+    android:gravity="center_vertical"
+    android:id="@+id/rr_right_top_bubble_txt"
+    android:background="@drawable/nsdk_rr_right_top_bubble_bg"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:visibility="visible"
+    android:layout_width="wrap_content"
+    android:layout_height="38dp"
+    android:maxWidth="260dp"
+    android:maxLines="1"/>

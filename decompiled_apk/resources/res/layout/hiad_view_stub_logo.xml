@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@color/hiad_transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/hiad_full_mode_logo"
+        android:layout_width="@dimen/hiad_24_dp"
+        android:layout_height="@dimen/hiad_24_dp"
+        android:layout_marginEnd="@dimen/hiad_margin_m"/>
+    <TextView
+        android:textSize="@dimen/hiad_emui_master_subtitle"
+        android:textColor="@color/hiad_font"
+        android:ellipsize="end"
+        android:id="@+id/hiad_media_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxEms="6"
+        android:singleLine="true"
+        android:shadowColor="@color/hiad_source_shadow_color"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"/>
+</LinearLayout>

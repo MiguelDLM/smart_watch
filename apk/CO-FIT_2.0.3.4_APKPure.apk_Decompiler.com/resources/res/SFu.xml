@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/bg_pop_cover_bottom" android:layout_width="match_parent" android:layout_height="match_parent">
+    <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <ImageView android:layout_gravity="center_horizontal" android:id="@+id/pop_recording_img" android:layout_width="wrap_content" android:layout_height="90dp" android:src="@drawable/pop_recording_animation_img"/>
+    <TextView android:textSize="16sp" android:textColor="@color/text_color" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/release_sending"/>
+    <ImageView android:layout_gravity="center_horizontal" android:id="@+id/pop_recording_clear_img" android:layout_width="60dp" android:layout_height="60dp" android:layout_margin="10dp" android:src="@drawable/pop_recording_clear_img"/>
+    <ImageView android:background="@drawable/pop_recording_btn_img" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</LinearLayout>

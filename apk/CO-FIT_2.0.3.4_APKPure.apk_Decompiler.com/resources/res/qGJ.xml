@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huawei.hms.ads.nativead.NativeView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/adp_huawei_native_app_download_button_view" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+    <RelativeLayout android:id="@+id/adp_huawei_background" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.huawei.hms.ads.nativead.MediaView android:id="@+id/adp_huawei_ad_media" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <RelativeLayout android:id="@+id/adp_huawei_left_bottom_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/adp_huawei_ad_media">
+            <TextView android:textSize="16sp" android:textColor="@color/black" android:id="@+id/adp_huawei_ad_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginStart="16dp"/>
+            <LinearLayout android:orientation="horizontal" android:id="@+id/adp_huawei_ad_source_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_below="@+id/adp_huawei_ad_title">
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_source" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="100dp" android:layout_marginStart="16dp"/>
+                <TextView android:textColor="#666666" android:gravity="center" android:id="@+id/adp_huawei_ad_flag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AD" android:layout_marginStart="10dp"/>
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_app_developer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="158dp" android:layout_marginStart="10dp"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:id="@+id/adp_huawei_ad_app_detail_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/adp_huawei_ad_source_layout">
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_app_version" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="100dp" android:text="@string/adp_huawei_app_version" android:layout_marginStart="16dp"/>
+                <TextView android:layout_gravity="center" android:background="#666666" android:layout_width="1dp" android:layout_height="10dp" android:layout_marginStart="8dp"/>
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_detail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/adp_huawei_app_detail" android:layout_marginStart="10dp"/>
+                <TextView android:layout_gravity="center" android:background="#666666" android:layout_width="1dp" android:layout_height="10dp" android:layout_marginStart="8dp"/>
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_privacy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/adp_huawei_app_privacy" android:layout_marginStart="10dp"/>
+                <TextView android:layout_gravity="center" android:background="#666666" android:layout_width="1dp" android:layout_height="10dp" android:layout_marginStart="8dp"/>
+                <TextView android:textColor="#666666" android:id="@+id/adp_huawei_ad_permission" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/adp_huawei_app_permission" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/adp_huawei_right_bottom_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/adp_huawei_ad_media" android:layout_alignParentEnd="true">
+            <com.huawei.hms.ads.AppDownloadButton android:id="@+id/adp_huawei_app_download_btn" android:layout_width="72dp" android:layout_height="26dp" android:layout_marginTop="24dp" android:layout_marginBottom="24dp" android:layout_centerVertical="true" android:layout_marginEnd="16dp" android:layout_alignParentEnd="true" app:hiad_fixedWidth="true" app:hiad_maxWidth="100dp" app:hiad_minWidth="72dp" app:hiad_textColor="#ffffff" app:hiad_textSize="12sp"/>
+            <LinearLayout android:orientation="horizontal" android:layout_width="95dp" android:layout_height="26dp" android:layout_marginTop="24dp" android:layout_marginBottom="24dp" android:layout_marginEnd="10dp" android:layout_alignParentEnd="true">
+                <Button android:textSize="10sp" android:textColor="#ffffff" android:id="@+id/adp_huawei_ad_call_to_action" android:background="@drawable/adp_huawei_native_button_rounded_corners_shape" android:visibility="gone" android:layout_width="72dp" android:layout_height="26dp"/>
+                <ImageView android:id="@+id/ads_huawei_close" android:background="@drawable/adp_ad_close" android:layout_width="12dp" android:layout_height="12dp" android:layout_marginLeft="10dp" android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</com.huawei.hms.ads.nativead.NativeView>

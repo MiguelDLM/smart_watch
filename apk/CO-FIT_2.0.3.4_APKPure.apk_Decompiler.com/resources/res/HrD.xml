@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@drawable/shape_charge_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:id="@+id/title_bar" style="@style/charge_title_bar">
+        <ImageView android:visibility="invisible" android:src="@drawable/ic_charge_back" style="@style/charge_title_left"/>
+        <com.sma.smartv3.view.text.PFMedium android:text="TW03" style="@style/charge_title_center"/>
+        <ImageView android:visibility="invisible" android:src="@drawable/icon_multi_device" style="@style/charge_title_right"/>
+    </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/srf" android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+                <androidx.viewpager.widget.ViewPager android:id="@+id/device_viewpager" android:layout_width="match_parent" android:layout_height="205dp"/>
+                <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <FrameLayout android:layout_gravity="center" android:id="@+id/indicator_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2dp"/>
+                </FrameLayout>
+                <com.sma.smartv3.view.text.DINCondBold android:textSize="12dp" android:textColor="@color/light" android:layout_gravity="center" android:id="@+id/tv_state" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/device_connectied"/>
+                <LinearLayout android:orientation="vertical" android:id="@+id/charge_panel" android:visibility="visible" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/charge_panel_info" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="20dp">
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                            <com.sma.smartv3.view.ArcProgressBar android:id="@+id/pb_power" android:layout_width="100dp" android:layout_height="8dp" app:arc_pb_backgroundColor="@color/charge_info_pb_bg_color" app:arc_pb_background_radius="16dp" app:arc_pb_endColor="@color/charge_info_pb_end_color" app:arc_pb_foreground_radius="16dp" app:arc_pb_progress="0.35" app:arc_pb_startColor="@color/charge_info_pb_start_color"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/light" android:id="@+id/tv_power" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="75%" android:drawablePadding="5dp" android:drawableStart="@drawable/ic_charge_power"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:id="@+id/ear_translation_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/ear_dialogue_translation_layout" android:paddingLeft="2dp" android:paddingTop="5dp" android:paddingRight="2dp" android:paddingBottom="5dp" android:layout_weight="1" android:onClick="onDialogueTranslation" android:layout_marginEnd="10dp" style="@style/charge_panel_style">
+                            <ImageView android:layout_width="wrap_content" android:layout_height="40dp" android:src="@drawable/icon_dialogue_translation"/>
+                            <com.sma.smartv3.view.text.PFMedium android:gravity="center" android:layout_marginTop="3dp" android:text="@string/dialogue_translation" style="@style/charge_panel_title_style"/>
+                        </LinearLayout>
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/ear_simultaneous_translation_layout" android:paddingLeft="2dp" android:paddingTop="5dp" android:paddingRight="2dp" android:paddingBottom="5dp" android:layout_weight="1" android:onClick="onSimultaneousInterpretation" android:layout_marginStart="10dp" style="@style/charge_panel_style">
+                            <ImageView android:layout_width="wrap_content" android:layout_height="40dp" android:src="@drawable/icon_simultaneous_interpretation"/>
+                            <com.sma.smartv3.view.text.PFMedium android:gravity="center" android:layout_marginTop="3dp" android:text="@string/simultaneous_interpretation" style="@style/charge_panel_title_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout style="@style/charge_panel_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/lightness" style="@style/charge_panel_title_style"/>
+                        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+                            <com.sma.smartv3.view.ScaleSeekBar android:id="@+id/seekbar_lightness" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxHeight="50dp" android:max="3" android:progress="1" android:progressDrawable="@drawable/seekbar_lightness_drawable" android:minHeight="50dp" android:thumb="@null" android:thumbOffset="0dp"/>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/item_lightness_tv_low" android:text="@string/lightness_low" style="@style/charge_setting_tab_item_tv_style"/>
+                                <com.sma.smartv3.view.text.PFMedium android:enabled="false" android:id="@+id/item_lightness_tv_middle" android:text="@string/lightness_middle" style="@style/charge_setting_tab_item_tv_style"/>
+                                <com.sma.smartv3.view.text.PFMedium android:enabled="false" android:id="@+id/item_lightness_tv_high" android:text="@string/lightness_high" style="@style/charge_setting_tab_item_tv_style"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_height="wrap_content" style="@style/charge_panel_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/screensaver" style="@style/charge_panel_title_style"/>
+                        <LinearLayout android:orientation="horizontal" android:id="@+id/ll_screensaver" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                            <RelativeLayout android:id="@+id/add_screensaver" android:layout_width="90dp" android:layout_height="90dp" android:layout_margin="4dp">
+                                <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/shape_charge_screansaver_add_bg" android:layout_centerInParent="true"/>
+                                <ImageView android:background="@drawable/ic_screensaver_add" android:layout_width="50dp" android:layout_height="50dp" android:layout_centerInParent="true"/>
+                            </RelativeLayout>
+                            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_screensaver" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout android:orientation="horizontal" android:background="@drawable/item_screen_volume_bg" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                            <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_screensaver_value" android:layout_width="wrap_content" android:text="60s" style="@style/device_item_tv"/>
+                            <SeekBar android:layout_gravity="center_vertical" android:id="@+id/seekbar_screensaver" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxHeight="2dp" android:max="97" android:progress="60" android:progressDrawable="@drawable/seekbar_volume_drawable" android:minHeight="2dp" android:thumb="@drawable/seekbar_volume_ic_thumb" android:thumbOffset="5dp"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_marginTop="15dp" android:onClick="onOnlineScreensavers" style="@style/charge_inner_set_panel_style">
+                            <LinearLayout style="@style/charge_setting_item_root_style">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/online_screensavers" style="@style/charge_setting_item_title_style"/>
+                                <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_height="wrap_content" style="@style/charge_panel_style">
+                        <LinearLayout android:onClick="onNotification" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/notification" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <LinearLayout style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/ear_incoming_call" style="@style/charge_setting_item_title_style"/>
+                            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_call" style="@style/charge_setting_item_right_checkbox_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:layout_height="wrap_content" style="@style/charge_panel_style">
+                            <LinearLayout android:onClick="onMemoryManager" style="@style/charge_setting_item_root_style">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/local_broadcast_memory_key" style="@style/charge_setting_item_title_style"/>
+                                <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                            </LinearLayout>
+                            <LinearLayout android:orientation="vertical" android:id="@+id/item_music_manager" android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <include layout="@layout/charge_item_split_line"/>
+                                <include layout="@layout/charge_item_split_line"/>
+                                <LinearLayout android:onClick="onMusicManager" style="@style/charge_setting_item_root_style">
+                                    <com.sma.smartv3.view.text.PFMedium android:text="@string/music_manager" style="@style/charge_setting_item_title_style"/>
+                                    <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout android:orientation="vertical" android:id="@+id/item_ebook_manager" android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <include layout="@layout/charge_item_split_line"/>
+                                <include layout="@layout/charge_item_split_line"/>
+                                <LinearLayout android:onClick="onEBookManager" style="@style/charge_setting_item_root_style">
+                                    <com.sma.smartv3.view.text.PFMedium android:text="@string/ebook_manager" style="@style/charge_setting_item_title_style"/>
+                                    <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout android:orientation="vertical" android:id="@+id/item_voice_assistant" android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <include layout="@layout/charge_item_split_line"/>
+                                <include layout="@layout/charge_item_split_line"/>
+                                <LinearLayout android:onClick="onVoiceAssistant" style="@style/charge_setting_item_root_style">
+                                    <com.sma.smartv3.view.text.PFMedium android:text="@string/voice_assistant" style="@style/charge_setting_item_title_style"/>
+                                    <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <LinearLayout android:onClick="onFirmwareUpgrade" style="@style/charge_panel_style">
+                            <LinearLayout style="@style/charge_setting_item_root_style">
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/firmware_upgrade" style="@style/charge_setting_item_title_style"/>
+                                <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:id="@+id/earphone_panel" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/earphone_panel_info" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="20dp">
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                            <com.sma.smartv3.view.ArcProgressBar android:id="@+id/pb_earphone_l" android:layout_width="80dp" android:layout_height="8dp" app:arc_pb_backgroundColor="@color/charge_info_pb_bg_color" app:arc_pb_background_radius="16dp" app:arc_pb_endColor="@color/charge_info_pb_end_color" app:arc_pb_foreground_radius="16dp" app:arc_pb_progress="0.6" app:arc_pb_startColor="@color/charge_info_pb_start_color"/>
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp">
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/light" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="L" android:layout_marginEnd="6dp"/>
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/light" android:id="@+id/tv_earphone_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="60%"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <View android:layout_width="30dp" android:layout_height="wrap_content"/>
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                            <com.sma.smartv3.view.ArcProgressBar android:id="@+id/pb_earphone_r" android:layout_width="80dp" android:layout_height="8dp" app:arc_pb_backgroundColor="@color/charge_info_pb_bg_color" app:arc_pb_background_radius="16dp" app:arc_pb_endColor="@color/charge_info_pb_end_color" app:arc_pb_foreground_radius="16dp" app:arc_pb_progress="0.6" app:arc_pb_startColor="@color/charge_info_pb_start_color"/>
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp">
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/light" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R" android:layout_marginEnd="6dp"/>
+                                <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/light" android:id="@+id/tv_earphone_r" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="60%"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/ll_noise_settings" style="@style/charge_panel_style">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/noise_settings" style="@style/charge_panel_title_style"/>
+                        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+                            <LinearLayout style="@style/charge_setting_tab_item_root_style">
+                                <ImageView android:id="@+id/iv_denoise" android:background="@drawable/shape_charge_panel_set_fg" android:src="@drawable/ic_denoise_gray" android:onClick="onNoiseSetTab" style="@style/charge_setting_tab_item_iv_style"/>
+                                <ImageView android:id="@+id/iv_noise_close" android:src="@drawable/ic_noise_close_gray" android:onClick="onNoiseSetTab" style="@style/charge_setting_tab_item_iv_style"/>
+                                <ImageView android:id="@+id/iv_transparent" android:src="@drawable/ic_transparent_gray" android:onClick="onNoiseSetTab" style="@style/charge_setting_tab_item_iv_style"/>
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_noise_mode_denoise" android:text="@string/noise_mode_denoise" style="@style/charge_setting_tab_item_tv_style"/>
+                                <com.sma.smartv3.view.text.PFMedium android:enabled="false" android:id="@+id/tv_noise_mode_close" android:text="@string/noise_mode_close" style="@style/charge_setting_tab_item_tv_style"/>
+                                <com.sma.smartv3.view.text.PFMedium android:enabled="false" android:id="@+id/tv_noise_mode_transparent" android:text="@string/noise_mode_transparent" style="@style/charge_setting_tab_item_tv_style"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout android:id="@+id/item_custom_anc" android:visibility="gone" android:layout_marginTop="15dp" android:onClick="onCustomANC" style="@style/charge_inner_set_panel_style">
+                            <LinearLayout style="@style/charge_setting_item_root_style">
+                                <ImageView android:src="@drawable/ic_charge_set" style="@style/charge_setting_item_left_iv_style"/>
+                                <com.sma.smartv3.view.text.PFMedium android:text="@string/customize" style="@style/charge_setting_item_title_style"/>
+                                <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:onClick="onSoundEffects" style="@style/charge_panel_style">
+                        <LinearLayout style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/equalizer" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_height="wrap_content" style="@style/charge_panel_style">
+                        <LinearLayout android:onClick="onEarphoneLeftKey" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/earphone_left_key" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <LinearLayout android:onClick="onEarphoneRightKey" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/earphone_right_key" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_height="wrap_content" style="@style/charge_panel_style">
+                        <LinearLayout style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/find_earphone_left" style="@style/charge_setting_item_title_style"/>
+                            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_find_earphone_left" android:clickable="false" style="@style/charge_setting_item_right_checkbox_style"/>
+                        </LinearLayout>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <LinearLayout style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/find_earphone_right" style="@style/charge_setting_item_title_style"/>
+                            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_find_earphone_right" android:clickable="false" style="@style/charge_setting_item_right_checkbox_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <LinearLayout style="@style/charge_panel_style">
+                        <LinearLayout android:onClick="onSettings" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/settings" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <LinearLayout android:onClick="onPermission" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/permission_settings" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                        <include layout="@layout/charge_item_split_line"/>
+                        <LinearLayout android:onClick="onAbout" style="@style/charge_setting_item_root_style">
+                            <com.sma.smartv3.view.text.PFMedium android:text="@string/about" style="@style/charge_setting_item_title_style"/>
+                            <ImageView style="@style/charge_setting_item_right_iv_style"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp">
+                    <Button android:id="@+id/btn_unbind" android:layout_height="40dp" android:text="@string/unbind" android:onClick="onUnbind" style="@style/btn_common"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

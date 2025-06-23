@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:padding="20dp" style="@style/pop_dial_common_container_style">
+    <LinearLayout android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dial_bg_pop_iv"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/background" android:layout_marginStart="8dp"/>
+    </LinearLayout>
+    <View android:background="@color/line_color" android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_marginTop="10dp"/>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect0" android:src="@drawable/dial_customize_3_0" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect1" android:src="@drawable/dial_customize_3_1" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect2" android:src="@drawable/dial_customize_3_2" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+    </LinearLayout>
+    <LinearLayout style="@style/dial_pop_content_ll_style">
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect3" android:src="@drawable/dial_customize_3_3" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect4" android:src="@drawable/dial_customize_3_4" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+        <com.sma.smartv3.view.ImageViewRound android:id="@+id/dialSelect5" android:src="@drawable/dial_customize_3_5" app:isCustomize="true" app:radius="0dp" app:type="radial" style="@style/dial_customize_pop_item"/>
+    </LinearLayout>
+    <Button android:text="@string/custom_bg" android:textAllCaps="false" style="@style/pop_dial_bottom"/>
+</LinearLayout>

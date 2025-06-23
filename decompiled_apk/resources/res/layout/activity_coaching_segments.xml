@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.FontTextView
+        android:textColor="@color/line_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18.5dp"
+        android:layout_marginBottom="9.5dp"
+        android:text="@string/coaching_segments_tip"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"/>
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.swipelist.DragListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@null"
+        android:layout_weight="1"/>
+    <Button
+        android:text="@string/save"
+        style="@style/bottom_btn"/>
+</LinearLayout>

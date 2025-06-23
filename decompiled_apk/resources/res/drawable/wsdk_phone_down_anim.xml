@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down1"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down2"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down3"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down4"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down5"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down6"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down7"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down7"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down7"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down7"/>
+    <item
+        android:duration="90"
+        android:drawable="@drawable/wsdk_phone_down7"/>
+</animation-list>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ugc.quickinput.sugs.QuickInputPromptView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv1"
+        style="@style/nsdk_ugc_quick_input_item_text_style"/>
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line1"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv2"
+        style="@style/nsdk_ugc_quick_input_item_text_style"/>
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line2"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv3"
+        style="@style/nsdk_ugc_quick_input_item_text_style"/>
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line3"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv4"
+        style="@style/nsdk_ugc_quick_input_item_text_style"/>
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line4"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+</com.baidu.navisdk.ugc.quickinput.sugs.QuickInputPromptView>

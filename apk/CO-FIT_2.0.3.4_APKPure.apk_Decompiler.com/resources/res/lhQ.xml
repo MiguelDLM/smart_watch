@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/coach_layout_margin_start_end">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/abh_per_confirm_tip2"/>
+        <LinearLayout android:orientation="horizontal" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp">
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:paddingTop="16dp" android:paddingBottom="16dp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" style="@style/abh_coach_layout_style_bg">
+                <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/assessment_cofirm_icon_level"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/coach_your_level"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:id="@+id/assessment_you_level" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/coach_rank_beginner"/>
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:paddingTop="16dp" android:paddingBottom="16dp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" style="@style/abh_coach_layout_style_bg">
+                <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/assessment_cofirm_icon_duralion"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/duration"/>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/text_color" android:id="@+id/assessment_duration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="4 Weeks"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_gravity="bottom" android:id="@+id/start_title_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="25dp" android:text="@string/abh_next_btn_tip"/>
+    </LinearLayout>
+</FrameLayout>

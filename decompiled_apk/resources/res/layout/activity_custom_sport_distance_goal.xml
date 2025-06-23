@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout
+        android:id="@+id/distanceLl"
+        style="@style/sport_goal_customer_set_ll">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/distance1Et"
+                style="@style/sport_goal_edit_bg"/>
+            <EditText
+                android:id="@+id/distance2Et"
+                style="@style/sport_goal_edit_bg"/>
+            <EditText
+                android:enabled="false"
+                android:background="@null"
+                android:hint="."
+                style="@style/sport_goal_edit_bg"/>
+            <EditText
+                android:id="@+id/distance3Et"
+                style="@style/sport_goal_edit_bg"/>
+        </LinearLayout>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textColor="@color/text_color"
+            android:id="@+id/distanceUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/km"/>
+    </LinearLayout>
+</LinearLayout>

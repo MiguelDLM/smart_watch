@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout style="@style/user_info_container">
+        <com.sma.smartv3.view.text.PFMedium android:id="@+id/languageName" android:text="English" style="@style/user_info_title"/>
+        <ImageView style="@style/user_info_image"/>
+    </LinearLayout>
+    <View style="@style/h_divider_gray2_margin22"/>
+</LinearLayout>

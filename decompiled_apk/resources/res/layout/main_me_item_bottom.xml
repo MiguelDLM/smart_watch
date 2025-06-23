@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout style="@style/me_item_bottom_ll">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btUserInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_user_info"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/user_info"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_exercise_course"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/exercise_course"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_switch_theme"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/switch_theme"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_font_repaie"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/font_repair"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btFirmwareRepair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_firmware_repair"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/firmware_repair"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/btUiRepair"
+            style="@style/me_item_bottom_ll_rl">
+            <com.sma.smartv3.view.TintImageView
+                android:src="@drawable/icon_ui_repair"
+                style="@style/me_item_bottom_ll_rl_iv"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:text="@string/ui_repair"
+                style="@style/me_item_bottom_ll_rl_tv"/>
+            <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.sma.smartv3.view.ad.ADPCAdContainerView
+            android:id="@+id/adpcAdContainerView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:acv_adUnitId="@string/adpc_unit_banner1_home_me"
+            app:acv_autoLoad="false"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.sma.smartv3.view.ad.ADPAdContainerView
+            android:id="@+id/adpAdContainerView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:acv_adUnitId="@string/adp_unit_banner1_home_me"
+            app:acv_autoLoad="false"/>
+    </LinearLayout>
+    <LinearLayout style="@style/me_item_bottom_ll">
+        <RelativeLayout
+            android:id="@+id/btSetting"
+            style="@style/me_item_bottom_ll_rl">
+            <com.sma.smartv3.view.TintImageView
+                android:src="@drawable/icon_setting"
+                style="@style/me_item_bottom_ll_rl_iv"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:text="@string/settings"
+                style="@style/me_item_bottom_ll_rl_tv"/>
+            <ImageView
+                android:id="@+id/ivRemind"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="30dp"
+                android:layout_alignParentEnd="true"
+                style="@style/red_remind_iv_style"/>
+            <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+        </RelativeLayout>
+        <View style="@style/me_item_bottom_ll_line"/>
+        <RelativeLayout
+            android:id="@+id/btPermissionSetting"
+            style="@style/me_item_bottom_ll_rl">
+            <com.sma.smartv3.view.TintImageView
+                android:src="@drawable/icon_permission_settings"
+                style="@style/me_item_bottom_ll_rl_iv"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:text="@string/permission_settings"
+                style="@style/me_item_bottom_ll_rl_tv"/>
+            <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+        </RelativeLayout>
+        <View style="@style/me_item_bottom_ll_line"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btFeedBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout style="@style/me_item_bottom_ll_rl">
+                <com.sma.smartv3.view.TintImageView
+                    android:src="@drawable/icon_feedback"
+                    style="@style/me_item_bottom_ll_rl_iv"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/feedback"
+                    style="@style/me_item_bottom_ll_rl_tv"/>
+                <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+            </RelativeLayout>
+            <View style="@style/me_item_bottom_ll_line"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/btAbout"
+            style="@style/me_item_bottom_ll_rl">
+            <com.sma.smartv3.view.TintImageView
+                android:src="@drawable/pic_about"
+                style="@style/me_item_bottom_ll_rl_iv"/>
+            <com.sma.smartv3.view.text.PFMedium
+                android:text="@string/about"
+                style="@style/me_item_bottom_ll_rl_tv"/>
+            <ImageView style="@style/device_item_right_iv_style.me_item_bottom_ll_rl_right_iv"/>
+        </RelativeLayout>
+    </LinearLayout>
+</merge>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:oneshot="false">
+    <item android:duration="200" android:drawable="@drawable/aura_recording_00"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_01"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_02"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_03"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_04"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_05"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_06"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_07"/>
+    <item android:duration="200" android:drawable="@drawable/aura_recording_08"/>
+</animation-list>

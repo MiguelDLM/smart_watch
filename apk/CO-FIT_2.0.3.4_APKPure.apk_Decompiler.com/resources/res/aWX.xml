@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <View android:id="@+id/detail_place_holder" android:layout_width="match_parent" android:layout_height="148dp"/>
+    <com.baidu.navisdk.ui.widget.BNLoadingView android:id="@+id/detail_loading_view" android:visibility="gone" android:layout_width="match_parent" android:layout_height="148dp"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/container" android:focusableInTouchMode="false" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</FrameLayout>

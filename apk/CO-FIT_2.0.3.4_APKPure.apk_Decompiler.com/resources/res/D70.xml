@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="#000000" android:layout_width="match_parent" android:layout_height="match_parent">
+    <android.opengl.GLSurfaceView android:id="@+id/bdar_surface" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_npc_view_group" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="6dp" android:layout_alignParentTop="true">
+        <RelativeLayout android:id="@+id/bdar_npc_bg" android:layout_width="282.5dp" android:layout_height="50dp">
+            <ImageView android:id="@+id/bdar_iv_npc_bg" android:visibility="gone" android:layout_width="565dp" android:layout_height="100dp"/>
+            <TextView android:textSize="14.5sp" android:textColor="#ffffff" android:id="@+id/bdar_npc_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="57.5dp" android:maxLength="240" android:layout_centerVertical="true" android:letterSpacing="0.02"/>
+        </RelativeLayout>
+        <ImageView android:id="@+id/bdar_iv_npc_dir" android:layout_width="50dp" android:layout_height="50dp" android:alpha="0"/>
+        <ImageView android:id="@+id/bdar_iv_npc_icon" android:layout_width="50dp" android:layout_height="50dp"/>
+    </RelativeLayout>
+    <LinearLayout android:orientation="horizontal" android:visibility="gone" android:layout_width="match_parent" android:layout_height="100dp" android:layout_marginLeft="120dp" android:layout_marginTop="100dp">
+        <Button android:textSize="12sp" android:id="@+id/bdar_iv_case_state" android:background="@drawable/bdar_round_button_red" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginLeft="10dp" android:hint="case"/>
+        <Button android:textSize="12sp" android:id="@+id/bdar_iv_run_ability" android:background="@drawable/bdar_round_button_red" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginLeft="10dp" android:hint="abil"/>
+        <Button android:textSize="12sp" android:id="@+id/bdar_iv_location_state" android:background="@drawable/bdar_round_button_red" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginLeft="10dp"/>
+        <Button android:textSize="12sp" android:id="@+id/bdar_iv_route_state" android:background="@drawable/bdar_round_button_red" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginLeft="10dp"/>
+        <Button android:textSize="12sp" android:id="@+id/bdar_iv_engine_state" android:background="@drawable/bdar_round_button_red" android:layout_width="20dp" android:layout_height="20dp" android:layout_marginLeft="10dp"/>
+        <TextView android:textSize="12sp" android:textColor="#6178ed" android:layout_gravity="end" android:id="@+id/bdar_tv_algo_print" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:text="xxxxxxxxxx"/>
+    </LinearLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_debug_group" android:layout_width="match_parent" android:layout_height="350dp" android:layout_marginTop="310dp" android:layout_alignParentTop="true">
+        <ScrollView android:id="@+id/bdar_debug_scrollview" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView android:textColor="#02f31a" android:id="@+id/bdar_text_debug_logger" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:text="debugView"/>
+        </ScrollView>
+        <RelativeLayout android:id="@+id/bdar_debug_panel" android:layout_width="match_parent" android:layout_height="50dp">
+            <TextView android:textSize="13dp" android:textColor="#0bf61a" android:id="@+id/bdar_txt_center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="200dp" android:text="测试"/>
+            <TextView android:textSize="13dp" android:textColor="#f80025" android:id="@+id/bdar_arengine_state" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="AREngine Pause" android:layout_below="@+id/bdar_txt_center" android:layout_centerInParent="true"/>
+            <TextView android:textSize="13dp" android:textColor="#7400f8" android:id="@+id/bdar_vpas_state" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="AREngine Pause" android:layout_below="@+id/bdar_txt_center" android:layout_centerInParent="true"/>
+            <Switch android:id="@+id/bdar_debug_sw_btn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:textOn="开启-207" android:textOff="关闭-207"/>
+        </RelativeLayout>
+        <Button android:id="@+id/bdar_ck_open_recoder" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="是否开启录制" android:layout_below="@+id/bdar_debug_panel"/>
+        <Button android:id="@+id/bdar_mock_bluetooth" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="模拟蓝牙" android:layout_below="@+id/bdar_ck_open_recoder"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_lift_up_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:id="@+id/bdar_image_lift_up" android:background="@drawable/bdar_wsdk_newar_lift_up" android:layout_width="200dp" android:layout_height="200dp" android:layout_centerInParent="true"/>
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:gravity="center" android:background="@drawable/bdar_wsdk_ar_top_hint_bg" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="30dp" android:text="@string/bdar_hint_lift_up" android:layout_below="@+id/bdar_image_lift_up" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_scanaroud_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:id="@+id/bdar_image_scanaroud" android:background="@drawable/bdar_wsdk_newar_scan" android:layout_width="53dp" android:layout_height="105dp" android:layout_centerInParent="true"/>
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_text_scanroud" android:background="@drawable/bdar_wsdk_ar_top_hint_bg" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="30dp" android:text="@string/bdar_hint_scan" android:layout_below="@+id/bdar_image_scanaroud" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_net_fail_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView android:textSize="18dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_text_netfail" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="3dp" android:text="@string/bdar_location_fail" android:layout_centerHorizontal="true"/>
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:id="@+id/bdar_text_netfail_low" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="3dp" android:text="请点击按钮重试" android:layout_below="@+id/bdar_text_netfail" android:layout_centerHorizontal="true"/>
+        <Button android:textSize="15dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_button_netfail_reset" android:background="@drawable/bdar_wsdk_selector_btn_blue" android:layout_width="200dp" android:layout_height="35dp" android:layout_marginTop="30dp" android:text="@string/bdar_hint_betfail_reset_loc" android:layout_below="@+id/bdar_text_netfail_low" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_fail_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:id="@+id/bdar_image_fail" android:background="@drawable/bdar_icon_vps_fail" android:layout_width="140dp" android:layout_height="100dp" android:layout_centerInParent="true"/>
+        <TextView android:textSize="18dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_text_fail" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="3dp" android:text="抱歉，定位失败" android:layout_below="@+id/bdar_image_fail" android:layout_centerHorizontal="true"/>
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:id="@+id/bdar_text_fail_low" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginTop="3dp" android:text="请点击按钮重试" android:layout_below="@+id/bdar_text_fail" android:layout_centerHorizontal="true"/>
+        <Button android:textSize="15dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_button_reset" android:background="@drawable/bdar_wsdk_selector_btn_blue" android:layout_width="120dp" android:layout_height="35dp" android:layout_marginTop="30dp" android:text="@string/bdar_hint_reset_loc" android:layout_below="@+id/bdar_text_fail_low" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_locfinish_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_centerInParent="true">
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_text_loc_finish" android:background="@drawable/bdar_wsdk_ar_top_hint_bg" android:layout_width="wrap_content" android:layout_height="46dp" android:text="@string/bdar_hint_Loc_finish" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/bdar_locgoing_group" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:id="@+id/bdar_image_scan" android:background="@drawable/bdar_wsdk_vpas_scan_anim" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <TextView android:textSize="16dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/bdar_text_loc_going" android:background="@drawable/bdar_wsdk_ar_top_hint_bg" android:layout_width="wrap_content" android:layout_height="46dp" android:text="@string/bdar_hint_Loc_on_going" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/bdar_top_bar" android:background="@drawable/bdar_wsdk_ar_guide_bar_bg" android:visibility="gone" android:layout_width="match_parent" android:layout_height="140dp" android:layout_alignParentTop="true">
+        <ImageView android:id="@+id/bdar_image_close" android:background="@drawable/bdar_wsdk_quit_white" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginRight="30dp" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>

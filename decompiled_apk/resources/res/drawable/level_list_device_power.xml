@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_power10"
+        android:minLevel="81"
+        android:maxLevel="100"/>
+    <item
+        android:drawable="@drawable/ic_power8"
+        android:minLevel="61"
+        android:maxLevel="80"/>
+    <item
+        android:drawable="@drawable/ic_power6"
+        android:minLevel="41"
+        android:maxLevel="60"/>
+    <item
+        android:drawable="@drawable/ic_power4"
+        android:minLevel="21"
+        android:maxLevel="40"/>
+    <item
+        android:drawable="@drawable/ic_power2"
+        android:minLevel="11"
+        android:maxLevel="20"/>
+    <item
+        android:drawable="@drawable/ic_power1"
+        android:minLevel="0"
+        android:maxLevel="10"/>
+</level-list>

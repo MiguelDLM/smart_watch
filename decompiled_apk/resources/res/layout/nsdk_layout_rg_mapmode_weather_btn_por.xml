@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+    android:visibility="gone"
+    android:layout_width="@dimen/nsdk_rg_control_panel_btn_width_new"
+    android:layout_height="@dimen/nsdk_rg_control_panel_btn_height_new">
+    <ImageView
+        android:id="@+id/bnav_rg_cp_weather_iv"
+        android:layout_width="@dimen/nsdk_rg_control_panel_btn_img_width"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_img_height"
+        android:src="@drawable/nsdk_drawable_common_ic_weather"
+        android:scaleType="centerInside"/>
+    <TextView
+        android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size_new"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_h"
+        android:id="@+id/bnav_rg_cp_weather_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nsdk_rg_control_panel_btn_img_txt_padding"
+        android:text="天气"/>
+</LinearLayout>

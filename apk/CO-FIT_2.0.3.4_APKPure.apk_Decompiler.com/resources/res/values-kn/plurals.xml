@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">%d ಸೆಕೆಂಡ್‌ಗಳಷ್ಟು ಫಾಸ್ಟ್ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ</item>
+        <item quantity="other">%d ಸೆಕೆಂಡ್‌ಗಳಷ್ಟು ಫಾಸ್ಟ್ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">%d ಸೆಕೆಂಡ್‌ಗಳಷ್ಟು ರಿವೈಂಡ್ ಮಾಡಿ</item>
+        <item quantity="other">%d ಸೆಕೆಂಡ್‌ಗಳಷ್ಟು ರಿವೈಂಡ್ ಮಾಡಿ</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">%1$s ಸೆಕೆಂಡ್‌ನಲ್ಲಿ ವಿಂಡೋ ಮುಚ್ಚಿಕೊಳ್ಳುತ್ತದೆ.</item>
+        <item quantity="other">%1$s ಸೆಕೆಂಡ್‌ಗಳಲ್ಲಿ ವಿಂಡೋ ಮುಚ್ಚಿಕೊಳ್ಳುತ್ತದೆ.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">ಆಯ್ಕೆಯನ್ನು %1$s ದಿನ ನೆನಪಿಡಿ</item>
+        <item quantity="other">ಆಯ್ಕೆಯನ್ನು %1$s ದಿನಗಳವರೆಗೆ ನೆನಪಿಡಿ</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d ಸೆಕೆಂಡ್</item>
+        <item quantity="other">%1$d ಸೆಕೆಂಡ್</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‍ಗಳು</item>
+        <item quantity="other">%d ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‍ಗಳು</item>
+    </plurals>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/rl_value"
+        android:background="@drawable/common_ripple_me"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp">
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <com.sma.smartv3.view.text.PFMedium
+                android:textColor="@color/line_color"
+                android:gravity="center"
+                android:id="@+id/itemValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Whole horse 42 km"
+                android:lineSpacingExtra="4dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

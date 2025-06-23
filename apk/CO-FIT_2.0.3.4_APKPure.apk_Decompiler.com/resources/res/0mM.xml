@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/ai_answer_et_describe" android:layout_marginLeft="10dp" android:layout_marginTop="12dp" android:layout_marginBottom="6dp" android:text="@string/content_describe" style="@style/exercise_course_info_item_two_tv_style"/>
+</FrameLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView android:id="@+id/base_share_cardView" app:cardCornerRadius="15dp" app:cardElevation="10dp" style="@style/share_map_card_style">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/share_card_route_image" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/share_card_calories_bg" android:scaleType="fitXY"/>
+            <View android:background="@color/bg_cover_brown_black" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.ImageViewRound android:id="@+id/iv_avatar" android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/pic_avatar_default" app:borderWidth="0dp" app:isCustomize="true" app:type="linear"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/edt_nickname" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/tv_dateTime" style="@style/sport_detail_item_name"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.ImageViewRound android:layout_width="50dp" android:layout_height="50dp" android:layout_margin="10dp" android:src="@mipmap/ic_launcher" android:layout_alignParentRight="true"/>
+            <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+                <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40dp">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="25sp" android:textColor="@color/white" android:id="@+id/tv_calories_value" style="@style/sport_detail_item_name"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="25sp" android:textColor="@color/white" android:text="@string/kcal" style="@style/sport_detail_item_name"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.text.PFMedium android:textSize="20sp" android:textColor="@color/white" android:layout_gravity="center" android:id="@+id/tv_detail_name" style="@style/sport_detail_item_name"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <Button android:textSize="15dp" android:textColor="@android:color/white" android:id="@+id/btn_share" android:background="@drawable/selector_btn_play" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="40dp" android:layout_margin="20dp" android:text="@string/share" android:layout_centerVertical="true" android:paddingStart="20dp" android:paddingEnd="20dp" android:layout_alignParentEnd="true"/>
+</LinearLayout>

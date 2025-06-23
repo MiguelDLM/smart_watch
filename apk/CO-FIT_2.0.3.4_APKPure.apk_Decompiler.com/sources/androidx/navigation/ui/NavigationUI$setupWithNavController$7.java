@@ -1,0 +1,41 @@
+package androidx.navigation.ui;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.navigation.FloatingWindow;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import com.google.android.material.navigation.NavigationView;
+import java.lang.ref.WeakReference;
+import kotlin.jvm.internal.IIX0o;
+import kotlin.jvm.internal.XX;
+
+@XX({"SMAP\nNavigationUI.kt\nKotlin\n*S Kotlin\n*F\n+ 1 NavigationUI.kt\nandroidx/navigation/ui/NavigationUI$setupWithNavController$7\n+ 2 Menu.kt\nandroidx/core/view/MenuKt\n*L\n1#1,714:1\n56#2,4:715\n*S KotlinDebug\n*F\n+ 1 NavigationUI.kt\nandroidx/navigation/ui/NavigationUI$setupWithNavController$7\n*L\n573#1:715,4\n*E\n"})
+public final class NavigationUI$setupWithNavController$7 implements NavController.OnDestinationChangedListener {
+    final /* synthetic */ NavController $navController;
+    final /* synthetic */ WeakReference<NavigationView> $weakReference;
+
+    public NavigationUI$setupWithNavController$7(WeakReference<NavigationView> weakReference, NavController navController) {
+        this.$weakReference = weakReference;
+        this.$navController = navController;
+    }
+
+    public void onDestinationChanged(NavController navController, NavDestination navDestination, Bundle bundle) {
+        IIX0o.x0xO0oo(navController, "controller");
+        IIX0o.x0xO0oo(navDestination, "destination");
+        NavigationView navigationView = this.$weakReference.get();
+        if (navigationView == null) {
+            this.$navController.removeOnDestinationChangedListener(this);
+        } else if (!(navDestination instanceof FloatingWindow)) {
+            Menu menu = navigationView.getMenu();
+            IIX0o.oO(menu, "view.menu");
+            int size = menu.size();
+            for (int i = 0; i < size; i++) {
+                MenuItem item = menu.getItem(i);
+                IIX0o.II0XooXoX(item, "getItem(index)");
+                item.setChecked(NavigationUI.matchDestination$navigation_ui_release(navDestination, item.getItemId()));
+            }
+        }
+    }
+}

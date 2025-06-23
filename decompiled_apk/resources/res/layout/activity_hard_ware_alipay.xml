@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout
+        android:background="@color/view_page_secondary_bg"
+        android:onClick="onUseTutorial"
+        style="@style/device_item_root_style2">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16dp"
+            android:text="@string/alipay_hard_ware_help_tip1"
+            style="@style/device_item_tv_left"/>
+        <ImageView style="@style/device_item_right_iv_style"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/hard_ware_alipay_ride_code"
+        android:background="@color/view_page_secondary_bg"
+        android:layout_marginTop="20dp"
+        android:onClick="onUseRideCodeTutorial"
+        style="@style/device_item_root_style2">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16dp"
+            android:text="@string/alipay_hard_ware_help_tip3"
+            style="@style/device_item_tv_left"/>
+        <ImageView style="@style/device_item_right_iv_style"/>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/view_page_secondary_bg"
+        android:layout_marginTop="20dp"
+        android:onClick="onUnbindAlipay"
+        style="@style/device_item_root_style2">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16dp"
+            android:text="@string/alipay_hard_ware_help_tip2"
+            style="@style/device_item_tv_left"/>
+        <ImageView style="@style/device_item_right_iv_style"/>
+    </LinearLayout>
+</LinearLayout>

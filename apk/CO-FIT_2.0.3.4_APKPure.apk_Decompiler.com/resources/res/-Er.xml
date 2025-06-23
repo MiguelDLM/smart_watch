@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:state_selected="true">
+        <shape>
+            <corners android:radius="@dimen/nsdk_setting_radio_btn_corner_radius"/>
+            <solid android:color="@color/nsdk_blue_color"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="@dimen/nsdk_setting_radio_btn_corner_radius"/>
+            <solid android:color="@color/nsdk_blue_color"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="@dimen/nsdk_setting_radio_btn_corner_radius"/>
+            <solid android:color="@color/nsdk_bg_gray"/>
+        </shape>
+    </item>
+</selector>

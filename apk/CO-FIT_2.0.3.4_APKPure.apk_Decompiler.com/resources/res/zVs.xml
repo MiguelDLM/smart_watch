@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/black" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/course_controller_layout" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="80dp" android:paddingEnd="80dp">
+        <LinearLayout android:background="@color/transparent" android:layout_marginTop="10dp" style="@style/abh_title">
+            <ImageView android:paddingEnd="10dp" app:tint="@color/white" style="@style/abh_title_left"/>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" style="@style/abh_title_center"/>
+        </LinearLayout>
+        <ImageView android:id="@+id/course_lock_screen" android:visibility="gone" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_course_lock_screen" android:layout_centerVertical="true"/>
+        <LinearLayout android:gravity="center_vertical" android:id="@+id/seek_layout" android:layout_width="match_parent" android:layout_height="100dp" android:layout_alignParentBottom="true">
+            <ImageView android:id="@+id/course_previous" android:layout_width="40dp" android:layout_height="50dp" android:src="@drawable/icon_course_previous"/>
+            <ImageView android:id="@+id/course_play" android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/icon_course_pause" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"/>
+            <ImageView android:id="@+id/course_next" android:layout_width="40dp" android:layout_height="50dp" android:src="@drawable/icon_course_next"/>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:paddingEnd="50dp">
+                <com.sma.smartv3.view.VideoSeekBar android:layout_gravity="center_vertical" android:id="@+id/course_seek_bar" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxHeight="4dp" android:max="400" android:progress="0" android:progressDrawable="@drawable/seekbar_video_drawable" android:minHeight="4dp" android:thumb="@null" android:thumbOffset="5dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/course_video_cur_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_below="@+id/course_seek_bar"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/white" android:id="@+id/course_video_max_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_below="@+id/course_seek_bar" android:layout_alignParentRight="true" android:layout_marginEnd="2dp"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <TextView android:textSize="40sp" android:textColor="@color/white" android:gravity="center_horizontal" android:id="@+id/tv_hint_title" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/excellent_behind" android:layout_above="@+id/tv_on_back" android:layout_centerHorizontal="true" android:layout_marginEnd="40dp"/>
+        <TextView android:textColor="@color/white" android:gravity="center_horizontal" android:id="@+id/tv_on_back" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/stop_play" android:layout_above="@+id/seek_layout" android:layout_alignRight="@+id/center_view" android:onClick="onBack" android:layout_marginEnd="40dp" app:drawableTopCompat="@drawable/icon_back_play"/>
+        <View android:id="@+id/center_view" android:layout_width="1dp" android:layout_height="wrap_content" android:layout_centerHorizontal="true"/>
+        <TextView android:textColor="@color/white" android:gravity="center_horizontal" android:id="@+id/tv_on_play" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/continue_play" android:layout_above="@+id/seek_layout" android:layout_alignLeft="@+id/center_view" android:onClick="onPlay" android:layout_marginStart="40dp" app:drawableTopCompat="@drawable/icon_stop_play"/>
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:padding="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp" style="@style/abh_coach_layout_style_bg">
+    <androidx.appcompat.widget.AppCompatImageView android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="10dp" android:src="@drawable/abh_create_a_plan_icon"/>
+    <Button android:id="@+id/coach_item_create_plan" android:layout_marginTop="10dp" android:layout_marginBottom="20dp" android:text="@string/abh_create_plan" style="@style/abh_coach_bottom_style"/>
+</LinearLayout>

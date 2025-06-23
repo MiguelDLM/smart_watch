@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/bnav_mapmode_container" android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/bnav_rg_map_content" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <FrameLayout android:id="@+id/bnav_ar_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ViewStub android:layout_gravity="bottom|right|center_vertical|center_horizontal|center|end" android:id="@+id/bnav_rg_normal_hd_map_stub" android:layout="@layout/nsdk_layout_rg_normal_hd" android:inflatedId="@+id/bnav_rg_normal_hd_map_anim_lay" android:layout_width="wrap_content" android:layout_height="match_parent"/>
+    <ViewStub android:layout_gravity="bottom|right|center_vertical|center_horizontal|center|end" android:id="@+id/bnav_rg_hd_map_stub" android:layout="@layout/nsdk_layout_rg_hd_navi" android:inflatedId="@+id/bnav_rg_hd_map_container" android:layout_width="wrap_content" android:layout_height="match_parent"/>
+    <FrameLayout android:id="@+id/bnav_rg_touch_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <FrameLayout android:id="@+id/bnav_fragment_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</FrameLayout>

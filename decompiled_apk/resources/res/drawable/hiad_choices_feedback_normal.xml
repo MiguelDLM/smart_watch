@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/hiad_14_dp"/>
+    <solid android:color="@color/hiad_whythisad_btn_fb_bg_normal_color"/>
+    <padding
+        android:left="@dimen/hiad_8_dp"
+        android:top="@dimen/hiad_4_dp"
+        android:right="@dimen/hiad_8_dp"
+        android:bottom="@dimen/hiad_4_dp"/>
+</shape>

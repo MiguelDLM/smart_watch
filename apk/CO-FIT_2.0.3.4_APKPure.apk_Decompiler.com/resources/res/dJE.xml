@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:drawable="@drawable/ic_signal4" android:minLevel="91" android:maxLevel="200"/>
+    <item android:drawable="@drawable/ic_signal3" android:minLevel="71" android:maxLevel="90"/>
+    <item android:drawable="@drawable/ic_signal2" android:minLevel="51" android:maxLevel="70"/>
+    <item android:drawable="@drawable/ic_signal1" android:minLevel="0" android:maxLevel="50"/>
+</level-list>

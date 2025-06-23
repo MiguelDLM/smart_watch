@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="sequentially">
+    <set android:ordering="together">
+        <objectAnimator android:duration="225" android:pivotX="50%" android:pivotY="50%" android:valueFrom="1" android:valueTo="0.8" android:valueType="floatType" android:propertyName="scaleX"/>
+        <objectAnimator android:duration="225" android:pivotX="50%" android:pivotY="50%" android:valueFrom="1" android:valueTo="0.8" android:valueType="floatType" android:propertyName="scaleY"/>
+    </set>
+    <set android:ordering="together">
+        <objectAnimator android:duration="225" android:pivotX="50%" android:pivotY="50%" android:valueFrom="0.8" android:valueTo="1" android:valueType="floatType" android:propertyName="scaleX"/>
+        <objectAnimator android:duration="225" android:pivotX="50%" android:pivotY="50%" android:valueFrom="0.8" android:valueTo="1" android:valueType="floatType" android:propertyName="scaleY"/>
+    </set>
+</set>

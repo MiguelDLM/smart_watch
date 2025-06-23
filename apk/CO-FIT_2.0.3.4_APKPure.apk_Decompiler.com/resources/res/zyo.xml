@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="#ffffff" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView android:id="@+id/divider_line0" android:background="#dfdfdf" android:layout_width="match_parent" android:layout_height="1dp" android:layout_alignParentTop="true"/>
+    <RelativeLayout android:id="@+id/sound_switch_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_below="@+id/divider_line0">
+        <TextView android:textSize="16sp" android:textColor="#333333" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:text="语音播报" android:singleLine="true" android:drawablePadding="8dp" android:layout_centerVertical="true"/>
+        <CheckBox android:id="@+id/sound_check" android:background="@drawable/wsdk_checkbox_selector" android:layout_width="52dp" android:layout_height="31dp" android:layout_marginRight="8dp" android:checked="true" android:button="@drawable/transparent" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <ImageView android:id="@+id/divider_line1" android:background="#dfdfdf" android:layout_width="match_parent" android:layout_height="1px" android:layout_below="@+id/sound_switch_layout"/>
+    <RelativeLayout android:id="@+id/pano_switch_layout" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_below="@+id/divider_line1">
+        <TextView android:textSize="16sp" android:textColor="#333333" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:text="全景参照" android:singleLine="true" android:drawablePadding="8dp" android:layout_centerVertical="true"/>
+        <CheckBox android:id="@+id/pano_check" android:background="@drawable/wsdk_checkbox_selector" android:layout_width="52dp" android:layout_height="31dp" android:layout_marginRight="8dp" android:checked="true" android:button="@drawable/transparent" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <ImageView android:id="@+id/divider_line2" android:background="#dfdfdf" android:layout_width="match_parent" android:layout_height="1px" android:layout_below="@+id/pano_switch_layout"/>
+    <RelativeLayout android:id="@+id/treeD_switch_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:layout_below="@+id/divider_line2">
+        <TextView android:textSize="16sp" android:textColor="#333333" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:text="3D视图" android:singleLine="true" android:drawablePadding="8dp" android:layout_centerVertical="true"/>
+        <CheckBox android:id="@+id/threeD_check" android:background="@drawable/wsdk_checkbox_selector" android:layout_width="52dp" android:layout_height="31dp" android:layout_marginRight="8dp" android:checked="true" android:button="@drawable/transparent" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <ImageView android:id="@+id/divider_line3" android:background="#dfdfdf" android:layout_width="match_parent" android:layout_height="1px" android:layout_below="@+id/treeD_switch_layout"/>
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/divider_line3" android:layout_centerHorizontal="true">
+        <Button android:textSize="20dp" android:textColor="#2b81ff" android:id="@+id/switch_hide_btn" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="55dp" android:layout_margin="0dp" android:text="关闭" android:layout_centerVertical="true"/> &gt; 
+    </RelativeLayout>
+</RelativeLayout>

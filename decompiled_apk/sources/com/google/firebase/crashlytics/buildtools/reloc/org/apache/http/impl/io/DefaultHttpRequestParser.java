@@ -1,0 +1,52 @@
+package com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.io;
+
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.ConnectionClosedException;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpRequest;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpRequestFactory;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.ParseException;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.config.MessageConstraints;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.DefaultHttpRequestFactory;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.io.SessionInputBuffer;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.LineParser;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.ParserCursor;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.params.HttpParams;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.Args;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.CharArrayBuffer;
+import java.io.IOException;
+
+/* loaded from: classes10.dex */
+public class DefaultHttpRequestParser extends AbstractMessageParser<HttpRequest> {
+    private final CharArrayBuffer lineBuf;
+    private final HttpRequestFactory requestFactory;
+
+    @Deprecated
+    public DefaultHttpRequestParser(SessionInputBuffer sessionInputBuffer, LineParser lineParser, HttpRequestFactory httpRequestFactory, HttpParams httpParams) {
+        super(sessionInputBuffer, lineParser, httpParams);
+        this.requestFactory = (HttpRequestFactory) Args.notNull(httpRequestFactory, "Request factory");
+        this.lineBuf = new CharArrayBuffer(128);
+    }
+
+    @Override // com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.io.AbstractMessageParser
+    public HttpRequest parseHead(SessionInputBuffer sessionInputBuffer) throws IOException, HttpException, ParseException {
+        this.lineBuf.clear();
+        if (sessionInputBuffer.readLine(this.lineBuf) != -1) {
+            return this.requestFactory.newHttpRequest(this.lineParser.parseRequestLine(this.lineBuf, new ParserCursor(0, this.lineBuf.length())));
+        }
+        throw new ConnectionClosedException("Client closed connection");
+    }
+
+    public DefaultHttpRequestParser(SessionInputBuffer sessionInputBuffer, LineParser lineParser, HttpRequestFactory httpRequestFactory, MessageConstraints messageConstraints) {
+        super(sessionInputBuffer, lineParser, messageConstraints);
+        this.requestFactory = httpRequestFactory == null ? DefaultHttpRequestFactory.INSTANCE : httpRequestFactory;
+        this.lineBuf = new CharArrayBuffer(128);
+    }
+
+    public DefaultHttpRequestParser(SessionInputBuffer sessionInputBuffer, MessageConstraints messageConstraints) {
+        this(sessionInputBuffer, (LineParser) null, (HttpRequestFactory) null, messageConstraints);
+    }
+
+    public DefaultHttpRequestParser(SessionInputBuffer sessionInputBuffer) {
+        this(sessionInputBuffer, (LineParser) null, (HttpRequestFactory) null, MessageConstraints.DEFAULT);
+    }
+}

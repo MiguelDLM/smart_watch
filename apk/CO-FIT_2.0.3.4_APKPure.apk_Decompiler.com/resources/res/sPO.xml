@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/rootView" style="@style/status_item_info_root">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" style="@style/status_item_info_nsv">
+        <LinearLayout style="@style/status_item_info_ll">
+            <RelativeLayout android:visibility="gone" style="@style/status_item_info_rl_top">
+                <ImageButton android:id="@+id/beforeTime" android:src="@drawable/selector_left_enter" style="@style/status_item_info_ib_one"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/nowTime" android:text="@string/today" style="@style/status_item_info_now_time"/>
+                <ImageButton android:id="@+id/nextTime" android:src="@drawable/selector_right_enter" style="@style/status_item_info_ib_two"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/loading" style="@style/status_item_info_loading_rl">
+                <androidx.core.widget.ContentLoadingProgressBar android:layout_width="30dp" android:layout_height="30dp" android:layout_centerInParent="true" style="?android:attr/progressBarStyleSmall"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@+id/dataContent" style="@style/status_item_info_ll_two">
+                <com.sma.smartv3.view.text.DINCondBold android:textSize="25sp" android:textColor="@color/line_color" android:id="@+id/nowTimeDetails" android:visibility="visible" android:text="@string/data_none" style="@style/status_item_info_select_time"/>
+                <LinearLayout android:gravity="center" android:orientation="vertical" style="@style/status_item_info_rl_two">
+                    <ImageView android:id="@+id/image" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/icon_weight"/>
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <com.sma.smartv3.view.text.DINCondBold android:id="@+id/nowValue" android:text="@string/data_none" style="@style/status_item_info_select_value"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/weightUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="kg" android:layout_marginStart="10dp"/>
+                    </LinearLayout>
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/valueUnit" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" style="@style/status_item_info_iv_right_spacing"/>
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/bmi" android:layout_marginStart="0dp" style="@style/status_weight_bmi"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/bmiValue" android:text="@string/data_none" style="@style/status_weight_bmi"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="|" style="@style/status_weight_bmi"/>
+                        <com.sma.smartv3.view.text.PFMedium android:id="@+id/bmiEvaluation" android:text="@string/data_none" style="@style/status_weight_bmi"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/lineChart" style="@style/status_item_info_chat"/>
+                <LinearLayout android:orientation="vertical" android:paddingStart="10dp" android:paddingEnd="10dp" style="@style/status_item_info_ll_three">
+                    <com.sma.smartv3.view.segmentedbar.CircleThumbSegmentedBarView android:id="@+id/sbv_bmi" android:visibility="gone" style="@style/sbv_circle_thumb_style"/>
+                </LinearLayout>
+                <include layout="@layout/status_item_health_btn_layout"/>
+                <View android:layout_width="wrap_content" android:layout_height="60dp"/>
+                <LinearLayout android:id="@+id/ll_bottom_tool" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="20dp">
+                    <LinearLayout android:gravity="center" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                        <ImageButton android:id="@+id/changeBt" android:background="@drawable/common_ripple_borderless" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/icon_weight_input"/>
+                    </LinearLayout>
+                    <LinearLayout android:gravity="center" android:visibility="gone" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                        <ImageButton android:id="@+id/bodyFatScaleBt" android:background="@drawable/common_ripple_borderless" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/icon_weight_input"/>
+                    </LinearLayout>
+                    <LinearLayout android:gravity="center" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                        <ImageButton android:id="@+id/deleteBt" android:background="@drawable/common_ripple_borderless" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/icon_delete"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

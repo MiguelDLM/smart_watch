@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:oneshot="false">
+    <item android:duration="50" android:drawable="@drawable/fouce_00000"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00001"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00002"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00003"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00004"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00005"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00006"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00007"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00008"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00009"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00010"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00011"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00012"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00013"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00014"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00015"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00016"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00017"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00018"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00019"/>
+    <item android:duration="50" android:drawable="@drawable/fouce_00020"/>
+</animation-list>

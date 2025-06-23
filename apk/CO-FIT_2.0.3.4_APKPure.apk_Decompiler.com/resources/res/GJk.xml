@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_rg_cp_traffic_panel" android:background="@drawable/nsdk_rg_selector_common_control_btn_bg" android:visibility="visible" android:layout_width="@dimen/nsdk_rg_control_panel_btn_width" android:layout_height="@dimen/nsdk_rg_control_panel_btn_height">
+    <ImageView android:id="@+id/nsdk_img_text_img" android:layout_width="@dimen/navi_dimens_28dp" android:layout_height="@dimen/navi_dimens_28dp" android:scaleType="centerInside"/>
+    <TextView android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_h" android:id="@+id/nsdk_img_text_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"/>
+</merge>

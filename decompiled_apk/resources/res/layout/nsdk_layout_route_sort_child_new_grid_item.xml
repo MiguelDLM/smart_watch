@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNCommonCornerView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/nsdk_route_prefer_item_bg"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:circleRadius="4dp">
+    <TextView
+        android:textSize="13dp"
+        android:textColor="@color/nsdk_route_sort_item_text"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/nsdk_route_sort_item_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="@string/nsdk_string_route_sort_item_default"
+        android:lines="1"
+        android:layout_centerInParent="true"/>
+    <ImageView
+        android:layout_gravity="top|right"
+        android:id="@+id/nsdk_route_sort_item_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nsdk_route_sort_item_tip_selected"
+        android:layout_alignParentRight="true"/>
+</com.baidu.navisdk.ui.widget.BNCommonCornerView>

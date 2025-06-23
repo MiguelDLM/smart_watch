@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">%d సెకండ్ వేగంగా ఫార్వర్డ్ చేయండి</item>
+        <item quantity="other">%d సెకన్లు వేగంగా ఫార్వర్డ్ చేయండి</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">%d సెకండ్ రివైండ్ చేయండి</item>
+        <item quantity="other">%d సెకన్లు రివైండ్ చేయండి</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">విండో %1$s సెకనులో మూసివేయబడుతుంది.</item>
+        <item quantity="other">విండో %1$s సెకన్లలో మూసివేయబడుతుంది.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">%1$s రోజుకు ఎంపికను గుర్తుంచుకోండి</item>
+        <item quantity="other">%1$s రోజులకు ఎంపికను గుర్తుంచుకోండి</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">%1$d సెక</item>
+        <item quantity="other">%1$d సెక</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d కొత్త నోటిఫికేషన్</item>
+        <item quantity="other">%d కొత్త నోటిఫికేషన్‌లు</item>
+    </plurals>
+</resources>

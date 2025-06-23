@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_horizontal"
+    style="@style/pop_common_container_style">
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="16sp"
+        android:textColor="@color/text_color"
+        android:gravity="center"
+        android:id="@+id/pop_pair_confirm_tv_title"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pair_confirm_title"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary_color"
+        android:gravity="center"
+        android:id="@+id/pop_pair_confirm_tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pair_confirm_content"
+        android:paddingStart="64dp"
+        android:paddingEnd="64dp"/>
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="154dp"
+        android:layout_height="154dp"
+        android:layout_margin="24dp"
+        android:src="@drawable/pic_pair_confirm"/>
+    <View style="@style/pop_bottom_line_style"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:id="@+id/tv"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/cancel"
+        style="@style/pop_bottom_btn_1_style"/>
+</LinearLayout>

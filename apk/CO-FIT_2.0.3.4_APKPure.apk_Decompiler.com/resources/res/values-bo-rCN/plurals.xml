@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="other">སྐར་ཆ་ %1$s རྗེས་སུ་རང་འགུལ་ཐོག་ནས་སྣང་མེད་དུ་གཏོང་།</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="other">ཉིན་ %1$s ནང་དུ་གསལ་འདེབས་མ་གནང་རོགས།</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="other">སྐར་ཆ་%1$d</item>
+    </plurals>
+</resources>

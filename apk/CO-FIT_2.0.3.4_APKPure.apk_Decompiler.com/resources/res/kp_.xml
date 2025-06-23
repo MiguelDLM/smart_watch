@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginEnd="20dp">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/order_text_orange" android:id="@+id/item_dial_pay_detail_title_amount" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:id="@+id/item_dial_pay_detail_limited_time_free" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/limited_time_free" android:layout_marginStart="5dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:id="@+id/item_dial_pay_detail_memory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/order_text_orange" android:id="@+id/item_dial_pay_detail_new" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NEW" android:layout_marginStart="5dp"/>
+    </LinearLayout>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="18sp" android:textColor="@color/text_color" android:id="@+id/dial_qrcode_sycn_title3_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/qrcode_sycn_title3"/>
+    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/pay_dail_detail_tip"/>
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+    <com.sma.smartv3.view.text.PFMedium
+        android:textColor="@color/bp_line_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/featured_courses"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/fitness_item_special_bg"
+        android:paddingBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingStart="10dp">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textColor="#a9783d"
+            android:id="@+id/tv_title"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fitness_item_special_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

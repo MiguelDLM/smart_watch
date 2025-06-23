@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/gen_panel"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp">
+                <EditText
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/line_color"
+                    android:gravity="start"
+                    android:id="@+id/et_content"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="5dp"
+                    android:hint="@string/ai_key_input_tip"/>
+            </RelativeLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+        </LinearLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/save"
+            android:onClick="onSave"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            style="@style/btn_common"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" style="@style/charge_root_style">
+    <include layout="@layout/layout_charge_title_bar"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include layout="@layout/layout_charge_larger_title"/>
+        <LinearLayout android:orientation="vertical" android:padding="10dp" android:layout_height="wrap_content" android:layout_marginTop="30dp" style="@style/charge_panel_style">
+            <LinearLayout android:orientation="vertical" android:id="@+id/cl_modify_voice_left" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.sma.smartv3.view.text.PFMedium android:gravity="center" android:id="@+id/tv_modify_voice_left" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/left_ear_gain_value"/>
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="15dp">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_modify_voice_left_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="16000"/>
+                    <ImageView android:id="@+id/iv_modify_voice_edit_left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_edit_gray" android:onClick="onShowInputValue" android:layout_marginStart="10dp"/>
+                </LinearLayout>
+                <com.sma.smartv3.otherdevice.jl.view.RulerView android:id="@+id/ruler_modify_voice_left" android:layout_width="match_parent" android:layout_height="wrap_content" app:firstScale="1600" app:largeScaleColor="@color/blue_4A68CC" app:maxScale="5000" app:midScaleColor="@color/gray_DEDEDE" app:minScale="0" app:rulerSmallScaleColor="@color/gray_DEDEDE" app:scaleCount="2" app:scaleGap="10dp" app:scaleLimit="200" app:scaleNumColor="@color/gray_AAAAAA" app:scaleNumTextSize="11sp" app:showScaleResult="false"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:id="@+id/cl_modify_voice_right" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+                <com.sma.smartv3.view.text.PFMedium android:gravity="center" android:id="@+id/tv_modify_voice_right" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/right_ear_gain_value"/>
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="15dp">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_modify_voice_right_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="16000"/>
+                    <ImageView android:id="@+id/iv_modify_voice_edit_right" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_edit_gray" android:onClick="onShowInputValue" android:layout_marginStart="10dp"/>
+                </LinearLayout>
+                <com.sma.smartv3.otherdevice.jl.view.RulerView android:id="@+id/ruler_modify_voice_right" android:layout_width="match_parent" android:layout_height="wrap_content" app:firstScale="1600" app:largeScaleColor="@color/blue_4A68CC" app:maxScale="5000" app:midScaleColor="@color/gray_DEDEDE" app:minScale="0" app:rulerSmallScaleColor="@color/gray_DEDEDE" app:scaleCount="2" app:scaleGap="10dp" app:scaleLimit="200" app:scaleNumColor="@color/gray_AAAAAA" app:scaleNumTextSize="11dp" app:showScaleResult="false"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

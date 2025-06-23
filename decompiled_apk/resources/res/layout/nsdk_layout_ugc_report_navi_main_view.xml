@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_horizontal"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    android:id="@+id/ugc_map_navi_content"
+    android:background="@drawable/nsdk_ugc_navi_main_top_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <FrameLayout
+        android:id="@+id/ugc_map_navi_mayi_layout"
+        android:background="@color/ugc_rg_transparent"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_48dp"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/ugc_map_navi_mayi_btn"
+            android:background="@drawable/nsdk_ugc_map_navi_mayi_btn_normal"
+            android:layout_width="@dimen/navi_dimens_308dp"
+            android:layout_height="@dimen/navi_dimens_44dp"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:text="@string/nsdk_string_ugc_report_route_error"/>
+        <View
+            android:background="@drawable/nsdk_ugc_detail_post_comment_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_4dp"/>
+    </FrameLayout>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ugc_map_navi_mayi_layout"
+        android:layout_alignWithParentIfMissing="true"
+        layout="@layout/nsdk_layout_ugc_report_navi_portrait_main_view"/>
+</RelativeLayout>

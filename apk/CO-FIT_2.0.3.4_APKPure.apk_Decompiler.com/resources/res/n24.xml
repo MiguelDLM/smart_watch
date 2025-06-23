@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/sport_detail_style">
+        <LinearLayout android:id="@+id/hr_panel" android:layout_marginTop="1dp" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:visibility="gone" android:src="@drawable/icon_hr_72" style="@style/sport_detail_chart_item_iv"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/heart_rate" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="(" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/ave_hr_unit" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text=")" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/min_hr" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_bpm_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/max_hr" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_max_bpm_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/hrLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/hrLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+            <com.sma.smartv3.view.text.PFRegular android:textSize="16sp" android:id="@+id/tv_heart_rate_range" android:text="@string/heart_rate_range" style="@style/sport_detail_chart_item_data_title"/>
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@+id/ll_heart_rate_range" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <RelativeLayout android:layout_width="150dp" android:layout_height="150dp">
+                    <com.github.mikephil.charting.charts.PieChart android:id="@+id/hrPieChart" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+                    <com.sma.smartv3.view.MyPieChart android:id="@+id/myPieChart" android:layout_width="match_parent" android:layout_height="match_parent"/>
+                </RelativeLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingEnd="10dp" android:layout_marginStart="20dp">
+                    <LinearLayout android:orientation="horizontal" android:id="@+id/sportRecordStrenuousRl" style="@style/sport_detail_chart_item_hr_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/hr_scope_color_1" style="@style/sport_detail_chart_item_hr_ll_iv"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/strenuous_exercise" style="@style/sport_detail_chart_item_hr_tv_description"/>
+                        <LinearLayout style="@style/sport_detail_chart_item_hr_ll_ll">
+                            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/text_color" android:id="@+id/sportRecordStrenuous" android:text="1" style="@style/sport_detail_chart_item_hr_ll_tv_value"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:visibility="gone" android:text="@string/min" android:layout_marginStart="1px" style="@style/sport_detail_chart_item_hr_ll_tv_unit"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/sportRecordAnaerobicRl" style="@style/sport_detail_chart_item_hr_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/hr_scope_color_2" style="@style/sport_detail_chart_item_hr_ll_iv"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/anaerobic_exercise" style="@style/sport_detail_chart_item_hr_tv_description"/>
+                        <LinearLayout style="@style/sport_detail_chart_item_hr_ll_ll">
+                            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/text_color" android:id="@+id/sportRecordAnaerobic" android:text="1" style="@style/sport_detail_chart_item_hr_ll_tv_value"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:visibility="gone" android:text="@string/min" android:layout_marginStart="1px" style="@style/sport_detail_chart_item_hr_ll_tv_unit"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/sportRecordAerobicRl" style="@style/sport_detail_chart_item_hr_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/hr_scope_color_3" style="@style/sport_detail_chart_item_hr_ll_iv"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/aerobic_exercise" style="@style/sport_detail_chart_item_hr_tv_description"/>
+                        <LinearLayout style="@style/sport_detail_chart_item_hr_ll_ll">
+                            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/text_color" android:id="@+id/sportRecordAerobic" android:text="1" style="@style/sport_detail_chart_item_hr_ll_tv_value"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:visibility="gone" android:text="@string/min" android:layout_marginStart="1px" style="@style/sport_detail_chart_item_hr_ll_tv_unit"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/sportRecordFatBurningRl" style="@style/sport_detail_chart_item_hr_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/hr_scope_color_4" style="@style/sport_detail_chart_item_hr_ll_iv"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/fat_burning_exercise" style="@style/sport_detail_chart_item_hr_tv_description"/>
+                        <LinearLayout style="@style/sport_detail_chart_item_hr_ll_ll">
+                            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/text_color" android:id="@+id/sportRecordFatBurning" android:text="1" style="@style/sport_detail_chart_item_hr_ll_tv_value"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:visibility="gone" android:text="@string/min" android:layout_marginStart="1px" style="@style/sport_detail_chart_item_hr_ll_tv_unit"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/sportRecordWarmUpRl" style="@style/sport_detail_chart_item_hr_ll">
+                        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/hr_scope_color_5" style="@style/sport_detail_chart_item_hr_ll_iv"/>
+                        <com.sma.smartv3.view.text.PFMedium android:text="@string/warm_up_exercise" style="@style/sport_detail_chart_item_hr_tv_description"/>
+                        <LinearLayout style="@style/sport_detail_chart_item_hr_ll_ll">
+                            <com.sma.smartv3.view.text.DINCondBold android:textColor="@color/text_color" android:id="@+id/sportRecordWarmUp" android:text="1" style="@style/sport_detail_chart_item_hr_ll_tv_value"/>
+                            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:visibility="gone" android:text="@string/min" android:layout_marginStart="1px" style="@style/sport_detail_chart_item_hr_ll_tv_unit"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/segmentation_detail_ll" android:visibility="gone" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/segmentation_detail_title" android:text="@string/segmentation_detail_title" style="@style/sport_detail_chart_item_title_v2"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/segmentation_detail_rl" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/speed_per_kilometer_ll" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/speed_per_kilometer_title" android:text="@string/speed_per_kilometer" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="(/" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/speed_per_kilometer_ll_unit" android:text="@string/pace_unit" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text=")" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/speed_per_kilometer_rl" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/pressure_panel" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:visibility="gone" android:src="@drawable/icon_pressure_72" style="@style/sport_detail_chart_item_iv"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/pressure" style="@style/sport_detail_chart_item_title_v2"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/ave_pressure" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_pressure_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/max_pressure" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_max_pressure_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/pressureLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/pressureLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/pace_panel" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:visibility="gone" android:src="@drawable/icon_pace_108" style="@style/sport_detail_chart_item_iv"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/pace" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="(" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/pace_panel_unit" android:text="@string/pace_unit" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:text=")" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/slowest_pace" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_pace_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/fastest_pace" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_min_pace_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/paceLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/paceLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/spm_panel" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/cadence_title" android:text="@string/cadence" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/cadence_max_title_unit" android:text="@string/cadence_unit" style="@style/sport_detail_chart_item_data_title"/>
+                <View android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+                <ImageView android:layout_gravity="right" android:id="@+id/understand_situation_cadence" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/understand_situation_icon"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/cadence_avg_title" android:text="@string/avg_spm" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_spm_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/cadence_max_title" android:text="@string/max_spm" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_max_spm_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/spmLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/spmLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/speed_panel" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:visibility="gone" android:src="@drawable/icon_speed_108" style="@style/sport_detail_chart_item_iv"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/speed" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/speed_panel_unit" android:text="@string/speed_unit" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_speed_title" android:text="@string/avg_speed" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_avg_speed_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/fastest_speed" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_fast_speed_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/speedLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/speedLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/altitude_panel" style="@style/sport_detail_style_ll_v2">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:visibility="gone" android:src="@drawable/icon_altitude_green" style="@style/sport_detail_chart_item_iv"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/altitude" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/altitude_unit_tv" android:text="@string/altitude_unit" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:padding="10dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/min_altitude" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_min_altitude_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+                    <com.sma.smartv3.view.text.PFMedium android:text="@string/max_altitude" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_max_altitude_value" android:text="0" style="@style/sport_detail_chart_item_data_value"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/altitudeLineChart" android:layout_width="match_parent" android:layout_height="200dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/chart_time_unit" android:layout_below="@+id/altitudeLineChart" android:layout_alignParentRight="true" style="@style/sport_detail_chart_item_data_title"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <RelativeLayout android:id="@+id/training_performance_layout" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout style="@style/sport_detail_style_ll_v2">
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/training_performance" style="@style/sport_detail_chart_item_title_v2"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/sport_maxvO2" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/sport_maxvO2_level" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.segmentedbar.SegmentedBarView android:layout_gravity="center_vertical" android:id="@+id/ateLevel" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="2dp" android:paddingEnd="2dp" app:sbv_arrow_height="1dp" app:sbv_bar_height="8dp" app:sbv_segment_bg="false" app:sbv_segment_gap_width="2dp" app:sbv_segment_radius="6dp" app:sbv_segment_rule="0" app:sbv_show_description_text="false" app:sbv_show_description_top_text="true" app:sbv_show_segment_text="false" app:sbv_side_style="0" app:sbv_sliderImg="@drawable/icon_status_sbv_thumb" app:sbv_sliderType="3" app:sbv_thumb_h="6dp" app:sbv_thumb_w="8dp" app:sbv_value_sign_height="3dp"/>
+                <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/sport_trainingLoad" android:layout_marginTop="4dp" android:text="@string/training_performance_training_load" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.SportGoalProgressBar android:id="@+id/sport_goal_progressBar" android:visibility="gone" android:layout_width="match_parent" android:layout_height="160dp" app:gpb_distanceProgressBgColor="@color/sport_goal_left_progress_bg_color" app:gpb_distanceProgressColor="@color/sport_goal_left_progress_color" app:gpb_kcalProgressBgColor="@color/sport_goal_right_progress_bg_color" app:gpb_kcalProgressColor="@color/sport_goal_right_progress_color" app:gpb_stepProgressBgColor="@color/v2_step_progress_bg_color" app:gpb_stepProgressColor="@color/v2_step_progress_color"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/sport_recoveryTime" style="@style/sport_detail_chart_item_data_title"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/sport_recoveryTime_estimate" android:text="@string/training_performance_recovery_time_detail" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/text_color" android:id="@+id/tv_training_performance_explanation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="35dp" android:layout_marginRight="25dp" android:text="" android:drawableLeft="@drawable/understand_situation_icon2" android:drawablePadding="6dp" android:layout_alignParentRight="true" android:drawableTint="@color/text_color"/>
+        </RelativeLayout>
+        <LinearLayout android:id="@+id/training_experience_layout" android:layout_height="wrap_content" style="@style/sport_detail_style_ll_v2">
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/training_experience" style="@style/sport_detail_chart_item_title_v2"/>
+            <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@+id/training_experience_layout_select" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:minHeight="70dp">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_training_experience_1"/>
+                    <com.sma.smartv3.view.text.PFMedium android:gravity="center_horizontal" android:layout_height="40dp" android:text="@string/training_experience_1" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_training_experience_2"/>
+                    <com.sma.smartv3.view.text.PFMedium android:gravity="center_horizontal" android:layout_height="40dp" android:text="@string/training_experience_2" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_training_experience_3"/>
+                    <com.sma.smartv3.view.text.PFMedium android:gravity="center_horizontal" android:layout_height="40dp" android:text="@string/training_experience_3" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_4" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_training_experience_4"/>
+                    <com.sma.smartv3.view.text.PFMedium android:gravity="center_horizontal" android:layout_height="40dp" android:text="@string/training_experience_4" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_5" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1">
+                    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/icon_training_experience_5"/>
+                    <com.sma.smartv3.view.text.PFMedium android:gravity="center_horizontal" android:layout_height="40dp" android:text="@string/training_experience_5" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:id="@+id/training_experience_layout_result" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+                <ImageView android:id="@+id/training_experience_img_result" android:layout_width="70dp" android:layout_height="70dp" android:src="@drawable/icon_training_experience_2"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/training_experience_tv_result" android:text="@string/training_experience_2" style="@style/sport_detail_chart_item_data_title"/>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:id="@+id/training_experience_hint_tv" android:layout_width="match_parent" android:text="@string/training_experience_hint" style="@style/sport_detail_chart_item_data_title"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/device_sources" android:visibility="gone" style="@style/sport_detail_style_ll_v2">
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/data_sources" style="@style/sport_detail_chart_item_title_v2"/>
+            <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/device_img" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:maxHeight="150dp"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_horizontal" android:layout_marginTop="4dp" android:text="@string/device_name" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/device_name" android:text="SDF 55" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+                <LinearLayout android:gravity="bottom" android:orientation="vertical" android:id="@+id/device_qr_code_ll" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginLeft="35dp">
+                    <ImageView android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/device_qr_code" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20dp"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_horizontal" android:layout_marginTop="4dp" android:text="@string/sources_app_name" style="@style/sport_detail_chart_item_data_title"/>
+                    <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center" android:layout_gravity="center_horizontal" android:text="@string/app_name" style="@style/sport_detail_chart_item_data_title"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/device_sport_detail_tip" android:background="@null" android:padding="5dp" android:visibility="gone" android:layout_marginTop="8dp" style="@style/sport_detail_style_ll_v2">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:text="@string/sport_detail_data_sources_tip" style="@style/sport_detail_chart_item_data_title"/>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="20dp"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

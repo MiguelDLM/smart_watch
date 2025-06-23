@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.viewpager.widget.ViewPager android:id="@+id/course_introduce_viewpager" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/introduce_bottom_layout"/>
+    <ImageView android:layout_width="40dp" android:layout_height="40dp" android:layout_margin="15dp" android:src="@drawable/icon_course_introduce_close" android:onClick="onTitleLeftClick"/>
+    <RelativeLayout android:orientation="horizontal" android:id="@+id/introduce_bottom_layout" android:layout_width="match_parent" android:layout_height="100dp" android:layout_alignParentBottom="true">
+        <ImageButton android:id="@+id/beforeIntroduce" android:src="@drawable/selector_left_enter" android:onClick="onBeforeIntroduce" app:tint="@color/black" style="@style/status_item_info_ib_one"/>
+        <TextView android:textColor="@color/black" android:gravity="center" android:id="@+id/introduce_tv_cur" android:layout_width="match_parent" android:layout_height="match_parent" android:text="1"/>
+        <ImageButton android:id="@+id/nextIntroduce" android:src="@drawable/selector_right_enter" android:onClick="onNextIntroduce" app:tint="@color/black" style="@style/status_item_info_ib_two"/>
+    </RelativeLayout>
+</RelativeLayout>

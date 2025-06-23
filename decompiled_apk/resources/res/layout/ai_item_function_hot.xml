@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/ai_function_item_hot_root_style">
+    <ImageView
+        android:id="@+id/iv"
+        style="@style/ai_function_item_hot_iv"/>
+    <LinearLayout style="@style/ai_function_item_text_panel_style">
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/tv_title"
+            style="@style/ai_function_item_hot_title"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/tv_desc"
+            style="@style/ai_function_item_hot_desc"/>
+    </LinearLayout>
+</RelativeLayout>

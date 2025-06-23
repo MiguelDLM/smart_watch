@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_enabled="true"
+        android:state_pressed="true"
+        android:id="@android:id/background">
+        <shape>
+            <corners android:radius="@dimen/hiad_download_button_radius"/>
+            <solid android:color="@color/hiad_down_normal_bg_press_hm"/>
+            <stroke
+                android:width="@dimen/hiad_download_button_stroke_width"
+                android:color="@color/hiad_down_normal_bg_press_hm"/>
+        </shape>
+    </item>
+    <item
+        android:state_enabled="true"
+        android:state_pressed="false"
+        android:id="@android:id/background">
+        <shape>
+            <corners android:radius="@dimen/hiad_download_button_radius"/>
+            <solid android:color="@color/hiad_down_normal_bg_hm"/>
+            <stroke
+                android:width="@dimen/hiad_download_button_stroke_width"
+                android:color="@color/hiad_down_normal_bg_hm"/>
+        </shape>
+    </item>
+    <item
+        android:state_enabled="false"
+        android:id="@android:id/background">
+        <shape>
+            <corners android:radius="@dimen/hiad_download_button_radius"/>
+            <solid android:color="@color/hiad_down_normal_bg_hm"/>
+            <stroke
+                android:width="@dimen/hiad_download_button_stroke_width"
+                android:color="@color/hiad_down_normal_bg_hm"/>
+        </shape>
+    </item>
+</selector>

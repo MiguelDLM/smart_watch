@@ -1,0 +1,9 @@
+package com.bytedance.msdk.adapter.gdt;
+
+/* loaded from: classes8.dex */
+public final class BuildConfig {
+    public static final String ADAPTER_VERSION = "4.580.1450.1";
+    public static final String BUILD_TYPE = "release";
+    public static final boolean DEBUG = false;
+    public static final String LIBRARY_PACKAGE_NAME = "com.bytedance.msdk.adapter.gdt";
+}

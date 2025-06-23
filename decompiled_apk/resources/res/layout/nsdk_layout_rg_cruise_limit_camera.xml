@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:roundProgress="http://schemas.android.com/apk/res-auto" android:orientation="vertical">
+    <com.baidu.navisdk.ui.routeguide.subview.widget.CircleProgressImageView
+        android:id="@+id/bnav_rg_assist_top2_progressbar"
+        android:visibility="gone"
+        android:layout_width="@dimen/nsdk_rg_control_panel_btn_width_new"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_height_new"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginTop="@dimen/nsdk_rg_cp_icon_edge_margin"
+        android:src="@drawable/nsdk_drawable_rg_cruise_limitcamera"
+        roundProgress:nsdk_bn_fill="false"
+        roundProgress:nsdk_bn_max="100"
+        roundProgress:nsdk_bn_paint_color="@color/nsdk_cl_link_b"
+        roundProgress:nsdk_bn_paint_width="@dimen/navi_dimens_1dp"/>
+    <com.baidu.navisdk.ui.routeguide.subview.widget.CircleProgressImageView
+        android:id="@+id/bnav_rg_assist_top1_progressbar"
+        android:visibility="gone"
+        android:layout_width="@dimen/nsdk_rg_control_panel_btn_width_new"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_height_new"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginTop="@dimen/nsdk_rg_cp_icon_edge_margin"
+        android:src="@drawable/nsdk_drawable_rg_cruise_limitcamera"
+        roundProgress:nsdk_bn_fill="false"
+        roundProgress:nsdk_bn_max="100"
+        roundProgress:nsdk_bn_paint_color="@color/nsdk_cl_link_b"
+        roundProgress:nsdk_bn_paint_width="@dimen/navi_dimens_1dp"/>
+    <com.baidu.navisdk.ui.routeguide.subview.widget.CircleProgressImageView
+        android:id="@+id/bnav_rg_assist_top0_progressbar"
+        android:visibility="gone"
+        android:layout_width="@dimen/nsdk_rg_control_panel_btn_width_new"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_height_new"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginTop="@dimen/nsdk_rg_cp_icon_edge_margin"
+        android:src="@drawable/nsdk_drawable_rg_cruise_limitcamera"
+        roundProgress:nsdk_bn_fill="false"
+        roundProgress:nsdk_bn_max="100"
+        roundProgress:nsdk_bn_paint_color="@color/nsdk_cl_link_b"
+        roundProgress:nsdk_bn_paint_width="@dimen/navi_dimens_1dp"/>
+</merge>

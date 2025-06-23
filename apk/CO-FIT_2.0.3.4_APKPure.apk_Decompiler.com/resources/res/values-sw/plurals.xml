@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="one">Sogeza mbele haraka kwa sekunde %d</item>
+        <item quantity="other">Sogeza mbele haraka kwa sekunde %d</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="one">Rudisha nyuma kwa sekunde %d</item>
+        <item quantity="other">Rudisha nyuma kwa sekunde %d</item>
+    </plurals>
+    <plurals name="hiad_dismiss_dilaog">
+        <item quantity="one">Dirisha litajifunga ndani ya sekunde %1$s.</item>
+        <item quantity="other">Dirisha litajifunga ndani ya sekunde %1$s.</item>
+    </plurals>
+    <plurals name="hiad_no_prompt_in_days">
+        <item quantity="one">Kumbuka chaguo kwa siku %1$s</item>
+        <item quantity="other">Kumbuka chaguo kwa siku %1$s</item>
+    </plurals>
+    <plurals name="hiad_reward_countdown">
+        <item quantity="one">Sekunde %1$d</item>
+        <item quantity="other">Sekunde %1$d</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">Arifa %d mpya</item>
+        <item quantity="other">Arifa %d mpya</item>
+    </plurals>
+</resources>

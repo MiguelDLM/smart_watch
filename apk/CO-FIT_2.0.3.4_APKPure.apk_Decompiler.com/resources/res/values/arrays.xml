@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="ai_models">
+        <item>@string/pay_dail_aigc_open_ai</item>
+        <item>@string/pay_dail_aigc_baidu</item>
+        <item>@string/pay_dail_aigc_deep_seek</item>
+    </array>
+    <array name="aigc_styles">
+        <item>@string/aigc_style_0</item>
+        <item>@string/aigc_style_1</item>
+        <item>@string/aigc_style_2</item>
+        <item>@string/aigc_style_3</item>
+        <item>@string/aigc_style_4</item>
+        <item>@string/aigc_style_5</item>
+        <item>@string/aigc_style_6</item>
+        <item>@string/aigc_style_7</item>
+        <item>@string/aigc_style_8</item>
+    </array>
+    <array name="apologize_list">
+        <item>@string/apologize_list_1</item>
+        <item>@string/apologize_list_2</item>
+        <item>@string/apologize_list_3</item>
+        <item>@string/apologize_list_4</item>
+    </array>
+    <array name="asr_juristic_method">
+        <item>Hanbali, Maliki, Shaf</item>
+        <item>Hanaf</item>
+    </array>
+    <array name="backlight_time">
+        <item>@string/turn_off</item>
+        <item>@string/five_seconds</item>
+        <item>@string/six_seconds</item>
+        <item>@string/seven_seconds</item>
+        <item>@string/eight_seconds</item>
+    </array>
+    <array name="backlight_time_eight">
+        <item>@string/ten_seconds</item>
+        <item>@string/fifteen_seconds</item>
+        <item>@string/twenty_seconds</item>
+    </array>
+    <array name="backlight_time_five">
+        <item>@string/backlight_never</item>
+        <item>@string/five_seconds</item>
+        <item>@string/ten_seconds</item>
+        <item>@string/fifteen_seconds</item>
+    </array>
+    <array name="backlight_time_four">
+        <item>@string/three_seconds</item>
+        <item>@string/five_seconds</item>
+        <item>@string/eight_seconds</item>
+        <item>@string/ten_seconds</item>
+    </array>
+    <array name="backlight_time_secondary">
+        <item>@string/five_seconds</item>
+        <item>@string/six_seconds</item>
+        <item>@string/seven_seconds</item>
+        <item>@string/eight_seconds</item>
+    </array>
+    <array name="backlight_time_seven">
+        <item>@string/five_seconds</item>
+        <item>@string/ten_seconds</item>
+        <item>@string/fifteen_seconds</item>
+        <item>@string/twenty_seconds</item>
+    </array>
+    <array name="backlight_time_six">
+        <item>@string/five_seconds</item>
+        <item>@string/eight_seconds</item>
+        <item>@string/ten_seconds</item>
+        <item>@string/fifteen_seconds</item>
+    </array>
+    <array name="backlight_time_ten">
+        <item>@string/five_seconds</item>
+        <item>@string/ten_seconds</item>
+        <item>@string/fifteen_seconds</item>
+        <item>@string/twenty_seconds</item>
+        <item>@string/thirty_seconds</item>
+    </array>
+    <array name="backlight_time_three">
+        <item>@string/eight_seconds</item>
+        <item>@string/nine_seconds</item>
+        <item>@string/ten_seconds</item>
+        <item>@string/eleven_seconds</item>
+    </array>
+    <array name="blood_oxygen_set_intervals">
+        <item>@string/fifteen_minutes</item>
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="blood_oxygen_set_intervals_ring">
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="blood_pressure_set_intervals">
+        <item>@string/fifteen_minutes</item>
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="body_shape_img">
+        <item>@drawable/bodyshape_1</item>
+        <item>@drawable/bodyshape_2</item>
+        <item>@drawable/bodyshape_3</item>
+        <item>@drawable/bodyshape_4</item>
+        <item>@drawable/bodyshape_5</item>
+        <item>@drawable/bodyshape_6</item>
+        <item>@drawable/bodyshape_7</item>
+        <item>@drawable/bodyshape_8</item>
+        <item>@drawable/bodyshape_9</item>
+    </array>
+    <array name="body_shape_text">
+        <item>@string/body_shape_1</item>
+        <item>@string/body_shape_2</item>
+        <item>@string/body_shape_3</item>
+        <item>@string/body_shape_4</item>
+        <item>@string/body_shape_5</item>
+        <item>@string/body_shape_6</item>
+        <item>@string/body_shape_7</item>
+        <item>@string/body_shape_8</item>
+        <item>@string/body_shape_9</item>
+    </array>
+    <array name="button_types">
+        <item>@string/short_press</item>
+        <item>@string/long_press</item>
+        <item>@string/double_press</item>
+    </array>
+    <array name="by_calendars">
+        <item>@string/by_calendar_0</item>
+        <item>@string/by_calendar_1</item>
+    </array>
+    <array name="colortype">
+        <item>@string/colortype_0</item>
+        <item>@string/colortype_1</item>
+    </array>
+    <array name="daily_weekly_list">
+        <item>@string/daily_weekly_list_1</item>
+        <item>@string/daily_weekly_list_2</item>
+    </array>
+    <array name="date_format">
+        <item>@string/yyyyMMdd</item>
+        <item>@string/ddMMyyyy</item>
+        <item>@string/MMddyyyy</item>
+    </array>
+    <array name="drink_water_intervals">
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+        <item>@string/four_hours</item>
+    </array>
+    <array name="earphone_key_list_0">
+        <item>@string/earphone_key_none</item>
+        <item>@string/earphone_key_pre</item>
+        <item>@string/earphone_key_next</item>
+        <item>@string/earphone_key_play_pause</item>
+        <item>@string/earphone_key_switch_env</item>
+        <item>@string/earphone_key_vol_up</item>
+        <item>@string/earphone_key_vol_down</item>
+        <item>@string/earphone_key_voice_assistant</item>
+    </array>
+    <array name="earphone_key_list_1">
+        <item>@string/earphone_key_none</item>
+        <item>@string/earphone_key_pre</item>
+        <item>@string/earphone_key_next</item>
+        <item>@string/earphone_key_play_pause</item>
+        <item>@string/earphone_key_vol_up</item>
+        <item>@string/earphone_key_vol_down</item>
+        <item>@string/earphone_key_voice_assistant</item>
+    </array>
+    <array name="earphone_key_list_2">
+        <item>@string/earphone_key_none</item>
+        <item>@string/earphone_key_pre</item>
+        <item>@string/earphone_key_next</item>
+        <item>@string/earphone_key_play_pause</item>
+        <item>@string/earphone_key_vol_up</item>
+        <item>@string/earphone_key_vol_down</item>
+        <item>@string/earphone_key_voice_assistant</item>
+        <item>@string/earphone_key_turn_on_ai</item>
+        <item>@string/earphone_key_turn_off_ai</item>
+        <item>@string/earphone_key_turn_on_translation</item>
+        <item>@string/earphone_key_turn_off_translation</item>
+    </array>
+    <array name="earphone_key_list_3">
+        <item>@string/earphone_key_none</item>
+        <item>@string/earphone_key_pre</item>
+        <item>@string/earphone_key_next</item>
+        <item>@string/earphone_key_play_pause</item>
+        <item>@string/earphone_key_switch_env</item>
+        <item>@string/earphone_key_vol_up</item>
+        <item>@string/earphone_key_vol_down</item>
+        <item>@string/earphone_key_voice_assistant</item>
+        <item>@string/earphone_key_turn_on_ai</item>
+        <item>@string/earphone_key_turn_off_ai</item>
+        <item>@string/earphone_key_turn_on_translation</item>
+        <item>@string/earphone_key_turn_off_translation</item>
+    </array>
+    <array name="eat_healthy_list">
+        <item>@string/eat_healthy_list_1</item>
+        <item>@string/eat_healthy_list_2</item>
+        <item>@string/eat_healthy_list_3</item>
+    </array>
+    <array name="enable">
+        <item>@string/off</item>
+        <item>@string/on</item>
+    </array>
+    <array name="eq_mode_list">
+        <item>@string/eq_normal</item>
+        <item>@string/eq_rock</item>
+        <item>@string/eq_pop</item>
+        <item>@string/eq_classical</item>
+        <item>@string/eq_jazz</item>
+        <item>@string/eq_country</item>
+        <item>@string/eq_user</item>
+    </array>
+    <array name="exo_controls_playback_speeds">
+        <item>0.25x</item>
+        <item>0.5x</item>
+        <item>0.75x</item>
+        <item>Normal</item>
+        <item>1.25x</item>
+        <item>1.5x</item>
+        <item>2x</item>
+    </array>
+    <array name="genders">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </array>
+    <array name="hr_monitoring_intervals">
+        <item>@string/fifteen_minutes</item>
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="hr_monitoring_intervals_ring">
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="in_colors_light">
+        <item>#4b03a9f4</item>
+        <item>#3303a9f4</item>
+        <item>#1903a9f4</item>
+    </array>
+    <array name="level_color_2_2">
+        <item>@color/level_color_low</item>
+        <item>@color/level_color_standard</item>
+    </array>
+    <array name="level_color_3_2">
+        <item>@color/level_color_low</item>
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+    </array>
+    <array name="level_color_4_1">
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+        <item>@color/level_color_severely_high</item>
+        <item>@color/level_color_warn</item>
+    </array>
+    <array name="level_color_4_2">
+        <item>@color/level_color_low</item>
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+        <item>@color/level_color_severely_high</item>
+    </array>
+    <array name="level_color_5_2">
+        <item>@color/level_color_low</item>
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+        <item>@color/level_color_severely_high</item>
+        <item>@color/level_color_warn</item>
+    </array>
+    <array name="level_color_5_3">
+        <item>@color/level_color_severely_low</item>
+        <item>@color/level_color_low</item>
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+        <item>@color/level_color_severely_high</item>
+    </array>
+    <array name="level_color_body_age">
+        <item>@color/level_color_standard</item>
+        <item>@color/level_color_high</item>
+    </array>
+    <array name="level_range_2_2">
+        <item>@string/level_low</item>
+        <item>@string/level_standard</item>
+    </array>
+    <array name="level_range_3_2">
+        <item>@string/level_low</item>
+        <item>@string/level_standard</item>
+        <item>@string/level_high</item>
+    </array>
+    <array name="level_range_4_1">
+        <item>@string/level_standard</item>
+        <item>@string/level_high</item>
+        <item>@string/level_severely_high</item>
+        <item>@string/level_warn</item>
+    </array>
+    <array name="level_range_4_2">
+        <item>@string/level_low</item>
+        <item>@string/level_standard</item>
+        <item>@string/level_high</item>
+        <item>@string/level_severely_high</item>
+    </array>
+    <array name="level_range_4_2_bmi">
+        <item>@string/thin</item>
+        <item>@string/normal</item>
+        <item>@string/too_heavy</item>
+        <item>@string/class_1_obesity</item>
+    </array>
+    <array name="level_range_4_2_pressure">
+        <item>@string/pressure_level_relax</item>
+        <item>@string/pressure_level_normal</item>
+        <item>@string/pressure_level_moderate_stress</item>
+        <item>@string/pressure_level_overstress</item>
+    </array>
+    <array name="level_range_5_2">
+        <item>@string/level_low</item>
+        <item>@string/level_standard</item>
+        <item>@string/level_high</item>
+        <item>@string/level_severely_high</item>
+        <item>@string/level_warn</item>
+    </array>
+    <array name="level_range_5_3">
+        <item>@string/level_severely_low</item>
+        <item>@string/level_low</item>
+        <item>@string/level_standard</item>
+        <item>@string/level_high</item>
+        <item>@string/level_severely_high</item>
+    </array>
+    <array name="level_range_body_age">
+        <item>@string/body_age_1</item>
+        <item>@string/body_age_2</item>
+    </array>
+    <array name="level_range_sleep">
+        <item>@string/bad</item>
+        <item>@string/general</item>
+        <item>@string/good</item>
+        <item>@string/sleepyhead</item>
+    </array>
+    <array name="mac_qrcodes">
+        <item>@string/mac_qrcode_1</item>
+        <item>@string/mac_qrcode_2</item>
+    </array>
+    <array name="main_aux_bridge_change_ret">
+        <item>已为您切换至辅路</item>
+        <item>已为您切换至主路</item>
+        <item>已为您切换至高架上</item>
+        <item>已为您切换至高架下</item>
+        <item>切换失败，继续当前导航</item>
+    </array>
+    <array name="main_views">
+        <item>@string/original</item>
+        <item>@string/high_visibility</item>
+        <item>@string/daylight</item>
+    </array>
+    <array name="maps">
+        <item>@string/google_map</item>
+        <item>@string/baidu_map</item>
+    </array>
+    <array name="moments_copywriting_list">
+        <item>@string/moments_copywriting_list_1</item>
+        <item>@string/moments_copywriting_list_2</item>
+        <item>@string/moments_copywriting_list_3</item>
+        <item>@string/moments_copywriting_list_4</item>
+    </array>
+    <array name="motor_setting_day_night_mode_item">
+        <item>自动</item>
+        <item>始终白天</item>
+        <item>始终夜间</item>
+    </array>
+    <array name="motor_setting_nav_guide_angle_item">
+        <item>跟随车头</item>
+        <item>正北朝上</item>
+    </array>
+    <array name="motor_setting_nav_voice_item">
+        <item>导航播报</item>
+        <item>静音</item>
+        <item>仅提示音</item>
+    </array>
+    <array name="nsdk_cruise_camera_blindbend_names">
+        <item>无效值</item>
+        <item>左急转弯</item>
+        <item>右急转弯</item>
+        <item>连续转弯</item>
+    </array>
+    <array name="nsdk_cruise_camera_joint_names">
+        <item>无效值</item>
+        <item>左合流</item>
+        <item>右合流</item>
+        <item>本线合流</item>
+    </array>
+    <array name="nsdk_cruise_camera_names">
+        <item>合流</item>
+        <item>隧道</item>
+        <item>桥梁</item>
+        <item>铁路道口</item>
+        <item>急转弯</item>
+        <item>急下坡</item>
+        <item>落石区域</item>
+        <item>事故多发路段</item>
+        <item>限速拍照</item>
+        <item>闯红灯拍照</item>
+        <item>违章拍照</item>
+        <item>区间限速拍照</item>
+        <item>学校路段</item>
+        <item>路面不平</item>
+        <item>道路变窄</item>
+        <item>前面村庄</item>
+        <item>易滑路段</item>
+        <item>禁止超车</item>
+        <item>请鸣喇叭</item>
+        <item>傍山险路</item>
+        <item>窄桥</item>
+        <item>注意横风</item>
+        <item>过水路面</item>
+        <item>减速让行</item>
+        <item>拉链式通行</item>
+    </array>
+    <array name="nsdk_cruise_camera_narrow_names">
+        <item>无效值</item>
+        <item>左侧变窄</item>
+        <item>右侧变窄</item>
+        <item>两侧变窄</item>
+    </array>
+    <array name="nsdk_cruise_camera_rockfall_names">
+        <item>无效值</item>
+        <item>落石区域</item>
+        <item>落石区域</item>
+    </array>
+    <array name="nsdk_cruise_camera_slop_names">
+        <item>无效值</item>
+        <item>急上坡</item>
+        <item>急下坡</item>
+        <item>连续陡坡</item>
+    </array>
+    <array name="nsdk_rg_space_catalog_id">
+        <item>7b40</item>
+        <item>2c80</item>
+        <item>7b00</item>
+        <item>7a80</item>
+    </array>
+    <array name="nsdk_rg_space_catalog_name">
+        <item>加油站</item>
+        <item>厕所</item>
+        <item>停车场</item>
+        <item>服务区</item>
+    </array>
+    <array name="nsdk_string_voice_guide_tips_array">
+        <item>前方堵不堵?</item>
+        <item>不走南京路</item>
+        <item>走京藏高速</item>
+        <item>顺路加个油</item>
+        <item>附近的取款机</item>
+        <item>顺路加个油</item>
+        <item>导航去百度大厦</item>
+        <item>今日限号是多少?</item>
+        <item>下个路口怎么走?</item>
+        <item>还要多久到?</item>
+        <item>查看全览</item>
+        <item>播报大点声</item>
+    </array>
+    <array name="pressure_set_intervals">
+        <item>@string/fifteen_minutes</item>
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="pressure_set_intervals_ring">
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+    </array>
+    <array name="referee_roles">
+        <item>@string/referee</item>
+        <item>@string/assisting_referee</item>
+        <item>@string/four_referee</item>
+    </array>
+    <array name="rg_hd_map_item">
+        <item>自动</item>
+        <item>半屏</item>
+        <item>全屏</item>
+    </array>
+    <array name="rg_setting_bluetooth_play_item">
+        <item>媒体声道</item>
+        <item>电话声道</item>
+        <item>手机播放</item>
+    </array>
+    <array name="rg_setting_float_item">
+        <item>小地图</item>
+        <item>仅文字</item>
+    </array>
+    <array name="rg_setting_music_controller_item">
+        <item>压低音乐</item>
+        <item>暂停音乐</item>
+    </array>
+    <array name="rg_setting_nav_guide_angle_item">
+        <item>跟随车头</item>
+        <item>正北朝上</item>
+        <item>HUD</item>
+    </array>
+    <array name="rg_setting_nav_guide_angle_item_auto">
+        <item>跟随车头</item>
+        <item>正北朝上</item>
+        <item>3D车头朝上</item>
+    </array>
+    <array name="rg_setting_screen_orientation_item">
+        <item>自动</item>
+        <item>竖屏导航</item>
+        <item>横屏导航</item>
+    </array>
+    <array name="ring_vibration">
+        <item>@string/choose_shake</item>
+        <item>@string/choose_sound</item>
+    </array>
+    <array name="ring_vibration_s">
+        <item>@string/turn_off</item>
+        <item>@string/choose_sound</item>
+        <item>@string/choose_shake</item>
+        <item>@string/choose_shake_and_sound</item>
+    </array>
+    <array name="schedule_advance">
+        <item>@string/at_time_of_event</item>
+        <item>@string/five_minutes_before</item>
+        <item>@string/fifteen_minutes_before</item>
+        <item>@string/thirty_minutes_before</item>
+        <item>@string/one_hour_before</item>
+        <item>@string/two_hours_before</item>
+        <item>@string/one_day_before</item>
+        <item>@string/two_day_before</item>
+        <item>@string/a_week_before</item>
+    </array>
+    <array name="screen_types">
+        <item>@string/always_on</item>
+        <item>@string/turn_wrist</item>
+    </array>
+    <array name="search_hot">
+        <item>@string/wenxinyiyan</item>
+        <item>@string/personal_trainer</item>
+        <item>@string/health_qa</item>
+    </array>
+    <array name="sedentariness_intervals">
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+        <item>@string/four_hours</item>
+    </array>
+    <array name="shock_mode">
+        <item>@string/shock_mode_lighthouse</item>
+        <item>@string/shock_mode_radiation</item>
+        <item>@string/shock_mode_symphony</item>
+        <item>@string/shock_mode_heartbeat</item>
+        <item>@string/shock_mode_staccato</item>
+    </array>
+    <array name="short_video_scripts_list">
+        <item>@string/short_video_scripts_list_1</item>
+        <item>@string/short_video_scripts_list_2</item>
+        <item>@string/short_video_scripts_list_3</item>
+        <item>@string/short_video_scripts_list_4</item>
+        <item>@string/short_video_scripts_list_5</item>
+        <item>@string/short_video_scripts_list_6</item>
+    </array>
+    <array name="temp_monitoring_intervals">
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+        <item>@string/four_hours</item>
+        <item>@string/eight_hours</item>
+    </array>
+    <array name="temperature_unit">
+        <item>@string/degree_centigrade</item>
+        <item>@string/fahrenheit</item>
+    </array>
+    <array name="temperature_unit_sk">
+        <item>@string/metric_item_new</item>
+        <item>@string/imperial_item_new</item>
+    </array>
+    <array name="temperature_unit_sk_list">
+        <item>@string/measure_item_d</item>
+        <item>@string/measure_item_f</item>
+    </array>
+    <array name="temperature_unit_sk_result">
+        <item>@string/celsius_item</item>
+        <item>@string/fahrenheit_item</item>
+    </array>
+    <array name="time_format">
+        <item>@string/hour_24</item>
+        <item>@string/hour_12</item>
+    </array>
+    <array name="travel_guides_list">
+        <item>@string/travel_guides_list_1</item>
+        <item>@string/travel_guides_list_2</item>
+    </array>
+    <array name="truck_axle_array">
+        <item>2轴</item>
+        <item>3轴</item>
+        <item>4轴</item>
+        <item>5轴</item>
+        <item>6轴</item>
+        <item>6轴以上</item>
+    </array>
+    <array name="truck_hint_array">
+        <item>100</item>
+        <item>100</item>
+        <item>25</item>
+        <item>5</item>
+        <item>10</item>
+    </array>
+    <array name="truck_title_array">
+        <item>总重</item>
+        <item>核定载重</item>
+        <item>车长</item>
+        <item>车宽</item>
+        <item>车高</item>
+        <item>轴数</item>
+    </array>
+    <array name="truck_type_array">
+        <item>微型</item>
+        <item>轻型</item>
+        <item>中型</item>
+        <item>重型</item>
+    </array>
+    <array name="truck_unit_array">
+        <item>吨</item>
+        <item>吨</item>
+        <item>米</item>
+        <item>米</item>
+        <item>米</item>
+    </array>
+    <array name="type_array">
+        <item>驾车</item>
+        <item>摩托车</item>
+        <item>货车</item>
+        <item>雷达</item>
+        <item>moss</item>
+        <item>混合</item>
+    </array>
+    <array name="units">
+        <item>@string/metric</item>
+        <item>@string/imperial</item>
+    </array>
+    <array name="vibration_times">
+        <item>@string/turn_off</item>
+        <item>@string/one_times</item>
+        <item>@string/twice</item>
+        <item>@string/three_times</item>
+    </array>
+    <array name="wash_set_intervals">
+        <item>@string/thirty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/two_hours</item>
+        <item>@string/four_hours</item>
+    </array>
+    <array name="wear_way">
+        <item>@string/left_hand</item>
+        <item>@string/right_hand</item>
+    </array>
+    <array name="weekdays_s">
+        <item>@string/weekday1_s</item>
+        <item>@string/weekday2_s</item>
+        <item>@string/weekday3_s</item>
+        <item>@string/weekday4_s</item>
+        <item>@string/weekday5_s</item>
+        <item>@string/weekday6_s</item>
+        <item>@string/weekday7_s</item>
+    </array>
+</resources>

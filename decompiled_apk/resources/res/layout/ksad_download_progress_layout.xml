@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.kwad.components.core.page.widget.TextProgressBar
+        android:id="@+id/ksad_progress_bar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/ksad_feed_download_progress"/>
+    <TextView
+        android:textSize="11dp"
+        android:textColor="@color/ksad_reward_main_color"
+        android:gravity="center"
+        android:id="@+id/ksad_normal_text"
+        android:background="@drawable/ksad_feed_app_download_before_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <View
+        android:id="@+id/ksad_foreground_cover"
+        android:background="@drawable/ksad_video_actionbar_cover_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

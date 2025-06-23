@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:gravity="center_vertical" android:id="@+id/top_bar" android:background="@android:color/white" android:paddingLeft="@dimen/navi_dimens_13dp" android:paddingTop="@dimen/navi_dimens_6dp" android:paddingRight="@dimen/navi_dimens_8dp" android:paddingBottom="@dimen/navi_dimens_6dp" android:visibility="visible" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_54dp" android:layout_below="@+id/top_empty_view">
+        <ImageView android:id="@+id/back_arrow" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/nsdk_ugc_icon_back" android:scaleType="centerInside" android:layout_alignParentLeft="true" android:layout_centerVertical="true" android:layout_alignParentStart="true"/>
+        <TextView android:textSize="@dimen/navi_dimens_15dp" android:textStyle="bold" android:textColor="#000000" android:id="@+id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更换路线" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout android:id="@+id/top_empty_view" android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/top_empty_view">
+        <com.baidu.navisdk.ui.widget.BNFrameLayout android:id="@+id/route_bottom_container" android:background="@drawable/nsdk_drawable_route_result_tab_background" android:paddingLeft="7dp" android:paddingRight="7dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="-2dp" android:layout_marginRight="-2dp" android:layout_marginBottom="-7dp" android:layout_alignParentBottom="true"/>
+        <com.baidu.navisdk.ui.widget.BNFrameLayout android:id="@+id/route_center_container" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/route_bottom_container"/>
+    </RelativeLayout>
+    <com.baidu.navisdk.ui.widget.BNFrameLayout android:id="@+id/route_screen_container" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</RelativeLayout>

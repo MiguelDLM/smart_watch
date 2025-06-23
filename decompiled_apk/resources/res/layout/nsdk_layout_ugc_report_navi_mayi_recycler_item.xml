@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="#fbfbfb"
+    android:layout_width="109.5dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/ugc_report_navi_mayi_item_iv"
+        android:layout_width="@dimen/navi_dimens_76dp"
+        android:layout_height="@dimen/navi_dimens_76dp"
+        android:src="@drawable/nsdk_ugc_report_navi_mayi_ic_forbidden"
+        android:scaleType="fitXY"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_12dp"
+        android:textColor="#333333"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/ugc_report_navi_mayi_item_tv"
+        android:layout_width="@dimen/navi_dimens_76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_1dp"
+        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+        android:text="禁止转向"/>
+</LinearLayout>

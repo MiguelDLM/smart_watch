@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.CustomLinearScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="bottom" android:orientation="vertical" android:id="@+id/bnav_rg_toolbox_scroollview" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+    <View android:id="@+id/sub_fade_layer" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_0dp"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/bnav_rg_main_menu_layout" android:background="@drawable/bnav_rg_bg_tool_box" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:id="@+id/sub_scroll_layout" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="@dimen/nsdk_rg_bottom_panel_height">
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_rg_toolbox_quit_ly" android:background="@drawable/bnav_rg_toolbox_quit_pressed_bg" android:paddingTop="@dimen/navi_dimens_2dp" android:visibility="invisible" android:clickable="true" android:layout_width="@dimen/navi_dimens_48dp" android:layout_height="match_parent">
+                    <ImageView android:id="@+id/bnav_rg_toolbox_quit_iv" android:layout_width="@dimen/navi_dimens_22dp" android:layout_height="wrap_content" android:src="@drawable/nsdk_drawable_toolbox_icon_quit_nav" android:scaleType="centerInside"/>
+                    <TextView android:textSize="@dimen/navi_dimens_12dp" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_h" android:id="@+id/bnav_rg_toolbox_quit_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_2dp" android:text="退出"/>
+                </LinearLayout>
+                <View android:id="@+id/bnav_rg_toolbox_quit_divider" android:visibility="invisible" android:layout_height="@dimen/navi_dimens_29dp" style="@style/NavRGToolBoxItemDivider"/>
+                <TextView android:textSize="@dimen/navi_dimens_18dp" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_b_mm_title" android:gravity="center" android:id="@+id/bnav_rg_toolbox_open_more_option" android:layout_width="0dp" android:layout_height="match_parent" android:text="更多选项" android:layout_weight="1"/>
+                <View android:id="@+id/bnav_rg_toolbox_open_close_divider" android:background="@color/nsdk_cl_rg_bg_c" android:layout_height="@dimen/navi_dimens_29dp" style="@style/NavRGToolBoxItemDivider"/>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bnav_rg_toolbox_close_ll" android:background="@drawable/bnav_rg_toolbox_quit_pressed_bg" android:paddingTop="@dimen/navi_dimens_2dp" android:clickable="true" android:layout_width="@dimen/navi_dimens_48dp" android:layout_height="match_parent">
+                    <ImageView android:id="@+id/bnav_rg_toolbox_close_iv" android:layout_width="@dimen/navi_dimens_22dp" android:layout_height="wrap_content" android:src="@drawable/nsdk_drawable_toolbox_icon_close_toolbox" android:scaleType="centerInside"/>
+                    <TextView android:textSize="@dimen/navi_dimens_12dp" android:textStyle="bold" android:textColor="@color/nsdk_cl_text_b_mm_title" android:id="@+id/bnav_rg_toolbox_close_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_2dp" android:text="收起"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:id="@+id/bnav_rg_toolbox_settings_container" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.baidu.navisdk.ui.widget.CustomLinearScrollView>

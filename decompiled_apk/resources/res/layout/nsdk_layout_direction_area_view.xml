@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/bnavi_derection_area_panel"
+    android:background="@null"
+    android:visibility="visible"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/navi_dimens_56dp">
+    <TextView
+        android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_rg_hw_service_exit_code_top"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:id="@+id/bnavi_rg_direction_code"
+        android:background="@drawable/nsdk_drawable_rg_hw_bg_exit_text"
+        android:paddingLeft="@dimen/navi_dimens_4dp"
+        android:paddingRight="@dimen/navi_dimens_4dp"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_3dp"
+        android:minHeight="@dimen/navi_dimens_21dp"
+        android:singleLine="true"/>
+    <TextView
+        android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_rg_hw_service_info"
+        android:id="@+id/bnavi_rg_direction_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/nsdk_rg_hw_service_area_panel_max_width"/>
+</LinearLayout>

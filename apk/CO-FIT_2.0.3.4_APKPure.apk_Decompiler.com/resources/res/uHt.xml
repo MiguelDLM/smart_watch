@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center" android:background="#ffffff" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:id="@+id/bnav_top_empty_view" layout="@layout/bnav_statusbar_empty_view_include"/>
+    <RelativeLayout android:id="@+id/nsdk_driving_habit_status_bar" android:layout_width="match_parent" android:layout_height="@dimen/navi_dimens_50dp" android:layout_below="@+id/bnav_top_empty_view">
+        <ImageView android:id="@+id/nsdk_driving_habit_back_img" android:padding="@dimen/navi_dimens_15dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bnav_titlebar_ic_back_new" android:layout_centerVertical="true"/>
+        <TextView android:textSize="@dimen/navi_dimens_18dp" android:textColor="@color/nsdk_route_sort_title" android:id="@+id/nsdk_driving_habit_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nsdk_string_select_driving_habit" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <TextView android:textSize="@dimen/navi_dimens_12dp" android:textColor="@color/nsdk_route_sort_summary_text" android:gravity="center" android:id="@+id/nsdk_driving_habit_sub_title_bar" android:background="#f7f7f7" android:paddingTop="@dimen/navi_dimens_10dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/nsdk_string_select_preference_sub_title" android:layout_below="@+id/nsdk_driving_habit_status_bar"/>
+    <ScrollView android:scrollbarSize="@dimen/navi_dimens_0dp" android:scrollbarAlwaysDrawVerticalTrack="false" android:scrollbarStyle="insideOverlay" android:orientation="vertical" android:id="@+id/nsdk_driving_habit_more_scroll" android:background="#f7f7f7" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/nsdk_driving_habit_sub_title_bar" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="vertical" android:id="@+id/nsdk_driving_habit_parent_view" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/rbtngroup"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/navi_dimens_28dp">
+    <RadioButton
+        android:textSize="12sp"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_left_button"
+        android:layout_width="@dimen/navi_dimens_56dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="-0.5dp"
+        android:button="@null"
+        android:layout_marginEnd="-0.5dp"/>
+    <RadioButton
+        android:textSize="12sp"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_mid_button"
+        android:layout_width="@dimen/navi_dimens_56dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="-0.5dp"
+        android:button="@null"
+        android:layout_marginEnd="-0.5dp"/>
+    <RadioButton
+        android:textSize="12sp"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_right_button"
+        android:layout_width="@dimen/navi_dimens_56dp"
+        android:layout_height="match_parent"
+        android:button="@null"/>
+</RadioGroup>

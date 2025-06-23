@@ -1,0 +1,169 @@
+{
+  "id": "dynamicui",
+  "version": 1,
+  "frequency": {
+    "dynam_ui_dialog": {
+      "once_navi": 999,
+      "one_day": 999,
+      "timediff": 1
+    }
+  },
+  "scene_array": {
+    "rr_new_eng_car_brand_tesla": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_neweng_car_brand",
+          "uiData": "rr_neweng_car_brand_tesla"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "statistics_key": "rr_new_eng_car_brand",
+      "invoke_page": 4,
+      "occur_type": "routeResult&newEng&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "data": {
+          "car_brand": {
+            "equals": "特斯拉"
+          },
+          "looper_time": -2
+        },
+        "userop": {
+          "op_seq": "route_plan_success"
+        }
+      }
+    },
+    "rr_new_eng_car_brand_xiaopeng": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_neweng_car_brand",
+          "uiData": "rr_neweng_car_brand_xiaopeng"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "statistics_key": "rr_new_eng_car_brand",
+      "invoke_page": 4,
+      "occur_type": "routeResult&newEng&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "data": {
+          "car_brand": {
+            "equals": "小鹏"
+          },
+          "looper_time": -2
+        },
+        "userop": {
+          "op_seq": "route_plan_success"
+        }
+      }
+    },
+    "rr_new_eng_car_brand_nio": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_neweng_car_brand",
+          "uiData": "rr_neweng_car_brand_nio"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "statistics_key": "rr_new_eng_car_brand",
+      "invoke_page": 4,
+      "occur_type": "routeResult&newEng&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "data": {
+          "car_brand": {
+            "equals": "蔚来"
+          },
+          "looper_time": -2
+        },
+        "userop": {
+          "op_seq": "route_plan_success"
+        }
+      }
+    },
+    "rr_new_eng_car_brand_other": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_neweng_car_brand",
+          "uiData": "rr_neweng_car_brand_other"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "statistics_key": "rr_new_eng_car_brand",
+      "invoke_page": 4,
+      "occur_type": "routeResult&newEng&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "data": {
+          "car_brand": {
+            "no_in": {
+              "特斯拉": "false",
+              "蔚来": "false",
+              "小鹏": "false"
+            }
+          },
+          "looper_time": -2
+        },
+        "userop": {
+          "op_seq": "route_plan_success"
+        }
+      }
+    },
+    "rr_car_to_new_eng": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_car_to_new_eng"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "invoke_page": 4,
+      "occur_type": "routeResult&car&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "data": {
+          "guide_to_new_eng": {
+            "equals": "true"
+          },
+          "looper_time": -2
+        },
+        "userop": {
+          "op_seq": "route_plan_success"
+        }
+      }
+    },
+    "rr_neweng_cal_prefer": {
+      "action": {
+        "order": "showDialog",
+        "params": {
+          "ui": "rr_neweng_cal_prefer"
+        }
+      },
+      "scene_type": "dynam_ui_dialog",
+      "invoke_page": 4,
+      "occur_type": "routeResult&newEng&dialog",
+      "stratgies": {
+        "frequency": {
+          "lifetime": 1
+        },
+        "userop": {
+          "op_seq": "enter_route_prefer"
+        }
+      }
+    }
+  }
+}

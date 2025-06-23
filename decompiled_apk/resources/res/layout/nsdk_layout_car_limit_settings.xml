@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/car_limit_settings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/navi_dimens_19dp"
+    android:layout_marginEnd="@dimen/navi_dimens_19dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="@dimen/navi_dimens_19dp"
+            android:textColor="#333333"
+            android:id="@+id/limit_settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="限行设置"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/plate_btn_close"
+            android:layout_width="@dimen/navi_dimens_29dp"
+            android:layout_height="@dimen/navi_dimens_29dp"
+            android:layout_marginTop="@dimen/navi_dimens_22dp"
+            android:src="@drawable/bnav_plate_input_close"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <include layout="@layout/nsdk_layout_car_type"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="避开限行路段"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

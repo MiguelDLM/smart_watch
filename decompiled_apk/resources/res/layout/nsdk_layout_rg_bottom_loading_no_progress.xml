@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:gravity="center"
+        android:id="@+id/bnav_rg_loading_no_progress_exit_btn"
+        android:layout_width="@dimen/nsdk_rg_bottombar_exit_btn_width"
+        android:layout_height="@dimen/navi_dimens_36dp"
+        android:text="@string/nsdk_string_exit"
+        android:layout_marginEnd="@dimen/nsdk_rg_setting_page_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/NsdkRGGrayBtnStyle"/>
+    <TextView
+        android:textSize="@dimen/navi_dimens_18dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_text_b_mm_title"
+        android:gravity="center"
+        android:id="@+id/bnav_rg_loading_no_progress_txt"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="正在算路"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bnav_rg_loading_no_progress_exit_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

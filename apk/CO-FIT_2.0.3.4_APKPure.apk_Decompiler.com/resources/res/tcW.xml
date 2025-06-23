@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/seekbar_brightness_bg"/>
+            <corners android:radius="@dimen/pop_top_bg_radius"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <scale android:scaleWidth="100%" android:scaleHeight="0%" android:scaleGravity="start">
+            <shape>
+                <gradient android:startColor="@color/sport_detail_bg_startColor" android:endColor="@color/sport_detail_bg_endColor" android:angle="0" android:type="linear" android:centerColor="@color/sport_detail_bg_centerColor"/>
+                <corners android:radius="@dimen/pop_top_bg_radius"/>
+            </shape>
+        </scale>
+    </item>
+</layer-list>

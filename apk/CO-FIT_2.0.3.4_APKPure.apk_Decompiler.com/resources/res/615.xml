@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_gravity="bottom" android:id="@+id/bnav_scale_and_logo_layout" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/bnav_rg_map_scale_layout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/navi_dimens_3dp">
+        <TextView android:textSize="12sp" android:textColor="#333333" android:id="@+id/bnav_rg_scale_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100米" android:layout_centerHorizontal="true"/>
+        <TextView android:id="@+id/bnav_rg_scale_indicator" android:background="@drawable/nsdk_drawable_rg_ic_scale_indicator" android:layout_width="wrap_content" android:layout_height="@dimen/navi_dimens_7dp" android:layout_below="@+id/bnav_rg_scale_title" android:layout_centerHorizontal="true"/>
+        <ImageView android:id="@+id/app_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/navi_dimens_3dp" android:src="@drawable/nsdk_drawable_map_watermark" android:layout_below="@+id/bnav_rg_scale_indicator" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <ImageView android:id="@+id/bnav_rg_baidu_map_logo" android:visibility="visible" android:layout_width="@dimen/navi_dimens_46dp" android:layout_height="@dimen/navi_dimens_16dp" android:layout_marginBottom="@dimen/navi_dimens_6dp" android:src="@drawable/nsdk_baidu_map_logo"/>
+</RelativeLayout>

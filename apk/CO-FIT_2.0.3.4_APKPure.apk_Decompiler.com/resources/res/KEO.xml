@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/coach_layout_margin_start_end">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/abh_per_start_plan_time"/>
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:id="@+id/today_is_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="Today is 14/03"/>
+        <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" style="@style/abh_coach_layout_style_bg">
+            <com.sma.smartv3.view.text.PFMedium android:textColor="@color/text_color" android:layout_gravity="center" android:id="@+id/calendar_view_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20dp" android:text="March 2025"/>
+            <com.sma.smartv3.view.ChooseStartCalendarView android:id="@+id/calendar_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

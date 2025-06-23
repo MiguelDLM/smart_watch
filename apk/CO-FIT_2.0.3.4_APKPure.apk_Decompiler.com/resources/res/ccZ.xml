@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="0dp" android:layout_height="wrap_content" android:text="Start Test" android:layout_weight="1" android:onClick="startTest" android:textAllCaps="false"/>
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="0dp" android:layout_height="wrap_content" android:text="Stop Test" android:layout_weight="1" android:onClick="stopTest" android:textAllCaps="false"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="0dp" android:layout_height="wrap_content" android:text="Clear records" android:layout_weight="1" android:onClick="clearData" android:textAllCaps="false"/>
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="0dp" android:layout_height="wrap_content" android:text="Export records" android:layout_weight="1" android:onClick="exportData" android:textAllCaps="false"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Set Read Data Interval(second)" android:layout_weight="1" android:onClick="setReadDataInterval" android:textAllCaps="false"/>
+        <EditText android:gravity="center" android:id="@+id/et_read_hr_interval" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:inputType="number"/>
+    </LinearLayout>
+    <ListView android:id="@+id/list_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:smoothScrollbar="false"/>
+</LinearLayout>

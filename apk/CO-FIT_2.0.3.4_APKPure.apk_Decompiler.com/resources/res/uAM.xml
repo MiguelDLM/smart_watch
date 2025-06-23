@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="220dp">
+    <ListView android:id="@+id/vmsr_debug_list" android:background="#a0000000" android:layout_width="@dimen/navi_dimens_300dp" android:layout_height="@dimen/navi_dimens_200dp"/>
+</LinearLayout>

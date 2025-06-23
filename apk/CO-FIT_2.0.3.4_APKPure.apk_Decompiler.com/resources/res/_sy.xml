@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/truck_limit_temp_height_button" android:background="@drawable/nsdk_drawable_rr_top_button_click_mask" android:layout_width="@dimen/nsdk_truck_center_view_height_panel_width" android:layout_height="@dimen/nsdk_truck_center_view_height_panel_height">
+        <TextView android:textSize="12dp" android:textStyle="bold" android:textColor="#333333" android:gravity="center" android:id="@+id/tv_height_value" android:background="@drawable/nsdk_truck_height_limit_icon" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:textSize="10dp" android:textColor="#333333" android:id="@+id/tv_height_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="总高度"/>
+    </LinearLayout>
+    <View android:background="@color/nsdk_route_result_split_line_color" android:layout_width="match_parent" android:layout_height="1px" android:layout_marginLeft="4dp" android:layout_marginRight="4dp"/>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/truck_limit_temp_weight_button" android:background="@drawable/nsdk_drawable_rr_bottom_button_click_mask" android:layout_width="@dimen/nsdk_truck_center_view_height_panel_width" android:layout_height="@dimen/nsdk_truck_center_view_height_panel_height">
+        <TextView android:textSize="12dp" android:textStyle="bold" android:textColor="#333333" android:gravity="center" android:id="@+id/tv_weight_value" android:background="@drawable/nsdk_truck_weight_limit_icon" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:textSize="10dp" android:textColor="#333333" android:id="@+id/tv_weight_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="总重量"/>
+    </LinearLayout>
+</merge>

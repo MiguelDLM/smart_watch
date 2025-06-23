@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <include layout="@layout/nsdk_layout_rr_dynamic_card_row_button_video"/>
+    <include layout="@layout/nsdk_layout_rr_dynamic_card_row_button_panorama"/>
+    <include layout="@layout/nsdk_layout_rr_dynamic_card_row_button_normal"/>
+</merge>

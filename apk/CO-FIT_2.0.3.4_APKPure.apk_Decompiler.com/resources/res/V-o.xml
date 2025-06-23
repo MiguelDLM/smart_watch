@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/line_color" android:id="@+id/tv_tip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/music_transfer_tip" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/music_transfer_type_tip" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+    <com.sma.smartv3.view.text.PFMedium android:textSize="14dp" android:textColor="@color/line_color" android:id="@+id/tv_free_space" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/watch_free_space" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/task_panel" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_marginStart="22dp" android:layout_marginEnd="22dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_progress_tip" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/music_transfer_task_tip" android:layout_weight="1"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_total_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100/100"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/text_color" android:ellipsize="end" android:id="@+id/tv_name" android:layout_width="0dp" android:layout_height="wrap_content" android:text="爱情让我痛" android:singleLine="true" android:layout_weight="1"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/text_color" android:id="@+id/tv_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="50%" android:layout_marginStart="20dp"/>
+        </LinearLayout>
+        <ProgressBar android:id="@+id/pb_progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/colorAccent" android:id="@+id/tv_cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cancel" android:onClick="onCancel"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12sp" android:textColor="@color/colorAccent" android:id="@+id/tv_retry" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/retry" android:onClick="onRetry"/>
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <TextView android:textSize="16sp" android:textColor="@color/line_color" android:gravity="center_horizontal" android:layout_gravity="center" android:id="@+id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/no_data" android:drawableTop="@drawable/pic_no_music" android:drawablePadding="16dp"/>
+    </FrameLayout>
+    <Button android:text="@string/add" style="@style/bottom_btn"/>
+</LinearLayout>

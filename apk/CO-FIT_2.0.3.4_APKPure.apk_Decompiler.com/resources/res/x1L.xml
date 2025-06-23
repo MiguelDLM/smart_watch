@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:keepScreenOn="true">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="16dp" android:textColor="@color/text_color" android:id="@+id/tv_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginTop="12dp" android:layout_marginRight="10dp" android:layout_marginBottom="12dp"/>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <CheckBox android:textColor="@color/colorAccent" android:id="@+id/cb_skip_failed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="失败后是否继续"/>
+        </LinearLayout>
+        <TextView android:textColor="@color/text_color" android:id="@+id/et_old_ble_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="设置压测次数"/>
+        <EditText android:textColor="@color/text_color" android:textColorHint="@color/text_color" android:gravity="center" android:id="@+id/et_test_time" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3" android:inputType="number"/>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="固件列表:\10使用最新的两个固件循环升级，如果版本跨度大，ui大概率显示异常"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <ListView android:id="@+id/list_view" android:scrollbars="vertical" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/bt_start" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="开始" android:onClick="onStartTest" android:textAllCaps="false"/>
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/bt_stop" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="停止" android:onClick="onStopTest" android:textAllCaps="false"/>
+    </LinearLayout>
+</LinearLayout>

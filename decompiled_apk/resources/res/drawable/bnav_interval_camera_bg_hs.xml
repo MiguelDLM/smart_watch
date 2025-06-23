@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <item android:width="@dimen/navi_dimens_84dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#02000000"/>
+            <corners android:radius="@dimen/navi_dimens_42dp"/>
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/navi_dimens_82dp"
+        android:left="@dimen/navi_dimens_1dp"
+        android:top="@dimen/navi_dimens_1dp"
+        android:right="@dimen/navi_dimens_1dp"
+        android:bottom="@dimen/navi_dimens_1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#04000000"/>
+            <corners android:radius="@dimen/navi_dimens_41dp"/>
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/navi_dimens_80dp"
+        android:left="@dimen/navi_dimens_2dp"
+        android:top="@dimen/navi_dimens_2dp"
+        android:right="@dimen/navi_dimens_2dp"
+        android:bottom="@dimen/navi_dimens_2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#06000000"/>
+            <corners android:radius="@dimen/navi_dimens_40dp"/>
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/navi_dimens_78dp"
+        android:left="@dimen/navi_dimens_3dp"
+        android:top="@dimen/navi_dimens_3dp"
+        android:right="@dimen/navi_dimens_3dp"
+        android:bottom="@dimen/navi_dimens_3dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#08000000"/>
+            <corners android:radius="@dimen/navi_dimens_39dp"/>
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/navi_dimens_76dp"
+        android:left="@dimen/navi_dimens_4dp"
+        android:top="@dimen/navi_dimens_4dp"
+        android:right="@dimen/navi_dimens_4dp"
+        android:bottom="@dimen/navi_dimens_4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#09000000"/>
+            <corners android:radius="@dimen/navi_dimens_38dp"/>
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/navi_dimens_74dp"
+        android:left="@dimen/navi_dimens_5dp"
+        android:top="@dimen/navi_dimens_5dp"
+        android:right="@dimen/navi_dimens_5dp"
+        android:bottom="@dimen/navi_dimens_5dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#bfffffff"
+                android:endColor="#ffffff"
+                android:angle="270"/>
+            <corners android:radius="@dimen/navi_dimens_37dp"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dp"/>
+            <gradient android:startColor="#1d1f21" android:endColor="#1d1f21" android:angle="270" android:centerY="0.75" android:centerColor="#1d1f21"/>
+            <solid android:color="#00000000"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:bottomLeftRadius="3dp" android:bottomRightRadius="3dp"/>
+                <gradient android:startColor="#80ffd300" android:endColor="#a0ffcb00" android:angle="270" android:centerY="0.75" android:centerColor="#80ffb600"/>
+                <solid android:color="#1d1f21"/>
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:bottomLeftRadius="3dp" android:bottomRightRadius="3dp"/>
+                <gradient android:startColor="#ffffd300" android:endColor="#ffffcb00" android:angle="270" android:centerY="0.75" android:centerColor="#ffffb600"/>
+                <solid android:color="#66c500"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>

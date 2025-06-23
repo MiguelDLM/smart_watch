@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <LinearLayout style="@style/sport_set_ll_style">
+        <View style="@style/line_sport_set"/>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/the_screen_is_always_on" style="@style/sport_set_ll_tv"/>
+            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/screenAlwaysOnCB" style="@style/sport_set_ll_cb"/>
+        </RelativeLayout>
+        <View style="@style/line_sport_set"/>
+    </LinearLayout>
+    <LinearLayout android:onClick="sportPermissionSetClick" style="@style/sport_set_ll_style">
+        <View style="@style/line_sport_set"/>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.sma.smartv3.view.text.PFMedium android:text="@string/sports_permission_settings" style="@style/sport_set_ll_tv"/>
+            <ImageView android:layout_centerVertical="true" android:layout_alignParentEnd="true" style="@style/user_info_image"/>
+        </RelativeLayout>
+        <View style="@style/line_sport_set"/>
+    </LinearLayout>
+</LinearLayout>

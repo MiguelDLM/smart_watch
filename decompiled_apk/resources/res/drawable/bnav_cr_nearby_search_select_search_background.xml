@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/navi_dimens_12dp"/>
+    <stroke
+        android:width="@dimen/navi_dimens_1dp"
+        android:color="#3385ff"/>
+    <size android:height="@dimen/navi_dimens_24dp"/>
+</shape>

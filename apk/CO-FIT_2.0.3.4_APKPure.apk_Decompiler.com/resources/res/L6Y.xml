@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/root_view" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/sport_detail_style">
+        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/line_color" android:id="@+id/tv_dateTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="25dp" android:text="07:30 10/23/2021"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="30sp" android:textColor="@color/text_color" android:id="@+id/tv_duration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="00:25:30"/>
+        <androidx.gridlayout.widget.GridLayout android:id="@+id/gl" android:layout_width="match_parent" android:layout_height="wrap_content" app:columnCount="3">
+            <LinearLayout android:id="@+id/step_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_step_108" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/stepnum" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_step_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/steps" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/spm_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_spm_yellow" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/avg_spm" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_spm_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/spm" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/distance_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_distance_108" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/distance" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_distance_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_distance_unit" android:text="@string/km" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/calories_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_calories_108" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/calories" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_calories_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/kcal" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/hr_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_hr_sport_detial" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/ave_hr" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_hr_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/bpm" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/speed_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_speed_108" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/avg_speed" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_speed_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_speed_unit" android:text="@string/km_h" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/pace_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_pace_108" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/avg_pace" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_pace_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_pace_unit" android:text="@string/pace_km" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/altitude_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_altitude_green" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/altitude" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_altitude_value" android:text="27586" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_altitude_unit" android:layout_width="wrap_content" android:text="@string/m" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/airpressure_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_airpressure" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/air_pressure" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_airpressure_value" android:text="0" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_airpressure_unit" android:text="@string/kpa" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/pressure_panel" style="@style/sport_detail_item_ll">
+                <ImageView android:src="@drawable/icon_pressure_72" style="@style/sport_detail_item_icon"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="@string/pressure" style="@style/sport_detail_item_name"/>
+                <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_pressure_value" android:text="0" style="@style/sport_detail_item_value"/>
+                <com.sma.smartv3.view.text.PFMedium android:text="" style="@style/sport_detail_item_unit"/>
+            </LinearLayout>
+        </androidx.gridlayout.widget.GridLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/main" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_height="55dp" style="@style/abh_title">
+        <ImageView style="@style/abh_title_left"/>
+        <com.sma.smartv3.view.text.PFMedium style="@style/abh_title_center"/>
+        <ImageView style="@style/abh_title_other_right"/>
+        <ImageView android:paddingEnd="12dp" style="@style/abh_title_right"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <LinearLayout android:gravity="center_vertical" android:background="@drawable/bg_white_radius_20" android:paddingLeft="7dp" android:paddingRight="7dp" android:layout_width="match_parent" android:layout_height="36dp" android:layout_margin="18dp">
+        <ImageView android:id="@+id/img_record_play" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/ic_record_play"/>
+        <TextView android:textSize="14dp" android:textColor="@color/color_binaural_left_translate" android:id="@+id/tv_currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:text="00:00"/>
+        <SeekBar android:id="@+id/seekbar" android:layout_width="0dp" android:layout_height="wrap_content" android:maxHeight="2dp" android:max="100" android:progress="0" android:progressDrawable="@drawable/seekbar_progress" android:minHeight="2dp" android:thumb="@drawable/seekbar_thumb" android:layout_weight="1"/>
+        <TextView android:textSize="14dp" android:textColor="@color/color_binaural_left_translate" android:id="@+id/tv_totalTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="5dp" android:text="00:35"/>
+    </LinearLayout>
+</LinearLayout>

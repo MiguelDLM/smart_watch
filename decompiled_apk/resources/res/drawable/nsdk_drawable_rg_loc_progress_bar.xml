@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@anim/nsdk_anim_cycle_interpolator"
+    android:drawable="@drawable/nsdk_drawable_rg_loc_progress"
+    android:fromDegrees="0"
+    android:toDegrees="360"
+    android:pivotX="50%"
+    android:pivotY="50%"/>

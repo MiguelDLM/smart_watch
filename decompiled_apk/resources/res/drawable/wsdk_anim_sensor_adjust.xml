@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust1"/>
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust2"/>
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust3"/>
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust4"/>
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust5"/>
+    <item
+        android:duration="300"
+        android:drawable="@drawable/wsdk_icon_sensor_adjust6"/>
+</animation-list>

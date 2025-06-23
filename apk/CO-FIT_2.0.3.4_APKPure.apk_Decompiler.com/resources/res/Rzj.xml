@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginLeft="6dp" android:layout_marginBottom="13dp">
+    <TextView android:textSize="11dp" android:textColor="#ffffff" android:gravity="center" android:id="@+id/level_bg" android:layout_width="wrap_content" android:layout_height="match_parent" android:singleLine="true"/>
+    <TextView android:textSize="11dp" android:textColor="#000000" android:gravity="center" android:id="@+id/level_tv" android:layout_width="wrap_content" android:layout_height="match_parent" android:singleLine="true"/>
+    <TextView android:gravity="center" android:id="@+id/level_drawable" android:background="@drawable/nsdk_rr_level_scale_icon" android:layout_width="wrap_content" android:layout_height="6dp" android:layout_marginBottom="3dp" android:layout_alignParentBottom="true"/>
+    <ImageView android:id="@+id/baidu_map_logo" android:visibility="gone" android:layout_width="46dp" android:layout_height="16dp" android:layout_marginBottom="3dp" android:src="@drawable/nsdk_baidu_map_logo" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true"/>
+</merge>

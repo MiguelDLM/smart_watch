@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.flip.BNSectorFlipView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:gravity="top|right"
+        android:id="@+id/bnav_v_img_text_bubble"
+        android:visibility="gone"
+        android:layout_width="41dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="-5dp"
+        android:src="@drawable/bn_bg_bubble_update"
+        android:layout_alignTop="@+id/bnav_v_img_text_img"/>
+</com.baidu.navisdk.ui.flip.BNSectorFlipView>

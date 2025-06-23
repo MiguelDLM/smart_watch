@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sma.smartv3.view.bubbleview.BubbleLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:padding="8dp" android:layout_width="wrap_content" android:layout_height="wrap_content" app:bl_arrowDirection="3" app:bl_arrowHeight="4dp" app:bl_arrowPosition="16dp" app:bl_arrowWidth="10dp" app:bl_bubbleColor="#838080" app:bl_cornersRadius="8dp">
+    <TextView android:textColor="@android:color/white" android:layout_gravity="center_vertical" android:id="@+id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/long_press_end"/>
+</com.sma.smartv3.view.bubbleview.BubbleLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/view_paired" android:padding="0dp" android:layout_width="match_parent" android:layout_height="160dp" style="@style/ear_phone_style">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerVertical="true">
+        <ImageView android:id="@+id/iv_device" android:background="@drawable/ear_phone_ear_icon" android:layout_width="120dp" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_centerVertical="true"/>
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toEndOf="@+id/iv_device">
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/black" android:id="@+id/tv_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" android:layout_toEndOf="@+id/iv_device"/>
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/device_item_ear_phone_type_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_below="@+id/tv_name" android:layout_toEndOf="@+id/iv_device">
+                <ImageView android:id="@+id/iv_connection" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_bt_connection"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+                    <ImageView android:id="@+id/ear_phone_l_img" android:visibility="gone" android:layout_width="20dp" android:layout_height="wrap_content" android:src="@drawable/device_info_ear_l_icon"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="14sp" android:textColor="@color/black" android:layout_gravity="center_vertical" android:id="@+id/tv_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="5dp"/>
+                    <ImageView android:id="@+id/ear_phone_r_img" android:visibility="gone" android:layout_width="20dp" android:layout_height="wrap_content" android:src="@drawable/device_info_ear_r_icon" android:layout_marginStart="10dp"/>
+                    <com.sma.smartv3.view.text.DINCondBold android:textSize="14sp" android:textColor="@color/black" android:layout_gravity="center_vertical" android:id="@+id/tv_r" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="18dp" android:textColor="@color/black" android:id="@+id/tv_version" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:maxLines="2" android:layout_below="@+id/device_item_ear_phone_type_layout" android:layout_toEndOf="@+id/iv_device"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

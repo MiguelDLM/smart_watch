@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" style="@style/abh_title_v2">
+    <com.sma.smartv3.view.text.PFMedium android:gravity="center" android:layout_width="match_parent" style="@style/abh_title_center_v2"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerVertical="true">
+        <ImageView style="@style/abh_title_left"/>
+        <View android:layout_width="0dp" android:layout_height="45dp" android:layout_weight="1"/>
+        <ImageView style="@style/abh_title_other_right"/>
+        <ImageView android:visibility="invisible" style="@style/abh_title_right"/>
+    </LinearLayout>
+</RelativeLayout>

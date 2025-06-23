@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:fromDegrees="0" android:toDegrees="360" android:pivotX="50%" android:pivotY="50%">
+    <shape android:shape="ring" android:useLevel="false" android:thickness="2dp">
+        <gradient android:startColor="@color/hiad_video_buffer_progress_start" android:endColor="@color/hiad_video_buffer_progress_end" android:angle="0" android:type="sweep"/>
+    </shape>
+</rotate>

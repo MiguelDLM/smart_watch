@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+    <View
+        android:id="@+id/item_line_view"
+        android:background="@color/line_color"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:gravity="center"
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:gravity="end|center_vertical"
+            android:id="@+id/tv_value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

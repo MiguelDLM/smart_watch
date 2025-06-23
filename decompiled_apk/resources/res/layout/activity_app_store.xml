@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <com.google.android.material.tabs.TabLayout
+        android:textSize="20dp"
+        android:id="@+id/table"
+        android:background="@color/view_page_secondary_bg"
+        app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="@color/line_color"
+        style="@style/status_info_tba"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        style="@style/status_info_vp"/>
+</LinearLayout>

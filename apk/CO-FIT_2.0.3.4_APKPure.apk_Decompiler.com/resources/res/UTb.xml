@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <Space android:id="@+id/bn_expand_bottom_fix_item_ly_space" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toStartOf="@+id/bn_expand_bottom_fix_item_ly" app:layout_constraintTop_toTopOf="@+id/bn_expand_bottom_fix_item_ly"/>
+    <FrameLayout android:id="@+id/bn_expend_top_dynamic_parent" android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="@+id/bn_expand_bottom_fix_item_ly_space" app:layout_constraintStart_toStartOf="@+id/bn_expand_bottom_fix_item_ly">
+        <LinearLayout android:gravity="bottom|center_vertical|center_horizontal|center" android:layout_gravity="bottom" android:orientation="vertical" android:id="@+id/bn_expend_top_dynamic_ly" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </FrameLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/bn_expand_bottom_fix_item_ly" android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="0" app:layout_constraintStart_toStartOf="0"/>
+</merge>

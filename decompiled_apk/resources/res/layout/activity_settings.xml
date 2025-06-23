@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/root_view"
+    android:background="@color/view_page_main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_iv_tv_iv"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_marginTop="22dp"
+                style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_zewa_fit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:onClick="zewaFitClick"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="Zewa Server Sync"
+                        style="@style/user_info_title"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/check_zewa_fit"
+                        android:padding="11dp"
+                        style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_google_fit_auth"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="googleFitAuth"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/google_fit"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_health_connect"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="googleHealthConnect"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/google_health_connect"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_google_fit"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:onClick="googleFitClick"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/google_fit"
+                        style="@style/user_info_title"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/check_google_fit"
+                        android:padding="11dp"
+                        style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/stravaLl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:onClick="stravaClick"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/strava"
+                        style="@style/user_info_title"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/check_strava"
+                        android:padding="11dp"
+                        android:clickable="false"
+                        style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:textColor="@color/line_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/open_strava_tip"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"/>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/fitbitLl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:onClick="fitbitClick"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="Fitbit"
+                        style="@style/user_info_title"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/check_fitbit"
+                        android:padding="11dp"
+                        android:clickable="false"
+                        style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/data_auto_sync"
+                    style="@style/user_info_title"/>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check_data_auto_sync"
+                    android:padding="11dp"
+                    style="@style/abh_checkbox"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/notificationBarLl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/notification_bar"
+                        style="@style/user_info_title"/>
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/check_notification_bar"
+                        android:padding="11dp"
+                        style="@style/abh_checkbox"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:onClick="selectUnit"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/unit"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_unit"
+                    style="@style/user_info_content"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="selectMap"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/map_select"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_map"
+                    style="@style/user_info_content"/>
+                <ImageView
+                    android:id="@+id/tv_map_right_img"
+                    style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:onClick="checkUpdate"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/check_for_update"
+                    style="@style/user_info_title"/>
+                <ImageView
+                    android:id="@+id/ivRemind"
+                    style="@style/red_remind_iv_style"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="deleteAccount"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/delete_account"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_modify_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="modifyPassword"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/modify_password"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_aikey_set"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="aiKeySet"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/ai_key_set"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_ui_repair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="uiRepair"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/ui_repair"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_font_repair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="fontRepair"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/font_repair"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_firmware_repair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="firmwareRepair"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/firmware_repair"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_gps_firmware_repair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="gpsFirmwareRepair"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/gps_firmware_repair"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_admob_privacy_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:onClick="admobPrivacyOptions"
+                    style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/admob_privacy_options"
+                        style="@style/user_info_title"/>
+                    <ImageView style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_data_save_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout style="@style/user_info_container">
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:text="@string/data_storage"
+                        style="@style/user_info_title"/>
+                    <com.sma.smartv3.view.text.PFMedium
+                        android:id="@+id/tv_data_storage"
+                        style="@style/user_info_content"/>
+                    <ImageView
+                        android:visibility="invisible"
+                        style="@style/user_info_image"/>
+                </LinearLayout>
+                <View style="@style/h_divider_gray2_margin22"/>
+            </LinearLayout>
+            <LinearLayout
+                android:onClick="cacheClean"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/cache_clean"
+                    style="@style/user_info_title"/>
+                <com.sma.smartv3.view.text.PFMedium
+                    android:id="@+id/tv_cache_size"
+                    style="@style/user_info_content"/>
+                <ImageView
+                    android:visibility="invisible"
+                    style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:onClick="accessToThirdParties"
+                style="@style/user_info_container">
+                <com.sma.smartv3.view.text.PFMedium
+                    android:text="@string/access_to_third_parties"
+                    style="@style/user_info_title"/>
+                <ImageView style="@style/user_info_image"/>
+            </LinearLayout>
+            <View style="@style/h_divider_gray2_margin22"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/bt_setting_button"
+                android:text="@string/logout"
+                style="@style/bottom_btn"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:background="@color/nsdk_white_color" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:id="@+id/route_panorama_full_img" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/route_pano_top_layout" android:background="#e5364360" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout android:id="@+id/pano_status_empty_layout" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <RelativeLayout android:gravity="center_vertical" android:id="@+id/pano_title_container" android:layout_width="match_parent" android:layout_height="47dp">
+            <ImageView android:gravity="center" android:id="@+id/pano_back" android:padding="10dp" android:layout_width="45dp" android:layout_height="match_parent" android:src="@drawable/bnav_ugc_preview_back_white" android:scaleType="fitCenter" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+            <TextView android:textSize="20sp" android:textColor="#ffffff" android:ellipsize="end" android:gravity="center" android:id="@+id/pano_road_name" android:paddingLeft="50dp" android:paddingRight="50dp" android:layout_width="wrap_content" android:layout_height="match_parent" android:maxLines="1" android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView android:id="@+id/route_pano_logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="20dp" android:layout_marginBottom="20dp" android:src="@drawable/nsdk_baidu_map_logo" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"/>
+</merge>

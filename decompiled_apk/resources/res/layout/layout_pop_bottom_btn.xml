@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/pop_bottom_container_style">
+    <LinearLayout style="@style/pop_bottom_ll_style">
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/action1"
+            android:text="@string/cancel"
+            style="@style/pop_bottom_btn_1_style"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:id="@+id/action2"
+            android:text="@string/confirm"
+            style="@style/pop_bottom_btn_2_style"/>
+    </LinearLayout>
+</LinearLayout>

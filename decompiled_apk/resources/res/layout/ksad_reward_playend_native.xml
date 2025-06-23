@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ksad_playend_native_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.kwad.components.ad.reward.widget.tailframe.TailFrameView
+        android:id="@+id/ksad_video_tail_frame"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ViewStub
+        android:id="@+id/ksad_playend_native_jinniu"
+        android:layout="@layout/ksad_reward_jinniu_end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ViewStub
+        android:id="@+id/ksad_playable_end_stub"
+        android:layout="@layout/ksad_playable_end_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</merge>

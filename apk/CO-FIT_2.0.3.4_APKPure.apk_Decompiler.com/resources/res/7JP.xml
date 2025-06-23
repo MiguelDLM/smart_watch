@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:height="14dp" android:width="14dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/colorAccent"/>
+            <stroke android:width="2dp" android:color="@color/white"/>
+        </shape>
+    </item>
+</layer-list>

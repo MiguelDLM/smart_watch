@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/root_view" android:background="@color/view_page_main_bg" android:paddingTop="22dp" android:paddingBottom="22dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:layout_marginBottom="22dp" android:text="@string/guide_notification_set_title" style="@style/guide_title_style"/>
+    <com.sma.smartv3.view.text.PFMedium android:id="@+id/tv_tip" android:layout_height="wrap_content" android:text="@string/guide_notification_set_tip" android:layout_weight="0" android:layout_marginStart="22dp" android:layout_marginEnd="22dp" style="@style/guide_tip_style"/>
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollView" android:paddingTop="22dp" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="vertical" android:id="@+id/ll" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="@string/incoming_call" android:layout_marginStart="22dp"/>
+                    <View style="@style/h_divider_gray2_margin22"/>
+                    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="22dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notification_call"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/incoming_call" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+                        <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_call" android:padding="11dp" style="@style/abh_checkbox"/>
+                    </LinearLayout>
+                    <View style="@style/h_divider_gray2_margin22"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <com.sma.smartv3.view.text.PFMedium android:textSize="14sp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:layout_marginBottom="8dp" android:text="@string/message_push" android:layout_marginStart="22dp"/>
+                    <View style="@style/h_divider_gray2_margin22"/>
+                    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="13dp" android:paddingBottom="13dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notification_sms" android:layout_marginStart="22dp"/>
+                        <com.sma.smartv3.view.text.PFMedium android:textSize="16sp" android:textColor="@color/text_color" android:id="@+id/tv_name" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/sms" android:layout_weight="1" android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
+                        <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/check_sms" android:padding="11dp" style="@style/abh_checkbox"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <com.sma.smartv3.view.MyListView android:id="@+id/default_list_view" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null" android:nestedScrollingEnabled="false"/>
+            <View style="@style/h_divider_gray2_margin22"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

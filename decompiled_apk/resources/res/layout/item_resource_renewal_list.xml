@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@color/view_page_secondary_bg"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:layout_marginTop="10dp">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp">
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="14sp"
+            android:textColor="@color/text_color"
+            android:id="@+id/item_quran_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.sma.smartv3.view.text.PFMedium
+            android:textSize="12sp"
+            android:textColor="@color/text_color"
+            android:id="@+id/item_quran_size"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+    <ImageView style="@style/weight_report_item_right_iv_style"/>
+</LinearLayout>

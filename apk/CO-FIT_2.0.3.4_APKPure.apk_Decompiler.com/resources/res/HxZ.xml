@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:mcpapp="http://schemas.android.com/apk/com.l4digital.fastscroll" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:background="@color/view_page_main_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="75dp" android:layout_height="75dp" android:layout_marginTop="60dp" android:src="@mipmap/ic_launcher"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="35dp" android:text="@string/welcome_to"/>
+        <com.sma.smartv3.view.text.PFMedium android:textSize="26dp" android:textStyle="bold" android:textColor="@color/text_color" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="@string/app_name"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="40dp" android:layout_weight="1" android:paddingStart="35dp" android:paddingEnd="35dp">
+        <com.sma.smartv3.view.text.PFMedium android:textColor="@color/line_color" android:id="@+id/privacyContentTv" android:scrollbars="vertical" android:layout_width="match_parent" android:layout_height="0dp" android:text="@string/privacy_content" android:layout_weight="1"/>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+            <androidx.appcompat.widget.AppCompatCheckBox android:id="@+id/privacyAppCheck" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_privacy_check"/>
+            <com.sma.smartv3.view.text.PFMedium android:textSize="12dp" android:textColor="@color/line_color" android:id="@+id/privacyAppTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="By clicking agree, you agree to the above content and" android:layout_marginStart="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginBottom="20dp" android:layout_marginStart="40dp" android:layout_marginEnd="40dp">
+        <Button android:id="@+id/bt_deny" android:text="@string/deny" android:onClick="denyPrivacyClick" style="@style/privacy_bt_style"/>
+        <Button android:text="@string/agree" android:onClick="agreePrivacyClick" style="@style/privacy_bt_style"/>
+    </LinearLayout>
+</LinearLayout>

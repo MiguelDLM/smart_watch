@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View style="@style/h_divider_gray2_margin22"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="18sp"
+        android:textColor="@color/line_color"
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2021/04/25"
+        android:layout_alignStart="@+id/tv_name"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="26sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="202104251025"
+        android:layout_below="@+id/tv_date"
+        android:layout_marginStart="22dp"/>
+    <com.sma.smartv3.view.text.PFMedium
+        android:textSize="16sp"
+        android:textColor="@drawable/selector_text_color_white_gray8a"
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="00:08:48"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignStart="@+id/tv_name"/>
+    <ImageView
+        android:id="@+id/btn_play"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/icon_play"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="22dp"
+        android:layout_alignParentEnd="true"/>
+    <View
+        android:layout_below="@+id/tv_time"
+        style="@style/h_divider_gray2_margin22"/>
+</RelativeLayout>
