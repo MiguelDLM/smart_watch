@@ -224,6 +224,10 @@ class OptimizedDialBlock:
         """Preprocess image data to mimic native builder behavior."""
         if self.compr != 0 and self.has_alpha:
             alpha = image_data[..., 3]
+            if image_data[..., :3].max() == 0:
+                image_data[..., 1] = alpha & 0xFC
+                image_data[..., 2] = alpha & 0xF8
+            image_data[..., 0] = 0
             image_data[..., 3] = np.where(alpha > 0, 255, 0).astype(np.uint8)
         return image_data
     
