@@ -98,6 +98,7 @@ class OptimizedDialBlock:
                                 lower = (i + 1) * self.sy
                             part_img = img.crop((left, upper, right, lower))
                             part_data = np.array(part_img)
+                            part_data = self._preprocess_image(part_data)
                             # Channel order fix if needed
                             sample = part_data[0,0]
                             if sample[0] < sample[2]:
@@ -168,6 +169,8 @@ class OptimizedDialBlock:
                 if img.size != (self.sx, self.sy):
                     img = img.resize((self.sx, self.sy), Image.Resampling.LANCZOS)
                 image_data = np.array(img)
+                # Pre-process image data to mimic native builder
+                image_data = self._preprocess_image(image_data)
                 logger.debug(f"Image data dtype: {image_data.dtype}, shape: {image_data.shape}, first 3 pixels: {image_data[0,0]}, {image_data[0,1]}, {image_data[0,2]}")
                 # --- Detect and fix channel order if needed ---
                 sample = image_data[0,0]
@@ -216,6 +219,13 @@ class OptimizedDialBlock:
             output.extend(row_data[:aligned_row_bytes])
         
         return bytes(output)
+
+    def _preprocess_image(self, image_data: np.ndarray) -> np.ndarray:
+        """Preprocess image data to mimic native builder behavior."""
+        if self.compr != 0 and self.has_alpha:
+            alpha = image_data[..., 3]
+            image_data[..., 3] = np.where(alpha > 0, 255, 0).astype(np.uint8)
+        return image_data
     
     def _compress_hk89_rle_optimized(self, image_data: np.ndarray) -> bytes:
         """Optimized RLE compression matching native implementation exactly"""
@@ -284,7 +294,8 @@ class OptimizedDialBlock:
     def _compress_hk89_rle_color_preserved(self, image_data: np.ndarray) -> bytes:
         """RLE compression that mirrors the decompressor format"""
         height, width = image_data.shape[:2]
-        flat = image_data.reshape(-1, 4)
+        # Column-major order significantly improves compression for digit strips
+        flat = image_data.transpose(1, 0, 2).reshape(-1, 4)
 
         compressed = bytearray(b"\x00\x00")  # header placeholder
         header_pos = 0
