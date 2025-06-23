@@ -1,0 +1,35 @@
+{
+  "format_version": "2.0",
+  "source_format": "jieli_standard",
+  "metadata": {
+    "total_blocks": 2,
+    "description": "Sample enhanced dial configuration"
+  },
+  "header": {
+    "format": "jieli_standard"
+  },
+  "blocks": [
+    {
+      "picidx": 0,
+      "blocktype": 0,
+      "x": 0,
+      "y": 0,
+      "w": 240,
+      "h": 240,
+      "format": "RGB565",
+      "compression": "none",
+      "image_file": "background.png"
+    },
+    {
+      "picidx": 1,
+      "blocktype": 1,
+      "x": 100,
+      "y": 100,
+      "w": 40,
+      "h": 40,
+      "format": "RGB565",
+      "compression": "rle",
+      "image_file": "icon.png"
+    }
+  ]
+}

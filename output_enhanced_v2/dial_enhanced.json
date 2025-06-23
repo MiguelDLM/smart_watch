@@ -1,0 +1,521 @@
+{
+  "format_version": "2.0",
+  "source_format": "hk_traditional_enhanced",
+  "metadata": {
+    "total_blocks": 14,
+    "source_file": "kronos.bin",
+    "source_size": 215040,
+    "picture_table_size": 90,
+    "block_count": 14
+  },
+  "header": {
+    "format": "hk_traditional",
+    "sdk_enhanced": true
+  },
+  "blocks": [
+    {
+      "picidx": 0,
+      "blocktype": 1,
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "parts": 1,
+      "align": 0,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 644,
+      "data_length": 46564,
+      "header_offset": 4,
+      "short_name": "preview",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_file": "preview.png",
+      "primary_image": "preview.png"
+    },
+    {
+      "picidx": 1,
+      "blocktype": 2,
+      "x": 0,
+      "y": 0,
+      "w": 466,
+      "h": 466,
+      "parts": 1,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 47208,
+      "data_length": 77936,
+      "header_offset": 24,
+      "short_name": "background",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_file": "background.png",
+      "primary_image": "background.png"
+    },
+    {
+      "picidx": 2,
+      "blocktype": 9,
+      "x": 152,
+      "y": 58,
+      "w": 31,
+      "h": 41,
+      "parts": 10,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 125144,
+      "data_length": 8856,
+      "header_offset": 44,
+      "short_name": "digital_hour",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_hour_0.png",
+          "digital_hour_1.png",
+          "digital_hour_2.png",
+          "digital_hour_3.png",
+          "digital_hour_4.png",
+          "digital_hour_5.png",
+          "digital_hour_6.png",
+          "digital_hour_7.png",
+          "digital_hour_8.png",
+          "digital_hour_9.png"
+        ],
+        "combined_strip": "digital_hour_combined.png"
+      },
+      "primary_image": "digital_hour_combined.png"
+    },
+    {
+      "picidx": 12,
+      "blocktype": 10,
+      "x": 248,
+      "y": 58,
+      "w": 31,
+      "h": 41,
+      "parts": 10,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 134000,
+      "data_length": 0,
+      "header_offset": 64,
+      "short_name": "digital_minute",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_minute_0.png",
+          "digital_minute_1.png",
+          "digital_minute_2.png",
+          "digital_minute_3.png",
+          "digital_minute_4.png",
+          "digital_minute_5.png",
+          "digital_minute_6.png",
+          "digital_minute_7.png",
+          "digital_minute_8.png",
+          "digital_minute_9.png"
+        ],
+        "combined_strip": "digital_minute_combined.png"
+      },
+      "primary_image": "digital_minute_combined.png"
+    },
+    {
+      "picidx": 22,
+      "blocktype": 7,
+      "x": 169,
+      "y": 304,
+      "w": 14,
+      "h": 18,
+      "parts": 10,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 142856,
+      "data_length": 0,
+      "header_offset": 84,
+      "short_name": "month",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "month_0.png",
+          "month_1.png",
+          "month_2.png",
+          "month_3.png",
+          "month_4.png",
+          "month_5.png",
+          "month_6.png",
+          "month_7.png",
+          "month_8.png",
+          "month_9.png"
+        ],
+        "combined_strip": "month_combined.png"
+      },
+      "primary_image": "month_combined.png"
+    },
+    {
+      "picidx": 32,
+      "blocktype": 8,
+      "x": 208,
+      "y": 304,
+      "w": 14,
+      "h": 18,
+      "parts": 10,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 146332,
+      "data_length": 0,
+      "header_offset": 104,
+      "short_name": "day",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "day_0.png",
+          "day_1.png",
+          "day_2.png",
+          "day_3.png",
+          "day_4.png",
+          "day_5.png",
+          "day_6.png",
+          "day_7.png",
+          "day_8.png",
+          "day_9.png"
+        ],
+        "combined_strip": "day_combined.png"
+      },
+      "primary_image": "day_combined.png"
+    },
+    {
+      "picidx": 42,
+      "blocktype": 140,
+      "x": 59,
+      "y": 227,
+      "w": 342,
+      "h": 10,
+      "parts": 2,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "ARGB8565",
+      "compression": "unknown",
+      "has_alpha": 128,
+      "data_offset": 149808,
+      "data_length": 0,
+      "header_offset": 124,
+      "short_name": "digital_ampm",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_ampm_0.png",
+          "digital_ampm_1.png"
+        ],
+        "combined_strip": "digital_ampm_combined.png"
+      },
+      "primary_image": "digital_ampm_combined.png"
+    },
+    {
+      "picidx": 44,
+      "blocktype": 13,
+      "x": 247,
+      "y": 304,
+      "w": 49,
+      "h": 18,
+      "parts": 7,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 152088,
+      "data_length": 0,
+      "header_offset": 144,
+      "short_name": "digital_weekday",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_weekday_0.png",
+          "digital_weekday_1.png",
+          "digital_weekday_2.png",
+          "digital_weekday_3.png",
+          "digital_weekday_4.png",
+          "digital_weekday_5.png",
+          "digital_weekday_6.png"
+        ],
+        "combined_strip": "digital_weekday_combined.png"
+      },
+      "primary_image": "digital_weekday_combined.png"
+    },
+    {
+      "picidx": 51,
+      "blocktype": 24,
+      "x": 142,
+      "y": 378,
+      "w": 42,
+      "h": 20,
+      "parts": 6,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 160080,
+      "data_length": 0,
+      "header_offset": 164,
+      "short_name": "digital_battery_strip",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_battery_strip_0.png",
+          "digital_battery_strip_1.png",
+          "digital_battery_strip_2.png",
+          "digital_battery_strip_3.png",
+          "digital_battery_strip_4.png",
+          "digital_battery_strip_5.png"
+        ],
+        "combined_strip": "digital_battery_strip_combined.png"
+      },
+      "primary_image": "digital_battery_strip_combined.png"
+    },
+    {
+      "picidx": 57,
+      "blocktype": 14,
+      "x": 308,
+      "y": 342,
+      "w": 11,
+      "h": 14,
+      "parts": 10,
+      "align": 12,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 163704,
+      "data_length": 0,
+      "header_offset": 184,
+      "short_name": "digital_steps",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_steps_0.png",
+          "digital_steps_1.png",
+          "digital_steps_2.png",
+          "digital_steps_3.png",
+          "digital_steps_4.png",
+          "digital_steps_5.png",
+          "digital_steps_6.png",
+          "digital_steps_7.png",
+          "digital_steps_8.png",
+          "digital_steps_9.png"
+        ],
+        "combined_strip": "digital_steps_combined.png"
+      },
+      "primary_image": "digital_steps_combined.png"
+    },
+    {
+      "picidx": 67,
+      "blocktype": 15,
+      "x": 302,
+      "y": 379,
+      "w": 14,
+      "h": 18,
+      "parts": 11,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 166396,
+      "data_length": 0,
+      "header_offset": 204,
+      "short_name": "digital_heart",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_heart_0.png",
+          "digital_heart_1.png",
+          "digital_heart_2.png",
+          "digital_heart_3.png",
+          "digital_heart_4.png",
+          "digital_heart_5.png",
+          "digital_heart_6.png",
+          "digital_heart_7.png",
+          "digital_heart_8.png",
+          "digital_heart_9.png",
+          "digital_heart_10.png"
+        ],
+        "combined_strip": "digital_heart_combined.png"
+      },
+      "primary_image": "digital_heart_combined.png"
+    },
+    {
+      "picidx": 78,
+      "blocktype": 16,
+      "x": 154,
+      "y": 342,
+      "w": 11,
+      "h": 14,
+      "parts": 10,
+      "align": 9,
+      "center_x": 0,
+      "center_y": 0,
+      "format": "RGB565",
+      "compression": "unknown",
+      "has_alpha": false,
+      "data_offset": 170056,
+      "data_length": 0,
+      "header_offset": 224,
+      "short_name": "digital_calorie",
+      "sdk_metadata": {
+        "original_compr": 4,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_files": {
+        "individual_parts": [
+          "digital_calorie_0.png",
+          "digital_calorie_1.png",
+          "digital_calorie_2.png",
+          "digital_calorie_3.png",
+          "digital_calorie_4.png",
+          "digital_calorie_5.png",
+          "digital_calorie_6.png",
+          "digital_calorie_7.png",
+          "digital_calorie_8.png",
+          "digital_calorie_9.png"
+        ],
+        "combined_strip": "digital_calorie_combined.png"
+      },
+      "primary_image": "digital_calorie_combined.png"
+    },
+    {
+      "picidx": 88,
+      "blocktype": 131,
+      "x": 233,
+      "y": 233,
+      "w": 54,
+      "h": 149,
+      "parts": 1,
+      "align": 0,
+      "center_x": 27,
+      "center_y": 27,
+      "format": "ARGB8565",
+      "compression": "none",
+      "has_alpha": 128,
+      "data_offset": 172748,
+      "data_length": 8856,
+      "header_offset": 244,
+      "short_name": "arm_hour",
+      "sdk_metadata": {
+        "original_compr": 0,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_file": "arm_hour.png",
+      "primary_image": "arm_hour.png"
+    },
+    {
+      "picidx": 89,
+      "blocktype": 132,
+      "x": 233,
+      "y": 233,
+      "w": 32,
+      "h": 186,
+      "parts": 1,
+      "align": 0,
+      "center_x": 1,
+      "center_y": 16,
+      "format": "ARGB8565",
+      "compression": "none",
+      "has_alpha": 128,
+      "data_offset": 197184,
+      "data_length": 0,
+      "header_offset": 264,
+      "short_name": "arm_minute",
+      "sdk_metadata": {
+        "original_compr": 0,
+        "original_valami2": 0,
+        "estimated_pixel_format": "RGB565",
+        "jieli_compatible": true
+      },
+      "image_file": "arm_minute.png",
+      "primary_image": "arm_minute.png"
+    }
+  ]
+}

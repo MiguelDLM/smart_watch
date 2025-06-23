@@ -1,0 +1,130 @@
+{
+  "blocks": [
+    {
+      "picidx": 0,
+      "blocktype": 1,
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "image_file": "preview.png"
+    },
+    {
+      "picidx": 1,
+      "blocktype": 2,
+      "x": 0,
+      "y": 0,
+      "w": 466,
+      "h": 466,
+      "image_file": "background.png"
+    },
+    {
+      "picidx": 2,
+      "blocktype": 9,
+      "x": 152,
+      "y": 58,
+      "w": 31,
+      "h": 41,
+      "image_file": "digital_hour_combined.png"
+    },
+    {
+      "picidx": 12,
+      "blocktype": 10,
+      "x": 248,
+      "y": 58,
+      "w": 31,
+      "h": 41,
+      "image_file": "digital_minute_combined.png"
+    },
+    {
+      "picidx": 22,
+      "blocktype": 7,
+      "x": 169,
+      "y": 304,
+      "w": 14,
+      "h": 18,
+      "image_file": "month_combined.png"
+    },
+    {
+      "picidx": 32,
+      "blocktype": 8,
+      "x": 208,
+      "y": 304,
+      "w": 14,
+      "h": 18,
+      "image_file": "day_combined.png"
+    },
+    {
+      "picidx": 42,
+      "blocktype": 140,
+      "x": 59,
+      "y": 227,
+      "w": 342,
+      "h": 10,
+      "image_file": "digital_ampm_combined.png"
+    },
+    {
+      "picidx": 44,
+      "blocktype": 13,
+      "x": 247,
+      "y": 304,
+      "w": 49,
+      "h": 18,
+      "image_file": "digital_weekday_combined.png"
+    },
+    {
+      "picidx": 51,
+      "blocktype": 24,
+      "x": 142,
+      "y": 378,
+      "w": 42,
+      "h": 20,
+      "image_file": "digital_battery_strip_combined.png"
+    },
+    {
+      "picidx": 57,
+      "blocktype": 14,
+      "x": 308,
+      "y": 342,
+      "w": 11,
+      "h": 14,
+      "image_file": "digital_steps_combined.png"
+    },
+    {
+      "picidx": 67,
+      "blocktype": 15,
+      "x": 302,
+      "y": 379,
+      "w": 14,
+      "h": 18,
+      "image_file": "digital_heart_combined.png"
+    },
+    {
+      "picidx": 78,
+      "blocktype": 16,
+      "x": 154,
+      "y": 342,
+      "w": 11,
+      "h": 14,
+      "image_file": "digital_calorie_combined.png"
+    },
+    {
+      "picidx": 88,
+      "blocktype": 131,
+      "x": 233,
+      "y": 233,
+      "w": 54,
+      "h": 149,
+      "image_file": "arm_hour.png"
+    },
+    {
+      "picidx": 89,
+      "blocktype": 132,
+      "x": 233,
+      "y": 233,
+      "w": 32,
+      "h": 186,
+      "image_file": "arm_minute.png"
+    }
+  ]
+}
