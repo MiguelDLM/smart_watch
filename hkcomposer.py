@@ -48,6 +48,7 @@ class OptimizedDialBlock:
         self.has_alpha = (self.blocktype & 0x80) != 0
         self.compressed_images = []
         self.total_compressed_size = 0
+        self.part_sizes: List[int] = []
     
     def load_and_compress_images(self, base_path: str) -> bool:
         """Load and compress images using optimized algorithm"""
@@ -85,6 +86,7 @@ class OptimizedDialBlock:
 
                         # Split combined image into parts depending on orientation
                         combined_compressed_data = bytearray()
+                        self.part_sizes = []
                         for i in range(self.parts):
                             if orientation == "horizontal":
                                 left = i * self.sx
@@ -107,6 +109,7 @@ class OptimizedDialBlock:
                                 compressed = self._compress_raw_aligned(part_data)
                             else:
                                 compressed = self._compress_hk89_rle_color_preserved(part_data)
+                            self.part_sizes.append(len(compressed))
                             combined_compressed_data.extend(compressed)
                             while len(combined_compressed_data) % 4 != 0:
                                 combined_compressed_data.append(0x00)
@@ -115,6 +118,7 @@ class OptimizedDialBlock:
                 else:
                     # Multi-part image: load individual parts and concatenate them
                     combined_compressed_data = bytearray()
+                    self.part_sizes = []
                     for part_filename in part_filenames:
                         image_path = os.path.join(base_path, part_filename)
                         if not os.path.exists(image_path):
@@ -122,6 +126,7 @@ class OptimizedDialBlock:
                             return False
                         compressed_data = self._compress_single_image(image_path)
                         if compressed_data:
+                            self.part_sizes.append(len(compressed_data))
                             combined_compressed_data.extend(compressed_data)
                             while len(combined_compressed_data) % 4 != 0:
                                 combined_compressed_data.append(0x00)
@@ -140,6 +145,7 @@ class OptimizedDialBlock:
                 if compressed_data:
                     self.compressed_images.append(compressed_data)
                     self.total_compressed_size += len(compressed_data)
+                    self.part_sizes = [len(compressed_data)]
                 else:
                     logger.error(f"Failed to compress: {image_path}")
                     return False
@@ -474,18 +480,21 @@ class OptimizedDialComposer:
         logger.info(f"Building binary file: {output_file}")
         
         try:
-            # Calculate total number of images (critical for picture_table_size)
-            # Each block counts as one image, regardless of parts
-            total_images = len(self.blocks)
-            
-            # --- Ordenar por picidx para coincidencia binaria exacta ---
+            # Build list of blocks sorted by picture index
             blocks_to_write = sorted(self.blocks, key=lambda b: b.picidx)
 
-            # Calcular layout (igual que antes)
+            # Determine picture table entries (one per part)
+            picture_table_entries = []
+            for b in blocks_to_write:
+                if b.picidx in (0, 1):
+                    continue  # Preview and background do not appear in the table
+                picture_table_entries.extend(b.part_sizes)
+            picture_table_size = len(picture_table_entries)
+
+            # Calcular layout
             blocks_table_size = len(blocks_to_write) * 20
-            image_sizes_table_size = total_images * 4
-            metadata_size = 4 + blocks_table_size + image_sizes_table_size
-            first_image_offset = 644  # Match original exactly
+            image_sizes_table_size = picture_table_size * 4
+            first_image_offset = 4 + blocks_table_size + image_sizes_table_size
 
             # Calcular posiciones de imagenes
             current_position = first_image_offset
@@ -501,7 +510,6 @@ class OptimizedDialComposer:
 
             # Build binary data
             binary_data = bytearray()
-            picture_table_size = 90  # Match original exactly
             binary_data.extend(struct.pack('<HBB', picture_table_size, len(blocks_to_write), 2))
 
             # Block headers (20 bytes cada uno)
@@ -524,10 +532,9 @@ class OptimizedDialComposer:
                 binary_data.extend(header)
                 img_pos_idx += len(block.compressed_images)
 
-            # Tabla de tamaños de imagen (4 bytes por imagen)
-            for block in blocks_to_write:
-                for compressed_data in block.compressed_images:
-                    binary_data.extend(struct.pack('<I', len(compressed_data)))
+            # Tabla de tamaños de imagen (4 bytes por parte)
+            for size in picture_table_entries:
+                binary_data.extend(struct.pack('<HH', 0, size))
 
             # Padding hasta first_image_offset
             while len(binary_data) < first_image_offset:
@@ -545,6 +552,7 @@ class OptimizedDialComposer:
                 f.write(binary_data)
 
             actual_size = len(binary_data)
+            total_images = picture_table_size
             logger.info(f"\u2713 Binary file created: {output_file}")
             logger.info(f"  Final size: {actual_size:,} bytes")
             logger.info(f"  Picture table size: {picture_table_size}")
