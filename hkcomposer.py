@@ -282,67 +282,64 @@ class OptimizedDialBlock:
         return bytes(compressed)
     
     def _compress_hk89_rle_color_preserved(self, image_data: np.ndarray) -> bytes:
-        """RLE compression with color preservation matching decompressor"""
+        """RLE compression that mirrors the decompressor format"""
         height, width = image_data.shape[:2]
-        expected_pixels = width * height
-        
-        compressed = bytearray()
-        
-        # Reserve space for header (will be filled later)
-        header_pos = len(compressed)
-        compressed.extend(b'\x00\x00')
-        
-        pixels_processed = 0
-        
-        for row in range(height):
-            col = 0
-            while col < width and pixels_processed < expected_pixels:
-                r, g, b, a = [int(x) for x in image_data[row, col]]
-                rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
-                final_r, final_g, final_b = self._rgb565_to_rgb888_rle(rgb565)
-                
-                # Look ahead for RLE opportunities using final colors
-                count = 1
-                max_count = min(127, width - col, expected_pixels - pixels_processed)
-                
-                for look_ahead in range(1, max_count):
-                    if col + look_ahead >= width:
-                        break
-                    
-                    next_r, next_g, next_b, next_a = [int(x) for x in image_data[row, col + look_ahead]]
-                    next_rgb565 = ((next_r & 0xF8) << 8) | ((next_g & 0xFC) << 3) | (next_b >> 3)
-                    next_final_r, next_final_g, next_final_b = self._rgb565_to_rgb888_rle(next_rgb565)
-                    
-                    # Compare final colors (what decompressor will produce)
-                    if (final_r == next_final_r and final_g == next_final_g and 
-                        final_b == next_final_b and (not self.has_alpha or a == next_a)):
-                        count += 1
-                    else:
-                        break
-                
-                # Encode based on count
-                if count == 1:
-                    # Single pixel
-                    compressed.append(0x00)
-                    if self.has_alpha:
-                        compressed.append(a)
-                    compressed.append((rgb565 >> 8) & 0xFF)
-                    compressed.append(rgb565 & 0xFF)
-                else:
-                    # RLE run
-                    compressed.append(0x80 | count)
-                    if self.has_alpha:
-                        compressed.append(a)
-                    compressed.append((rgb565 >> 8) & 0xFF)
-                    compressed.append(rgb565 & 0xFF)
-                
-                col += count
-                pixels_processed += count
-        
-        # Fill header with data start offset (matches native implementation)
-        data_start = 2
-        struct.pack_into('<H', compressed, header_pos, data_start)
-        
+        flat = image_data.reshape(-1, 4)
+
+        compressed = bytearray(b"\x00\x00")  # header placeholder
+        header_pos = 0
+
+        idx = 0
+        total_pixels = flat.shape[0]
+        while idx < total_pixels:
+            r, g, b, a = [int(x) for x in flat[idx]]
+            rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
+
+            # Count run length of identical pixels
+            run_len = 1
+            while (
+                idx + run_len < total_pixels
+                and run_len < 127
+                and all(int(x) == int(y) for x, y in zip(flat[idx + run_len], flat[idx]))
+            ):
+                run_len += 1
+
+            if run_len > 1:
+                compressed.append(0x80 | run_len)
+                if self.has_alpha:
+                    compressed.append(a)
+                compressed.append((rgb565 >> 8) & 0xFF)
+                compressed.append(rgb565 & 0xFF)
+                idx += run_len
+                continue
+
+            # Literal sequence
+            lit_start = idx
+            literals: List[Tuple[int, int, int, int]] = []
+            while idx < total_pixels and len(literals) < 127:
+                r1, g1, b1, a1 = [int(x) for x in flat[idx]]
+                literals.append((r1, g1, b1, a1))
+                idx += 1
+                if idx >= total_pixels:
+                    break
+                # Check if next pixel begins a run of at least two
+                if idx + 1 < total_pixels and all(
+                    int(x) == int(y) for x, y in zip(flat[idx], flat[idx + 1])
+                ):
+                    break
+
+            compressed.append(len(literals))
+            for lr, lg, lb, la in literals:
+                rgb565 = ((lr & 0xF8) << 8) | ((lg & 0xFC) << 3) | (lb >> 3)
+                if self.has_alpha:
+                    compressed.append(la)
+                compressed.append((rgb565 >> 8) & 0xFF)
+                compressed.append(rgb565 & 0xFF)
+
+        while len(compressed) % 4 != 0:
+            compressed.append(0)
+
+        struct.pack_into("<H", compressed, header_pos, 2)
         return bytes(compressed)
     
     def _rgb888_to_rgb565_enhanced(self, r: int, g: int, b: int) -> int:
@@ -389,16 +386,21 @@ class OptimizedDialComposer:
                 for i, block in enumerate(config['blocks']):
                     # Map zzuler fields to composer fields
                     picidx = block.get('picidx', i)  # Prefer picidx from JSON if present
+                    btype = self._type_to_blocktype(block['type'], block.get('colsp', 'RGB'))
+                    # Use RLE compression for most blocks; raw only for analog hands
+                    analog_raw = {'BLK_ARMH', 'BLK_ARMM', 'BLK_ARMS', 'BLK_83', 'BLK_84', 'BLK_85'}
+                    compr = 0 if block['type'] in analog_raw else 4
+
                     block_config = {
                         'fname': block['fname'],
-                        'blocktype': self._type_to_blocktype(block['type'], block.get('colsp', 'RGB')),
+                        'blocktype': btype,
                         'sx': block['width'],
                         'sy': block['height'],
                         'posX': block['posx'],
                         'posY': block['posy'],
                         'parts': block['frms'],
                         'align': block.get('alnx', 0),
-                        'compr': 4 if block.get('colsp', 'RGB') == 'RGB' else 0,  # Heurística: RGB=4, RGBA=0
+                        'compr': compr,
                         'centX': block.get('ctx', 0),
                         'centY': block.get('cty', 0),
                         'picidx': picidx
