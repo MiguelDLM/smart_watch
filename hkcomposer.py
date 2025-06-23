@@ -68,17 +68,35 @@ class OptimizedDialBlock:
                             img = img.convert('RGBA')
                         if 'icc_profile' in img.info:
                             img.info.pop('icc_profile')
-                        # Validate combined image size
-                        expected_width = self.sx * self.parts
-                        if img.size != (expected_width, self.sy):
-                            logger.error(f"Combined image size mismatch: expected {expected_width}x{self.sy}, got {img.size}")
+                        # Determine orientation of the combined strip
+                        expected_h = (self.sx * self.parts, self.sy)
+                        expected_v = (self.sx, self.sy * self.parts)
+
+                        orientation = None
+                        if img.size == expected_h:
+                            orientation = "horizontal"
+                        elif img.size == expected_v:
+                            orientation = "vertical"
+                        else:
+                            logger.error(
+                                f"Combined image size mismatch: expected {expected_h} or {expected_v}, got {img.size}"
+                            )
                             return False
-                        # Split horizontally into parts
+
+                        # Split combined image into parts depending on orientation
                         combined_compressed_data = bytearray()
                         for i in range(self.parts):
-                            left = i * self.sx
-                            right = (i + 1) * self.sx
-                            part_img = img.crop((left, 0, right, self.sy))
+                            if orientation == "horizontal":
+                                left = i * self.sx
+                                upper = 0
+                                right = (i + 1) * self.sx
+                                lower = self.sy
+                            else:
+                                left = 0
+                                upper = i * self.sy
+                                right = self.sx
+                                lower = (i + 1) * self.sy
+                            part_img = img.crop((left, upper, right, lower))
                             part_data = np.array(part_img)
                             # Channel order fix if needed
                             sample = part_data[0,0]
