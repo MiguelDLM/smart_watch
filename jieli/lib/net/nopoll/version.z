@@ -1,8 +1,0 @@
-
-.section .sys.version, "ax"
-
-.global lib_nopoll_version
-
-lib_nopoll_version:
-.long __TIMESTAMPNUM__
-.asciz "libnopoll-@{DATE}-${COMMID}"
