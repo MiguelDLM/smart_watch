@@ -140,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
         btnScan.setOnClickListener(v -> startScan());
         btnSelectFile.setOnClickListener(v -> openFilePicker());
         btnCopyLog.setOnClickListener(v -> copyLogsToClipboard());
+        
+        findViewById(R.id.btnCreateDial).setOnClickListener(v -> {
+            Intent intent = new Intent(this, DialEditorActivity.class);
+            startActivityForResult(intent, FILE_SELECT_CODE); // Reuse code for simplicity
+        });
+        
         btnSelectFile.setEnabled(false);
 
         checkPermissions();
