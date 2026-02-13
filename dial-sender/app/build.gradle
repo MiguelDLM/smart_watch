@@ -23,6 +23,7 @@ android {
             version "3.8"
             pip {
                 install "Pillow"
+                install "numpy"
             }
         }
     }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dial Studio</string>
+
+    <!-- Home -->
+    <string name="home_subtitle">Create and send custom dials to your smartwatch</string>
+    <string name="create_dial">Create Dial</string>
+    <string name="create_dial_desc">Design a face with backgrounds, digits and more</string>
+    <string name="send_dial">Send Dial</string>
+    <string name="send_dial_desc">Connect via Bluetooth and transfer a .bin</string>
+    <string name="library">Library</string>
+    <string name="library_desc">Pre-made dials and your creations</string>
+    <string name="version_label">Dial Studio v5.2</string>
+    <string name="chipset_info">Compatible with Jieli / HK89 chipset</string>
+
+    <!-- Send screen -->
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
+    <string name="connecting">Connecting…</string>
+    <string name="scan_connect">🔍  Scan &amp; Connect</string>
+    <string name="reconnect">🔗  Reconnect</string>
+    <string name="scanning">⏳  Scanning…</string>
+    <string name="dial_file">Dial File</string>
+    <string name="select_bin">📁  Select .bin file</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="transfer">Transfer</string>
+    <string name="waiting">Waiting…</string>
+    <string name="btn_send_dial">📤  Send Dial</string>
+    <string name="logs">📋 Logs</string>
+    <string name="preparing">Preparing…</string>
+    <string name="transferring">Transferring…</string>
+    <string name="transfer_complete">Transfer complete!</string>
+    <string name="dial_sent_ok">Dial sent successfully!</string>
+    <string name="session_not_ready">Session not ready. Reconnect.</string>
+    <string name="enable_bt">Enable Bluetooth</string>
+    <string name="no_ble_found">No BLE devices found</string>
+    <string name="select_watch">Select your watch</string>
+    <string name="error_read_file">Error reading file</string>
+    <string name="persistent_ble">v5.2 — Persistent BLE</string>
+    <string name="select_file_first">Select a file first</string>
+
+    <!-- Editor -->
+    <string name="dial_designer">Dial Designer</string>
+    <string name="compile">⚡ Compile</string>
+    <string name="compiling">Compiling…</string>
+    <string name="layers_title">LAYERS</string>
+    <string name="add_layer">Add Layer</string>
+    <string name="bg_image">📷  Background (image)</string>
+    <string name="scale">Scale</string>
+    <string name="rotation">Rotation</string>
+    <string name="add_one_layer">Add at least one layer</string>
+    <string name="from_gallery">📂  Select from gallery</string>
+    <string name="saved_to_library">Saved to Library</string>
+    <string name="no_preset_images">No images found in this preset</string>
+    <string name="style_label">Style %s</string>
+    <string name="frames_label">%d frames</string>
+    <string name="enter_dial_name">Enter dial name</string>
+    <string name="dial_name_hint">My awesome dial</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Library -->
+    <string name="dial_library">Dial Library</string>
+    <string name="no_dials">No dials available</string>
+    <string name="preset">Preset</string>
+    <string name="custom">Custom</string>
+    <string name="send_arrow">Send →</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="rename_dial">Rename Dial</string>
+    <string name="dial_renamed">Dial renamed</string>
+    <string name="dial_deleted">Dial deleted</string>
+    <string name="confirm_delete">Delete this dial?</string>
+    <string name="extracting_preview">Loading thumbnails…</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="share">Share</string>
+    <string name="export">Export to Downloads</string>
+    <string name="dial_exported">Dial saved to Downloads/DialStudio</string>
+
+    <!-- Log -->
+    <string name="debug_log">Debug Log</string>
+    <string name="copy">📋 Copy</string>
+    <string name="clear">🗑 Clear</string>
+    <string name="no_logs">No logs available</string>
+    <string name="log_copied">Log copied to clipboard</string>
+    <string name="log_cleared">Log cleared</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="appearance">Appearance</string>
+    <string name="theme">Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">System</string>
+    <string name="language">Language</string>
+    <string name="lang_english">English</string>
+    <string name="lang_spanish">Español</string>
+    <string name="lang_system">System Default</string>
+    <string name="about">About</string>
+    <string name="about_desc">Custom dial creator and sender for Jieli/HK89 chipset smartwatches.</string>
+    <string name="about_author">Developed by MiguelDLM</string>
+
+    <!-- Categories -->
+    <string name="cat_time">⏰  Time (Digital)</string>
+    <string name="cat_date">📅  Date</string>
+    <string name="cat_analog">🕐  Analog Hands</string>
+    <string name="cat_health">💪  Health</string>
+    <string name="cat_status">🔋  Status</string>
+    <string name="cat_deco">✨  Decoration</string>
+    <string name="cat_scale">🔘  Watch Face Ring</string>
+
+    <!-- Block types -->
+    <string name="blk_preview">Preview</string>
+    <string name="blk_background">Background</string>
+    <string name="blk_arm_hour">Hour Hand</string>
+    <string name="blk_arm_min">Minute Hand</string>
+    <string name="blk_arm_sec">Second Hand</string>
+    <string name="blk_year">Year</string>
+    <string name="blk_month">Month</string>
+    <string name="blk_day">Day</string>
+    <string name="blk_hour">Hour (digital)</string>
+    <string name="blk_min">Minute (digital)</string>
+    <string name="blk_sec">Seconds</string>
+    <string name="blk_ampm">AM/PM</string>
+    <string name="blk_weekday">Weekday</string>
+    <string name="blk_steps">Steps</string>
+    <string name="blk_heart">Heart Rate</string>
+    <string name="blk_calorie">Calories</string>
+    <string name="blk_distance">Distance</string>
+    <string name="blk_battery">Battery (number)</string>
+    <string name="blk_connect">Connection</string>
+    <string name="blk_berry">Decoration</string>
+    <string name="blk_anim">Animation</string>
+    <string name="blk_batt_strip">Battery (bar)</string>
+    <string name="blk_weather">Weather</string>
+    <string name="blk_temp">Temperature</string>
+    <string name="blk_prog2">Progress Bar 2</string>
+    <string name="blk_prog1">Progress Bar 1</string>
+    <string name="blk_label">Label</string>
+    <string name="blk_hour_lo">Hour Low Digit</string>
+    <string name="blk_hour_hi">Hour High Digit</string>
+    <string name="blk_min_hi">Min High Digit</string>
+    <string name="blk_min_lo">Min Low Digit</string>
+    <string name="blk_unknown">Unknown</string>
+    <string name="blk_scale">Hour Ring (Scale)</string>
+</resources>

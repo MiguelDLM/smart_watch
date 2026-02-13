@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="4dp"
+    android:background="@color/bg_card"
+    android:layout_marginBottom="2dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Layer Thumbnail -->
+    <ImageView
+        android:id="@+id/imgLayerThumb"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:background="@color/bg_elevated"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="Layer thumbnail"/>
+
+    <!-- Layer Info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtLayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Layer"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/txtLayerType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BLK_BGIMG"
+            android:textColor="@color/text_muted"
+            android:textSize="10sp"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <!-- Frame count badge -->
+    <TextView
+        android:id="@+id/txtFrameBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_status"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="2dp"
+        android:text=""
+        android:textColor="@color/accent_cyan"
+        android:textSize="10sp"
+        android:visibility="gone"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Delete Button -->
+    <TextView
+        android:id="@+id/btnDeleteLayer"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="✕"
+        android:textColor="@color/accent_danger"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"/>
+</LinearLayout>

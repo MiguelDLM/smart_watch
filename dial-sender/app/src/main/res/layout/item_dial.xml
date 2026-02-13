@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="8dp"
+    android:background="@drawable/bg_card"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="4dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Dial thumbnail -->
+    <ImageView
+        android:id="@+id/imgDialThumb"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_status"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/blk_preview"/>
+
+    <!-- Dial Info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtDialName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dial Name"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/txtDialSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12.3 KB"
+            android:textColor="@color/text_muted"
+            android:textSize="11sp"/>
+    </LinearLayout>
+
+    <!-- Source Badge -->
+    <TextView
+        android:id="@+id/txtDialSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_status"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="3dp"
+        android:text="@string/preset"
+        android:textColor="@color/accent_cyan"
+        android:textSize="10sp"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Send Button -->
+    <TextView
+        android:id="@+id/btnSendDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_arrow"
+        android:textColor="@color/accent_secondary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"/>
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode colors (current theme) -->
+    <color name="bg_primary">#0D1117</color>
+    <color name="bg_surface">#161B22</color>
+    <color name="bg_card">#1C2333</color>
+    <color name="bg_elevated">#21262D</color>
+
+    <color name="accent_primary">#58A6FF</color>
+    <color name="accent_secondary">#7EE787</color>
+    <color name="accent_warning">#F0883E</color>
+    <color name="accent_danger">#F85149</color>
+    <color name="accent_purple">#BC8CFF</color>
+    <color name="accent_cyan">#56D4DD</color>
+
+    <color name="text_primary">#F0F6FC</color>
+    <color name="text_secondary">#8B949E</color>
+    <color name="text_muted">#484F58</color>
+
+    <color name="status_connected">#2EA043</color>
+    <color name="status_disconnected">#F85149</color>
+    <color name="status_scanning">#F0883E</color>
+
+    <color name="gradient_start">#1A1F36</color>
+    <color name="gradient_end">#0D1117</color>
+
+    <color name="card_create_start">#1E3A5F</color>
+    <color name="card_create_end">#0D1117</color>
+    <color name="card_send_start">#1F3D2F</color>
+    <color name="card_send_end">#0D1117</color>
+    <color name="card_library_start">#2A1A3A</color>
+    <color name="card_library_end">#0D1117</color>
+    <color name="card_border_create">#1A58A6FF</color>
+    <color name="card_border_send">#1A7EE787</color>
+    <color name="card_border_library">#2ABC8CFF</color>
+
+    <color name="progress_track">#21262D</color>
+    <color name="progress_fill">#58A6FF</color>
+
+    <color name="divider">#30363D</color>
+    <color name="ripple">#1A58A6FF</color>
+    <color name="status_stroke">#30363D</color>
+</resources>
