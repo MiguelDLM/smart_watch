@@ -143,4 +143,17 @@
     <string name="blk_min_lo">Min Low Digit</string>
     <string name="blk_unknown">Unknown</string>
     <string name="blk_scale">Hour Ring (Scale)</string>
+
+    <!-- Font Creator -->
+    <string name="from_font">🔤  Create from Font</string>
+    <string name="font_label">FONT</string>
+    <string name="digit_size">DIGIT SIZE</string>
+    <string name="font_color">COLOR</string>
+    <string name="glow_label">GLOW</string>
+    <string name="border_label">BORDER WIDTH</string>
+    <string name="border_color">BORDER COLOR</string>
+    <string name="spacing_label">SPACING</string>
+    <string name="create_digits">Create Digits</string>
+    <string name="font_creator_title">Font Digit Creator</string>
+    <string name="select_style">Select Style</string>
 </resources>

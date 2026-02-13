@@ -62,6 +62,18 @@
         android:visibility="gone"
         android:layout_marginEnd="8dp"/>
 
+    <!-- Lock Button -->
+    <TextView
+        android:id="@+id/btnLockLayer"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="🔓"
+        android:textColor="@color/text_secondary"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"/>
+
     <!-- Delete Button -->
     <TextView
         android:id="@+id/btnDeleteLayer"

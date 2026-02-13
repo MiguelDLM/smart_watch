@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         SETUP2_SENT,
         TRANSFERRING
     }
+
     private ConnectionState connectionState = ConnectionState.DISCONNECTED;
 
     // File Transfer State
@@ -105,17 +106,38 @@ public class MainActivity extends AppCompatActivity {
     private ConcurrentLinkedQueue<byte[]> commandQueue = new ConcurrentLinkedQueue<>();
     private boolean isSending = false;
     private int packetsSent = 0;
+    private byte[] lastChunkSent = null;
+    private int writeRetryCount = 0;
+    private static final int MAX_WRITE_RETRIES = 3;
+    private static final long WRITE_TIMEOUT_MS = 5000;
+    private final Runnable writeWatchdogRunnable = this::handleWriteTimeout;
 
     // Handshake Magic Bytes
-    private static final byte[] HANDSHAKE_CMD = new byte[]{
-            (byte)0xAB, 0x01, 0x00, 0x07,
-            (byte)0xB1, (byte)0xB2, 0x03, 0x02,
-            0x20, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF
+    private static final byte[] HANDSHAKE_CMD = new byte[] {
+            (byte) 0xAB, 0x01, 0x00, 0x07,
+            (byte) 0xB1, (byte) 0xB2, 0x03, 0x02,
+            0x20, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF
     };
 
     // CRC Table
     private static final int[] CRC16_TABLE = {
-            0, 49345, 49537, 320, 49921, 960, 640, 49729, 50689, 1728, 1920, 51009, 1280, 50625, 50305, 1088, 52225, 3264, 3456, 52545, 3840, 53185, 52865, 3648, 2560, 51905, 52097, 2880, 51457, 2496, 2176, 51265, 55297, 6336, 6528, 55617, 6912, 56257, 55937, 6720, 7680, 57025, 57217, 8000, 56577, 7616, 7296, 56385, 5120, 54465, 54657, 5440, 55041, 6080, 5760, 54849, 53761, 4800, 4992, 54081, 4352, 53697, 53377, 4160, 61441, 12480, 12672, 61761, 13056, 62401, 62081, 12864, 13824, 63169, 63361, 14144, 62721, 13760, 13440, 62529, 15360, 64705, 64897, 15680, 65281, 16320, 16000, 65089, 64001, 15040, 15232, 64321, 14592, 63937, 63617, 14400, 10240, 59585, 59777, 10560, 60161, 11200, 10880, 59969, 60929, 11968, 12160, 61249, 11520, 60865, 60545, 11328, 58369, 9408, 9600, 58689, 9984, 59329, 59009, 9792, 8704, 58049, 58241, 9024, 57601, 8640, 8320, 57409, 40961, 24768, 24960, 41281, 25344, 41921, 41601, 25152, 26112, 42689, 42881, 26432, 42241, 26048, 25728, 42049, 27648, 44225, 44417, 27968, 44801, 28608, 28288, 44609, 43521, 27328, 27520, 43841, 26880, 43457, 43137, 26688, 30720, 47297, 47489, 31040, 47873, 31680, 31360, 47681, 48641, 32448, 32640, 48961, 32000, 48577, 48257, 31808, 46081, 29888, 30080, 46401, 30464, 47041, 46721, 30272, 29184, 45761, 45953, 29504, 45313, 29120, 28800, 45121, 20480, 37057, 37249, 20800, 37633, 21440, 21120, 37441, 38401, 22208, 22400, 38721, 21760, 38337, 38017, 21568, 39937, 23744, 23936, 40257, 24320, 40897, 40577, 24128, 23040, 39617, 39809, 23360, 39169, 22976, 22656, 38977, 34817, 18624, 18816, 35137, 19200, 35777, 35457, 19008, 19968, 36545, 36737, 20288, 36097, 19904, 19584, 35905, 17408, 33985, 34177, 17728, 34561, 18368, 18048, 34369, 33281, 17088, 17280, 33601, 16640, 33217, 32897, 16448
+            0, 49345, 49537, 320, 49921, 960, 640, 49729, 50689, 1728, 1920, 51009, 1280, 50625, 50305, 1088, 52225,
+            3264, 3456, 52545, 3840, 53185, 52865, 3648, 2560, 51905, 52097, 2880, 51457, 2496, 2176, 51265, 55297,
+            6336, 6528, 55617, 6912, 56257, 55937, 6720, 7680, 57025, 57217, 8000, 56577, 7616, 7296, 56385, 5120,
+            54465, 54657, 5440, 55041, 6080, 5760, 54849, 53761, 4800, 4992, 54081, 4352, 53697, 53377, 4160, 61441,
+            12480, 12672, 61761, 13056, 62401, 62081, 12864, 13824, 63169, 63361, 14144, 62721, 13760, 13440, 62529,
+            15360, 64705, 64897, 15680, 65281, 16320, 16000, 65089, 64001, 15040, 15232, 64321, 14592, 63937, 63617,
+            14400, 10240, 59585, 59777, 10560, 60161, 11200, 10880, 59969, 60929, 11968, 12160, 61249, 11520, 60865,
+            60545, 11328, 58369, 9408, 9600, 58689, 9984, 59329, 59009, 9792, 8704, 58049, 58241, 9024, 57601, 8640,
+            8320, 57409, 40961, 24768, 24960, 41281, 25344, 41921, 41601, 25152, 26112, 42689, 42881, 26432, 42241,
+            26048, 25728, 42049, 27648, 44225, 44417, 27968, 44801, 28608, 28288, 44609, 43521, 27328, 27520, 43841,
+            26880, 43457, 43137, 26688, 30720, 47297, 47489, 31040, 47873, 31680, 31360, 47681, 48641, 32448, 32640,
+            48961, 32000, 48577, 48257, 31808, 46081, 29888, 30080, 46401, 30464, 47041, 46721, 30272, 29184, 45761,
+            45953, 29504, 45313, 29120, 28800, 45121, 20480, 37057, 37249, 20800, 37633, 21440, 21120, 37441, 38401,
+            22208, 22400, 38721, 21760, 38337, 38017, 21568, 39937, 23744, 23936, 40257, 24320, 40897, 40577, 24128,
+            23040, 39617, 39809, 23360, 39169, 22976, 22656, 38977, 34817, 18624, 18816, 35137, 19200, 35777, 35457,
+            19008, 19968, 36545, 36737, 20288, 36097, 19904, 19584, 35905, 17408, 33985, 34177, 17728, 34561, 18368,
+            18048, 34369, 33281, 17088, 17280, 33601, 16640, 33217, 32897, 16448
     };
 
     // Protocol Sequencing
@@ -177,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
                 ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
                 byte[] buffer = new byte[4096];
                 int len;
-                while ((len = fis.read(buffer)) != -1) byteBuffer.write(buffer, 0, len);
+                while ((len = fis.read(buffer)) != -1)
+                    byteBuffer.write(buffer, 0, len);
                 fis.close();
                 fileBytesToSend = byteBuffer.toByteArray();
                 fileTotalSize = fileBytesToSend.length;
@@ -237,17 +260,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] {
                         Manifest.permission.BLUETOOTH_SCAN,
                         Manifest.permission.BLUETOOTH_CONNECT,
                         Manifest.permission.ACCESS_FINE_LOCATION
                 }, PERMISSION_REQUEST_CODE);
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                        PERMISSION_REQUEST_CODE);
             }
         }
     }
@@ -269,15 +296,32 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Check already connected GATT devices (no filtering, show ALL)
+        // Check already connected GATT devices — offer chooser if multiple
         List<BluetoothDevice> connectedDevices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
+        List<BluetoothDevice> namedDevices = new ArrayList<>();
         for (BluetoothDevice device : connectedDevices) {
             String name = device.getName();
             if (name != null) {
+                namedDevices.add(device);
                 log("Found connected device: " + name + " (" + device.getAddress() + ")");
-                connectToDevice(device);
-                return;
             }
+        }
+        if (namedDevices.size() == 1) {
+            connectToDevice(namedDevices.get(0));
+            return;
+        } else if (namedDevices.size() > 1) {
+            // Multiple GATT devices — let user pick
+            String[] names = new String[namedDevices.size()];
+            for (int i = 0; i < namedDevices.size(); i++) {
+                BluetoothDevice d = namedDevices.get(i);
+                names[i] = d.getName() + " (" + d.getAddress() + ")";
+            }
+            runOnUiThread(() -> new AlertDialog.Builder(this)
+                    .setTitle(R.string.select_watch)
+                    .setItems(names, (dialog, which) -> connectToDevice(namedDevices.get(which)))
+                    .setCancelable(true)
+                    .show());
+            return;
         }
 
         log("Scanning for BLE devices...");
@@ -293,7 +337,8 @@ public class MainActivity extends AppCompatActivity {
                 String name = device.getName();
                 if (name != null && !name.isEmpty()) {
                     for (BluetoothDevice d : foundDevices) {
-                        if (d.getAddress().equals(device.getAddress())) return;
+                        if (d.getAddress().equals(device.getAddress()))
+                            return;
                     }
                     foundDevices.add(device);
                     log("Found: " + name + " (" + device.getAddress() + ") RSSI=" + rssi);
@@ -312,9 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (foundDevices.isEmpty()) {
                 log("No BLE devices found");
-                runOnUiThread(() ->
-                    Toast.makeText(this, R.string.no_ble_found, Toast.LENGTH_LONG).show()
-                );
+                runOnUiThread(() -> Toast.makeText(this, R.string.no_ble_found, Toast.LENGTH_LONG).show());
             } else if (foundDevices.size() == 1) {
                 connectToDevice(foundDevices.get(0));
             } else {
@@ -324,10 +367,10 @@ public class MainActivity extends AppCompatActivity {
                     names[i] = d.getName() + " (" + d.getAddress() + ")";
                 }
                 runOnUiThread(() -> new AlertDialog.Builder(this)
-                    .setTitle(R.string.select_watch)
-                    .setItems(names, (dialog, which) -> connectToDevice(foundDevices.get(which)))
-                    .setCancelable(true)
-                    .show());
+                        .setTitle(R.string.select_watch)
+                        .setItems(names, (dialog, which) -> connectToDevice(foundDevices.get(which)))
+                        .setCancelable(true)
+                        .show());
             }
         }, 10000);
     }
@@ -355,15 +398,15 @@ public class MainActivity extends AppCompatActivity {
                 connectionState = ConnectionState.DISCONNECTED;
                 log("Disconnected - Resetting state");
                 updateConnectionUI(false);
-                
+
                 // CRITICAL: Clear queues on disconnect
                 commandQueue.clear();
                 isSending = false;
                 isFileTransferActive = false;
                 runOnUiThread(() -> {
-                     transferCard.setVisibility(View.GONE);
-                     btnSelectFile.setEnabled(false);
-                     btnSendDial.setEnabled(false);
+                    transferCard.setVisibility(View.GONE);
+                    btnSelectFile.setEnabled(false);
+                    btnSendDial.setEnabled(false);
                 });
 
                 // Auto-reconnect attempt after brief delay
@@ -425,12 +468,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-             byte[] data = characteristic.getValue();
-             if (data != null) processResponse(data);
+            byte[] data = characteristic.getValue();
+            if (data != null)
+                processResponse(data);
         }
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            // Cancel watchdog on any callback
+            mainHandler.removeCallbacks(writeWatchdogRunnable);
+            writeRetryCount = 0;
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 sendNextChunk();
             } else {
@@ -458,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
         payload.order(ByteOrder.LITTLE_ENDIAN);
         payload.putInt(bindId);
 
-        byte[] message = createMessage((byte)0x03, (byte)0x01, (byte)0x20, payload.array());
+        byte[] message = createMessage((byte) 0x03, (byte) 0x01, (byte) 0x20, payload.array());
         connectionState = ConnectionState.BIND_SENT;
         enqueueLogicalFrame(message);
         isSending = true;
@@ -472,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
         payload.order(ByteOrder.LITTLE_ENDIAN);
         payload.putInt(sessionId);
 
-        byte[] message = createMessage((byte)0x03, (byte)0x02, (byte)0x20, payload.array());
+        byte[] message = createMessage((byte) 0x03, (byte) 0x02, (byte) 0x20, payload.array());
         connectionState = ConnectionState.LOGIN_SENT;
         enqueueLogicalFrame(message);
         isSending = true;
@@ -480,17 +527,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processResponse(byte[] data) {
-        if (data.length == 0 || data[0] != (byte)0xAB) return;
+        if (data.length == 0 || data[0] != (byte) 0xAB)
+            return;
 
         int header = data[1] & 0xFF;
         boolean isReply = (header & 0x10) != 0;
 
-        if (data.length < 9) return;
+        if (data.length < 9)
+            return;
         byte cmd = data[6];
         byte key = data[7];
         byte flag = data[8];
 
-        log("Rx: Cmd=" + String.format("%02X", cmd) + " Key=" + String.format("%02X", key) + " State=" + connectionState);
+        log("Rx: Cmd=" + String.format("%02X", cmd) + " Key=" + String.format("%02X", key) + " State="
+                + connectionState);
 
         // Handle Identity Info Request from watch -> implies Session Ready
         if ((header & 0x10) == 0 && header == 0x01 && cmd == 0x03 && key == 0x01) {
@@ -540,10 +590,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Pre-Transfer ACK
         if (isReply && connectionState == ConnectionState.PRE_TRANSFER) {
-             log("Pre-Transfer ACK");
-             preTransferIndex++;
-             mainHandler.postDelayed(this::sendNextPreTransferCommand, 50);
-             return;
+            log("Pre-Transfer ACK");
+            preTransferIndex++;
+            mainHandler.postDelayed(this::sendNextPreTransferCommand, 50);
+            return;
         }
 
         // Setup1 ACK
@@ -574,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
             long total = bb.getInt() & 0xFFFFFFFFL;
             long completed = bb.getInt() & 0xFFFFFFFFL;
 
-            int percent = (total > 0) ? (int)((completed * 100) / total) : 0;
+            int percent = (total > 0) ? (int) ((completed * 100) / total) : 0;
             log("Progress: " + completed + "/" + total + " (" + percent + "%) Err=" + error);
 
             runOnUiThread(() -> {
@@ -702,26 +752,35 @@ public class MainActivity extends AppCompatActivity {
     private static class PreTransferCommand {
         byte cmd, key, flag, header;
         byte[] payload;
+
         PreTransferCommand(int cmd, int key, int flag, byte[] payload) {
-            this.cmd = (byte)cmd; this.key = (byte)key; this.flag = (byte)flag;
+            this.cmd = (byte) cmd;
+            this.key = (byte) key;
+            this.flag = (byte) flag;
             this.header = 0x01;
             this.payload = payload;
         }
-         PreTransferCommand(int cmd, int key, int flag, byte[] payload, int header) {
-            this.cmd = (byte)cmd; this.key = (byte)key; this.flag = (byte)flag;
-            this.header = (byte)header;
+
+        PreTransferCommand(int cmd, int key, int flag, byte[] payload, int header) {
+            this.cmd = (byte) cmd;
+            this.key = (byte) key;
+            this.flag = (byte) flag;
+            this.header = (byte) header;
             this.payload = payload;
         }
     }
 
     private List<PreTransferCommand> getPreTransferCommands() {
         List<PreTransferCommand> cmds = new ArrayList<>();
-        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00, new byte[]{0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c}, 0x01));
-        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00, new byte[]{0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c}, 0x00));
-        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00, new byte[]{0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c}, 0x03));
+        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00,
+                new byte[] { 0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c }, 0x01));
+        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00,
+                new byte[] { 0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c }, 0x00));
+        cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00,
+                new byte[] { 0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c }, 0x03));
         cmds.add(new PreTransferCommand(0x02, 0x03, 0x10, null));
-        cmds.add(new PreTransferCommand(0x02, 0x02, 0x00, new byte[]{0x04}));
-        cmds.add(new PreTransferCommand(0x02, 0x15, 0x00, new byte[]{0x00}));
+        cmds.add(new PreTransferCommand(0x02, 0x02, 0x00, new byte[] { 0x04 }));
+        cmds.add(new PreTransferCommand(0x02, 0x15, 0x00, new byte[] { 0x00 }));
         cmds.add(new PreTransferCommand(0x05, 0x02, 0x10, null));
         cmds.add(new PreTransferCommand(0x02, 0x03, 0x10, null));
         return cmds;
@@ -755,13 +814,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendSetupStep1() {
-        byte[] payload = new byte[]{
-            (byte)0xC3, 0x25, (byte)0xB3, (byte)0xC2, (byte)0x9F, (byte)0xA2, (byte)0xA7, 0x41,
-            0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        byte[] payload = new byte[] {
+                (byte) 0xC3, 0x25, (byte) 0xB3, (byte) 0xC2, (byte) 0x9F, (byte) 0xA2, (byte) 0xA7, 0x41,
+                0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
         log("Setup1: Sending Session/Auth Token");
-        byte[] msg = createMessage((byte)0x02, (byte)0x20, (byte)0x00, payload);
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x20, (byte) 0x00, payload);
         connectionState = ConnectionState.SETUP1_SENT;
         enqueueLogicalFrame(msg);
         isSending = true;
@@ -773,7 +832,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] nameBytes = name.getBytes();
 
         byte[] payload = new byte[101];
-        Arrays.fill(payload, (byte)0);
+        Arrays.fill(payload, (byte) 0);
 
         payload[0] = 0x00;
         payload[1] = 0x1A;
@@ -781,14 +840,14 @@ public class MainActivity extends AppCompatActivity {
         payload[3] = 0x05;
         payload[4] = 0x08;
         payload[5] = 0x31;
-        payload[6] = (byte)nameBytes.length;
+        payload[6] = (byte) nameBytes.length;
 
         System.arraycopy(nameBytes, 0, payload, 7, Math.min(nameBytes.length, 60));
 
         byte[] tail = new byte[] {
-            0x10, 0x00, 0x00, 0x01, 0x00, 0x03, 0x51, 0x0A,
-            0x00, 0x00, 0x00, 0x0D, 0x21, 0x2D, 0x00, 0x33,
-            0x04, 0x02, 0x00, 0x00
+                0x10, 0x00, 0x00, 0x01, 0x00, 0x03, 0x51, 0x0A,
+                0x00, 0x00, 0x00, 0x0D, 0x21, 0x2D, 0x00, 0x33,
+                0x04, 0x02, 0x00, 0x00
         };
 
         int tailPos = payload.length - tail.length;
@@ -796,7 +855,7 @@ public class MainActivity extends AppCompatActivity {
 
         log("Setup2: Sending dial metadata");
 
-        byte[] msg = createMessage((byte)0x04, (byte)0x0C, (byte)0x00, payload);
+        byte[] msg = createMessage((byte) 0x04, (byte) 0x0C, (byte) 0x00, payload);
         connectionState = ConnectionState.SETUP2_SENT;
         enqueueLogicalFrame(msg);
         isSending = true;
@@ -811,29 +870,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendStreamChunk(long offset) {
-        if (!isFileTransferActive) return;
+        if (!isFileTransferActive)
+            return;
 
         long remaining = fileTotalSize - offset;
-        if (remaining <= 0) return;
+        if (remaining <= 0)
+            return;
 
-        int chunkSize = (int)Math.min(remaining, 1018);
+        int chunkSize = (int) Math.min(remaining, 1018);
         byte[] chunk = new byte[chunkSize];
-        System.arraycopy(fileBytesToSend, (int)offset, chunk, 0, chunkSize);
+        System.arraycopy(fileBytesToSend, (int) offset, chunk, 0, chunkSize);
 
         byte[] id = new byte[4];
-        id[0] = (byte)((fileTotalSize >> 24) & 0xFF);
-        id[1] = (byte)((fileTotalSize >> 16) & 0xFF);
-        id[2] = (byte)((fileTotalSize >> 8) & 0xFF);
-        id[3] = (byte)(fileTotalSize & 0xFF);
+        id[0] = (byte) ((fileTotalSize >> 24) & 0xFF);
+        id[1] = (byte) ((fileTotalSize >> 16) & 0xFF);
+        id[2] = (byte) ((fileTotalSize >> 8) & 0xFF);
+        id[3] = (byte) (fileTotalSize & 0xFF);
 
         ByteBuffer bb = ByteBuffer.allocate(9 + chunkSize);
         bb.order(ByteOrder.BIG_ENDIAN);
-        bb.put((byte)0);
+        bb.put((byte) 0);
         bb.put(id);
-        bb.putInt((int)offset);
+        bb.putInt((int) offset);
         bb.put(chunk);
 
-        byte[] message = createMessage((byte)0x07, (byte)0x01, (byte)0x00, bb.array());
+        byte[] message = createMessage((byte) 0x07, (byte) 0x01, (byte) 0x00, bb.array());
         enqueueLogicalFrame(message);
         isSending = true;
         sendNextChunk();
@@ -842,30 +903,31 @@ public class MainActivity extends AppCompatActivity {
     // --- Helpers ---
 
     private byte[] createMessage(byte cmd, byte key, byte flag, byte[] payload) {
-        return createMessageWithHeader((byte)0x01, cmd, key, flag, payload);
+        return createMessageWithHeader((byte) 0x01, cmd, key, flag, payload);
     }
 
     private byte[] createMessageWithHeader(byte header, byte cmd, byte key, byte flag, byte[] payload) {
         int payloadLen = (payload != null) ? payload.length : 0;
         ByteBuffer buffer = ByteBuffer.allocate(payloadLen + 9);
-        buffer.put((byte)0xAB);
+        buffer.put((byte) 0xAB);
         buffer.put(header);
-        buffer.putShort((short)(payloadLen + 3));
-        buffer.putShort((short)0);
+        buffer.putShort((short) (payloadLen + 3));
+        buffer.putShort((short) 0);
         buffer.put(cmd);
         buffer.put(key);
         buffer.put(flag);
-        if (payload != null) buffer.put(payload);
+        if (payload != null)
+            buffer.put(payload);
 
         byte[] arr = buffer.array();
         int crc = calculateCrc16(arr, 6);
-        arr[4] = (byte)((crc >> 8) & 0xFF);
-        arr[5] = (byte)(crc & 0xFF);
+        arr[4] = (byte) ((crc >> 8) & 0xFF);
+        arr[5] = (byte) (crc & 0xFF);
         return arr;
     }
 
     private void sendAck(byte cmd, byte key, byte flag) {
-        byte[] msg = createMessageWithHeader((byte)0x11, cmd, key, flag, new byte[]{0x00});
+        byte[] msg = createMessageWithHeader((byte) 0x11, cmd, key, flag, new byte[] { 0x00 });
         enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
@@ -898,9 +960,41 @@ public class MainActivity extends AppCompatActivity {
         }
         byte[] chunk = commandQueue.poll();
         if (chunk != null && writeChar != null && bluetoothGatt != null) {
+            lastChunkSent = chunk;
             writeChar.setValue(chunk);
             writeChar.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
             bluetoothGatt.writeCharacteristic(writeChar);
+            // Start watchdog — if no callback within 5s, retry or abort
+            mainHandler.removeCallbacks(writeWatchdogRunnable);
+            mainHandler.postDelayed(writeWatchdogRunnable, WRITE_TIMEOUT_MS);
+        }
+    }
+
+    private void handleWriteTimeout() {
+        if (!isSending && commandQueue.isEmpty())
+            return;
+        writeRetryCount++;
+        if (writeRetryCount > MAX_WRITE_RETRIES) {
+            log("Write watchdog: max retries exceeded, aborting transfer");
+            isFileTransferActive = false;
+            commandQueue.clear();
+            isSending = false;
+            connectionState = ConnectionState.SESSION_READY;
+            runOnUiThread(() -> {
+                transferCard.setVisibility(View.GONE);
+                btnSelectFile.setEnabled(true);
+                updateSendButtonState();
+                Toast.makeText(this, "Transfer stalled — please retry", Toast.LENGTH_LONG).show();
+            });
+            return;
+        }
+        log("Write watchdog: retrying chunk (attempt " + writeRetryCount + ")");
+        // Re-send last chunk
+        if (lastChunkSent != null && writeChar != null && bluetoothGatt != null) {
+            writeChar.setValue(lastChunkSent);
+            writeChar.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+            bluetoothGatt.writeCharacteristic(writeChar);
+            mainHandler.postDelayed(writeWatchdogRunnable, WRITE_TIMEOUT_MS);
         }
     }
 

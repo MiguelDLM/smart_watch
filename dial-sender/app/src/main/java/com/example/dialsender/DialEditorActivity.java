@@ -28,8 +28,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Typeface;
+import android.graphics.BlurMaskFilter;
+import android.graphics.drawable.GradientDrawable;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
@@ -71,21 +78,21 @@ public class DialEditorActivity extends AppCompatActivity {
 
     // Element categories - no more "preview" option since it's auto-generated
     private static final int[][] ELEMENT_CATEGORIES = {
-        { DialCompiler.TYPE_DIGITAL_HOUR, DialCompiler.TYPE_DIGITAL_MIN, DialCompiler.TYPE_SECONDS,
-          DialCompiler.TYPE_AMPM, DialCompiler.TYPE_WEEKDAY },
-        { DialCompiler.TYPE_DAY, DialCompiler.TYPE_MONTH, DialCompiler.TYPE_YEAR },
-        { DialCompiler.TYPE_ARM_HOUR, DialCompiler.TYPE_ARM_MIN, DialCompiler.TYPE_ARM_SEC },
-        { DialCompiler.TYPE_STEPS, DialCompiler.TYPE_HEART, DialCompiler.TYPE_CALORIE, DialCompiler.TYPE_DISTANCE },
-        { DialCompiler.TYPE_BATTERY, DialCompiler.TYPE_BATT_STRIP, DialCompiler.TYPE_CONNECT,
-          DialCompiler.TYPE_WEATHER, DialCompiler.TYPE_TEMP },
-        { DialCompiler.TYPE_ANIM, DialCompiler.TYPE_BERRY, DialCompiler.TYPE_LABEL,
-          DialCompiler.TYPE_PROGRESS1, DialCompiler.TYPE_PROGRESS2 }
+            { DialCompiler.TYPE_DIGITAL_HOUR, DialCompiler.TYPE_DIGITAL_MIN, DialCompiler.TYPE_SECONDS,
+                    DialCompiler.TYPE_AMPM, DialCompiler.TYPE_WEEKDAY },
+            { DialCompiler.TYPE_DAY, DialCompiler.TYPE_MONTH, DialCompiler.TYPE_YEAR },
+            { DialCompiler.TYPE_ARM_HOUR, DialCompiler.TYPE_ARM_MIN, DialCompiler.TYPE_ARM_SEC },
+            { DialCompiler.TYPE_STEPS, DialCompiler.TYPE_HEART, DialCompiler.TYPE_CALORIE, DialCompiler.TYPE_DISTANCE },
+            { DialCompiler.TYPE_BATTERY, DialCompiler.TYPE_BATT_STRIP, DialCompiler.TYPE_CONNECT,
+                    DialCompiler.TYPE_WEATHER, DialCompiler.TYPE_TEMP },
+            { DialCompiler.TYPE_ANIM, DialCompiler.TYPE_BERRY, DialCompiler.TYPE_LABEL,
+                    DialCompiler.TYPE_PROGRESS1, DialCompiler.TYPE_PROGRESS2 }
     };
 
     private String[] getCategoryNames() {
-        return new String[]{
-            getString(R.string.cat_time), getString(R.string.cat_date), getString(R.string.cat_analog),
-            getString(R.string.cat_health), getString(R.string.cat_status), getString(R.string.cat_deco)
+        return new String[] {
+                getString(R.string.cat_time), getString(R.string.cat_date), getString(R.string.cat_analog),
+                getString(R.string.cat_health), getString(R.string.cat_status), getString(R.string.cat_deco)
         };
     }
 
@@ -130,7 +137,8 @@ public class DialEditorActivity extends AppCompatActivity {
         });
 
         seekScale.setOnSeekBarChangeListener(new SimpleSeekListener() {
-            @Override public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
+            @Override
+            public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
                 if (fromUser && selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
                     layers.get(selectedLayerIndex).scale = progress / 100.0f;
                     updatePreview();
@@ -139,7 +147,8 @@ public class DialEditorActivity extends AppCompatActivity {
         });
 
         seekRotation.setOnSeekBarChangeListener(new SimpleSeekListener() {
-            @Override public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
+            @Override
+            public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
                 if (fromUser && selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
                     layers.get(selectedLayerIndex).rotation = progress;
                     updatePreview();
@@ -209,8 +218,11 @@ public class DialEditorActivity extends AppCompatActivity {
     private int findLayerAt(float x, float y) {
         for (int i = layers.size() - 1; i >= 0; i--) {
             DialLayer l = layers.get(i);
+            if (l.locked)
+                continue; // Skip locked layers
             Bitmap bmp = (l.frames != null && l.frames.length > 0) ? l.frames[0] : l.icon;
-            if (bmp == null) continue;
+            if (bmp == null)
+                continue;
             float w = bmp.getWidth() * l.scale;
             float h = bmp.getHeight() * l.scale;
             if (x >= l.posX && x <= l.posX + w && y >= l.posY && y <= l.posY + h) {
@@ -260,9 +272,16 @@ public class DialEditorActivity extends AppCompatActivity {
             }
 
             boolean isSelected = (layerIdx == selectedLayerIndex);
-            holder.itemView.setAlpha(isSelected ? 1.0f : 0.7f);
+            holder.itemView.setAlpha(isSelected ? 1.0f : (layer.locked ? 0.5f : 0.7f));
             holder.itemView.setBackgroundColor(getResources().getColor(
                     isSelected ? R.color.bg_elevated : R.color.bg_card));
+
+            // Lock toggle
+            holder.btnLock.setText(layer.locked ? "🔒" : "🔓");
+            holder.btnLock.setOnClickListener(v -> {
+                layer.locked = !layer.locked;
+                refreshAll();
+            });
 
             holder.itemView.setOnClickListener(v -> {
                 selectedLayerIndex = layerIdx;
@@ -279,17 +298,21 @@ public class DialEditorActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemCount() { return layers.size(); }
+        public int getItemCount() {
+            return layers.size();
+        }
 
         class VH extends RecyclerView.ViewHolder {
             ImageView imgThumb;
-            TextView txtName, txtType, txtFrameBadge, btnDelete;
+            TextView txtName, txtType, txtFrameBadge, btnDelete, btnLock;
+
             VH(View v) {
                 super(v);
                 imgThumb = v.findViewById(R.id.imgLayerThumb);
                 txtName = v.findViewById(R.id.txtLayerName);
                 txtType = v.findViewById(R.id.txtLayerType);
                 txtFrameBadge = v.findViewById(R.id.txtFrameBadge);
+                btnLock = v.findViewById(R.id.btnLockLayer);
                 btnDelete = v.findViewById(R.id.btnDeleteLayer);
             }
         }
@@ -306,18 +329,18 @@ public class DialEditorActivity extends AppCompatActivity {
         System.arraycopy(catNames, 0, topLevel, 2, catNames.length);
 
         new AlertDialog.Builder(this)
-            .setTitle(R.string.add_layer)
-            .setItems(topLevel, (dialog, which) -> {
-                if (which == 0) {
-                    pendingElementType = DialCompiler.TYPE_BACKGROUND;
-                    pickImageFromGallery();
-                } else if (which == 1) {
-                    showScalePicker(); // Watch face ring / scale
-                } else {
-                    showCategoryPicker(which - 2);
-                }
-            })
-            .show();
+                .setTitle(R.string.add_layer)
+                .setItems(topLevel, (dialog, which) -> {
+                    if (which == 0) {
+                        pendingElementType = DialCompiler.TYPE_BACKGROUND;
+                        pickImageFromGallery();
+                    } else if (which == 1) {
+                        showScalePicker(); // Watch face ring / scale
+                    } else {
+                        showCategoryPicker(which - 2);
+                    }
+                })
+                .show();
     }
 
     private void showScalePicker() {
@@ -337,23 +360,70 @@ public class DialEditorActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> options = new ArrayList<>();
-        options.add(getString(R.string.from_gallery));
+        // Gallery-style visual grid (same as element picker)
+        View galleryView = LayoutInflater.from(this).inflate(R.layout.dialog_preset_gallery, null);
+        TextView titleView = galleryView.findViewById(R.id.txtGalleryTitle);
+        titleView.setText(getString(R.string.cat_scale));
+        RecyclerView grid = galleryView.findViewById(R.id.gridPresets);
+        grid.setLayoutManager(new GridLayoutManager(this, 3));
+
+        List<Object[]> scaleItems = new ArrayList<>();
+        scaleItems.add(new Object[] { getString(R.string.from_gallery), null, null });
         for (int i = 0; i < presetPaths.size(); i++) {
-            options.add("🔘  " + getString(R.string.style_label, String.valueOf(i + 1)));
+            String p = presetPaths.get(i);
+            Bitmap thumb = null;
+            try {
+                InputStream is = getAssets().open(p);
+                thumb = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception ignored) {
+            }
+            scaleItems.add(new Object[] { getString(R.string.style_label, String.valueOf(i + 1)), p, thumb });
         }
 
-        new AlertDialog.Builder(this)
-            .setTitle(R.string.cat_scale)
-            .setItems(options.toArray(new String[0]), (dialog, which) -> {
-                if (which == 0) {
-                    pendingElementType = DialCompiler.TYPE_BERRY;
-                    pickImageFromGallery();
-                } else {
-                    loadScalePreset(presetPaths.get(which - 1));
-                }
-            })
-            .show();
+        AlertDialog scaleDialog = new AlertDialog.Builder(this)
+                .setView(galleryView)
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        grid.setAdapter(new RecyclerView.Adapter<PresetVH>() {
+            @NonNull
+            @Override
+            public PresetVH onCreateViewHolder(@NonNull ViewGroup parent, int vt) {
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_preset_thumb, parent, false);
+                return new PresetVH(v);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull PresetVH h, int pos) {
+                Object[] item = scaleItems.get(pos);
+                h.txtName.setText((String) item[0]);
+                Bitmap t = (Bitmap) item[2];
+                if (t != null)
+                    h.imgThumb.setImageBitmap(t);
+                else if (pos == 0)
+                    h.imgThumb.setImageResource(android.R.drawable.ic_menu_gallery);
+                else
+                    h.imgThumb.setImageBitmap(null);
+                h.itemView.setOnClickListener(v -> {
+                    scaleDialog.dismiss();
+                    String path = (String) item[1];
+                    if (path == null) {
+                        pendingElementType = DialCompiler.TYPE_BERRY;
+                        pickImageFromGallery();
+                    } else {
+                        loadScalePreset(path);
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return scaleItems.size();
+            }
+        });
+        scaleDialog.show();
     }
 
     private void loadScalePreset(String assetPath) {
@@ -368,7 +438,7 @@ public class DialEditorActivity extends AppCompatActivity {
             // Scale is typically a full-size decoration overlay
             String name = getString(R.string.blk_scale);
             DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, bmp, name, DialCompiler.TYPE_BERRY);
-            layer.frames = new Bitmap[]{bmp};
+            layer.frames = new Bitmap[] { bmp };
             layer.frameCount = 1;
             layer.isSpriteSheet = false;
             layer.alpha = 1.0f;
@@ -398,38 +468,461 @@ public class DialEditorActivity extends AppCompatActivity {
         }
 
         new AlertDialog.Builder(this)
-            .setTitle(catNames[categoryIndex])
-            .setItems(labels, (dialog, which) -> {
-                int selectedType = types[which];
-                showSourcePicker(selectedType);
-            })
-            .show();
+                .setTitle(catNames[categoryIndex])
+                .setItems(labels, (dialog, which) -> {
+                    int selectedType = types[which];
+                    showSourcePicker(selectedType);
+                })
+                .show();
     }
 
     private void showSourcePicker(int elementType) {
         List<String> presetPaths = findPresetFolders(elementType);
 
-        List<String> options = new ArrayList<>();
-        options.add(getString(R.string.from_gallery));
-        for (String p : presetPaths) {
-            int lastSlash = p.lastIndexOf('/');
-            String styleName = lastSlash >= 0
-                    ? getString(R.string.style_label, p.substring(lastSlash + 1))
-                    : p;
-            options.add("🎨  " + styleName);
+        // Build gallery dialog with visual thumbnails
+        View galleryView = LayoutInflater.from(this).inflate(R.layout.dialog_preset_gallery, null);
+        TextView title = galleryView.findViewById(R.id.txtGalleryTitle);
+        title.setText(getString(R.string.select_style) + " \u2014 " + getBlockLabel(elementType));
+        RecyclerView grid = galleryView.findViewById(R.id.gridPresets);
+        grid.setLayoutManager(new GridLayoutManager(this, 3));
+
+        // Build items: gallery option + font option + presets
+        List<Object[]> items = new ArrayList<>();
+        items.add(new Object[] { getString(R.string.from_gallery), null, null });
+
+        // Font creator option for digit types
+        boolean isDigitType = isDigitElementType(elementType);
+        if (isDigitType) {
+            items.add(new Object[] { getString(R.string.from_font), "__FONT__", null });
         }
 
-        new AlertDialog.Builder(this)
-            .setTitle(getBlockLabel(elementType))
-            .setItems(options.toArray(new String[0]), (dialog, which) -> {
-                if (which == 0) {
-                    pendingElementType = elementType;
-                    pickImageFromGallery();
+        // Load thumbnails for presets
+        for (String p : presetPaths) {
+            Bitmap thumb = loadPresetThumbnail(p, elementType);
+            int lastSlash = p.lastIndexOf('/');
+            String styleName = lastSlash >= 0 ? p.substring(lastSlash + 1) : p;
+            items.add(new Object[] { styleName, p, thumb });
+        }
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(galleryView)
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        grid.setAdapter(new RecyclerView.Adapter<PresetVH>() {
+            @NonNull
+            @Override
+            public PresetVH onCreateViewHolder(@NonNull ViewGroup parent, int vt) {
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_preset_thumb, parent, false);
+                return new PresetVH(v);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull PresetVH h, int pos) {
+                Object[] item = items.get(pos);
+                h.txtName.setText((String) item[0]);
+                Bitmap thumb = (Bitmap) item[2];
+                if (thumb != null) {
+                    h.imgThumb.setImageBitmap(thumb);
+                } else if (pos == 0) {
+                    h.imgThumb.setImageResource(android.R.drawable.ic_menu_gallery);
+                } else if ("__FONT__".equals(item[1])) {
+                    h.imgThumb.setImageResource(android.R.drawable.ic_menu_edit);
                 } else {
-                    loadPreset(presetPaths.get(which - 1), elementType);
+                    h.imgThumb.setImageBitmap(null);
                 }
-            })
-            .show();
+                h.itemView.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    String path = (String) item[1];
+                    if (path == null) {
+                        pendingElementType = elementType;
+                        pickImageFromGallery();
+                    } else if ("__FONT__".equals(path)) {
+                        showFontCreator(elementType);
+                    } else {
+                        loadPreset(path, elementType);
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return items.size();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private static class PresetVH extends RecyclerView.ViewHolder {
+        ImageView imgThumb;
+        TextView txtName;
+
+        PresetVH(View v) {
+            super(v);
+            imgThumb = v.findViewById(R.id.imgPresetThumb);
+            txtName = v.findViewById(R.id.txtPresetName);
+        }
+    }
+
+    private boolean isDigitElementType(int type) {
+        return type == DialCompiler.TYPE_DIGITAL_HOUR || type == DialCompiler.TYPE_DIGITAL_MIN ||
+                type == DialCompiler.TYPE_SECONDS || type == DialCompiler.TYPE_HOUR_HI ||
+                type == DialCompiler.TYPE_HOUR_LO || type == DialCompiler.TYPE_MIN_HI ||
+                type == DialCompiler.TYPE_MIN_LO || type == DialCompiler.TYPE_DAY ||
+                type == DialCompiler.TYPE_MONTH || type == DialCompiler.TYPE_YEAR ||
+                type == DialCompiler.TYPE_STEPS || type == DialCompiler.TYPE_HEART ||
+                type == DialCompiler.TYPE_CALORIE || type == DialCompiler.TYPE_DISTANCE ||
+                type == DialCompiler.TYPE_BATTERY || type == DialCompiler.TYPE_TEMP;
+    }
+
+    /**
+     * Load a representative thumbnail from a preset folder/file.
+     */
+    private Bitmap loadPresetThumbnail(String assetPath, int elementType) {
+        try {
+            if (assetPath.endsWith(".png")) {
+                InputStream is = getAssets().open(assetPath);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                is.close();
+                return bmp;
+            }
+            String thumbFile;
+            if (elementType == DialCompiler.TYPE_AMPM) {
+                thumbFile = "am.png";
+            } else if (elementType == DialCompiler.TYPE_WEEKDAY) {
+                thumbFile = "2.png";
+            } else {
+                thumbFile = "5.png";
+            }
+            try {
+                InputStream is = getAssets().open(assetPath + "/" + thumbFile);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                is.close();
+                return bmp;
+            } catch (Exception e) {
+                InputStream is = getAssets().open(assetPath + "/0.png");
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                is.close();
+                return bmp;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // ===================== FONT-BASED DIGIT CREATOR =====================
+
+    private void showFontCreator(int elementType) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_font_creator, null);
+        ImageView imgPreview = view.findViewById(R.id.imgFontPreview);
+        Spinner spinnerFont = view.findViewById(R.id.spinnerFont);
+        SeekBar seekSize = view.findViewById(R.id.seekDigitSize);
+        SeekBar seekGlow = view.findViewById(R.id.seekGlow);
+        SeekBar seekBorder = view.findViewById(R.id.seekBorder);
+        SeekBar seekSpacing = view.findViewById(R.id.seekSpacing);
+        LinearLayout colorPalette = view.findViewById(R.id.colorPalette);
+        LinearLayout borderColorPalette = view.findViewById(R.id.borderColorPalette);
+
+        // Font options: system fonts + any bundled .ttf in assets/fonts/
+        List<String> fontNames = new ArrayList<>();
+        List<Typeface> fontFaces = new ArrayList<>();
+        fontNames.add("Sans Serif");
+        fontFaces.add(Typeface.SANS_SERIF);
+        fontNames.add("Serif");
+        fontFaces.add(Typeface.SERIF);
+        fontNames.add("Monospace");
+        fontFaces.add(Typeface.MONOSPACE);
+        fontNames.add("Sans Bold");
+        fontFaces.add(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+        fontNames.add("Serif Bold");
+        fontFaces.add(Typeface.create(Typeface.SERIF, Typeface.BOLD));
+
+        // Try to load bundled .ttf fonts from assets/fonts/
+        String[] bundledFonts = safeListAssets("fonts");
+        for (String f : bundledFonts) {
+            if (f.endsWith(".ttf") || f.endsWith(".otf")) {
+                try {
+                    Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/" + f);
+                    fontNames.add(f.replace(".ttf", "").replace(".otf", ""));
+                    fontFaces.add(tf);
+                } catch (Exception e) {
+                    /* skip */ }
+            }
+        }
+
+        ArrayAdapter<String> fontAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, fontNames);
+        spinnerFont.setAdapter(fontAdapter);
+
+        // Color palette
+        final int[] colors = {
+                Color.WHITE, Color.BLACK, Color.parseColor("#FF4444"), Color.parseColor("#44FF44"),
+                Color.parseColor("#4488FF"), Color.parseColor("#FFDD44"),
+                Color.parseColor("#FF44FF"), Color.parseColor("#44FFFF"),
+                Color.parseColor("#FF8844"), Color.parseColor("#88FF44")
+        };
+        final int[] selectedColor = { Color.WHITE };
+        final int[] selectedBorderColor = { Color.BLACK };
+
+        // Helper to setup a palette
+        View.OnClickListener colorClickListener = v -> {
+            int clr = (int) v.getTag();
+            selectedColor[0] = clr;
+            // Update UI
+            for (int i = 0; i < colorPalette.getChildCount(); i++) {
+                View child = colorPalette.getChildAt(i);
+                GradientDrawable bg = (GradientDrawable) child.getBackground();
+                bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
+            }
+        };
+
+        for (int clr : colors) {
+            View swatch = new View(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            lp.setMargins(2, 2, 2, 2);
+            swatch.setLayoutParams(lp);
+            swatch.setTag(clr);
+            GradientDrawable gd = new GradientDrawable();
+            gd.setColor(clr);
+            gd.setCornerRadius(6);
+            if (clr == selectedColor[0])
+                gd.setStroke(3, Color.parseColor("#58A6FF"));
+            swatch.setBackground(gd);
+            swatch.setOnClickListener(v -> {
+                selectedColor[0] = clr;
+                for (int i = 0; i < colorPalette.getChildCount(); i++) {
+                    View child = colorPalette.getChildAt(i);
+                    GradientDrawable bg = (GradientDrawable) child.getBackground();
+                    bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
+                }
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+            });
+            colorPalette.addView(swatch);
+        }
+
+        // Border Color Palette
+        for (int clr : colors) {
+            View swatch = new View(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            lp.setMargins(2, 2, 2, 2);
+            swatch.setLayoutParams(lp);
+            swatch.setTag(clr);
+            GradientDrawable gd = new GradientDrawable();
+            gd.setColor(clr);
+            gd.setCornerRadius(6);
+            if (clr == selectedBorderColor[0])
+                gd.setStroke(3, Color.parseColor("#58A6FF"));
+            swatch.setBackground(gd);
+            swatch.setOnClickListener(v -> {
+                selectedBorderColor[0] = clr;
+                for (int i = 0; i < borderColorPalette.getChildCount(); i++) {
+                    View child = borderColorPalette.getChildAt(i);
+                    GradientDrawable bg = (GradientDrawable) child.getBackground();
+                    bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
+                }
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+            });
+            borderColorPalette.addView(swatch);
+        }
+
+        // Update preview on any change
+        SimpleSeekListener seekListener = new SimpleSeekListener() {
+            @Override
+            public void onProgressChanged(SeekBar sb, int val, boolean user) {
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+            }
+        };
+
+        seekSize.setOnSeekBarChangeListener(seekListener);
+        seekGlow.setOnSeekBarChangeListener(seekListener);
+        seekBorder.setOnSeekBarChangeListener(seekListener);
+        seekSpacing.setOnSeekBarChangeListener(seekListener);
+
+        spinnerFont.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> p, View v, int pos, long id) {
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> p) {
+            }
+        });
+
+        // Initial preview
+        updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.font_creator_title)
+                .setView(view)
+                .setPositiveButton(R.string.create_digits, (dialog, which) -> {
+                    Typeface tf = fontFaces.get(spinnerFont.getSelectedItemPosition());
+                    int size = seekSize.getProgress();
+                    int color = selectedColor[0];
+                    int borderColor = selectedBorderColor[0];
+                    int glow = seekGlow.getProgress();
+                    int border = seekBorder.getProgress();
+                    int spacing = seekSpacing.getProgress();
+
+                    Bitmap[] frames = renderDigitBitmaps(elementType, tf, size, color, borderColor, glow, border,
+                            spacing);
+                    if (frames != null && frames.length > 0) {
+                        String name = getBlockLabel(elementType);
+                        DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, frames[0], name, elementType);
+                        layer.frames = frames;
+                        layer.frameCount = frames.length;
+                        layer.isSpriteSheet = frames.length > 1;
+                        layer.alpha = 1.0f;
+                        layer.posX = canvasWidth / 4f;
+                        layer.posY = canvasHeight / 4f;
+                        layers.add(layer);
+                        selectedLayerIndex = layers.size() - 1;
+                        refreshAll();
+                        Toast.makeText(this, "\u2713 " + name + " \u2014 " + frames.length + " frames",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void updatePreviewAction(ImageView imgPreview, Spinner spinnerFont, List<Typeface> fontFaces,
+            SeekBar seekSize, int color, int borderColor, SeekBar seekGlow,
+            SeekBar seekBorder, SeekBar seekSpacing) {
+        if (spinnerFont.getSelectedItemPosition() < 0 || spinnerFont.getSelectedItemPosition() >= fontFaces.size())
+            return;
+        updateFontPreview(imgPreview,
+                fontFaces.get(spinnerFont.getSelectedItemPosition()),
+                seekSize.getProgress(), color, borderColor, seekGlow.getProgress(), seekBorder.getProgress(),
+                seekSpacing.getProgress());
+    }
+
+    private void updateFontPreview(ImageView target, Typeface tf, int size,
+            int color, int borderColor, int glowRadius, int borderWidth, int spacing) {
+        if (size < 16)
+            size = 16;
+        String sampleText = "12"; // Show fewer digits to fit preview better
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTypeface(tf);
+        paint.setTextSize(size);
+        // We only use paint for metrics here, individual drawing below
+
+        Paint.FontMetrics fm = paint.getFontMetrics();
+        int textH = (int) (fm.descent - fm.ascent + 0.5f);
+        int padding = Math.max(glowRadius * 2, borderWidth * 2) + 4;
+
+        // Render "1" and "2" separately with spacing
+        float digit1W = paint.measureText("1");
+        float digit2W = paint.measureText("2");
+        int frameW1 = (int) digit1W + padding * 2 + spacing;
+        int frameW2 = (int) digit2W + padding * 2 + spacing;
+
+        int bmpW = frameW1 + frameW2;
+        int bmpH = textH + padding * 2;
+
+        Bitmap bmp = Bitmap.createBitmap(Math.max(1, bmpW), Math.max(1, bmpH), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+
+        // Draw digit 1
+        float y = padding - fm.ascent;
+        drawDigitOnCanvas(c, "1", padding + spacing / 2f, y, paint, color, borderColor, glowRadius, borderWidth);
+        // Draw digit 2
+        drawDigitOnCanvas(c, "2", frameW1 + padding + spacing / 2f, y, paint, color, borderColor, glowRadius,
+                borderWidth);
+
+        target.setImageBitmap(bmp);
+    }
+
+    private void drawDigitOnCanvas(Canvas c, String text, float x, float y, Paint basePaint,
+            int color, int borderColor, int glowRadius, int borderWidth) {
+        if (glowRadius > 0) {
+            Paint glowPaint = new Paint(basePaint);
+            glowPaint.setColor(color);
+            glowPaint.setMaskFilter(new BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.NORMAL));
+            glowPaint.setAlpha(180);
+            c.drawText(text, x, y, glowPaint);
+        }
+        if (borderWidth > 0) {
+            Paint strokePaint = new Paint(basePaint);
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setStrokeWidth(borderWidth);
+            strokePaint.setColor(borderColor);
+            c.drawText(text, x, y, strokePaint);
+        }
+        basePaint.setColor(color);
+        c.drawText(text, x, y, basePaint);
+    }
+
+    /**
+     * Render individual digit bitmaps from a font with effects.
+     */
+    private Bitmap[] renderDigitBitmaps(int elementType, Typeface tf, int size,
+            int color, int borderColor, int glowRadius, int borderWidth, int spacing) {
+        if (size < 16)
+            size = 16;
+        int expectedFrames = DialCompiler.getDefaultFrameCount(elementType);
+        String[] glyphs;
+
+        if (elementType == DialCompiler.TYPE_AMPM) {
+            glyphs = new String[] { "AM", "PM" };
+        } else if (elementType == DialCompiler.TYPE_WEEKDAY) {
+            glyphs = new String[] { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+        } else {
+            // Numeric digits 0-9
+            glyphs = new String[expectedFrames];
+            for (int i = 0; i < expectedFrames; i++) {
+                glyphs[i] = String.valueOf(i);
+            }
+        }
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTypeface(tf);
+        paint.setTextSize(size);
+        paint.setColor(color);
+
+        // Find max dimensions across all glyphs
+        Paint.FontMetrics fm = paint.getFontMetrics();
+        int textH = (int) (fm.descent - fm.ascent + 0.5f);
+        int maxW = 0;
+        for (String g : glyphs) {
+            maxW = Math.max(maxW, (int) (paint.measureText(g) + 0.5f));
+        }
+        int padding = Math.max(glowRadius * 2, borderWidth * 2) + 2;
+        int frameW = maxW + padding * 2 + spacing;
+        int frameH = textH + padding * 2;
+
+        Bitmap[] frames = new Bitmap[glyphs.length];
+        for (int i = 0; i < glyphs.length; i++) {
+            Bitmap bmp = Bitmap.createBitmap(Math.max(1, frameW), Math.max(1, frameH), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bmp);
+            float textW = paint.measureText(glyphs[i]);
+            float x = (frameW - textW) / 2f;
+            float y = padding - fm.ascent;
+
+            if (glowRadius > 0) {
+                Paint gp = new Paint(paint);
+                gp.setMaskFilter(new BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.NORMAL));
+                gp.setAlpha(180);
+                c.drawText(glyphs[i], x, y, gp);
+            }
+            if (borderWidth > 0) {
+                Paint sp = new Paint(paint);
+                sp.setStyle(Paint.Style.STROKE);
+                sp.setStrokeWidth(borderWidth);
+                sp.setColor(borderColor);
+                c.drawText(glyphs[i], x, y, sp);
+            }
+            c.drawText(glyphs[i], x, y, paint);
+            frames[i] = bmp;
+        }
+        return frames;
     }
 
     // ===================== ASSET PRESET LOADING =====================
@@ -587,7 +1080,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 }
                 String name = getBlockLabel(elementType);
                 DialLayer layer = new DialLayer(DialLayer.TYPE_ARM, bmp, name, elementType);
-                layer.frames = new Bitmap[]{bmp};
+                layer.frames = new Bitmap[] { bmp };
                 layer.frameCount = 1;
                 layer.isSpriteSheet = false;
                 layer.alpha = 1.0f;
@@ -607,13 +1100,15 @@ public class DialEditorActivity extends AppCompatActivity {
             List<Bitmap> loadedFrames = new ArrayList<>();
 
             if (elementType == DialCompiler.TYPE_AMPM) {
-                for (String name : new String[]{"am.png", "pm.png"}) {
+                for (String name : new String[] { "am.png", "pm.png" }) {
                     try {
                         InputStream is = getAssets().open(assetPath + "/" + name);
                         Bitmap bmp = BitmapFactory.decodeStream(is);
                         is.close();
-                        if (bmp != null) loadedFrames.add(bmp);
-                    } catch (Exception e) { /* skip */ }
+                        if (bmp != null)
+                            loadedFrames.add(bmp);
+                    } catch (Exception e) {
+                        /* skip */ }
                 }
             } else {
                 for (int i = 0; i < expectedFrames; i++) {
@@ -621,8 +1116,10 @@ public class DialEditorActivity extends AppCompatActivity {
                         InputStream is = getAssets().open(assetPath + "/" + i + ".png");
                         Bitmap bmp = BitmapFactory.decodeStream(is);
                         is.close();
-                        if (bmp != null) loadedFrames.add(bmp);
-                    } catch (Exception e) { /* skip */ }
+                        if (bmp != null)
+                            loadedFrames.add(bmp);
+                    } catch (Exception e) {
+                        /* skip */ }
                 }
             }
 
@@ -681,10 +1178,17 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     private void addBackgroundLayer(Bitmap bmp) {
-        Bitmap scaled = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
-        DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, scaled,
+        // Preserve aspect ratio: scale to cover canvas, let user reposition
+        float scaleToCover = Math.max(
+                (float) canvasWidth / bmp.getWidth(),
+                (float) canvasHeight / bmp.getHeight());
+        DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, bmp,
                 getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
-        layer.frames = new Bitmap[]{scaled};
+        layer.frames = new Bitmap[] { bmp };
+        layer.scale = scaleToCover;
+        // Center on canvas
+        layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
+        layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
         layers.add(0, layer);
         selectedLayerIndex = 0;
         refreshAll();
@@ -708,7 +1212,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 }
             }
         } else {
-            frames = new Bitmap[]{compositeBmp};
+            frames = new Bitmap[] { compositeBmp };
         }
 
         String name = getBlockLabel(elementType);
@@ -734,6 +1238,131 @@ public class DialEditorActivity extends AppCompatActivity {
         updateControls();
     }
 
+    /**
+     * Returns a representative frame index for preview display.
+     * Instead of always showing digit "0", shows a realistic-looking time like
+     * "2:56".
+     */
+    private int getPreviewFrameIndex(int elementType, int frameCount) {
+        if (frameCount <= 1)
+            return 0;
+        int idx;
+        switch (elementType) {
+            case DialCompiler.TYPE_DIGITAL_HOUR:
+            case DialCompiler.TYPE_HOUR_HI:
+                idx = 2;
+                break; // "2" → 2:56
+            case DialCompiler.TYPE_HOUR_LO:
+                idx = 1;
+                break; // "1" → 12:56
+            case DialCompiler.TYPE_DIGITAL_MIN:
+            case DialCompiler.TYPE_MIN_HI:
+                idx = 5;
+                break; // "5" → X:56
+            case DialCompiler.TYPE_SECONDS:
+            case DialCompiler.TYPE_MIN_LO:
+                idx = 6;
+                break; // "6"
+            case DialCompiler.TYPE_WEEKDAY:
+                idx = 2;
+                break; // Wednesday
+            case DialCompiler.TYPE_DAY:
+                idx = 5;
+                break; // 15th
+            case DialCompiler.TYPE_MONTH:
+                idx = 1;
+                break; // February
+            case DialCompiler.TYPE_YEAR:
+                idx = 6;
+                break; // "6" → 2026
+            case DialCompiler.TYPE_STEPS:
+                idx = 7;
+                break;
+            case DialCompiler.TYPE_HEART:
+                idx = 8;
+                break;
+            case DialCompiler.TYPE_CALORIE:
+                idx = 3;
+                break;
+            case DialCompiler.TYPE_DISTANCE:
+                idx = 4;
+                break;
+            case DialCompiler.TYPE_BATTERY:
+            case DialCompiler.TYPE_BATT_STRIP:
+                idx = 3;
+                break; // mid-level
+            case DialCompiler.TYPE_TEMP:
+                idx = 2;
+                break;
+            case DialCompiler.TYPE_WEATHER:
+                idx = 0;
+                break;
+            case DialCompiler.TYPE_CONNECT:
+                idx = 0;
+                break;
+            default:
+                idx = 0;
+                break;
+        }
+        return Math.min(idx, frameCount - 1);
+    }
+
+    /**
+     * For multi-digit types, creates a combined two-digit bitmap.
+     * For other types, returns a single representative frame.
+     */
+    private Bitmap getPreviewBitmap(DialLayer layer) {
+        if (layer.frames == null || layer.frames.length < 10) {
+            // Not a digit sprite-sheet, return single frame
+            int fi = 0;
+            if (layer.frames != null && layer.frames.length > 0) {
+                fi = getPreviewFrameIndex(layer.nativeElementType, layer.frames.length);
+                fi = Math.min(fi, layer.frames.length - 1);
+            }
+            return (layer.frames != null && layer.frames.length > 0) ? layer.frames[fi] : layer.icon;
+        }
+        // Two-digit pairs for time/date types
+        int hiIdx, loIdx;
+        switch (layer.nativeElementType) {
+            case DialCompiler.TYPE_DIGITAL_HOUR:
+                hiIdx = 1;
+                loIdx = 2;
+                break; // "12"
+            case DialCompiler.TYPE_DIGITAL_MIN:
+                hiIdx = 5;
+                loIdx = 6;
+                break; // "56"
+            case DialCompiler.TYPE_SECONDS:
+                hiIdx = 3;
+                loIdx = 4;
+                break; // "34"
+            case DialCompiler.TYPE_DAY:
+                hiIdx = 1;
+                loIdx = 5;
+                break; // "15"
+            case DialCompiler.TYPE_YEAR:
+                hiIdx = 2;
+                loIdx = 6;
+                break; // "26"
+            default:
+                // Single digit preview for split types and others
+                int fi = getPreviewFrameIndex(layer.nativeElementType, layer.frames.length);
+                return layer.frames[Math.min(fi, layer.frames.length - 1)];
+        }
+        hiIdx = Math.min(hiIdx, layer.frames.length - 1);
+        loIdx = Math.min(loIdx, layer.frames.length - 1);
+        Bitmap hi = layer.frames[hiIdx];
+        Bitmap lo = layer.frames[loIdx];
+        // Combine side-by-side
+        int w = hi.getWidth() + lo.getWidth();
+        int h = Math.max(hi.getHeight(), lo.getHeight());
+        Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas cc = new Canvas(combined);
+        cc.drawBitmap(hi, 0, 0, null);
+        cc.drawBitmap(lo, hi.getWidth(), 0, null);
+        return combined;
+    }
+
     private void updatePreview() {
         Bitmap preview = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(preview);
@@ -741,11 +1370,12 @@ public class DialEditorActivity extends AppCompatActivity {
 
         for (int i = 0; i < layers.size(); i++) {
             DialLayer layer = layers.get(i);
-            Bitmap drawBmp = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0] : layer.icon;
-            if (drawBmp == null) continue;
+            Bitmap drawBmp = getPreviewBitmap(layer);
+            if (drawBmp == null)
+                continue;
 
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setAlpha((int)(layer.alpha * 255));
+            paint.setAlpha((int) (layer.alpha * 255));
 
             Matrix m = new Matrix();
             float scaledW = drawBmp.getWidth() * layer.scale;
@@ -763,7 +1393,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 border.setColor(Color.parseColor("#58A6FF"));
                 border.setStrokeWidth(2);
                 canvas.drawRect(layer.posX, layer.posY,
-                    layer.posX + scaledW, layer.posY + scaledH, border);
+                        layer.posX + scaledW, layer.posY + scaledH, border);
             }
         }
 
@@ -772,9 +1402,9 @@ public class DialEditorActivity extends AppCompatActivity {
             previewImage = new ImageView(this);
             previewImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             previewContainer.addView(previewImage,
-                new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT));
+                    new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT));
         }
         previewImage.setImageBitmap(preview);
 
@@ -786,10 +1416,11 @@ public class DialEditorActivity extends AppCompatActivity {
             selectedLayerControls.setVisibility(View.VISIBLE);
             DialLayer layer = layers.get(selectedLayerIndex);
             String info = layer.name;
-            if (layer.isSpriteSheet) info += " • " + layer.frameCount + " frames";
+            if (layer.isSpriteSheet)
+                info += " • " + layer.frameCount + " frames";
             txtSelectedLayer.setText(info);
-            seekScale.setProgress((int)(layer.scale * 100));
-            seekRotation.setProgress((int)layer.rotation);
+            seekScale.setProgress((int) (layer.scale * 100));
+            seekRotation.setProgress((int) layer.rotation);
         } else {
             selectedLayerControls.setVisibility(View.GONE);
         }
@@ -809,26 +1440,27 @@ public class DialEditorActivity extends AppCompatActivity {
         input.setPadding(48, 24, 48, 24);
 
         new AlertDialog.Builder(this)
-            .setTitle(R.string.enter_dial_name)
-            .setView(input)
-            .setPositiveButton(R.string.save, (dialog, which) -> {
-                String name = input.getText().toString().trim();
-                if (name.isEmpty()) name = "dial";
-                // Sanitize: replace spaces with _, remove non-alphanumeric except _-
-                name = name.replaceAll("[^a-zA-Z0-9_\\-]", "_");
-                
-                // Check for duplicates
-                File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
-                File targetFile = new File(userDialsDir, name + ".bin");
-                if (targetFile.exists()) {
-                    Toast.makeText(this, "Name already exists. Please choose another.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                
-                compileAndFinish(name);
-            })
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+                .setTitle(R.string.enter_dial_name)
+                .setView(input)
+                .setPositiveButton(R.string.save, (dialog, which) -> {
+                    String name = input.getText().toString().trim();
+                    if (name.isEmpty())
+                        name = "dial";
+                    // Sanitize: replace spaces with _, remove non-alphanumeric except _-
+                    name = name.replaceAll("[^a-zA-Z0-9_\\-]", "_");
+
+                    // Check for duplicates
+                    File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
+                    File targetFile = new File(userDialsDir, name + ".bin");
+                    if (targetFile.exists()) {
+                        Toast.makeText(this, "Name already exists. Please choose another.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    compileAndFinish(name);
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void compileAndFinish(String dialName) {
@@ -840,11 +1472,12 @@ public class DialEditorActivity extends AppCompatActivity {
                 DialCompiler compiler = new DialCompiler(canvasWidth, canvasHeight);
 
                 // Auto-generate preview from current canvas state
+                // Use representative frames (including two-digit pairs)
                 Bitmap previewBmp = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(previewBmp);
                 c.drawColor(Color.BLACK);
                 for (DialLayer l : layers) {
-                    Bitmap bmp = (l.frames != null && l.frames.length > 0) ? l.frames[0] : l.icon;
+                    Bitmap bmp = getPreviewBitmap(l);
                     if (bmp != null) {
                         Matrix m = new Matrix();
                         m.postScale(l.scale, l.scale);
@@ -857,10 +1490,10 @@ public class DialEditorActivity extends AppCompatActivity {
                         c.drawBitmap(bmp, m, null);
                     }
                 }
-                
+
                 // RESIZE PREVIEW TO 280x280 (Required by chipset)
                 Bitmap scaledPreview = Bitmap.createScaledBitmap(previewBmp, 280, 280, true);
-                
+
                 DialCompiler.DialBlock previewBlock = new DialCompiler.DialBlock();
                 previewBlock.type = DialCompiler.TYPE_PREVIEW;
                 previewBlock.width = 280;
@@ -868,7 +1501,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 previewBlock.x = 0;
                 previewBlock.y = 0;
                 previewBlock.frames = 1;
-                previewBlock.images = new Bitmap[]{scaledPreview};
+                previewBlock.images = new Bitmap[] { scaledPreview };
                 compiler.addBlock(previewBlock);
 
                 for (DialLayer layer : layers) {
@@ -877,28 +1510,97 @@ public class DialEditorActivity extends AppCompatActivity {
                     block.x = (int) layer.posX;
                     block.y = (int) layer.posY;
 
-                    if (layer.frames != null && layer.frames.length > 0) {
-                        block.images = layer.frames;
-                        block.frames = layer.frames.length;
-                        block.width = layer.frames[0].getWidth();
-                        block.height = layer.frames[0].getHeight();
-                    } else if (layer.icon != null) {
-                        block.images = new Bitmap[]{layer.icon};
+                    // Background: flatten to canvas-sized RGB composite (no alpha)
+                    if (layer.nativeElementType == DialCompiler.TYPE_BACKGROUND) {
+                        // Draw onto ARGB first for proper blending, then convert
+                        Bitmap bgTemp = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
+                        Canvas bgCanvas = new Canvas(bgTemp);
+                        bgCanvas.drawColor(Color.BLACK);
+                        Bitmap src = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0] : layer.icon;
+                        if (src != null) {
+                            Matrix bgm = new Matrix();
+                            bgm.postScale(layer.scale, layer.scale);
+                            if (layer.rotation != 0) {
+                                float sw = src.getWidth() * layer.scale;
+                                float sh = src.getHeight() * layer.scale;
+                                bgm.postRotate(layer.rotation, sw / 2, sh / 2);
+                            }
+                            bgm.postTranslate(layer.posX, layer.posY);
+                            bgCanvas.drawBitmap(src, bgm, null);
+                        }
+                        // Convert to RGB_565 to strip alpha — prevents comp_decomp RGBA/RGB mismatch
+                        Bitmap bgComposite = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
+                        Canvas rgbCanvas = new Canvas(bgComposite);
+                        rgbCanvas.drawBitmap(bgTemp, 0, 0, null);
+                        bgTemp.recycle();
+
+                        block.images = new Bitmap[] { bgComposite };
                         block.frames = 1;
-                        block.width = layer.icon.getWidth();
-                        block.height = layer.icon.getHeight();
+                        block.width = canvasWidth;
+                        block.height = canvasHeight;
+                        block.x = 0;
+                        block.y = 0;
+                        block.hasAlpha = false;
+                        compiler.addBlock(block);
+                        continue;
                     }
 
-                    block.width = (int)(block.width * layer.scale);
-                    block.height = (int)(block.height * layer.scale);
-                    block.hasAlpha = (block.type != DialCompiler.TYPE_BACKGROUND &&
-                                     block.type != DialCompiler.TYPE_PREVIEW);
+                    // Other elements: scale each frame properly
+                    // BUT analog hands are NEVER scaled — firmware requires exact preset dims
+                    boolean isHand = (block.type == DialCompiler.TYPE_ARM_HOUR ||
+                            block.type == DialCompiler.TYPE_ARM_MIN ||
+                            block.type == DialCompiler.TYPE_ARM_SEC);
 
-                    // Analog hands use RAW compression (0) instead of RLE (4)
+                    if (layer.frames != null && layer.frames.length > 0) {
+                        if (isHand) {
+                            // Hands: use original dimensions, ignore scale
+                            block.images = layer.frames;
+                            block.width = layer.frames[0].getWidth();
+                            block.height = layer.frames[0].getHeight();
+                        } else {
+                            int scaledW = Math.max(1, (int) (layer.frames[0].getWidth() * layer.scale));
+                            int scaledH = Math.max(1, (int) (layer.frames[0].getHeight() * layer.scale));
+                            if (Math.abs(layer.scale - 1.0f) > 0.01f) {
+                                // Scale each frame individually
+                                Bitmap[] scaledFrames = new Bitmap[layer.frames.length];
+                                for (int fi = 0; fi < layer.frames.length; fi++) {
+                                    scaledFrames[fi] = Bitmap.createScaledBitmap(
+                                            layer.frames[fi], scaledW, scaledH, true);
+                                }
+                                block.images = scaledFrames;
+                            } else {
+                                block.images = layer.frames;
+                            }
+                            block.width = scaledW;
+                            block.height = scaledH;
+                        }
+                        block.frames = layer.frames.length;
+                    } else if (layer.icon != null) {
+                        int scaledW = Math.max(1, (int) (layer.icon.getWidth() * layer.scale));
+                        int scaledH = Math.max(1, (int) (layer.icon.getHeight() * layer.scale));
+                        if (Math.abs(layer.scale - 1.0f) > 0.01f) {
+                            block.images = new Bitmap[] { Bitmap.createScaledBitmap(
+                                    layer.icon, scaledW, scaledH, true) };
+                        } else {
+                            block.images = new Bitmap[] { layer.icon };
+                        }
+                        block.frames = 1;
+                        block.width = scaledW;
+                        block.height = scaledH;
+                    }
+
+                    block.hasAlpha = (block.type != DialCompiler.TYPE_BACKGROUND &&
+                            block.type != DialCompiler.TYPE_PREVIEW);
+
+                    // Analog hands: use RAW compression & set pivot to canvas center
                     if (block.type == DialCompiler.TYPE_ARM_HOUR ||
-                        block.type == DialCompiler.TYPE_ARM_MIN ||
-                        block.type == DialCompiler.TYPE_ARM_SEC) {
+                            block.type == DialCompiler.TYPE_ARM_MIN ||
+                            block.type == DialCompiler.TYPE_ARM_SEC) {
                         block.compress = 0;
+                        // Watch firmware uses pos_x/pos_y as the rotation pivot point.
+                        // Center of 466x466 canvas = (233, 233)
+                        block.x = canvasWidth / 2;
+                        block.y = canvasHeight / 2;
                     }
 
                     compiler.addBlock(block);
@@ -921,8 +1623,18 @@ public class DialEditorActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         btnUpload.setEnabled(true);
                         btnUpload.setText(R.string.compile);
-                        Toast.makeText(this, "✅ " + filename + " (" + size + ")\n" +
-                                getString(R.string.saved_to_library), Toast.LENGTH_LONG).show();
+                        // Show success dialog with Send option
+                        new AlertDialog.Builder(this)
+                                .setTitle("✅ " + filename)
+                                .setMessage(size + " — " + getString(R.string.saved_to_library))
+                                .setPositiveButton(R.string.send_dial, (d, w) -> {
+                                    Intent sendIntent = new Intent(this, MainActivity.class);
+                                    sendIntent.putExtra("dial_file_path", savedFile.getAbsolutePath());
+                                    startActivity(sendIntent);
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .setCancelable(true)
+                                .show();
                     });
                 }
             } catch (Exception e) {
@@ -940,13 +1652,19 @@ public class DialEditorActivity extends AppCompatActivity {
         FileOutputStream fos = new FileOutputStream(dst);
         byte[] buf = new byte[4096];
         int len;
-        while ((len = fis.read(buf)) > 0) fos.write(buf, 0, len);
+        while ((len = fis.read(buf)) > 0)
+            fos.write(buf, 0, len);
         fos.close();
         fis.close();
     }
 
     private static abstract class SimpleSeekListener implements SeekBar.OnSeekBarChangeListener {
-        @Override public void onStartTrackingTouch(SeekBar sb) {}
-        @Override public void onStopTrackingTouch(SeekBar sb) {}
+        @Override
+        public void onStartTrackingTouch(SeekBar sb) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar sb) {
+        }
     }
 }

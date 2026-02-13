@@ -9,7 +9,7 @@ public class DialLayer {
     public static final int TYPE_PREVIEW = 3;
 
     public int layerType;
-    public Bitmap icon;  // Thumbnail or first frame
+    public Bitmap icon; // Thumbnail or first frame
     public String name;
     public int nativeElementType; // From DialCompiler type constants
 
@@ -24,6 +24,7 @@ public class DialLayer {
     public Bitmap[] frames; // Individual sub-image frames
     public int frameCount = 1;
     public boolean isSpriteSheet = false;
+    public boolean locked = false;
 
     // Full composite bitmap for sprite-sheets loaded from file
     public Bitmap compositeImage;
