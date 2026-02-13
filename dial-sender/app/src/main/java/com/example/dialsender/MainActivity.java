@@ -13,29 +13,27 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.ClipboardManager;
-import android.content.ClipData;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -54,18 +52,24 @@ public class MainActivity extends AppCompatActivity {
 
     // UUIDs from STF Emulator
     private static final UUID SERVICE_UUID = UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
-    private static final UUID WRITE_CHAR_UUID = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e"); // Phone -> Watch
-    private static final UUID NOTIFY_CHAR_UUID = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e"); // Watch -> Phone
+    private static final UUID WRITE_CHAR_UUID = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
+    private static final UUID NOTIFY_CHAR_UUID = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e");
     private static final UUID CCCD_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
     // UI
     private TextView txtStatus;
-    private TextView txtLog;
-    private TextView txtVersion;
+    private TextView txtDeviceName;
+    private TextView txtFileInfo;
+    private TextView txtProgress;
+    private TextView txtTransferStatus;
+    private View statusIndicator;
     private Button btnScan;
     private Button btnSelectFile;
-    private Button btnCopyLog;
+    private Button btnSendDial;
+    private View btnViewLogs; // Added
+    private Button btnCancel; // Added
     private ProgressBar progressBar;
+    private LinearLayout transferCard;
 
     // Bluetooth
     private BluetoothAdapter bluetoothAdapter;
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothGattCharacteristic writeChar;
     private boolean isConnected = false;
     private Handler mainHandler = new Handler(Looper.getMainLooper());
+    private String connectedDeviceName = "";
 
     // Protocol State
     private enum ConnectionState {
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     private byte[] fileBytesToSend;
     private long fileTotalSize;
     private boolean isFileTransferActive = false;
-    private int currentMtu = 23; // Default
+    private int currentMtu = 23;
     private ConcurrentLinkedQueue<byte[]> commandQueue = new ConcurrentLinkedQueue<>();
     private boolean isSending = false;
     private int packetsSent = 0;
@@ -116,45 +121,117 @@ public class MainActivity extends AppCompatActivity {
     // Protocol Sequencing
     private int preTransferIndex = 0;
     private int setupStep = 0;
-    private boolean setupAttemptedCaptured = false;
-    private boolean setupAttemptedDerived = false;
-    private enum SetupMethod { CAPTURED, DERIVED }
-    private SetupMethod setupMethod = SetupMethod.CAPTURED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SettingsActivity.applyGlobalTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Bind UI
         txtStatus = findViewById(R.id.txtStatus);
-        txtLog = findViewById(R.id.txtLog);
-        txtVersion = findViewById(R.id.txtVersion);
+        txtDeviceName = findViewById(R.id.txtDeviceName);
+        txtFileInfo = findViewById(R.id.txtFileInfo);
+        txtProgress = findViewById(R.id.txtProgress);
+        txtTransferStatus = findViewById(R.id.txtTransferStatus);
+        statusIndicator = findViewById(R.id.statusIndicator);
         btnScan = findViewById(R.id.btnScan);
         btnSelectFile = findViewById(R.id.btnSelectFile);
-        btnCopyLog = findViewById(R.id.btnCopyLog);
+        btnSendDial = findViewById(R.id.btnSendDial);
         progressBar = findViewById(R.id.progressBar);
-
-        txtVersion.setText("v4.0 - STF Integrated");
-        txtLog.setMovementMethod(new android.text.method.ScrollingMovementMethod());
+        btnViewLogs = findViewById(R.id.btnViewLogs);
+        btnCancel = findViewById(R.id.btnCancel);
+        transferCard = findViewById(R.id.transferCard);
 
         btnScan.setOnClickListener(v -> startScan());
         btnSelectFile.setOnClickListener(v -> openFilePicker());
-        btnCopyLog.setOnClickListener(v -> copyLogsToClipboard());
-        
-        findViewById(R.id.btnCreateDial).setOnClickListener(v -> {
-            Intent intent = new Intent(this, DialEditorActivity.class);
-            startActivityForResult(intent, FILE_SELECT_CODE); // Reuse code for simplicity
-        });
-        
         btnSelectFile.setEnabled(false);
 
+        // Send button — only sends when file is loaded AND connected
+        btnSendDial.setEnabled(false);
+        btnSendDial.setOnClickListener(v -> sendFile());
+
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        btnViewLogs.setOnClickListener(v -> {
+            startActivity(new Intent(this, LogActivity.class));
+        });
+        btnCancel.setOnClickListener(v -> cancelTransfer());
+
         checkPermissions();
+
+        // Check if we have an existing connection from a previous session
+        if (bluetoothGatt != null && isConnected && connectionState == ConnectionState.SESSION_READY) {
+            updateConnectionUI(true);
+        }
+
+        // Check if launched from library with a pre-selected file
+        handleIncomingFile();
+    }
+
+    private void handleIncomingFile() {
+        String filePath = getIntent().getStringExtra("dial_file_path");
+        if (filePath != null) {
+            try {
+                java.io.File f = new java.io.File(filePath);
+                java.io.FileInputStream fis = new java.io.FileInputStream(f);
+                ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int len;
+                while ((len = fis.read(buffer)) != -1) byteBuffer.write(buffer, 0, len);
+                fis.close();
+                fileBytesToSend = byteBuffer.toByteArray();
+                fileTotalSize = fileBytesToSend.length;
+
+                String sizeStr = fileTotalSize > 1024
+                        ? String.format("%.1f KB", fileTotalSize / 1024.0)
+                        : fileTotalSize + " bytes";
+                log("File loaded from library: " + f.getName() + " (" + sizeStr + ")");
+
+                txtFileInfo.setText(f.getName() + " — " + sizeStr);
+                txtFileInfo.setTextColor(getResources().getColor(R.color.accent_secondary));
+                updateSendButtonState();
+            } catch (Exception e) {
+                log("Error loading file from library: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Enable the Send button only when BOTH conditions are met:
+     * 1. A file is loaded
+     * 2. The BLE session is ready
+     */
+    private void updateSendButtonState() {
+        runOnUiThread(() -> {
+            boolean fileReady = fileBytesToSend != null && fileBytesToSend.length > 0;
+            boolean sessionReady = isConnected && connectionState == ConnectionState.SESSION_READY;
+            btnSendDial.setEnabled(fileReady && sessionReady && !isFileTransferActive);
+        });
     }
 
     private void log(String msg) {
         Log.d(TAG, msg);
+        LogActivity.appendLog(msg);
+    }
+
+    private void updateConnectionUI(boolean connected) {
         runOnUiThread(() -> {
-            txtLog.append(msg + "\n");
+            if (connected) {
+                statusIndicator.setBackgroundResource(R.drawable.indicator_connected);
+                txtStatus.setText(R.string.connected);
+                txtStatus.setTextColor(getResources().getColor(R.color.status_connected));
+                txtDeviceName.setText(connectedDeviceName);
+                btnSelectFile.setEnabled(true);
+                btnScan.setText(R.string.reconnect);
+            } else {
+                statusIndicator.setBackgroundResource(R.drawable.indicator_disconnected);
+                txtStatus.setText(R.string.disconnected);
+                txtStatus.setTextColor(getResources().getColor(R.color.status_disconnected));
+                txtDeviceName.setText("");
+                btnSelectFile.setEnabled(false);
+                btnScan.setText(R.string.scan_connect);
+            }
+            updateSendButtonState();
         });
     }
 
@@ -178,47 +255,90 @@ public class MainActivity extends AppCompatActivity {
     private void startScan() {
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
-        
+
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
             log("Bluetooth not enabled");
+            Toast.makeText(this, R.string.enable_bt, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 1. Check for already connected devices
-        List<BluetoothDevice> connectedDevices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
-        for (BluetoothDevice device : connectedDevices) {
-            log("Found connected device: " + (device.getName() != null ? device.getName() : "Unknown") + " (" + device.getAddress() + ")");
-            connectToDevice(device);
-            return; 
+        // If already connected and session ready, re-enable file sending
+        if (isConnected && connectionState == ConnectionState.SESSION_READY) {
+            log("Already connected and session ready. Ready to send.");
+            updateConnectionUI(true);
+            return;
         }
 
-        log("Scanning...");
-        bluetoothAdapter.startLeScan(scanCallback);
-        
+        // Check already connected GATT devices (no filtering, show ALL)
+        List<BluetoothDevice> connectedDevices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
+        for (BluetoothDevice device : connectedDevices) {
+            String name = device.getName();
+            if (name != null) {
+                log("Found connected device: " + name + " (" + device.getAddress() + ")");
+                connectToDevice(device);
+                return;
+            }
+        }
+
+        log("Scanning for BLE devices...");
+        btnScan.setText(R.string.scanning);
+        btnScan.setEnabled(false);
+
+        // Collect ALL found devices with names for selection dialog
+        List<BluetoothDevice> foundDevices = new ArrayList<>();
+
+        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
+            @Override
+            public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+                String name = device.getName();
+                if (name != null && !name.isEmpty()) {
+                    for (BluetoothDevice d : foundDevices) {
+                        if (d.getAddress().equals(device.getAddress())) return;
+                    }
+                    foundDevices.add(device);
+                    log("Found: " + name + " (" + device.getAddress() + ") RSSI=" + rssi);
+                }
+            }
+        });
+
         mainHandler.postDelayed(() -> {
             if (bluetoothAdapter != null) {
-                bluetoothAdapter.stopLeScan(scanCallback);
-                log("Scan timeout");
+                bluetoothAdapter.stopLeScan(null);
+            }
+            runOnUiThread(() -> {
+                btnScan.setText(R.string.scan_connect);
+                btnScan.setEnabled(true);
+            });
+
+            if (foundDevices.isEmpty()) {
+                log("No BLE devices found");
+                runOnUiThread(() ->
+                    Toast.makeText(this, R.string.no_ble_found, Toast.LENGTH_LONG).show()
+                );
+            } else if (foundDevices.size() == 1) {
+                connectToDevice(foundDevices.get(0));
+            } else {
+                String[] names = new String[foundDevices.size()];
+                for (int i = 0; i < foundDevices.size(); i++) {
+                    BluetoothDevice d = foundDevices.get(i);
+                    names[i] = d.getName() + " (" + d.getAddress() + ")";
+                }
+                runOnUiThread(() -> new AlertDialog.Builder(this)
+                    .setTitle(R.string.select_watch)
+                    .setItems(names, (dialog, which) -> connectToDevice(foundDevices.get(which)))
+                    .setCancelable(true)
+                    .show());
             }
         }, 10000);
     }
 
-    private final BluetoothAdapter.LeScanCallback scanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            if (device.getName() != null) {
-                String n = device.getName().toUpperCase();
-                if (n.contains("WATCH") || n.contains("KRONOS") || n.contains("THUNDER") || n.contains("JIELI")) {
-                    log("Found: " + device.getName());
-                    if (bluetoothAdapter != null) bluetoothAdapter.stopLeScan(this);
-                    connectToDevice(device);
-                }
-            }
-        }
-    };
-
     private void connectToDevice(BluetoothDevice device) {
-        log("Connecting to " + device.getAddress());
+        connectedDeviceName = device.getName() != null ? device.getName() : device.getAddress();
+        log("Connecting to " + connectedDeviceName + " (" + device.getAddress() + ")");
+        runOnUiThread(() -> {
+            txtStatus.setText(R.string.connecting);
+            txtStatus.setTextColor(getResources().getColor(R.color.status_scanning));
+        });
         bluetoothGatt = device.connectGatt(this, false, gattCallback);
     }
 
@@ -227,17 +347,36 @@ public class MainActivity extends AppCompatActivity {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 isConnected = true;
-                runOnUiThread(() -> txtStatus.setText("Connected"));
                 log("Connected. Discovering services...");
+                updateConnectionUI(true);
                 gatt.discoverServices();
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 isConnected = false;
-                runOnUiThread(() -> {
-                    txtStatus.setText("Disconnected");
-                    btnSelectFile.setEnabled(false);
-                });
-                log("Disconnected");
                 connectionState = ConnectionState.DISCONNECTED;
+                log("Disconnected - Resetting state");
+                updateConnectionUI(false);
+                
+                // CRITICAL: Clear queues on disconnect
+                commandQueue.clear();
+                isSending = false;
+                isFileTransferActive = false;
+                runOnUiThread(() -> {
+                     transferCard.setVisibility(View.GONE);
+                     btnSelectFile.setEnabled(false);
+                     btnSendDial.setEnabled(false);
+                });
+
+                // Auto-reconnect attempt after brief delay
+                if (bluetoothGatt != null) {
+                    mainHandler.postDelayed(() -> {
+                        log("Attempting auto-reconnect...");
+                        try {
+                            bluetoothGatt.connect();
+                        } catch (Exception e) {
+                            log("Auto-reconnect failed: " + e.getMessage());
+                        }
+                    }, 3000);
+                }
             }
         }
 
@@ -248,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                 if (service != null) {
                     writeChar = service.getCharacteristic(WRITE_CHAR_UUID);
                     BluetoothGattCharacteristic notifyChar = service.getCharacteristic(NOTIFY_CHAR_UUID);
-                    
+
                     if (writeChar != null && notifyChar != null) {
                         log("STF Services Found!");
                         gatt.setCharacteristicNotification(notifyChar, true);
@@ -262,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
                         log("Required characteristics not found");
                     }
                 } else {
-                    log("STF Service UUID not found");
+                    log("STF Service UUID not found - device may not be compatible");
                 }
             }
         }
@@ -280,8 +419,6 @@ public class MainActivity extends AppCompatActivity {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 currentMtu = mtu - 3;
                 log("MTU changed to " + mtu + " (payload=" + currentMtu + ")");
-                // Ready for handshake
-                runOnUiThread(() -> btnSelectFile.setEnabled(true));
                 sendHandshake();
             }
         }
@@ -320,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
         ByteBuffer payload = ByteBuffer.allocate(4);
         payload.order(ByteOrder.LITTLE_ENDIAN);
         payload.putInt(bindId);
-        
+
         byte[] message = createMessage((byte)0x03, (byte)0x01, (byte)0x20, payload.array());
         connectionState = ConnectionState.BIND_SENT;
         enqueueLogicalFrame(message);
@@ -347,8 +484,7 @@ public class MainActivity extends AppCompatActivity {
 
         int header = data[1] & 0xFF;
         boolean isReply = (header & 0x10) != 0;
-        boolean isRequest = (header == 0x01);
-        
+
         if (data.length < 9) return;
         byte cmd = data[6];
         byte key = data[7];
@@ -356,19 +492,20 @@ public class MainActivity extends AppCompatActivity {
 
         log("Rx: Cmd=" + String.format("%02X", cmd) + " Key=" + String.format("%02X", key) + " State=" + connectionState);
 
-        // Handle Identity Info Request (0x03 0x01) from watch -> implies Session Ready
-        if (!isReply && header == 0x01 && cmd == 0x03 && key == 0x01) {
+        // Handle Identity Info Request from watch -> implies Session Ready
+        if ((header & 0x10) == 0 && header == 0x01 && cmd == 0x03 && key == 0x01) {
             log("Received Identity Request - Sending ACK");
             sendAck(cmd, key, flag);
             if (connectionState == ConnectionState.LOGIN_SENT) {
                 connectionState = ConnectionState.SESSION_READY;
                 log("=== SESSION READY ===");
-                runOnUiThread(() -> txtStatus.setText("Session Ready"));
+                updateConnectionUI(true);
+                runOnUiThread(() -> btnSelectFile.setEnabled(true));
             }
             return;
         }
 
-        // Handshake ACK (0x03 0x02 reply)
+        // Handshake ACK
         if (isReply && connectionState == ConnectionState.HANDSHAKE_SENT) {
             log("Handshake OK");
             connectionState = ConnectionState.HANDSHAKE_OK;
@@ -376,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Bind ACK (0x03 0x01 reply)
+        // Bind ACK
         if (isReply && cmd == 0x03 && key == 0x01 && connectionState == ConnectionState.BIND_SENT) {
             log("Bind OK");
             connectionState = ConnectionState.BIND_OK;
@@ -384,12 +521,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Login ACK (0x03 0x02 reply)
+        // Login ACK
         if (isReply && cmd == 0x03 && key == 0x02 && connectionState == ConnectionState.LOGIN_SENT) {
             log("Login OK");
             connectionState = ConnectionState.SESSION_READY;
             log("=== SESSION READY ===");
-            runOnUiThread(() -> txtStatus.setText("Session Ready"));
+            updateConnectionUI(true);
+            runOnUiThread(() -> btnSelectFile.setEnabled(true));
             return;
         }
 
@@ -402,8 +540,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Pre-Transfer ACK
         if (isReply && connectionState == ConnectionState.PRE_TRANSFER) {
-             // Logic to check against expected command omitted for brevity, assuming success
-             // In full impl, verify cmd/key match current step
              log("Pre-Transfer ACK");
              preTransferIndex++;
              mainHandler.postDelayed(this::sendNextPreTransferCommand, 50);
@@ -425,33 +561,48 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Progress / Completion (Cmd 0x07 Key 0x01)
+        // Progress / Completion
         if (cmd == 0x07 && key == 0x01 && data.length >= 18) {
-            // Parse progress
             byte[] payload = Arrays.copyOfRange(data, 9, data.length);
             int statusByte = payload[0] & 0xFF;
-            int status = (statusByte >> 4) & 0x0F;
+            int transferStatus = (statusByte >> 4) & 0x0F;
             int error = statusByte & 0x0F;
-            
+
             ByteBuffer bb = ByteBuffer.wrap(payload);
             bb.order(ByteOrder.BIG_ENDIAN);
             bb.position(1);
             long total = bb.getInt() & 0xFFFFFFFFL;
             long completed = bb.getInt() & 0xFFFFFFFFL;
-            
-            log("Progress: " + completed + "/" + total + " (Err=" + error + ")");
-            runOnUiThread(() -> progressBar.setProgress((int)((completed * 100) / total)));
 
-            if (status == 0) {
+            int percent = (total > 0) ? (int)((completed * 100) / total) : 0;
+            log("Progress: " + completed + "/" + total + " (" + percent + "%) Err=" + error);
+
+            runOnUiThread(() -> {
+                progressBar.setProgress(percent);
+                txtProgress.setText(percent + "%");
+                txtTransferStatus.setText(completed + " / " + total + " bytes");
+            });
+
+            if (transferStatus == 0) {
                 if (isFileTransferActive && completed < total) {
                     sendStreamChunk(completed);
                 } else if (isFileTransferActive && completed >= total) {
-                    log("Transfer Complete!");
+                    log("=== Transfer Complete! ===");
                     isFileTransferActive = false;
+                    // PERSISTENT: Stay in SESSION_READY — ready for next transfer
                     connectionState = ConnectionState.SESSION_READY;
+                    // CRITICAL FIX: Reset queue state so next transfer works cleanly
+                    commandQueue.clear();
+                    isSending = false;
+                    packetsSent = 0;
+
                     runOnUiThread(() -> {
-                        txtStatus.setText("Transfer Complete");
+                        txtProgress.setText("100%");
+                        txtTransferStatus.setText(R.string.transfer_complete);
                         progressBar.setProgress(100);
+                        btnSelectFile.setEnabled(true);
+                        updateSendButtonState();
+                        Toast.makeText(this, R.string.dial_sent_ok, Toast.LENGTH_LONG).show();
                     });
                 }
             }
@@ -469,7 +620,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK && data != null) {
+        if (requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
@@ -480,29 +631,72 @@ public class MainActivity extends AppCompatActivity {
                 }
                 fileBytesToSend = byteBuffer.toByteArray();
                 fileTotalSize = fileBytesToSend.length;
-                
-                log("File Loaded: " + fileTotalSize + " bytes");
-                sendFile();
+
+                String sizeStr = fileTotalSize > 1024
+                        ? String.format("%.1f KB", fileTotalSize / 1024.0)
+                        : fileTotalSize + " bytes";
+                log("File Loaded: " + sizeStr);
+
+                runOnUiThread(() -> {
+                    txtFileInfo.setText(getString(R.string.dial_file) + ": " + sizeStr);
+                    txtFileInfo.setTextColor(getResources().getColor(R.color.accent_secondary));
+                    updateSendButtonState();
+                });
+
+                // DON'T auto-send — user must press the "Send" button
             } catch (Exception e) {
                 log("Error reading file: " + e.getMessage());
+                runOnUiThread(() -> Toast.makeText(this, R.string.error_read_file, Toast.LENGTH_SHORT).show());
             }
         }
     }
 
     private void sendFile() {
         if (connectionState != ConnectionState.SESSION_READY) {
-            log("Session not ready!");
+            log("Session not ready! Current state: " + connectionState);
+            Toast.makeText(this, R.string.session_not_ready, Toast.LENGTH_SHORT).show();
             return;
         }
-        isFileTransferActive = true;
+
+        if (fileBytesToSend == null || fileBytesToSend.length == 0) {
+            Toast.makeText(this, R.string.select_file_first, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ====== CRITICAL FIX: Full state reset before starting new transfer ======
+        commandQueue.clear();
+        isSending = false;
+        packetsSent = 0;
         preTransferIndex = 0;
-        // Use DERIVED by default to use the file's own headers instead of hardcoded STF capture
-        setupMethod = SetupMethod.DERIVED; 
-        setupAttemptedCaptured = false;
-        setupAttemptedDerived = false;
-        
-        // Skip Watchface ID for simplicity, go straight to Pre-Transfer
+        setupStep = 0;
+        isFileTransferActive = true;
+
+        // Show transfer card
+        runOnUiThread(() -> {
+            transferCard.setVisibility(View.VISIBLE);
+            txtProgress.setText("0%");
+            txtTransferStatus.setText(R.string.preparing);
+            progressBar.setProgress(0);
+            btnSelectFile.setEnabled(false);
+            btnSendDial.setEnabled(false);
+        });
+
         startPreTransferSequence();
+    }
+
+    private void cancelTransfer() {
+        log("Transfer cancelled by user");
+        isFileTransferActive = false;
+        commandQueue.clear();
+        isSending = false;
+        connectionState = ConnectionState.SESSION_READY;
+
+        runOnUiThread(() -> {
+            transferCard.setVisibility(View.GONE);
+            btnSelectFile.setEnabled(true);
+            updateSendButtonState();
+            Toast.makeText(this, R.string.cancelled, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private static class PreTransferCommand {
@@ -527,7 +721,6 @@ public class MainActivity extends AppCompatActivity {
         cmds.add(new PreTransferCommand(0x02, 0x1a, 0x00, new byte[]{0x00, 0x0a, 0x00, 0x02, 0x03, 0x30, 0x00, 0x00, 0x05, 0x1c}, 0x03));
         cmds.add(new PreTransferCommand(0x02, 0x03, 0x10, null));
         cmds.add(new PreTransferCommand(0x02, 0x02, 0x00, new byte[]{0x04}));
-        // ... truncated list for brevity, adding key commands ...
         cmds.add(new PreTransferCommand(0x02, 0x15, 0x00, new byte[]{0x00}));
         cmds.add(new PreTransferCommand(0x05, 0x02, 0x10, null));
         cmds.add(new PreTransferCommand(0x02, 0x03, 0x10, null));
@@ -557,20 +750,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startSetupSequence() {
-        log("Starting Setup (Method: " + setupMethod + ")");
+        log("Starting Setup...");
         sendSetupStep1();
     }
 
     private void sendSetupStep1() {
-        // Use the captured payload which seems to work better as a "Session/Auth" token
-        // than a raw SHA-256 hash.
-        // Log: c3 25 b3 c2 9f a2 a7 41 02 00 ...
         byte[] payload = new byte[]{
             (byte)0xC3, 0x25, (byte)0xB3, (byte)0xC2, (byte)0x9F, (byte)0xA2, (byte)0xA7, 0x41,
             0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
-        
-        log("Setup1: Sending Session/Auth Token (Captured)");
+
+        log("Setup1: Sending Session/Auth Token");
         byte[] msg = createMessage((byte)0x02, (byte)0x20, (byte)0x00, payload);
         connectionState = ConnectionState.SETUP1_SENT;
         enqueueLogicalFrame(msg);
@@ -579,17 +769,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendSetupStep2() {
-        // Cmd 0x04 Key 0x0C (Dial Info)
-        // Reconstruct payload with correct flags from log
-        
         String name = "Custom Dial";
         byte[] nameBytes = name.getBytes();
-        
-        // Total size 101 bytes based on log
-        byte[] payload = new byte[101]; 
+
+        byte[] payload = new byte[101];
         Arrays.fill(payload, (byte)0);
-        
-        // Header
+
         payload[0] = 0x00;
         payload[1] = 0x1A;
         payload[2] = 0x02;
@@ -597,24 +782,20 @@ public class MainActivity extends AppCompatActivity {
         payload[4] = 0x08;
         payload[5] = 0x31;
         payload[6] = (byte)nameBytes.length;
-        
-        // Name
-        System.arraycopy(nameBytes, 0, payload, 7, Math.min(nameBytes.length, 60)); // Safe cap
-        
-        // Tail Flags (from log offset ~81)
-        // 10 00 00 01 00 03 51 0a 00 00 00 0d 21 2d 00 33 04 02 00 00
+
+        System.arraycopy(nameBytes, 0, payload, 7, Math.min(nameBytes.length, 60));
+
         byte[] tail = new byte[] {
-            0x10, 0x00, 0x00, 0x01, 0x00, 0x03, 0x51, 0x0A, 
-            0x00, 0x00, 0x00, 0x0D, 0x21, 0x2D, 0x00, 0x33, 
+            0x10, 0x00, 0x00, 0x01, 0x00, 0x03, 0x51, 0x0A,
+            0x00, 0x00, 0x00, 0x0D, 0x21, 0x2D, 0x00, 0x33,
             0x04, 0x02, 0x00, 0x00
         };
-        
-        // Place tail at the end
+
         int tailPos = payload.length - tail.length;
         System.arraycopy(tail, 0, payload, tailPos, tail.length);
-        
-        log("Setup2: Sending dial metadata (with flags)");
-        
+
+        log("Setup2: Sending dial metadata");
+
         byte[] msg = createMessage((byte)0x04, (byte)0x0C, (byte)0x00, payload);
         connectionState = ConnectionState.SETUP2_SENT;
         enqueueLogicalFrame(msg);
@@ -625,43 +806,38 @@ public class MainActivity extends AppCompatActivity {
     private void startStreamTransfer() {
         log("Starting Stream Transfer...");
         connectionState = ConnectionState.TRANSFERRING;
+        runOnUiThread(() -> txtTransferStatus.setText(R.string.transferring));
         sendStreamChunk(0);
     }
 
     private void sendStreamChunk(long offset) {
         if (!isFileTransferActive) return;
-        
+
         long remaining = fileTotalSize - offset;
         if (remaining <= 0) return;
-        
-        // Use 1018 bytes chunk size to match the log exactly
-        // Log showed packet size 1030. Header 9 + 9 = 18. 1030 - 18 = 1012? 
-        // Wait, log analysis showed Payload len 1027. Stream Header 9. 1027 - 9 = 1018.
+
         int chunkSize = (int)Math.min(remaining, 1018);
         byte[] chunk = new byte[chunkSize];
         System.arraycopy(fileBytesToSend, (int)offset, chunk, 0, chunkSize);
-        
-        // Construct ID = Total Size (4 bytes Big Endian)
+
         byte[] id = new byte[4];
         id[0] = (byte)((fileTotalSize >> 24) & 0xFF);
         id[1] = (byte)((fileTotalSize >> 16) & 0xFF);
         id[2] = (byte)((fileTotalSize >> 8) & 0xFF);
         id[3] = (byte)(fileTotalSize & 0xFF);
-        
-        // Always use 9-byte header: [Slot 1B] [Size 4B] [Offset 4B]
+
         ByteBuffer bb = ByteBuffer.allocate(9 + chunkSize);
         bb.order(ByteOrder.BIG_ENDIAN);
-        bb.put((byte)0); // Slot/Type
-        bb.put(id);      // Size
-        bb.putInt((int)offset); // Offset 4 bytes
+        bb.put((byte)0);
+        bb.put(id);
+        bb.putInt((int)offset);
         bb.put(chunk);
-        
+
         byte[] message = createMessage((byte)0x07, (byte)0x01, (byte)0x00, bb.array());
         enqueueLogicalFrame(message);
         isSending = true;
         sendNextChunk();
     }
-
 
     // --- Helpers ---
 
@@ -675,12 +851,12 @@ public class MainActivity extends AppCompatActivity {
         buffer.put((byte)0xAB);
         buffer.put(header);
         buffer.putShort((short)(payloadLen + 3));
-        buffer.putShort((short)0); // CRC placeholder
+        buffer.putShort((short)0);
         buffer.put(cmd);
         buffer.put(key);
         buffer.put(flag);
         if (payload != null) buffer.put(payload);
-        
+
         byte[] arr = buffer.array();
         int crc = calculateCrc16(arr, 6);
         arr[4] = (byte)((crc >> 8) & 0xFF);
@@ -723,15 +899,14 @@ public class MainActivity extends AppCompatActivity {
         byte[] chunk = commandQueue.poll();
         if (chunk != null && writeChar != null && bluetoothGatt != null) {
             writeChar.setValue(chunk);
-            writeChar.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE); // STF mostly uses NO_RESPONSE
+            writeChar.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
             bluetoothGatt.writeCharacteristic(writeChar);
         }
     }
 
-    private void copyLogsToClipboard() {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("DialSender Logs", txtLog.getText().toString());
-        clipboard.setPrimaryClip(clip);
-        Toast.makeText(this, "Logs copied", Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Don't close GATT here to keep connection persistent
     }
 }

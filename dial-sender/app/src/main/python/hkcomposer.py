@@ -164,7 +164,7 @@ class HKDialComposerEnhanced:
     def calculate_crc16(self, data):
         """Calculate CRC16 for data validation"""
         return zlib.crc32(data) & 0xFFFF
-        
+    
     def build_jieli_header(self, blocks):
         """Build Jieli-style binary with image_file structures"""
         binary_data = bytearray()
@@ -221,33 +221,320 @@ class HKDialComposerEnhanced:
         return bytes(binary_data)
         
     def build_hk_traditional_header(self, blocks):
-        """Build traditional HK-style binary"""
-        binary_data = bytearray()
-        
-        # Sort blocks by picidx
-        sorted_blocks = sorted(blocks, key=lambda x: x.get('picidx', 0))
-        
-        for block in sorted_blocks:
-            # Load image data
-            image_path = block.get('image_file')
+        """Build traditional HK-style binary compatible with comp_decomp.compile_dial.
+
+        This implementation produces the following layout:
+        - Header (4 bytes): pltable_size (uint16 LE), num_blocks (1), format (1)
+        - Block descriptors (num_blocks * 20 bytes)
+        - Picture lookup table (pltable_size * 4 bytes)
+        - Image data (concatenated frames)
+        """
+        # --- Helper functions (local) ---
+        def _rgb888_to_rgb565_int(r, g, b):
+            r5 = (r >> 3) & 0x1F
+            g6 = (g >> 2) & 0x3F
+            b5 = (b >> 3) & 0x1F
+            return (r5 << 11) | (g6 << 5) | b5
+
+        def _compress_raw_rgb_aligned_pil(img):
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            width, height = img.size
+            pixels = list(img.getdata())
+            bytes_per_pixel = 2
+            row_bytes = width * bytes_per_pixel
+            aligned_row_bytes = (row_bytes + 3) & ~3
+            padding = aligned_row_bytes - row_bytes
+            res = bytearray()
+            idx = 0
+            for y in range(height):
+                for x in range(width):
+                    r, g, b = pixels[idx]
+                    idx += 1
+                    rgb565 = _rgb888_to_rgb565_int(r, g, b)
+                    res.append((rgb565 >> 8) & 0xFF)
+                    res.append(rgb565 & 0xFF)
+                if padding:
+                    res.extend(b'\x00' * padding)
+            return bytes(res)
+
+        def _compress_raw_rgba_aligned_pil(img):
+            if img.mode != 'RGBA':
+                img = img.convert('RGBA')
+            width, height = img.size
+            pixels = list(img.getdata())
+            bytes_per_pixel = 3
+            row_bytes = width * bytes_per_pixel
+            aligned_row_bytes = (row_bytes + 3) & ~3
+            padding = aligned_row_bytes - row_bytes
+            res = bytearray()
+            idx = 0
+            for y in range(height):
+                for x in range(width):
+                    r, g, b, a = pixels[idx]
+                    idx += 1
+                    rgb565 = _rgb888_to_rgb565_int(r, g, b)
+                    res.append(a & 0xFF)
+                    res.append((rgb565 >> 8) & 0xFF)
+                    res.append(rgb565 & 0xFF)
+                if padding:
+                    res.extend(b'\x00' * padding)
+            return bytes(res)
+
+        def _compress_rle_row_lookahead(pixels, width):
+            result = bytearray()
+            i = 0
+            generated_pixels = 0
+            max_lookahead = width * 2
+            total = len(pixels)
+            while generated_pixels < width and i < total:
+                current = pixels[i]
+                run_length = 1
+                max_run = min(127, max_lookahead - i, total - i)
+                while run_length < max_run and pixels[i + run_length] == current:
+                    run_length += 1
+                if run_length >= 3:
+                    result.append(0x80 | run_length)
+                    result.append((current >> 8) & 0xFF)
+                    result.append(current & 0xFF)
+                    i += run_length
+                    generated_pixels += run_length
+                else:
+                    remaining_in_row = width - generated_pixels
+                    unique = []
+                    max_unique = min(127, remaining_in_row)
+                    while len(unique) < max_unique and i < total and i < max_lookahead:
+                        run_ahead = 1
+                        curr = pixels[i]
+                        while i + run_ahead < total and i + run_ahead < max_lookahead and pixels[i + run_ahead] == curr and run_ahead < 3:
+                            run_ahead += 1
+                        if run_ahead >= 3:
+                            break
+                        unique.append(curr)
+                        i += 1
+                    if unique:
+                        result.append(len(unique))
+                        for px in unique:
+                            result.append((px >> 8) & 0xFF)
+                            result.append(px & 0xFF)
+                        generated_pixels += len(unique)
+            return bytes(result)
+
+        def _compress_rle_rgba_row_lookahead(pixels, width):
+            result = bytearray()
+            i = 0
+            generated_pixels = 0
+            total = len(pixels)
+            while generated_pixels < width and i < total:
+                current = pixels[i]
+                remaining_in_row = width - generated_pixels
+                run_length = 1
+                while i + run_length < total and pixels[i + run_length] == current and run_length < 127:
+                    run_length += 1
+                run_length = min(run_length, remaining_in_row)
+                if run_length >= 3:
+                    result.append(0x80 | run_length)
+                    result.append(current[0] & 0xFF)
+                    result.append((current[1] >> 8) & 0xFF)
+                    result.append(current[1] & 0xFF)
+                    i += run_length
+                    generated_pixels += run_length
+                else:
+                    unique = []
+                    max_unique = min(127, remaining_in_row)
+                    while len(unique) < max_unique and i < total:
+                        run_ahead = 1
+                        curr = pixels[i]
+                        while i + run_ahead < total and pixels[i + run_ahead] == curr and run_ahead < 3:
+                            run_ahead += 1
+                        if run_ahead >= 3:
+                            break
+                        unique.append(curr)
+                        i += 1
+                    if unique:
+                        result.append(len(unique))
+                        for px in unique:
+                            result.append(px[0] & 0xFF)
+                            result.append((px[1] >> 8) & 0xFF)
+                            result.append(px[1] & 0xFF)
+                        generated_pixels += len(unique)
+            return bytes(result)
+
+        def _compress_rle_rgb_with_header_pil(img):
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            width, height = img.size
+            all_pixels = []
+            for y in range(height):
+                for x in range(width):
+                    r, g, b = img.getpixel((x, y))
+                    all_pixels.append(_rgb888_to_rgb565_int(r, g, b))
+            all_pixels.extend([0] * (width * 2))
+            scanline_data = []
+            for y in range(height):
+                start_idx = y * width
+                row_data = _compress_rle_row_lookahead(all_pixels[start_idx:start_idx + width], width)
+                scanline_data.append(row_data)
+            skip_offset = height * 4
+            lookup_table = bytearray()
+            cumulative = skip_offset
+            for row_data in scanline_data:
+                row_bytes = len(row_data)
+                cumulative += row_bytes
+                low = (row_bytes * 32) & 0xFFFF
+                high = cumulative & 0xFFFF
+                lookup_table.extend(struct.pack('<HH', low, high))
+            result = bytearray()
+            result.extend(struct.pack('<H', skip_offset))
+            table_bytes = len(lookup_table)
+            needed_bytes = skip_offset - 2
+            if table_bytes >= needed_bytes:
+                result.extend(lookup_table[:needed_bytes])
+            else:
+                result.extend(lookup_table)
+                result.extend(b'\x00' * (needed_bytes - table_bytes))
+            for row_data in scanline_data:
+                result.extend(row_data)
+            return bytes(result)
+
+        def _compress_rle_rgba_with_header_pil(img):
+            if img.mode != 'RGBA':
+                img = img.convert('RGBA')
+            width, height = img.size
+            all_pixels = []
+            for y in range(height):
+                for x in range(width):
+                    r, g, b, a = img.getpixel((x, y))
+                    all_pixels.append((a & 0xFF, _rgb888_to_rgb565_int(r, g, b)))
+            all_pixels.extend([(0, 0)] * (width * 2))
+            scanline_data = []
+            for y in range(height):
+                start_idx = y * width
+                row_data = _compress_rle_rgba_row_lookahead(all_pixels[start_idx:start_idx + width], width)
+                scanline_data.append(row_data)
+            skip_offset = height * 4
+            lookup_table = bytearray()
+            cumulative = skip_offset
+            for row_data in scanline_data:
+                row_bytes = len(row_data)
+                cumulative += row_bytes
+                low = (row_bytes * 32) & 0xFFFF
+                high = cumulative & 0xFFFF
+                lookup_table.extend(struct.pack('<HH', low, high))
+            result = bytearray()
+            result.extend(struct.pack('<H', skip_offset))
+            table_bytes = len(lookup_table)
+            needed_bytes = skip_offset - 2
+            if table_bytes >= needed_bytes:
+                result.extend(lookup_table[:needed_bytes])
+            else:
+                result.extend(lookup_table)
+                result.extend(b'\x00' * (needed_bytes - table_bytes))
+            for row_data in scanline_data:
+                result.extend(row_data)
+            return bytes(result)
+
+        # --- End helpers ---
+
+        processed_blocks = []
+        pltable = []
+
+        for b in blocks:
+            image_path = b.get('image_file')
             if not image_path or not os.path.exists(image_path):
+                print(f"Warning: image file missing for block: {b}")
                 continue
-                
-            image_data = self.load_image_data(image_path, 'RGB565')
-            if not image_data:
+            try:
+                img = Image.open(image_path)
+            except Exception as e:
+                print(f"Warning: cannot open image {image_path}: {e}")
                 continue
-                
-            # Build block header: width, height, picidx
-            block_header = struct.pack('<III',
-                block['w'],
-                block['h'], 
-                block.get('picidx', 0)
-            )
-            
-            binary_data.extend(block_header)
-            binary_data.extend(image_data)
-            
-        return bytes(binary_data)
+            frame_h = int(b.get('h', img.size[1]))
+            total_h = img.size[1]
+            frames = max(1, total_h // frame_h) if frame_h > 0 else 1
+            is_rgba = (img.mode == 'RGBA' or 'A' in img.getbands())
+            comp_mode = b.get('compression', 'rle')
+            compression_code = 4 if comp_mode == 'rle' else 0
+            pic_idx = int(b.get('picidx', 0))
+            frame_datas = []
+            for fi in range(frames):
+                y0 = fi * frame_h
+                y1 = y0 + frame_h
+                frame_img = img.crop((0, y0, img.size[0], y1))
+                if compression_code == 0:
+                    if is_rgba:
+                        compressed = _compress_raw_rgba_aligned_pil(frame_img)
+                    else:
+                        compressed = _compress_raw_rgb_aligned_pil(frame_img)
+                else:
+                    if is_rgba:
+                        compressed = _compress_rle_rgba_with_header_pil(frame_img)
+                    else:
+                        compressed = _compress_rle_rgb_with_header_pil(frame_img)
+                pad = (4 - (len(compressed) % 4)) % 4
+                if pad:
+                    compressed = compressed + (b'\x00' * pad)
+                pltable.append(len(compressed))
+                frame_datas.append(compressed)
+            # Set RGBA bit on block type if image contains alpha
+            block_type = int(b.get('blocktype', 0))
+            if is_rgba:
+                block_type |= 0x80
+
+            processed_blocks.append({
+                'pic_idx': pic_idx,
+                'width': int(b.get('w', img.size[0])),
+                'height': int(frame_h),
+                'pos_x': int(b.get('x', 0)),
+                'pos_y': int(b.get('y', 0)),
+                'parts': frames,
+                'block_type': block_type,
+                'align': int(b.get('align', 9)),
+                'compression': compression_code,
+                'cent_x': int(b.get('cent_x', 0)),
+                'cent_y': int(b.get('cent_y', 0)),
+                'frame_data': frame_datas
+            })
+
+        pltable_size = len(pltable)
+        num_blocks = len(processed_blocks)
+        header_size = 4
+        blocks_size = num_blocks * 20
+        pltable_bytes = pltable_size * 4
+        images_start = header_size + blocks_size + pltable_bytes
+        image_data = bytearray()
+        current_offset = images_start
+        for blk in processed_blocks:
+            blk['image_offset'] = current_offset
+            for fd in blk['frame_data']:
+                image_data.extend(fd)
+                current_offset += len(fd)
+        out = bytearray()
+        h = bytearray(4)
+        struct.pack_into('<H', h, 0, pltable_size)
+        h[2] = num_blocks & 0xFF
+        h[3] = 0x02
+        out.extend(h)
+        for blk in processed_blocks:
+            desc = bytearray(20)
+            struct.pack_into('<I', desc, 0, blk['image_offset'])
+            desc[4] = blk['pic_idx'] & 0xFF
+            desc[5] = 0
+            struct.pack_into('<H', desc, 6, blk['width'])
+            struct.pack_into('<H', desc, 8, blk['height'])
+            struct.pack_into('<H', desc, 10, blk['pos_x'])
+            struct.pack_into('<H', desc, 12, blk['pos_y'])
+            desc[14] = blk['parts'] & 0xFF
+            desc[15] = blk['block_type'] & 0xFF
+            desc[16] = blk['align'] & 0xFF
+            desc[17] = blk['compression'] & 0xFF
+            desc[18] = blk['cent_x'] & 0xFF
+            desc[19] = blk['cent_y'] & 0xFF
+            out.extend(desc)
+        for size in pltable:
+            out.extend(struct.pack('<I', size))
+        out.extend(image_data)
+        return bytes(out)
         
     def build_jieli_magic_header(self, blocks):
         """Build Jieli-style binary with magic number header"""

@@ -3,90 +3,229 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/bg_primary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jieli Watch Dial Sender"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"/>
-
-    <Button
-        android:id="@+id/btnScan"
+    <!-- Toolbar -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scan &amp; Connect" />
+        android:background="@color/bg_surface"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:elevation="4dp">
 
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="Status: Disconnected" />
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Back"/>
 
-    <Button
-        android:id="@+id/btnSelectFile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Dial File (.bin)"
-        android:enabled="false"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/send_dial"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/btnCreateDial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create New Dial"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#009688"/>
-    
-    <Button
-        android:id="@+id/btnCopyLog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Copy Logs to Clipboard"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/btnViewLogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logs"
+            android:textColor="@color/accent_primary"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:max="100"
-        android:progress="0" />
-    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        android:background="#EEEEEE"
         android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/txtLog"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:scrollbars="vertical"
-            android:textIsSelectable="true"
-            android:text="Log:\n"
-            android:textSize="12sp"
-            android:typeface="monospace" />
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Connection Status Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_status"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <View
+                        android:id="@+id/statusIndicator"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/indicator_disconnected"
+                        android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/disconnected"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/txtDeviceName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonPrimary"
+                    android:text="@string/scan_connect"/>
+            </LinearLayout>
+
+            <!-- File Selection Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dial_file"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="12dp"/>
+
+                <Button
+                    android:id="@+id/btnSelectFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonSecondary"
+                    android:text="@string/select_bin"
+                    android:enabled="false"/>
+
+                <TextView
+                    android:id="@+id/txtFileInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_file_selected"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"/>
+
+                <!-- Send Button: only enabled when file loaded + session ready -->
+                <Button
+                    android:id="@+id/btnSendDial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonSuccess"
+                    android:text="@string/btn_send_dial"
+                    android:enabled="false"
+                    android:layout_marginTop="12dp"/>
+            </LinearLayout>
+
+            <!-- Transfer Progress Card -->
+            <LinearLayout
+                android:id="@+id/transferCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transfer"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/progress_bar"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/txtProgress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0%"
+                        android:textColor="@color/accent_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/txtTransferStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/waiting"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    style="@style/ButtonSecondary"
+                    android:text="@string/cancel"
+                    android:textSize="12sp"
+                    android:layout_marginTop="12dp"
+                    android:layout_gravity="end"/>
+            </LinearLayout>
+
+        </LinearLayout>
     </ScrollView>
 
+    <!-- Version footer -->
     <TextView
         android:id="@+id/txtVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="4dp"
-        android:text="v1.3 - Scroll + LE Length"
-        android:textColor="#888888"
-        android:textSize="10sp" />
+        android:padding="8dp"
+        android:text="@string/persistent_ble"
+        android:textColor="@color/text_muted"
+        android:textSize="10sp"/>
 
 </LinearLayout>

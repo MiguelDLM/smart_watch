@@ -3,35 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#121212">
+    android:background="@color/bg_primary">
 
     <!-- Toolbar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        android:background="#1F1F1F"
-        android:gravity="center_vertical">
-        
+        android:background="@color/bg_surface"
+        android:gravity="center_vertical"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btnBackEditor"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Back"/>
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dial Designer"
-            android:textColor="#FFFFFF"
+            android:text="@string/dial_designer"
+            android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
         <Button
             android:id="@+id/btnUpload"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="COMPILE &amp; UPLOAD"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF"/>
+            android:layout_height="40dp"
+            style="@style/ButtonSuccess"
+            android:text="@string/compile"
+            android:textSize="13sp"
+            android:paddingHorizontal="16dp"/>
     </LinearLayout>
 
-    <!-- Main Content -->
+    <!-- Main Content: Preview + Layer Panel side by side on landscape, stacked on portrait -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -42,124 +54,173 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="#000000">
+            android:layout_weight="1"
+            android:background="#050810">
 
             <FrameLayout
                 android:id="@+id/previewContainer"
-                android:layout_width="320dp"
-                android:layout_height="320dp"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_gravity="center"
-                android:background="#222222">
-                <!-- Layers added dynamically here -->
-            </FrameLayout>
-            
-            <!-- Mask -->
+                android:background="@color/bg_card"/>
+
             <View
-                android:layout_width="320dp"
-                android:layout_height="320dp"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_mask"
                 android:clickable="false"/>
         </FrameLayout>
 
-        <!-- Controls Area -->
-        <ScrollView
+        <!-- Layer Panel (Photoshop-style) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#1E1E1E">
+            android:orientation="vertical"
+            android:background="@color/bg_surface"
+            android:padding="0dp">
 
+            <!-- Layer Panel Header -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/bg_elevated"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/layers_title"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"/>
+
+                <TextView
+                    android:id="@+id/txtLayerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:id="@+id/btnAddElement"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:gravity="center"
+                    android:text="＋"
+                    android:textColor="@color/accent_primary"
+                    android:textSize="22sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+            </LinearLayout>
+
+            <!-- Layer List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/layerRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:padding="4dp"/>
+
+            <!-- Bottom Controls for selected layer -->
+            <LinearLayout
+                android:id="@+id/selectedLayerControls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:background="@color/bg_elevated"
+                android:padding="10dp"
+                android:visibility="gone">
 
-                <!-- Actions -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    
-                    <Button
-                        android:id="@+id/btnAddElement"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Add Layer"
-                        android:layout_marginEnd="8dp"/>
-                        
-                    <Button
-                        android:id="@+id/btnRemoveLayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Remove"
-                        android:backgroundTint="#B00020"/>
-                </LinearLayout>
-
-                <!-- Selected Layer Controls -->
                 <TextView
                     android:id="@+id/txtSelectedLayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No layer selected"
-                    android:textColor="#FFFFFF"
+                    android:text=""
+                    android:textColor="@color/accent_primary"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="6dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Scale"
-                    android:textColor="#AAAAAA"/>
-                <SeekBar
-                    android:id="@+id/seekScale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="200"
-                    android:progress="100"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Rotation"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginTop="8dp"/>
-                <SeekBar
-                    android:id="@+id/seekRotation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="360"
-                    android:progress="0"/>
-                    
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Layer Order"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginTop="16dp"/>
-                    
+                <!-- Scale -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scale"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"/>
+                    <SeekBar
+                        android:id="@+id/seekScale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:max="200"
+                        android:progress="100"
+                        android:progressTint="@color/accent_primary"
+                        android:thumbTint="@color/accent_primary"/>
+                </LinearLayout>
+
+                <!-- Rotation -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rotation"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"/>
+                    <SeekBar
+                        android:id="@+id/seekRotation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:max="360"
+                        android:progress="0"
+                        android:progressTint="@color/accent_purple"
+                        android:thumbTint="@color/accent_purple"/>
+                </LinearLayout>
+
+                <!-- Move buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
                     <Button
                         android:id="@+id/btnMoveUp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Move Up"/>
+                        android:layout_height="34dp"
+                        style="@style/ButtonSecondary"
+                        android:text="▲"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="4dp"/>
                     <Button
                         android:id="@+id/btnMoveDown"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Move Down"/>
+                        android:layout_height="34dp"
+                        style="@style/ButtonSecondary"
+                        android:text="▼"
+                        android:textSize="14sp"/>
                 </LinearLayout>
-
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
