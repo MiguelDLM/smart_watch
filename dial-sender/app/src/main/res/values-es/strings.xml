@@ -143,4 +143,15 @@
     <string name="blk_min_lo">Minuto dígito bajo</string>
     <string name="blk_unknown">Desconocido</string>
     <string name="blk_scale">Anillo de Horas</string>
+
+    <!-- Font Creator -->
+    <string name="from_font">🔤  Crear desde Tipografía</string>
+    <string name="font_label">TIPOGRAFÍA</string>
+    <string name="digit_size">TAMAÑO DEL DÍGITO</string>
+    <string name="font_color">COLOR</string>
+    <string name="glow_label">BRILLO</string>
+    <string name="border_label">BORDE</string>
+    <string name="create_digits">Crear Dígitos</string>
+    <string name="font_creator_title">Crear Dígitos con Tipografía</string>
+    <string name="select_style">Seleccionar Estilo</string>
 </resources>
