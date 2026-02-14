@@ -1436,6 +1436,12 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
     
     Reads dial_desc.json for metadata and compiles all referenced images.
     
+    IMPORTANT: Image format handling:
+    - Background images (BLK_BGIMG) should use "colsp": "RGB" and can be JPG/JPEG or PNG
+    - Transparent elements (digits, hands, etc.) should use "colsp": "RGBA" and must be PNG
+    - Images are automatically converted to the correct format based on "colsp" field
+    - This ensures JPEG backgrounds work correctly without corruption
+    
     File format:
     - Header (4 bytes): pltable_size (2) + num_blocks (1) + format (1)
     - Block descriptors (num_blocks * 20 bytes)
@@ -1526,13 +1532,21 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         
         # Load image
         img = Image.open(img_path)
-        if img.mode != 'RGBA':
-            img = img.convert('RGBA')
+        
+        # Determine color space from metadata FIRST
+        is_rgba = block_meta.get('colsp', 'RGB') == 'RGBA'
+        
+        # Convert image to the correct mode based on metadata colsp
+        # This is CRITICAL for JPEG support - JPEGs must be kept as RGB for background blocks
+        target_mode = 'RGBA' if is_rgba else 'RGB'
+        original_mode = img.mode
+        if img.mode != target_mode:
+            img = img.convert(target_mode)
+            print(f"        Converting {fname} from {original_mode} to {target_mode}")
             
         width, height = img.size
         
-        # Determine color space and block type
-        is_rgba = block_meta.get('colsp', 'RGB') == 'RGBA'
+        # Determine block type
         type_str = block_meta.get('type', 'BLK_PREV').upper()
         
         # Get base block type from map

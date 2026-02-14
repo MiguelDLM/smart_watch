@@ -2,6 +2,19 @@
 <resources>
     <string name="app_name">Dial Studio</string>
 
+    <string name="from_svg">From SVG</string>
+    <string name="svg_generator">SVG Generator</string>
+    <string name="language">Language</string>
+    <string name="lang_en">English</string>
+    <string name="lang_es">Spanish</string>
+    <string name="lang_en_short">English (Short)</string>
+    <string name="lang_es_short">Spanish (Short)</string>
+    <string name="clip_vertical">Clip Vertical</string>
+    <string name="recolor">Recolor</string>
+    <string name="battery_levels">Battery Levels</string>
+    <string name="pick_svg">Pick SVG</string>
+
+
     <!-- Home -->
     <string name="home_subtitle">Create and send custom dials to your smartwatch</string>
     <string name="create_dial">Create Dial</string>
@@ -10,7 +23,7 @@
     <string name="send_dial_desc">Connect via Bluetooth and transfer a .bin</string>
     <string name="library">Library</string>
     <string name="library_desc">Pre-made dials and your creations</string>
-    <string name="version_label">Dial Studio v5.2</string>
+    <string name="version_label">Dial Studio v0.2</string>
     <string name="chipset_info">Compatible with Jieli / HK89 chipset</string>
 
     <!-- Send screen -->
@@ -58,6 +71,7 @@
     <string name="dial_name_hint">My awesome dial</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
 
     <!-- Library -->
     <string name="dial_library">Dial Library</string>
@@ -92,7 +106,7 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_light">Light</string>
     <string name="theme_system">System</string>
-    <string name="language">Language</string>
+
     <string name="lang_english">English</string>
     <string name="lang_spanish">Español</string>
     <string name="lang_system">System Default</string>

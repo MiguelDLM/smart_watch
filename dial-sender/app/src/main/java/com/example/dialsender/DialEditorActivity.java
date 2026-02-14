@@ -14,6 +14,8 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.graphics.Rect;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,10 +52,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.text.DateFormatSymbols;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.PreserveAspectRatio;
 
 public class DialEditorActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_CODE = 100;
+    private static final int PICK_SVG_CODE = 101;
 
     private FrameLayout previewContainer;
     private ImageView previewImage;
@@ -496,6 +502,9 @@ public class DialEditorActivity extends AppCompatActivity {
             items.add(new Object[] { getString(R.string.from_font), "__FONT__", null });
         }
 
+        // SVG Option for all supported types
+        items.add(new Object[] { getString(R.string.from_svg), "__SVG__", null });
+
         // Load thumbnails for presets
         for (String p : presetPaths) {
             Bitmap thumb = loadPresetThumbnail(p, elementType);
@@ -540,6 +549,12 @@ public class DialEditorActivity extends AppCompatActivity {
                         pickImageFromGallery();
                     } else if ("__FONT__".equals(path)) {
                         showFontCreator(elementType);
+                    } else if ("__SVG__".equals(path)) {
+                        pendingElementType = elementType;
+                        pickSvgFromGallery();
+                    } else if (path.endsWith(".svg")) {
+                        // Open SVG Editor with asset
+                        showSVGEditor(elementType, path);
                     } else {
                         loadPreset(path, elementType);
                     }
@@ -587,6 +602,25 @@ public class DialEditorActivity extends AppCompatActivity {
                 Bitmap bmp = BitmapFactory.decodeStream(is);
                 is.close();
                 return bmp;
+            } else if (assetPath.endsWith(".svg")) {
+                // Render SVG thumbnail
+                InputStream is = getAssets().open(assetPath);
+                com.caverock.androidsvg.SVG svg = com.caverock.androidsvg.SVG.getFromInputStream(is);
+                is.close();
+                // Render to small thumb
+                Bitmap bmp = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(bmp);
+                // Fit to 100x100
+                float docW = svg.getDocumentWidth();
+                float docH = svg.getDocumentHeight();
+                if (docW <= 0)
+                    docW = 100;
+                if (docH <= 0)
+                    docH = 100;
+                float scale = Math.min(100f / docW, 100f / docH);
+                c.scale(scale, scale);
+                svg.renderToCanvas(c);
+                return bmp;
             }
             String thumbFile;
             if (elementType == DialCompiler.TYPE_AMPM) {
@@ -622,6 +656,31 @@ public class DialEditorActivity extends AppCompatActivity {
         SeekBar seekGlow = view.findViewById(R.id.seekGlow);
         SeekBar seekBorder = view.findViewById(R.id.seekBorder);
         SeekBar seekSpacing = view.findViewById(R.id.seekSpacing);
+        Spinner spinnerLang = view.findViewById(R.id.spinnerLang);
+        View containerLang = view.findViewById(R.id.containerCustom); // Using containerCustom as per XML
+        EditText edtCustomText = view.findViewById(R.id.edtCustom);
+        View containerCustomText = view.findViewById(R.id.containerCustom);
+
+        // Setup Language Spinner
+        ArrayAdapter<String> langAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                new String[] { getString(R.string.lang_en), getString(R.string.lang_es) });
+        spinnerLang.setAdapter(langAdapter);
+
+        if (elementType == DialCompiler.TYPE_WEEKDAY || elementType == DialCompiler.TYPE_MONTH) {
+            containerLang.setVisibility(View.VISIBLE);
+        } else {
+            containerLang.setVisibility(View.GONE);
+        }
+
+        if (elementType == DialCompiler.TYPE_BERRY || elementType == DialCompiler.TYPE_LABEL) {
+            containerCustomText.setVisibility(View.VISIBLE);
+        } else {
+            containerCustomText.setVisibility(View.GONE);
+        }
+
+        seekSpacing.setMax(100);
+        seekSpacing.setProgress(50); // Center = 0 spacing
         LinearLayout colorPalette = view.findViewById(R.id.colorPalette);
         LinearLayout borderColorPalette = view.findViewById(R.id.borderColorPalette);
 
@@ -676,6 +735,8 @@ public class DialEditorActivity extends AppCompatActivity {
                 GradientDrawable bg = (GradientDrawable) child.getBackground();
                 bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
             }
+            updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                    selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText, elementType);
         };
 
         for (int clr : colors) {
@@ -698,7 +759,8 @@ public class DialEditorActivity extends AppCompatActivity {
                     bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
                 }
                 updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
-                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
             });
             colorPalette.addView(swatch);
         }
@@ -724,7 +786,8 @@ public class DialEditorActivity extends AppCompatActivity {
                     bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
                 }
                 updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
-                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
             });
             borderColorPalette.addView(swatch);
         }
@@ -734,7 +797,8 @@ public class DialEditorActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar sb, int val, boolean user) {
                 updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
-                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
             }
         };
 
@@ -747,7 +811,8 @@ public class DialEditorActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> p, View v, int pos, long id) {
                 updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
-                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
             }
 
             @Override
@@ -755,9 +820,41 @@ public class DialEditorActivity extends AppCompatActivity {
             }
         });
 
+        // Update when custom text changes
+        edtCustomText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+            }
+        });
+
+        // Update when language changes
+        spinnerLang.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
+                        selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText,
+                        elementType);
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
+
         // Initial preview
         updatePreviewAction(imgPreview, spinnerFont, fontFaces, seekSize, selectedColor[0],
-                selectedBorderColor[0], seekGlow, seekBorder, seekSpacing);
+                selectedBorderColor[0], seekGlow, seekBorder, seekSpacing, spinnerLang, edtCustomText, elementType);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.font_creator_title)
@@ -769,10 +866,12 @@ public class DialEditorActivity extends AppCompatActivity {
                     int borderColor = selectedBorderColor[0];
                     int glow = seekGlow.getProgress();
                     int border = seekBorder.getProgress();
-                    int spacing = seekSpacing.getProgress();
+                    int spacing = seekSpacing.getProgress() - 50; // Allow negative spacing
+                    String lang = (spinnerLang.getSelectedItemPosition() == 1) ? "es" : "en";
+                    String custom = edtCustomText.getText().toString();
 
                     Bitmap[] frames = renderDigitBitmaps(elementType, tf, size, color, borderColor, glow, border,
-                            spacing);
+                            spacing, lang, custom);
                     if (frames != null && frames.length > 0) {
                         String name = getBlockLabel(elementType);
                         DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, frames[0], name, elementType);
@@ -795,13 +894,48 @@ public class DialEditorActivity extends AppCompatActivity {
 
     private void updatePreviewAction(ImageView imgPreview, Spinner spinnerFont, List<Typeface> fontFaces,
             SeekBar seekSize, int color, int borderColor, SeekBar seekGlow,
-            SeekBar seekBorder, SeekBar seekSpacing) {
+            SeekBar seekBorder, SeekBar seekSpacing, Spinner spinnerLang, EditText edtCustom, int elementType) {
+
         if (spinnerFont.getSelectedItemPosition() < 0 || spinnerFont.getSelectedItemPosition() >= fontFaces.size())
             return;
-        updateFontPreview(imgPreview,
-                fontFaces.get(spinnerFont.getSelectedItemPosition()),
-                seekSize.getProgress(), color, borderColor, seekGlow.getProgress(), seekBorder.getProgress(),
-                seekSpacing.getProgress());
+
+        Typeface tf = fontFaces.get(spinnerFont.getSelectedItemPosition());
+        int size = seekSize.getProgress();
+        int glow = seekGlow.getProgress();
+        int border = seekBorder.getProgress();
+        int spacing = seekSpacing.getProgress() - 50;
+        String lang = (spinnerLang != null && spinnerLang.getSelectedItemPosition() == 1) ? "es" : "en";
+        String custom = (edtCustom != null) ? edtCustom.getText().toString() : "";
+
+        Bitmap[] frames = renderDigitBitmaps(elementType, tf, size, color, borderColor, glow, border, spacing, lang,
+                custom);
+
+        if (frames != null && frames.length > 0) {
+            // For preview, maybe combinine hi/lo if digit? Or just show first frame?
+            // Since it's a font preview, let's show the first generated glyph or a sample.
+            // If Weekday/Month, frames[0] is MON/JAN.
+            imgPreview.setImageBitmap(frames[0]);
+            // If simple number, frames[0] is '0'.
+            // To be fancier for numbers, we could combine '1' and '2'.
+            if (frames.length >= 10 && elementType != DialCompiler.TYPE_WEEKDAY
+                    && elementType != DialCompiler.TYPE_MONTH && elementType != DialCompiler.TYPE_BERRY) {
+                // It's likely 0-9. Construct "12"
+                // ... (Optional, stick to simple first frame for now or custom logic)
+                // But renderDigitBitmaps returns 0..9 for digits.
+                // So frames[1] and frames[2] would be '1' and '2'.
+                if (frames.length > 2) {
+                    // Combine 1 and 2
+                    Bitmap one = frames[1];
+                    Bitmap two = frames[2];
+                    Bitmap combined = Bitmap.createBitmap(one.getWidth() + two.getWidth() + 5,
+                            Math.max(one.getHeight(), two.getHeight()), Bitmap.Config.ARGB_8888);
+                    Canvas c = new Canvas(combined);
+                    c.drawBitmap(one, 0, 0, null);
+                    c.drawBitmap(two, one.getWidth() + 5, 0, null);
+                    imgPreview.setImageBitmap(combined);
+                }
+            }
+        }
     }
 
     private void updateFontPreview(ImageView target, Typeface tf, int size,
@@ -816,7 +950,7 @@ public class DialEditorActivity extends AppCompatActivity {
 
         Paint.FontMetrics fm = paint.getFontMetrics();
         int textH = (int) (fm.descent - fm.ascent + 0.5f);
-        int padding = Math.max(glowRadius * 2, borderWidth * 2) + 4;
+        int padding = Math.max(glowRadius, borderWidth) + 4;
 
         // Render "1" and "2" separately with spacing
         float digit1W = paint.measureText("1");
@@ -864,7 +998,8 @@ public class DialEditorActivity extends AppCompatActivity {
      * Render individual digit bitmaps from a font with effects.
      */
     private Bitmap[] renderDigitBitmaps(int elementType, Typeface tf, int size,
-            int color, int borderColor, int glowRadius, int borderWidth, int spacing) {
+            int color, int borderColor, int glowRadius, int borderWidth, int spacing, String language,
+            String customText) {
         if (size < 16)
             size = 16;
         int expectedFrames = DialCompiler.getDefaultFrameCount(elementType);
@@ -873,7 +1008,27 @@ public class DialEditorActivity extends AppCompatActivity {
         if (elementType == DialCompiler.TYPE_AMPM) {
             glyphs = new String[] { "AM", "PM" };
         } else if (elementType == DialCompiler.TYPE_WEEKDAY) {
-            glyphs = new String[] { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+            if ("es".equals(language)) {
+                glyphs = new String[] { "LUN", "MAR", "MIE", "JUE", "VIE", "SAB", "DOM" };
+            } else {
+                glyphs = new String[] { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+            }
+        } else if (elementType == DialCompiler.TYPE_MONTH) {
+            // 1-12 (Jan-Dec)
+            if ("es".equals(language)) {
+                glyphs = new String[] { "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV",
+                        "DIC" };
+            } else {
+                glyphs = new String[] { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV",
+                        "DEC" };
+            }
+        } else if (elementType == DialCompiler.TYPE_BERRY || elementType == DialCompiler.TYPE_LABEL) {
+            // Decoration / Label: Use custom text if provided, else default
+            if (customText != null && !customText.isEmpty()) {
+                glyphs = new String[] { customText };
+            } else {
+                glyphs = new String[] { ":" }; // Default decoration
+            }
         } else {
             // Numeric digits 0-9
             glyphs = new String[expectedFrames];
@@ -894,7 +1049,7 @@ public class DialEditorActivity extends AppCompatActivity {
         for (String g : glyphs) {
             maxW = Math.max(maxW, (int) (paint.measureText(g) + 0.5f));
         }
-        int padding = Math.max(glowRadius * 2, borderWidth * 2) + 2;
+        int padding = Math.max(glowRadius, borderWidth) + 2;
         int frameW = maxW + padding * 2 + spacing;
         int frameH = textH + padding * 2;
 
@@ -966,6 +1121,26 @@ public class DialEditorActivity extends AppCompatActivity {
                 }
 
                 // === DIGITAL DIGITS (time/digital/X/hour_minute) ===
+                case DialCompiler.TYPE_BATTERY: {
+                    // Look in assets/battery/*.svg
+                    String batDir = "battery";
+                    String[] files = safeListAssets(batDir);
+                    for (String f : files) {
+                        if (f.endsWith(".svg")) {
+                            found.add(batDir + "/" + f);
+                        }
+                    }
+                    // Also look in standard value folder
+                    String valueBase = base + "/value";
+                    String[] styles = safeListAssets(valueBase);
+                    for (String style : styles) {
+                        String path = valueBase + "/" + style;
+                        if (hasAssetFile(path + "/0.png")) {
+                            found.add(path);
+                        }
+                    }
+                    break;
+                }
                 case DialCompiler.TYPE_DIGITAL_HOUR:
                 case DialCompiler.TYPE_DIGITAL_MIN:
                 case DialCompiler.TYPE_SECONDS:
@@ -1026,8 +1201,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 case DialCompiler.TYPE_HEART:
                 case DialCompiler.TYPE_CALORIE:
                 case DialCompiler.TYPE_DISTANCE:
-                case DialCompiler.TYPE_TEMP:
-                case DialCompiler.TYPE_BATTERY: {
+                case DialCompiler.TYPE_TEMP: {
                     String valueBase = base + "/value";
                     String[] styles = safeListAssets(valueBase);
                     for (String style : styles) {
@@ -1156,24 +1330,39 @@ public class DialEditorActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_CODE);
     }
 
+    private void pickSvgFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/svg+xml");
+        startActivityForResult(intent, PICK_SVG_CODE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
             try {
-                InputStream is = getContentResolver().openInputStream(data.getData());
+                InputStream is = getContentResolver().openInputStream(imageUri);
                 Bitmap bmp = BitmapFactory.decodeStream(is);
                 is.close();
 
-                if (pendingElementType == DialCompiler.TYPE_BACKGROUND) {
-                    addBackgroundLayer(bmp);
-                } else {
-                    addSpriteSheetLayer(bmp, pendingElementType);
+                if (bmp == null) {
+                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                pendingElementType = -1;
+
+                if (pendingElementType == DialCompiler.TYPE_BACKGROUND) {
+                    addBackgroundLayer(bmp, pendingElementType);
+                    pendingElementType = -1;
+                } else {
+                    addBackgroundLayer(bmp, -1);
+                }
             } catch (Exception e) {
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == PICK_SVG_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            showSVGEditor(data.getData(), pendingElementType);
+            pendingElementType = -1;
         }
     }
 
@@ -1189,6 +1378,42 @@ public class DialEditorActivity extends AppCompatActivity {
         // Center on canvas
         layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
         layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
+        layer.locked = true; // Auto-lock background
+        layers.add(0, layer);
+        selectedLayerIndex = 0;
+        refreshAll();
+    }
+
+    private void addBackgroundLayer(Bitmap bmp, int elementType) {
+        // Ensure no other background exists? Or just add on top?
+        // Usually only 1 background. Remove existing if any?
+        // For now, just add.
+
+        // Ensure it's exactly canvas size (already done in onActivityResult for
+        // background type,
+        // but good to be safe if called from elsewhere)
+        if (elementType == DialCompiler.TYPE_BACKGROUND) {
+            if (bmp.getWidth() != canvasWidth || bmp.getHeight() != canvasHeight) {
+                Bitmap scaled = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
+                bmp = scaled;
+            }
+        }
+
+        float scaleToCover = 1.0f; // For background, it's already scaled to cover
+        if (elementType != DialCompiler.TYPE_BACKGROUND) {
+            scaleToCover = Math.max(
+                    (float) canvasWidth / bmp.getWidth(),
+                    (float) canvasHeight / bmp.getHeight());
+        }
+
+        DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, bmp,
+                getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
+        layer.frames = new Bitmap[] { bmp };
+        layer.scale = scaleToCover;
+        // Center on canvas
+        layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
+        layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
+        layer.locked = true; // Auto-lock background
         layers.add(0, layer);
         selectedLayerIndex = 0;
         refreshAll();
@@ -1501,7 +1726,12 @@ public class DialEditorActivity extends AppCompatActivity {
                 previewBlock.x = 0;
                 previewBlock.y = 0;
                 previewBlock.frames = 1;
-                previewBlock.images = new Bitmap[] { scaledPreview };
+                // Convert to RGB_565 to ensure no alpha channel (fixes "corrupt" dial issue)
+                Bitmap preview565 = Bitmap.createBitmap(280, 280, Bitmap.Config.RGB_565);
+                Canvas p565Canvas = new Canvas(preview565);
+                p565Canvas.drawBitmap(scaledPreview, 0, 0, null);
+
+                previewBlock.images = new Bitmap[] { preview565 };
                 compiler.addBlock(previewBlock);
 
                 for (DialLayer layer : layers) {
@@ -1509,41 +1739,6 @@ public class DialEditorActivity extends AppCompatActivity {
                     block.type = layer.nativeElementType;
                     block.x = (int) layer.posX;
                     block.y = (int) layer.posY;
-
-                    // Background: flatten to canvas-sized RGB composite (no alpha)
-                    if (layer.nativeElementType == DialCompiler.TYPE_BACKGROUND) {
-                        // Draw onto ARGB first for proper blending, then convert
-                        Bitmap bgTemp = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
-                        Canvas bgCanvas = new Canvas(bgTemp);
-                        bgCanvas.drawColor(Color.BLACK);
-                        Bitmap src = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0] : layer.icon;
-                        if (src != null) {
-                            Matrix bgm = new Matrix();
-                            bgm.postScale(layer.scale, layer.scale);
-                            if (layer.rotation != 0) {
-                                float sw = src.getWidth() * layer.scale;
-                                float sh = src.getHeight() * layer.scale;
-                                bgm.postRotate(layer.rotation, sw / 2, sh / 2);
-                            }
-                            bgm.postTranslate(layer.posX, layer.posY);
-                            bgCanvas.drawBitmap(src, bgm, null);
-                        }
-                        // Convert to RGB_565 to strip alpha — prevents comp_decomp RGBA/RGB mismatch
-                        Bitmap bgComposite = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
-                        Canvas rgbCanvas = new Canvas(bgComposite);
-                        rgbCanvas.drawBitmap(bgTemp, 0, 0, null);
-                        bgTemp.recycle();
-
-                        block.images = new Bitmap[] { bgComposite };
-                        block.frames = 1;
-                        block.width = canvasWidth;
-                        block.height = canvasHeight;
-                        block.x = 0;
-                        block.y = 0;
-                        block.hasAlpha = false;
-                        compiler.addBlock(block);
-                        continue;
-                    }
 
                     // Other elements: scale each frame properly
                     // BUT analog hands are NEVER scaled — firmware requires exact preset dims
@@ -1626,18 +1821,26 @@ public class DialEditorActivity extends AppCompatActivity {
                         // Show success dialog with Send option
                         new AlertDialog.Builder(this)
                                 .setTitle("✅ " + filename)
-                                .setMessage(size + " — " + getString(R.string.saved_to_library))
+                                .setMessage(size)
                                 .setPositiveButton(R.string.send_dial, (d, w) -> {
-                                    Intent sendIntent = new Intent(this, MainActivity.class);
-                                    sendIntent.putExtra("dial_file_path", savedFile.getAbsolutePath());
-                                    startActivity(sendIntent);
+                                    // Navigate to Send screen with this file selected
+                                    Intent result = new Intent();
+                                    result.setData(Uri.fromFile(savedFile));
+                                    setResult(RESULT_OK, result);
+                                    finish();
                                 })
-                                .setNegativeButton(R.string.cancel, null)
-                                .setCancelable(true)
+                                .setNegativeButton(R.string.close, null)
                                 .show();
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        btnUpload.setEnabled(true);
+                        btnUpload.setText(R.string.compile);
+                        Toast.makeText(this, "Compilation failed", Toast.LENGTH_SHORT).show();
                     });
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 runOnUiThread(() -> {
                     btnUpload.setEnabled(true);
                     btnUpload.setText(R.string.compile);
@@ -1645,6 +1848,513 @@ public class DialEditorActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    // ===================== SVG EDITOR =====================
+
+    private void showSVGEditor(Uri svgUri, int elementType) {
+        AlertDialog dialog;
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_svg_editor, null);
+        ImageView imgPreview = view.findViewById(R.id.imgSvgPreview);
+        LinearLayout colorPalette = view.findViewById(R.id.svgColorPalette);
+        LinearLayout containerBattery = view.findViewById(R.id.containerBatteryOpts);
+        SeekBar seekLevels = view.findViewById(R.id.seekLevels);
+        TextView txtLevels = view.findViewById(R.id.txtLevelsVal);
+        android.widget.CheckBox chkClip = view.findViewById(R.id.chkClipVertical);
+
+        boolean isBattery = (elementType == DialCompiler.TYPE_BATTERY ||
+                elementType == DialCompiler.TYPE_BATT_STRIP ||
+                elementType == DialCompiler.TYPE_PROGRESS1 ||
+                elementType == DialCompiler.TYPE_PROGRESS2);
+
+        if (isBattery) {
+            containerBattery.setVisibility(View.VISIBLE);
+            int defFrames = DialCompiler.getDefaultFrameCount(elementType);
+            seekLevels.setProgress(defFrames);
+            txtLevels.setText(defFrames + " levels");
+        } else {
+            containerBattery.setVisibility(View.GONE);
+        }
+
+        seekLevels.setOnSeekBarChangeListener(new SimpleSeekListener() {
+            @Override
+            public void onProgressChanged(SeekBar sb, int val, boolean user) {
+                txtLevels.setText(val + " levels");
+            }
+        });
+
+        // Color Palette
+        final int[] colors = {
+                Color.WHITE, Color.BLACK, Color.parseColor("#FF4444"), Color.parseColor("#44FF44"),
+                Color.parseColor("#4488FF"), Color.parseColor("#FFDD44"),
+                Color.parseColor("#FF44FF"), Color.parseColor("#44FFFF"),
+                Color.parseColor("#FF8844"), Color.parseColor("#88FF44"),
+                Color.TRANSPARENT // Original color
+        };
+        final int[] selectedColor = { Color.WHITE }; // Default tint white
+
+        for (int clr : colors) {
+            View swatch = new View(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            lp.setMargins(2, 2, 2, 2);
+            swatch.setLayoutParams(lp);
+            swatch.setTag(clr);
+            GradientDrawable gd = new GradientDrawable();
+            if (clr == Color.TRANSPARENT) {
+                gd.setColor(Color.LTGRAY); // visual placeholder for "None"
+            } else {
+                gd.setColor(clr);
+            }
+            gd.setCornerRadius(6);
+            if (clr == selectedColor[0])
+                gd.setStroke(3, Color.parseColor("#58A6FF"));
+            swatch.setBackground(gd);
+            swatch.setOnClickListener(v -> {
+                selectedColor[0] = clr;
+                for (int i = 0; i < colorPalette.getChildCount(); i++) {
+                    View child = colorPalette.getChildAt(i);
+                    GradientDrawable bg = (GradientDrawable) child.getBackground();
+                    bg.setStroke(3, ((int) child.getTag() == clr) ? Color.parseColor("#58A6FF") : Color.TRANSPARENT);
+                }
+                // Update preview
+                updateSVGPreview(imgPreview, svgUri, selectedColor[0]);
+            });
+            colorPalette.addView(swatch);
+        }
+
+        // Initial Preview
+        updateSVGPreview(imgPreview, svgUri, selectedColor[0]);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.svg_generator)
+                .setView(view)
+                .setPositiveButton(R.string.save, (d, w) -> {
+                    generateSVGLayer(svgUri, elementType, selectedColor[0],
+                            isBattery ? seekLevels.getProgress() : 1,
+                            isBattery && chkClip.isChecked());
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void updateSVGPreview(ImageView target, Uri uri, int tintColor) {
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            SVG svg = SVG.getFromInputStream(is);
+            is.close();
+
+            if (tintColor != Color.TRANSPARENT) {
+                // Apply tint to document locally for preview?
+                // AndroidSVG doesn't easily support dynamic tinting of the whole doc structure
+                // without CSS
+                // Easier: Rasterize then tint Bitmap
+            }
+
+            // Render to a decent preview size (e.g. 200x200)
+            // But preserve aspect ratio
+            float docW = svg.getDocumentWidth();
+            float docH = svg.getDocumentHeight();
+            if (docW <= 0 || docH <= 0) {
+                // Try viewBox
+                if (svg.getDocumentViewBox() != null) {
+                    docW = svg.getDocumentViewBox().width();
+                    docH = svg.getDocumentViewBox().height();
+                } else {
+                    docW = 100;
+                    docH = 100;
+                }
+            }
+
+            float scale = Math.min(200f / docW, 200f / docH);
+            int w = (int) (docW * scale);
+            int h = (int) (docH * scale);
+
+            Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bmp);
+
+            if (tintColor != Color.TRANSPARENT) {
+                // Not fully supported by AndroidSVG directly, use Paint/PorterDuff on the
+                // bitmap later?
+                // Actually, let's just render standard, then apply Tint filter if needed?
+                // Or better: render standard, then apply ColorFilter to the ImageView?
+                // But we need to generate correct bitmaps later.
+
+                // For valid generation, we need to rasterize with tint.
+                // Since AndroidSVG is read-only mostly, good trick: use CSS?
+                // Or: Render to bitmap, then draw that bitmap with ColorFilter to a new bitmap.
+            }
+
+            svg.setDocumentWidth(w);
+            svg.setDocumentHeight(h);
+            svg.renderToCanvas(c);
+
+            if (tintColor != Color.TRANSPARENT) {
+                Bitmap tinted = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                Canvas tc = new Canvas(tinted);
+                Paint p = new Paint();
+                p.setColorFilter(
+                        new android.graphics.PorterDuffColorFilter(tintColor, android.graphics.PorterDuff.Mode.SRC_IN));
+                tc.drawBitmap(bmp, 0, 0, p);
+                bmp.recycle();
+                target.setImageBitmap(tinted);
+            } else {
+                target.setImageBitmap(bmp);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showSVGEditor(int elementType, String assetPath) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_svg_editor, null);
+        ImageView imgPreview = view.findViewById(R.id.imgSvgPreview);
+        SeekBar seekLevels = view.findViewById(R.id.seekLevels);
+        TextView txtLevels = view.findViewById(R.id.txtLevelsVal);
+        CheckBox switchClip = view.findViewById(R.id.chkClipVertical);
+        LinearLayout colorPalette = view.findViewById(R.id.svgColorPalette);
+        // Button btnPickColor = view.findViewById(R.id.btnPickColor); // Removed as not
+        // in XML
+        // Assuming user wants to pick tint from palette or wheel.
+        // XML had colorPalette.
+
+        final int[] tintColor = { Color.WHITE }; // Default tint
+        final int[] levels = { 5 }; // Default levels for battery
+        final boolean[] clip = { true };
+
+        // Helper to update preview
+        Runnable updatePreview = () -> {
+            try {
+                InputStream is = getAssets().open(assetPath);
+                com.caverock.androidsvg.SVG svg = com.caverock.androidsvg.SVG.getFromInputStream(is);
+                is.close();
+                // We need to simulate clipping/tinting for preview
+                // It's complex to preview clipping exactly without generating bitmaps
+                // Let's just show the tinted SVG for now
+                // Render to a decent preview size (e.g. 200x200)
+                float docW = svg.getDocumentWidth();
+                float docH = svg.getDocumentHeight();
+                if (docW <= 0)
+                    docW = 100;
+                if (docH <= 0)
+                    docH = 100;
+
+                float scale = Math.min(200f / docW, 200f / docH);
+                int w = (int) (docW * scale);
+                int h = (int) (docH * scale);
+
+                Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(bmp);
+                c.scale(scale, scale);
+                svg.renderToCanvas(c);
+
+                // apply tint
+                Bitmap tinted = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                Canvas tc = new Canvas(tinted);
+                Paint p = new Paint();
+                p.setColorFilter(new android.graphics.PorterDuffColorFilter(tintColor[0],
+                        android.graphics.PorterDuff.Mode.SRC_IN));
+                tc.drawBitmap(bmp, 0, 0, p);
+                bmp.recycle();
+                imgPreview.setImageBitmap(tinted);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+
+        // ... Setup UI listeners (simplified for brevity, copy from existing
+        // showSVGEditor or refactor to share)
+        // Actually, showSVGEditor(Uri) is not fully visible in snippet, but I should
+        // use the same logic overloads.
+        // I will implement a shared helper ShowSVGEditor(Uri uri, String assetPath, int
+        // elementType)
+        // But for now, let's just duplicate the essentials for asset path to be safe
+        // and quick.
+
+        // Color Palette
+        int[] colors = { Color.WHITE, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA,
+                Color.YELLOW };
+        for (int c : colors) {
+            View swatch = new View(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 100, 1);
+            lp.setMargins(4, 4, 4, 4);
+            swatch.setLayoutParams(lp);
+            swatch.setBackgroundColor(c);
+            swatch.setOnClickListener(v -> {
+                tintColor[0] = c;
+                updatePreview.run();
+            });
+            colorPalette.addView(swatch);
+        }
+
+        seekLevels.setOnSeekBarChangeListener(new SimpleSeekListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                levels[0] = Math.max(1, progress);
+                txtLevels.setText("Levels: " + levels[0]);
+            }
+        });
+
+        if (elementType == DialCompiler.TYPE_BATTERY) {
+            seekLevels.setVisibility(View.VISIBLE);
+            txtLevels.setVisibility(View.VISIBLE);
+            switchClip.setVisibility(View.VISIBLE);
+        } else {
+            seekLevels.setVisibility(View.GONE);
+            txtLevels.setVisibility(View.GONE);
+            switchClip.setVisibility(View.GONE);
+        }
+
+        updatePreview.run();
+
+        new AlertDialog.Builder(this)
+                .setTitle("SVG Editor")
+                .setView(view)
+                .setPositiveButton("Add", (dialog, which) -> {
+                    // Generate Layer
+                    generateSVGLayerFromAsset(assetPath, elementType, tintColor[0], levels[0], switchClip.isChecked());
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void generateSVGLayerFromAsset(String assetPath, int elementType, int tintColor, int levels,
+            boolean clipVertical) {
+        try {
+            InputStream is = getAssets().open(assetPath);
+            com.caverock.androidsvg.SVG svg = com.caverock.androidsvg.SVG.getFromInputStream(is);
+            is.close();
+
+            // Common logic with generateSVGLayer(Uri).
+            // Reuse logic?
+            // Yes, extract core logic.
+            // For now, implement inline to avoid disturbing existing method too much.
+
+            float docW = svg.getDocumentWidth();
+            float docH = svg.getDocumentHeight();
+            if (docW <= 0)
+                docW = 100;
+            if (docH <= 0)
+                docH = 100;
+
+            // Render to Bitmap
+            // Scale to fit screen logic? Or fixed size?
+            // Let's assume reasonable icon size relative to canvas (e.g. 1/4 width?)
+            // Or keep original density?
+            // Assets might be small.
+            // Let's render at 100x100 or 200x200 if no size.
+            // Better: Render at a size suitable for the watch face (e.g. 50-100px).
+            int w = (int) docW;
+            int h = (int) docH;
+            if (w < 50) {
+                w *= 4;
+                h *= 4;
+            } // Scale up small icons
+
+            Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bmp);
+            c.scale((float) w / docW, (float) h / docH);
+            svg.renderToCanvas(c);
+
+            // Tint
+            Bitmap tinted = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas tc = new Canvas(tinted);
+            Paint p = new Paint();
+            p.setColorFilter(
+                    new android.graphics.PorterDuffColorFilter(tintColor, android.graphics.PorterDuff.Mode.SRC_IN));
+            tc.drawBitmap(bmp, 0, 0, p);
+            bmp.recycle();
+            bmp = tinted;
+
+            if (elementType == DialCompiler.TYPE_BATTERY) {
+                // Clip for levels
+                int frameH = h / levels;
+                if (clipVertical) {
+                    // We need 'levels' frames.
+                    // If 'clipVertical' is true, we assume the SVG is a full battery and we crop
+                    // it?
+                    // Or we assume the SVG is one state and we duplicate it?
+                    // The user said "Clip Vertical".
+                    // Usually implies the battery icon is full, and we mask it.
+                    // ... (Implementation detail: create frames by cropping the full icon)
+                    // Actually, if we just want a static icon that changes color or shape, we need
+                    // multiple frames.
+                    // If the SVG is just one static icon, we can't magically make it empty unless
+                    // we mask it.
+                    // Let's assume the user wants to generate a "strip" of images by cropping the
+                    // single SVG?
+                    // Simple approach: Generate 'levels' frames.
+                    // Frame 0: Empty (or 1 segment). Frame N: Full.
+                    // If clipVertical:
+                    // Loop i from 0 to levels-1:
+                    // Crop rect: (0, H - (i+1)*frameH/levels, W, H) -> draw bottom part?
+                    // Or draw full bitmap masked?
+                    Bitmap[] frames = new Bitmap[levels];
+                    for (int i = 0; i < levels; i++) {
+                        Bitmap frame = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                        Canvas fc = new Canvas(frame);
+                        // Draw only a portion
+                        // Percentage height
+                        int visibleH = (int) ((float) (i + 1) / levels * h);
+                        Rect src = new Rect(0, h - visibleH, w, h); // Bottom up
+                        Rect dst = new Rect(0, h - visibleH, w, h);
+                        fc.drawBitmap(bmp, src, dst, null);
+                        frames[i] = frame;
+                    }
+
+                    DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, frames[0], "Battery (SVG)", elementType);
+                    layer.frames = frames;
+                    layer.frameCount = levels;
+                    layers.add(layer);
+                    refreshAll();
+                } else {
+                    // Just use as static icon?
+                    DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, bmp, "Icon (SVG)", elementType);
+                    layer.frames = new Bitmap[] { bmp };
+                    layers.add(layer);
+                    refreshAll();
+                }
+            } else {
+                DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, bmp, "Icon (SVG)", elementType);
+                layer.frames = new Bitmap[] { bmp };
+                layers.add(layer);
+                refreshAll();
+            }
+            Toast.makeText(this, "Added SVG Layer", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void generateSVGLayer(Uri uri, int elementType, int tintColor, int levels, boolean clipVertical) {
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            SVG svg = SVG.getFromInputStream(is);
+            is.close();
+
+            // Determine target size
+            // Default to some reasonable size if not battery?
+            // Or use original size?
+            float docW = svg.getDocumentWidth();
+            float docH = svg.getDocumentHeight();
+            if (docW <= 0 || docH <= 0) {
+                if (svg.getDocumentViewBox() != null) {
+                    docW = svg.getDocumentViewBox().width();
+                    docH = svg.getDocumentViewBox().height();
+                } else {
+                    docW = 50;
+                    docH = 50;
+                }
+            }
+
+            // If it's too big, scale down? Or keep original?
+            // Let's limit max dimension to 466 (screen size) to avoid huge heap usage
+            float maxDim = Math.max(docW, docH);
+            if (maxDim > 466) {
+                float s = 466 / maxDim;
+                docW *= s;
+                docH *= s;
+            }
+
+            int w = (int) Math.ceil(docW);
+            int h = (int) Math.ceil(docH);
+
+            Bitmap baseBmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(baseBmp);
+            svg.setDocumentWidth(w);
+            svg.setDocumentHeight(h);
+            svg.renderToCanvas(c);
+
+            // Apply tint
+            if (tintColor != Color.TRANSPARENT) {
+                Bitmap tinted = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                Canvas tc = new Canvas(tinted);
+                Paint p = new Paint();
+                p.setColorFilter(
+                        new android.graphics.PorterDuffColorFilter(tintColor, android.graphics.PorterDuff.Mode.SRC_IN));
+                tc.drawBitmap(baseBmp, 0, 0, p);
+                baseBmp.recycle();
+                baseBmp = tinted;
+            }
+
+            Bitmap[] frames;
+
+            if (levels > 1 && clipVertical) {
+                // Generate clipped frames
+                frames = new Bitmap[levels];
+                // Frame 0..N-1.
+                // Usually Frame 0 is lowest (empty?) or 1/N?
+                // Let's assume linear fill from bottom.
+                // Frame i (0-based) represents state i/(N-1) ?
+                // Battery 6 levels: 0, 20, 40, 60, 80, 100?
+                // If N=6.
+
+                for (int i = 0; i < levels; i++) {
+                    Bitmap frame = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                    Canvas fc = new Canvas(frame);
+
+                    // Ratio of fill
+                    // If levels=5. i=0 -> 20%? or 0%?
+                    // Typically index 0 is "empty" or "lowest".
+                    // Let's say we split height into 'levels' chunks.
+                    // But we want "accumulative" fill?
+                    // Let's do: fillHeight = (i + 1) * (h / levels);
+
+                    float fillRatio = (float) (i + 1) / levels;
+                    // For battery, often index 0 is empty/low.
+                    // If N=5. i=0->20%, i=4->100%.
+
+                    int clipTop = (int) (h * (1 - fillRatio));
+
+                    fc.save();
+                    fc.clipRect(0, clipTop, w, h); // Keep bottom part
+                    fc.drawBitmap(baseBmp, 0, 0, null);
+                    fc.restore();
+
+                    // If we want the "empty" part to be dim?
+                    // User said "substitute logic... use fonts".
+                    // For battery, usually 100% lit is full. 0% is empty.
+                    // Currently we just clip. The "empty" part is transparent.
+                    // This works if there is a background or if the user supplies a "dim" layer
+                    // behind it.
+
+                    frames[i] = frame;
+                }
+                baseBmp.recycle();
+
+            } else if (levels > 1) {
+                // Just repeat the same image?
+                // Or maybe user wants identical frames for state-based logic?
+                frames = new Bitmap[levels];
+                for (int i = 0; i < levels; i++) {
+                    frames[i] = baseBmp.copy(Bitmap.Config.ARGB_8888, false);
+                }
+                baseBmp.recycle();
+            } else {
+                frames = new Bitmap[] { baseBmp };
+            }
+
+            // Add layer
+            String name = getBlockLabel(elementType);
+            DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, frames[0], name, elementType);
+            layer.frames = frames;
+            layer.frameCount = frames.length;
+            layer.isSpriteSheet = frames.length > 1;
+            layer.alpha = 1.0f;
+            layer.posX = canvasWidth / 2f - w / 2f;
+            layer.posY = canvasHeight / 2f - h / 2f;
+            layers.add(layer);
+            selectedLayerIndex = layers.size() - 1;
+            refreshAll();
+
+            Toast.makeText(this, "✓ " + name, Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "SVG Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void copyFile(File src, File dst) throws IOException {
