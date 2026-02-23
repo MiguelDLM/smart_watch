@@ -13,6 +13,10 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.ClipboardManager;
+import android.content.ClipData;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,6 +115,20 @@ public class MainActivity extends AppCompatActivity {
     private static final int MAX_WRITE_RETRIES = 3;
     private static final long WRITE_TIMEOUT_MS = 5000;
     private final Runnable writeWatchdogRunnable = this::handleWriteTimeout;
+    // Session Persistence
+    private SharedPreferences prefs;
+    private static final String PREF_NAME = "dial_sender_prefs";
+    private static final String PREF_BIND_ID = "bind_id";
+    private static final String PREF_DEVICE_ADDRESS = "device_address";
+    private Runnable transferTimeoutRunnable;
+    private int transferRetryCount = 0;
+    private static final int MAX_TRANSFER_RETRIES = 3;
+    private static final long TRANSFER_TIMEOUT_MS = 3000;
+    private long lastTransferOffset = -1;
+    private Runnable preTransferTimeoutRunnable;
+    private static final long PRE_TRANSFER_TIMEOUT_MS = 1500;
+    private Runnable setupTimeoutRunnable;
+    private static final long SETUP_TIMEOUT_MS = 2000;
 
     // Handshake Magic Bytes
     private static final byte[] HANDSHAKE_CMD = new byte[] {
@@ -149,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
         SettingsActivity.applyGlobalTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Bind UI
+        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         txtStatus = findViewById(R.id.txtStatus);
         txtDeviceName = findViewById(R.id.txtDeviceName);
         txtFileInfo = findViewById(R.id.txtFileInfo);
@@ -164,9 +182,17 @@ public class MainActivity extends AppCompatActivity {
         btnViewLogs = findViewById(R.id.btnViewLogs);
         btnCancel = findViewById(R.id.btnCancel);
         transferCard = findViewById(R.id.transferCard);
-
         btnScan.setOnClickListener(v -> startScan());
         btnSelectFile.setOnClickListener(v -> openFilePicker());
+        findViewById(R.id.btnCreateDial).setOnClickListener(v -> {
+            Intent intent = new Intent(this, DialEditorActivity.class);
+            startActivityForResult(intent, FILE_SELECT_CODE);
+        });
+        // Health sync button (optional in layout)
+        Button btnHealth = findViewById(R.id.btnSyncHealth);
+        if (btnHealth != null) {
+            btnHealth.setOnClickListener(v -> syncHealth());
+        }
         btnSelectFile.setEnabled(false);
 
         // Send button — only sends when file is loaded AND connected
@@ -185,11 +211,10 @@ public class MainActivity extends AppCompatActivity {
         if (bluetoothGatt != null && isConnected && connectionState == ConnectionState.SESSION_READY) {
             updateConnectionUI(true);
         }
-
         // Check if launched from library with a pre-selected file
         handleIncomingFile();
+        tryAutoReconnect();
     }
-
     private void handleIncomingFile() {
         String filePath = getIntent().getStringExtra("dial_file_path");
         if (filePath != null) {
@@ -204,13 +229,11 @@ public class MainActivity extends AppCompatActivity {
                 fis.close();
                 fileBytesToSend = byteBuffer.toByteArray();
                 fileTotalSize = fileBytesToSend.length;
-
                 String sizeStr = fileTotalSize > 1024
                         ? String.format("%.1f KB", fileTotalSize / 1024.0)
                         : fileTotalSize + " bytes";
                 log("File loaded from library: " + f.getName() + " (" + sizeStr + ")");
-
-                txtFileInfo.setText(f.getName() + " — " + sizeStr);
+                txtFileInfo.setText(f.getName() + " \u2014 " + sizeStr);
                 txtFileInfo.setTextColor(getResources().getColor(R.color.accent_secondary));
                 updateSendButtonState();
             } catch (Exception e) {
@@ -378,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
     private void connectToDevice(BluetoothDevice device) {
         connectedDeviceName = device.getName() != null ? device.getName() : device.getAddress();
         log("Connecting to " + connectedDeviceName + " (" + device.getAddress() + ")");
+        prefs.edit().putString(PREF_DEVICE_ADDRESS, device.getAddress()).apply();
         runOnUiThread(() -> {
             txtStatus.setText(R.string.connecting);
             txtStatus.setTextColor(getResources().getColor(R.color.status_scanning));
@@ -398,8 +422,6 @@ public class MainActivity extends AppCompatActivity {
                 connectionState = ConnectionState.DISCONNECTED;
                 log("Disconnected - Resetting state");
                 updateConnectionUI(false);
-
-                // CRITICAL: Clear queues on disconnect
                 commandQueue.clear();
                 isSending = false;
                 isFileTransferActive = false;
@@ -409,16 +431,11 @@ public class MainActivity extends AppCompatActivity {
                     btnSendDial.setEnabled(false);
                 });
 
-                // Auto-reconnect attempt after brief delay
-                if (bluetoothGatt != null) {
-                    mainHandler.postDelayed(() -> {
-                        log("Attempting auto-reconnect...");
-                        try {
-                            bluetoothGatt.connect();
-                        } catch (Exception e) {
-                            log("Auto-reconnect failed: " + e.getMessage());
-                        }
-                    }, 3000);
+                // Auto-reconnect via prefs after 5 seconds
+                String lastAddr = prefs.getString(PREF_DEVICE_ADDRESS, null);
+                if (lastAddr != null) {
+                    log("Will auto-reconnect in 5s...");
+                    mainHandler.postDelayed(() -> tryAutoReconnect(), 5000);
                 }
             }
         }
@@ -491,7 +508,9 @@ public class MainActivity extends AppCompatActivity {
     private void sendHandshake() {
         log("Sending Handshake...");
         connectionState = ConnectionState.HANDSHAKE_SENT;
-        commandQueue.clear();
+        if (!isFileTransferActive) {
+            commandQueue.clear();
+        }
         packetsSent = 0;
         enqueueLogicalFrame(HANDSHAKE_CMD);
         isSending = true;
@@ -501,6 +520,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendBind() {
         log("Sending Bind...");
         int bindId = new Random().nextInt();
+        prefs.edit().putInt(PREF_BIND_ID, bindId).apply();
         ByteBuffer payload = ByteBuffer.allocate(4);
         payload.order(ByteOrder.LITTLE_ENDIAN);
         payload.putInt(bindId);
@@ -559,7 +579,13 @@ public class MainActivity extends AppCompatActivity {
         if (isReply && connectionState == ConnectionState.HANDSHAKE_SENT) {
             log("Handshake OK");
             connectionState = ConnectionState.HANDSHAKE_OK;
-            mainHandler.postDelayed(this::sendBind, 100);
+            int storedBindId = prefs.getInt(PREF_BIND_ID, 0);
+            if (storedBindId != 0) {
+                log("Using stored bind ID, skipping bind");
+                mainHandler.postDelayed(this::sendLogin, 100);
+            } else {
+                mainHandler.postDelayed(this::sendBind, 100);
+            }
             return;
         }
 
@@ -589,7 +615,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Pre-Transfer ACK
+
         if (isReply && connectionState == ConnectionState.PRE_TRANSFER) {
+            if (preTransferTimeoutRunnable != null) mainHandler.removeCallbacks(preTransferTimeoutRunnable);
             log("Pre-Transfer ACK");
             preTransferIndex++;
             mainHandler.postDelayed(this::sendNextPreTransferCommand, 50);
@@ -598,6 +626,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup1 ACK
         if (isReply && cmd == 0x02 && key == 0x20 && connectionState == ConnectionState.SETUP1_SENT) {
+            if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
             log("Setup1 ACK");
             setupStep = 2;
             mainHandler.postDelayed(this::sendSetupStep2, 50);
@@ -606,6 +635,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup2 ACK
         if (isReply && cmd == 0x04 && key == 0x0C && connectionState == ConnectionState.SETUP2_SENT) {
+            if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
             log("Setup2 ACK");
             mainHandler.postDelayed(this::startStreamTransfer, 50);
             return;
@@ -613,6 +643,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Progress / Completion
         if (cmd == 0x07 && key == 0x01 && data.length >= 18) {
+            // Clear transfer timeout on progress
+            if (transferTimeoutRunnable != null) mainHandler.removeCallbacks(transferTimeoutRunnable);
+            transferRetryCount = 0;
+            // Parse progress
             byte[] payload = Arrays.copyOfRange(data, 9, data.length);
             int statusByte = payload[0] & 0xFF;
             int transferStatus = (statusByte >> 4) & 0x0F;
@@ -623,16 +657,13 @@ public class MainActivity extends AppCompatActivity {
             bb.position(1);
             long total = bb.getInt() & 0xFFFFFFFFL;
             long completed = bb.getInt() & 0xFFFFFFFFL;
-
             int percent = (total > 0) ? (int) ((completed * 100) / total) : 0;
             log("Progress: " + completed + "/" + total + " (" + percent + "%) Err=" + error);
-
             runOnUiThread(() -> {
                 progressBar.setProgress(percent);
                 txtProgress.setText(percent + "%");
                 txtTransferStatus.setText(completed + " / " + total + " bytes");
             });
-
             if (transferStatus == 0) {
                 if (isFileTransferActive && completed < total) {
                     sendStreamChunk(completed);
@@ -656,6 +687,26 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
+            return;
+        }
+
+        // Health data responses (Cmd=0x05)
+        if (isReply && cmd == 0x05) {
+            String keyName;
+            switch (key) {
+                case 0x03: keyName = "Steps"; break;
+                case 0x04: keyName = "Calories"; break;
+                case 0x05: keyName = "Sleep"; break;
+                case 0x07: keyName = "Distance"; break;
+                case 0x09: keyName = "Heart Rate"; break;
+                case 0x0B: keyName = "Blood Oxygen"; break;
+                case 0x0D: keyName = "Unknown_0D"; break;
+                case 0x0E: keyName = "Unknown_0E"; break;
+                default: keyName = "Unknown_" + String.format("%02X", key); break;
+            }
+            byte[] healthPayload = (data.length > 9) ? Arrays.copyOfRange(data, 9, data.length) : new byte[0];
+            log("Health [" + keyName + "]: " + bytesToHex(healthPayload));
+            return;
         }
     }
 
@@ -806,6 +857,7 @@ public class MainActivity extends AppCompatActivity {
         enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
+        schedulePreTransferTimeout();
     }
 
     private void startSetupSequence() {
@@ -825,6 +877,7 @@ public class MainActivity extends AppCompatActivity {
         enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
+        scheduleSetupTimeout("SETUP1");
     }
 
     private void sendSetupStep2() {
@@ -860,6 +913,7 @@ public class MainActivity extends AppCompatActivity {
         enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
+        scheduleSetupTimeout("SETUP2");
     }
 
     private void startStreamTransfer() {
@@ -898,6 +952,7 @@ public class MainActivity extends AppCompatActivity {
         enqueueLogicalFrame(message);
         isSending = true;
         sendNextChunk();
+        scheduleTransferTimeout(offset);
     }
 
     // --- Helpers ---
@@ -1002,5 +1057,101 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // Don't close GATT here to keep connection persistent
+    }
+
+    // --- Timeout & Retry Methods ---
+
+    private void tryAutoReconnect() {
+        String lastAddr = prefs.getString(PREF_DEVICE_ADDRESS, null);
+        if (lastAddr == null) return;
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        bluetoothAdapter = bluetoothManager.getAdapter();
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) return;
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(lastAddr);
+        if (device != null) {
+            log("Auto-reconnecting to " + lastAddr);
+            connectToDevice(device);
+        }
+    }
+
+    private void scheduleTransferTimeout(long offset) {
+        if (transferTimeoutRunnable != null) mainHandler.removeCallbacks(transferTimeoutRunnable);
+        lastTransferOffset = offset;
+        transferTimeoutRunnable = () -> {
+            if (isFileTransferActive && lastTransferOffset == offset) {
+                transferRetryCount++;
+                if (transferRetryCount <= MAX_TRANSFER_RETRIES) {
+                    log("Transfer stalled at offset " + offset + ", retry " + transferRetryCount);
+                    sendStreamChunk(offset);
+                } else {
+                    log("Transfer failed after " + MAX_TRANSFER_RETRIES + " retries");
+                    isFileTransferActive = false;
+                    runOnUiThread(() -> txtStatus.setText("Transfer Failed"));
+                }
+            }
+        };
+        mainHandler.postDelayed(transferTimeoutRunnable, TRANSFER_TIMEOUT_MS);
+    }
+
+    private void schedulePreTransferTimeout() {
+        if (preTransferTimeoutRunnable != null) mainHandler.removeCallbacks(preTransferTimeoutRunnable);
+        preTransferTimeoutRunnable = () -> {
+            List<PreTransferCommand> commands = getPreTransferCommands();
+            log("Pre-Transfer timeout at step " + (preTransferIndex + 1));
+            if (preTransferIndex < commands.size() - 1) {
+                preTransferIndex++;
+                log("Skipping to next step " + (preTransferIndex + 1));
+                sendNextPreTransferCommand();
+            } else {
+                log("Pre-Transfer exhausted, continuing to setup");
+                startSetupSequence();
+            }
+        };
+        mainHandler.postDelayed(preTransferTimeoutRunnable, PRE_TRANSFER_TIMEOUT_MS);
+    }
+
+    private void scheduleSetupTimeout(String stage) {
+        if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
+        setupTimeoutRunnable = () -> {
+            log("Setup timeout on " + stage + " using " + setupMethod);
+            handleSetupTimeout();
+        };
+        mainHandler.postDelayed(setupTimeoutRunnable, SETUP_TIMEOUT_MS);
+    }
+
+    private void handleSetupTimeout() {
+        if (setupMethod == SetupMethod.CAPTURED && !setupAttemptedDerived) {
+            setupAttemptedCaptured = true;
+            setupMethod = SetupMethod.DERIVED;
+            log("Switching to DERIVED setup method");
+            startSetupSequence();
+        } else if (setupMethod == SetupMethod.DERIVED && !setupAttemptedCaptured) {
+            setupAttemptedDerived = true;
+            setupMethod = SetupMethod.CAPTURED;
+            log("Switching to CAPTURED setup method");
+            startSetupSequence();
+        } else {
+            log("Both setup methods failed, attempting direct stream transfer");
+            startStreamTransfer();
+        }
+    }
+
+    // --- Health Data ---
+
+    private void syncHealth() {
+        log("=== Syncing Health Data ===");
+        int[] keys = {0x03, 0x04, 0x0D, 0x07, 0x05, 0x0E, 0x09, 0x0B};
+        for (int key : keys) {
+            byte[] msg = createMessage((byte)0x05, (byte)key, (byte)0x10, null);
+            enqueueLogicalFrame(msg);
+        }
+        isSending = true;
+        sendNextChunk();
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) sb.append(String.format("%02X ", b));
+        return sb.toString().trim();
     }
 }

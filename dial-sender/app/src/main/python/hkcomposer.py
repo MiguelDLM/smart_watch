@@ -1,30 +1,84 @@
 #!/usr/bin/env python3
-
 """
-Enhanced HK89 Watch Dial Composer  
-Based on analysis of Jieli AC79 SDK
+HK89 Watch Dial Compiler for Android (Chaquopy)
 
-Key features:
-1. Support for Jieli image_file structure format
-2. Multiple pixel formats (RGB565, RGB888, ARGB8888, etc.)
-3. RLE compression support
-4. CRC validation
-5. Multiple output formats (HK traditional, Jieli-style)
-6. Enhanced metadata handling
+Proper HK89 binary format compiler, ported from comp_decomp.py.
+Produces valid .bin dial files compatible with Jieli AC79-based smartwatches.
+
+Binary format:
+  Header (4B): pltable_size(2) + num_blocks(1) + format(1=0x02)
+  Block descriptors (num_blocks * 20B each)
+  Picture lookup table (pltable_size * 4B): compressed size per frame
+  Image data: RLE compressed frames (4-byte aligned)
+
+Called from DialCompiler.java via Chaquopy.
 """
 
 import struct
 import os
 import json
-import argparse
-from PIL import Image
 import sys
+from PIL import Image
+import argparse
 import zlib
+
+try:
+    import numpy as np
+    HAS_NUMPY = True
+except ImportError:
+    HAS_NUMPY = False
+
+
+# ── Block type mapping ──────────────────────────────────────────────
+TYPE_MAP = {
+    # Preview / Background
+    'BLK_PREV': 0x01, 'BLK_PREVI': 0x01,
+    'BLK_BGIMG': 0x02, 'BLK_BACKGROUND': 0x02, 'BLK_BACKGROUND2': 0x02,
+    # Analog clock hands
+    'BLK_ARMH': 0x03, 'BLK_ARM_HOUR': 0x03,
+    'BLK_ARMM': 0x04, 'BLK_ARM_MINUTE': 0x04,
+    'BLK_ARMS': 0x05, 'BLK_ARM_SECOND': 0x05,
+    # Date / Time
+    'BLK_YEAR': 0x06,
+    'BLK_MONTH': 0x07,
+    'BLK_DAY': 0x08,
+    'BLK_HOUR': 0x09, 'BLK_HOURS': 0x09,
+    'BLK_MIN': 0x0A, 'BLK_MINUTES': 0x0A,
+    'BLK_SEC': 0x0B, 'BLK_SECONDS': 0x0B,
+    'BLK_AMPM': 0x0C,
+    'BLK_WEEKD': 0x0D,
+    # Health / Activity
+    'BLK_STEPS': 0x0E,
+    'BLK_PULS': 0x0F, 'BLK_PULSE': 0x0F,
+    'BLK_CALOR': 0x10,
+    'BLK_DIST': 0x11,
+    # Status
+    'BLK_BATTN': 0x12, 'BLK_BATTERY': 0x12,
+    'BLK_CONN': 0x13, 'BLK_CONNECT': 0x13,
+    # Decorations
+    'BLK_BERRY': 0x16, 'BLK_BIGYO': 0x16,
+    'BLK_ANIM': 0x17, 'BLK_ANIMPART': 0x17,
+    'BLK_BATTS': 0x18, 'BLK_BATTERY_STRIP': 0x18,
+    'BLK_WEAT': 0x19, 'BLK_WEATHER': 0x19,
+    'BLK_TEMP': 0x1A,
+    # Progress bars
+    'BLK_PROG2': 0x1E, 'BLK_PROGRESS2': 0x1E,
+    'BLK_PROG1': 0x20, 'BLK_PROGRESS1': 0x20,
+    # Labels and digit splits
+    'BLK_LABEL': 0x25,
+    'BLK_HOURL': 0x27, 'BLK_HOUR_LO': 0x27,
+    'BLK_HOURH': 0x28, 'BLK_HOUR_HI': 0x28,
+    'BLK_MINH': 0x29, 'BLK_MINUTE_HI': 0x29,
+    'BLK_MINL': 0x2A, 'BLK_MINUTE_LO': 0x2A,
+    # Fallback
+    'BLK_UNKNOWN': 0x1E,
+    'BLK_': 0x1E,
+}
 
 # Pixel format constants from SDK
 PIXEL_FORMAT_MAP = {
     "ARGB8888": 0,
-    "RGB888": 1, 
+    "RGB888": 1,
     "RGB565": 2,
     "L8": 3,
     "AL88": 4,
@@ -44,6 +98,7 @@ COMPRESS_TYPE_MAP = {
     "lz77": 2,
     "jpeg": 3
 }
+
 
 class HKDialComposerEnhanced:
     def __init__(self):
@@ -638,41 +693,642 @@ class HKDialComposerEnhanced:
             
         print(f"Sample configuration created: {output_path}")
 
-def main():
+
+# ── Pixel helpers ───────────────────────────────────────────────────
+
+def rgb888_to_rgb565(r, g, b):
+    """Convert RGB888 to RGB565 (16-bit)."""
+    r5 = (r >> 3) & 0x1F
+    g6 = (g >> 2) & 0x3F
+    b5 = (b >> 3) & 0x1F
+    return (r5 << 11) | (g6 << 5) | b5
+
+
+def _load_pixels_numpy(img):
+    """Load image into numpy array."""
+    return np.array(img)
+
+
+def _load_pixels_list(img):
+    """Fallback: load image pixel data without numpy."""
+    width, height = img.size
+    pixels = list(img.getdata())
+    mode = img.mode
+    result = []
+    idx = 0
+    for y in range(height):
+        row = []
+        for x in range(width):
+            p = pixels[idx]
+            idx += 1
+            if mode == 'RGBA':
+                row.append(p)  # (r, g, b, a)
+            elif mode == 'RGB':
+                row.append((p[0], p[1], p[2], 255))
+            else:
+                row.append((p[0], p[1], p[2], 255))
+        result.append(row)
+    return result
+
+
+# ── RLE Compression (per-row with lookahead) ────────────────────────
+
+def compress_rle_row_lookahead(pixels, width):
+    """
+    Compress 'width' RGB565 pixels using RLE with 2*width lookahead.
+
+    RLE format (RGB565, 2 bytes big-endian per pixel):
+      0x80|count + pixel: repeat pixel count times (run >= 3)
+      count + count*pixel: that many unique pixels (1..127)
+    """
+    result = bytearray()
+    i = 0
+    generated_pixels = 0
+    max_lookahead = width * 2
+
+    while generated_pixels < width:
+        if i >= len(pixels):
+            break
+
+        current = pixels[i]
+
+        # Count consecutive identical pixels
+        run_length = 1
+        max_run = min(127, max_lookahead - i, len(pixels) - i)
+        while run_length < max_run and pixels[i + run_length] == current:
+            run_length += 1
+
+        if run_length >= 3:
+            result.append(0x80 | run_length)
+            result.append((current >> 8) & 0xFF)
+            result.append(current & 0xFF)
+            i += run_length
+            generated_pixels += run_length
+        else:
+            remaining_in_row = width - generated_pixels
+            unique = []
+            max_unique = min(127, remaining_in_row)
+
+            while len(unique) < max_unique and i < len(pixels) and i < max_lookahead:
+                run_ahead = 1
+                curr = pixels[i]
+                while (i + run_ahead < len(pixels)
+                       and i + run_ahead < max_lookahead
+                       and pixels[i + run_ahead] == curr
+                       and run_ahead < 3):
+                    run_ahead += 1
+                if run_ahead >= 3:
+                    break
+                unique.append(curr)
+                i += 1
+
+            if unique:
+                result.append(len(unique))
+                for px in unique:
+                    result.append((px >> 8) & 0xFF)
+                    result.append(px & 0xFF)
+                generated_pixels += len(unique)
+
+    return bytes(result)
+
+
+def compress_rle_rgba_row_lookahead(pixels, width):
+    """
+    Compress 'width' RGBA5658 pixels using RLE.
+
+    Each pixel is a tuple (alpha, rgb565).
+    RLE format (3 bytes per pixel: alpha + RGB565 BE):
+      0x80|count + pixel: repeat
+      count + count*pixel: unique sequence
+    """
+    result = bytearray()
+    i = 0
+    generated_pixels = 0
+
+    while generated_pixels < width:
+        if i >= len(pixels):
+            break
+
+        current = pixels[i]
+        remaining_in_row = width - generated_pixels
+
+        run_length = 1
+        while (i + run_length < len(pixels)
+               and pixels[i + run_length] == current
+               and run_length < 127):
+            run_length += 1
+        run_length = min(run_length, remaining_in_row)
+
+        if run_length >= 3:
+            result.append(0x80 | run_length)
+            result.append(current[0])           # alpha
+            result.append((current[1] >> 8) & 0xFF)  # RGB565 high
+            result.append(current[1] & 0xFF)         # RGB565 low
+            i += run_length
+            generated_pixels += run_length
+        else:
+            unique = []
+            max_unique = min(127, remaining_in_row)
+
+            while len(unique) < max_unique and i < len(pixels):
+                run_ahead = 1
+                curr = pixels[i]
+                while (i + run_ahead < len(pixels)
+                       and pixels[i + run_ahead] == curr
+                       and run_ahead < 3):
+                    run_ahead += 1
+                if run_ahead >= 3:
+                    break
+                unique.append(curr)
+                i += 1
+
+            if unique:
+                result.append(len(unique))
+                for px in unique:
+                    result.append(px[0])
+                    result.append((px[1] >> 8) & 0xFF)
+                    result.append(px[1] & 0xFF)
+                generated_pixels += len(unique)
+
+    return bytes(result)
+
+
+# ── Frame compression with skip_offset + lookup table ───────────────
+
+def compress_rle_rgb_with_header(pixels_2d, width, height):
+    """
+    Compress an RGB frame to RLE RGB565 with skip_offset header and lookup table.
+
+    Args:
+        pixels_2d: 2D pixel data — numpy array (H,W,3+) or list-of-lists of (r,g,b,a) tuples
+        width: frame width
+        height: frame height
+
+    Returns:
+        bytes: compressed frame data with header
+    """
+    # Flatten to list of RGB565 values
+    all_pixels = []
+    if HAS_NUMPY and hasattr(pixels_2d, 'shape'):
+        for y in range(height):
+            for x in range(width):
+                r, g, b = int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]), int(pixels_2d[y, x, 2])
+                all_pixels.append(rgb888_to_rgb565(r, g, b))
+    else:
+        for y in range(height):
+            for x in range(width):
+                p = pixels_2d[y][x]
+                all_pixels.append(rgb888_to_rgb565(p[0], p[1], p[2]))
+
+    # Pad for lookahead past last row
+    all_pixels.extend([0] * width * 2)
+
+    # Compress each row
+    scanline_data = []
+    for y in range(height):
+        start_idx = y * width
+        row_data = compress_rle_row_lookahead(
+            all_pixels[start_idx: start_idx + width], width
+        )
+        scanline_data.append(row_data)
+
+    # Build lookup table
+    skip_offset = height * 4
+    lookup_table = bytearray()
+    cumulative = skip_offset
+
+    for row_data in scanline_data:
+        row_bytes = len(row_data)
+        cumulative += row_bytes
+        low = (row_bytes * 32) & 0xFFFF
+        high = cumulative & 0xFFFF
+        lookup_table.extend(struct.pack('<HH', low, high))
+
+    # Assemble frame
+    result = bytearray()
+    result.extend(struct.pack('<H', skip_offset))
+
+    needed_bytes = skip_offset - 2
+    table_bytes = len(lookup_table)
+    if table_bytes >= needed_bytes:
+        result.extend(lookup_table[:needed_bytes])
+    else:
+        result.extend(lookup_table)
+        result.extend(b'\x00' * (needed_bytes - table_bytes))
+
+    for row_data in scanline_data:
+        result.extend(row_data)
+
+    return bytes(result)
+
+
+def compress_rle_rgba_with_header(pixels_2d, width, height):
+    """
+    Compress an RGBA frame to RLE RGBA5658 with skip_offset header and lookup table.
+
+    Args:
+        pixels_2d: 2D pixel data — numpy array (H,W,4) or list-of-lists of (r,g,b,a) tuples
+        width: frame width
+        height: frame height
+
+    Returns:
+        bytes: compressed frame data with header
+    """
+    # Flatten to list of (alpha, rgb565) tuples
+    all_pixels = []
+    if HAS_NUMPY and hasattr(pixels_2d, 'shape'):
+        for y in range(height):
+            for x in range(width):
+                if pixels_2d.shape[2] >= 4:
+                    r, g, b, a = (int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]),
+                                  int(pixels_2d[y, x, 2]), int(pixels_2d[y, x, 3]))
+                else:
+                    r, g, b = int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]), int(pixels_2d[y, x, 2])
+                    a = 255
+                rgb565 = rgb888_to_rgb565(r, g, b)
+                all_pixels.append((a, rgb565))
+    else:
+        for y in range(height):
+            for x in range(width):
+                p = pixels_2d[y][x]
+                a = p[3] if len(p) >= 4 else 255
+                rgb565 = rgb888_to_rgb565(p[0], p[1], p[2])
+                all_pixels.append((a, rgb565))
+
+    # Pad for lookahead
+    all_pixels.extend([(0, 0)] * width * 2)
+
+    # Compress each row
+    scanline_data = []
+    for y in range(height):
+        start_idx = y * width
+        row_data = compress_rle_rgba_row_lookahead(
+            all_pixels[start_idx: start_idx + width], width
+        )
+        scanline_data.append(row_data)
+
+    # Build lookup table
+    skip_offset = height * 4
+    lookup_table = bytearray()
+    cumulative = skip_offset
+
+    for row_data in scanline_data:
+        row_bytes = len(row_data)
+        cumulative += row_bytes
+        low = (row_bytes * 32) & 0xFFFF
+        high = cumulative & 0xFFFF
+        lookup_table.extend(struct.pack('<HH', low, high))
+
+    # Assemble frame
+    result = bytearray()
+    result.extend(struct.pack('<H', skip_offset))
+
+    needed_bytes = skip_offset - 2
+    table_bytes = len(lookup_table)
+    if table_bytes >= needed_bytes:
+        result.extend(lookup_table[:needed_bytes])
+    else:
+        result.extend(lookup_table)
+        result.extend(b'\x00' * (needed_bytes - table_bytes))
+
+    for row_data in scanline_data:
+        result.extend(row_data)
+
+    return bytes(result)
+
+
+def compress_raw_rgb_aligned(pixels_2d, width, height):
+    """
+    Raw (uncompressed) RGB565 with 4-byte row alignment.
+    Each pixel is 2 bytes big-endian.
+    """
+    result = bytearray()
+    bytes_per_pixel = 2
+    row_bytes = width * bytes_per_pixel
+    aligned_row_bytes = (row_bytes + 3) & ~3
+    padding = aligned_row_bytes - row_bytes
+
+    if HAS_NUMPY and hasattr(pixels_2d, 'shape'):
+        for y in range(height):
+            for x in range(width):
+                r, g, b = int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]), int(pixels_2d[y, x, 2])
+                rgb565 = rgb888_to_rgb565(r, g, b)
+                result.append((rgb565 >> 8) & 0xFF)
+                result.append(rgb565 & 0xFF)
+            result.extend(b'\x00' * padding)
+    else:
+        for y in range(height):
+            for x in range(width):
+                p = pixels_2d[y][x]
+                rgb565 = rgb888_to_rgb565(p[0], p[1], p[2])
+                result.append((rgb565 >> 8) & 0xFF)
+                result.append(rgb565 & 0xFF)
+            result.extend(b'\x00' * padding)
+
+    return bytes(result)
+
+
+def compress_raw_rgba_aligned(pixels_2d, width, height):
+    """
+    Raw (uncompressed) RGBA5658 with 4-byte row alignment.
+    Each pixel is 3 bytes: alpha + RGB565 big-endian.
+    """
+    result = bytearray()
+    bytes_per_pixel = 3
+    row_bytes = width * bytes_per_pixel
+    aligned_row_bytes = (row_bytes + 3) & ~3
+    padding = aligned_row_bytes - row_bytes
+
+    if HAS_NUMPY and hasattr(pixels_2d, 'shape'):
+        for y in range(height):
+            for x in range(width):
+                if pixels_2d.shape[2] >= 4:
+                    r, g, b, a = (int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]),
+                                  int(pixels_2d[y, x, 2]), int(pixels_2d[y, x, 3]))
+                else:
+                    r, g, b = int(pixels_2d[y, x, 0]), int(pixels_2d[y, x, 1]), int(pixels_2d[y, x, 2])
+                    a = 255
+                rgb565 = rgb888_to_rgb565(r, g, b)
+                result.append(a)
+                result.append((rgb565 >> 8) & 0xFF)
+                result.append(rgb565 & 0xFF)
+            result.extend(b'\x00' * padding)
+    else:
+        for y in range(height):
+            for x in range(width):
+                p = pixels_2d[y][x]
+                a = p[3] if len(p) >= 4 else 255
+                rgb565 = rgb888_to_rgb565(p[0], p[1], p[2])
+                result.append(a)
+                result.append((rgb565 >> 8) & 0xFF)
+                result.append(rgb565 & 0xFF)
+            result.extend(b'\x00' * padding)
+
+    return bytes(result)
+
+
+# ── Main compiler ───────────────────────────────────────────────────
+
+def compile(input_dir, output_file):
+    """
+    Compile images from input_dir into a .bin HK89 dial file.
+
+    Reads dial_desc.json (or config.json) for block metadata.
+    Each block references a PNG file by 'fname' field.
+
+    Args:
+        input_dir: directory containing dial_desc.json and PNG files
+        output_file: path to write the output .bin file
+
+    Returns:
+        True on success, False on failure
+    """
+    # Find config file
+    json_path = os.path.join(input_dir, "dial_desc.json")
+    if not os.path.exists(json_path):
+        json_path = os.path.join(input_dir, "config.json")
+    if not os.path.exists(json_path):
+        print("Error: No dial_desc.json or config.json found in " + input_dir)
+        return False
+
+    with open(json_path, 'r') as f:
+        metadata = json.load(f)
+
+    # Support both formats: {blocks: [...]} or {blocks: [...], ...}
+    block_list = metadata.get('blocks', [])
+    if not block_list:
+        print("Error: No blocks in config")
+        return False
+
+    print("HK89 compiler (Android)")
+    print("Input: %s (%d blocks)" % (input_dir, len(block_list)))
+
+    # First pass: load images and compress frames
+    blocks_info = []
+    pltable = []         # per-frame compressed sizes
+    all_frame_data = []  # list of lists of compressed frame bytes
+
+    for block_idx, block_meta in enumerate(block_list):
+        fname = block_meta.get('fname')
+        if not fname:
+            print("Warning: Block %d has no fname, skipping" % block_idx)
+            continue
+
+        img_path = os.path.join(input_dir, fname)
+        if not os.path.exists(img_path):
+            print("Warning: Image not found: %s" % fname)
+            continue
+
+        # Load image
+        img = Image.open(img_path)
+        if img.mode != 'RGBA':
+            img = img.convert('RGBA')
+
+        width, height = img.size
+
+        # Determine color space
+        is_rgba = block_meta.get('colsp', 'RGB') == 'RGBA'
+        type_str = block_meta.get('type', 'BLK_PREV').upper()
+
+        # Resolve block type code
+        block_type = TYPE_MAP.get(type_str, 0x01)
+        if is_rgba:
+            block_type |= 0x80
+
+        # Load pixel data
+        if HAS_NUMPY:
+            pixels = _load_pixels_numpy(img)
+        else:
+            pixels = _load_pixels_list(img)
+
+        # Number of frames (sprite sheet stacked vertically)
+        frms = block_meta.get('frms', 1)
+        frame_height = height // frms if frms > 0 else height
+
+        print("  [%d] %s %s %dx%d (%d frames)" % (
+            block_idx, fname,
+            "RGBA" if is_rgba else "RGB",
+            width, frame_height, frms
+        ))
+
+        # pic_idx = starting index in pltable
+        pic_idx = len(pltable)
+
+        # Compression type (0=raw, 4/6=RLE)
+        compression_type = block_meta.get('comp', 6)
+
+        # Compress each frame separately
+        frame_compressed_data = []
+        for frame_idx in range(frms):
+            y_start = frame_idx * frame_height
+            y_end = y_start + frame_height
+
+            # Extract frame pixels
+            if HAS_NUMPY and hasattr(pixels, 'shape'):
+                frame_pixels = pixels[y_start:y_end, :, :]
+            else:
+                frame_pixels = pixels[y_start:y_end]
+
+            # Compress
+            if compression_type == 0:
+                if is_rgba:
+                    compressed = compress_raw_rgba_aligned(frame_pixels, width, frame_height)
+                else:
+                    compressed = compress_raw_rgb_aligned(frame_pixels, width, frame_height)
+            else:
+                if is_rgba:
+                    compressed = compress_rle_rgba_with_header(frame_pixels, width, frame_height)
+                else:
+                    compressed = compress_rle_rgb_with_header(frame_pixels, width, frame_height)
+
+            # 4-byte alignment padding
+            padding_needed = (4 - (len(compressed) % 4)) % 4
+            if padding_needed > 0:
+                compressed = compressed + b'\x00' * padding_needed
+
+            pltable.append(len(compressed))
+            frame_compressed_data.append(compressed)
+
+        all_frame_data.append(frame_compressed_data)
+
+        blocks_info.append({
+            'pic_idx': pic_idx,
+            'valami2': 0,
+            'width': width,
+            'height': frame_height,
+            'pos_x': block_meta.get('posx', 0),
+            'pos_y': block_meta.get('posy', 0),
+            'parts': frms,
+            'block_type': block_type,
+            'align': block_meta.get('alnx', 9),
+            'compression': compression_type,
+            'cent_x': block_meta.get('ctx', 0),
+            'cent_y': block_meta.get('cty', 0),
+            'frame_data': frame_compressed_data,
+        })
+
+    if not blocks_info:
+        print("Error: No valid blocks to compile")
+        return False
+
+    # Calculate layout offsets
+    pltable_size = len(pltable)
+    header_size = 4
+    actual_num_blocks = len(blocks_info)
+    blocks_size = actual_num_blocks * 20
+    pltable_bytes = pltable_size * 4
+    images_start = header_size + blocks_size + pltable_bytes
+
+    print("Layout: header=%d, blocks=%d*20=%d, pltable=%d*4=%d, data_start=0x%04X" % (
+        header_size, actual_num_blocks, blocks_size,
+        pltable_size, pltable_bytes, images_start
+    ))
+
+    # Build image data and calculate per-block offsets
+    image_data = bytearray()
+    current_offset = images_start
+
+    for i, block in enumerate(blocks_info):
+        block['image_offset'] = current_offset
+        for frame_data in block['frame_data']:
+            image_data.extend(frame_data)
+            current_offset += len(frame_data)
+
+        is_rgba = (block['block_type'] & 0x80) != 0
+        rgba_str = "RGBA" if is_rgba else "RGB"
+        print("  Block %d: type=0x%02X %s pos=(%d,%d) size=%dx%d offset=0x%04X" % (
+            i, block['block_type'], rgba_str,
+            block['pos_x'], block['pos_y'],
+            block['width'], block['height'],
+            block['image_offset']
+        ))
+
+    # ── Assemble output binary ──
+    output = bytearray()
+
+    # Header (4 bytes)
+    header = bytearray(4)
+    struct.pack_into('<H', header, 0, pltable_size)
+    header[2] = actual_num_blocks
+    header[3] = 0x02  # format type
+    output.extend(header)
+
+    # Block descriptors (20 bytes each)
+    for block in blocks_info:
+        desc = bytearray(20)
+        struct.pack_into('<I', desc, 0, block['image_offset'])
+        desc[4] = block['pic_idx']
+        desc[5] = block['valami2']
+        struct.pack_into('<H', desc, 6, block['width'])
+        struct.pack_into('<H', desc, 8, block['height'])
+        struct.pack_into('<H', desc, 10, block['pos_x'])
+        struct.pack_into('<H', desc, 12, block['pos_y'])
+        desc[14] = block['parts']
+        desc[15] = block['block_type']
+        desc[16] = block['align']
+        desc[17] = block['compression']
+        desc[18] = block['cent_x']
+        desc[19] = block['cent_y']
+        output.extend(desc)
+
+    # Picture lookup table (4 bytes per frame)
+    for frame_size in pltable:
+        output.extend(struct.pack('<I', frame_size))
+
+    # Image data
+    output.extend(image_data)
+
+    # Write
+    with open(output_file, 'wb') as f:
+        f.write(output)
+
+    print("Done: %s (%d bytes)" % (output_file, len(output)))
+    return True
+
+
+def main_desktop():
+    """Desktop CLI using argparse (from enhanced composer)."""
     parser = argparse.ArgumentParser(description='Enhanced HK89 Watch Dial Composer (Jieli SDK-aware)')
-    parser.add_argument('action', choices=['compile', 'sample'], 
+    parser.add_argument('action', choices=['compile', 'sample'],
                         help='Action to perform')
     parser.add_argument('-i', '--input', help='Input JSON configuration file')
     parser.add_argument('-o', '--output', help='Output file path')
-    parser.add_argument('-f', '--format', 
+    parser.add_argument('-f', '--format',
                         choices=['hk_traditional', 'jieli_standard', 'jieli_magic'],
                         help='Force specific output format')
     parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output')
-    
+
     args = parser.parse_args()
-    
+
     composer = HKDialComposerEnhanced()
-    
+
     if args.action == 'sample':
         output_path = args.output or 'sample_enhanced_config.json'
         composer.create_sample_config(output_path)
-        
+
     elif args.action == 'compile':
         if not args.input:
             print("Error: Input JSON file required for compile action")
             sys.exit(1)
-            
+
         if not os.path.exists(args.input):
             print(f"Error: Input file '{args.input}' not found")
             sys.exit(1)
-            
+
         output_path = args.output or 'dial_enhanced.bin'
-        
+
         if composer.compile_dial(args.input, output_path, args.format):
             print("Compilation successful!")
         else:
             print("Compilation failed!")
             sys.exit(1)
 
+
+# ── CLI entrypoint (for standalone testing) ─────────────────────────
+
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) < 3:
+        print("Usage: hkcomposer.py <input_dir> <output.bin>")
+        sys.exit(1)
+    success = compile(sys.argv[1], sys.argv[2])
+    sys.exit(0 if success else 1)

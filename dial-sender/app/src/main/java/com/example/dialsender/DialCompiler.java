@@ -352,51 +352,41 @@ public class DialCompiler {
             throw new RuntimeException("Python not started. Initialize in Application or Activity.");
         }
 
-        // 1. Prepare temp directory
         File tempDir = new File(outputDir, "temp_compile_" + System.currentTimeMillis());
         if (!tempDir.exists() && !tempDir.mkdirs()) {
             throw new IOException("Failed to create temp directory");
         }
 
-        // 2. Build dial_desc.json for comp_decomp.py
+        // 2. Build dial_desc.json with new schema
         JSONObject root = new JSONObject();
         root.put("dial_name", filename);
         JSONArray jsonBlocks = new JSONArray();
-
-        int nextPicIdx = 0;
+        // 3. Process blocks
         int blockIndex = 0;
         for (DialBlock block : blocks) {
-            if (block.images == null || block.images.length == 0) {
-                blockIndex++;
-                continue;
-            }
-
-            JSONObject cb = new JSONObject();
-            cb.put("type", blockTypeToString(block.type));
-            cb.put("frms", Math.max(1, block.frames));
+            if (block.images == null || block.images.length == 0) continue;
+            JSONObject jsonBlock = new JSONObject();
             String imgFilename = "block_" + blockIndex + ".png";
-            cb.put("fname", imgFilename);
-            cb.put("reuse", false);
-            cb.put("colsp", block.hasAlpha ? "RGBA" : "RGB");
-            cb.put("width", block.width);
-            cb.put("height", block.height);
-            cb.put("posx", block.x);
-            cb.put("posy", block.y);
-            cb.put("alnx", 9);
-            cb.put("comp", block.compress);
-            cb.put("ctx", 0);
-            cb.put("cty", 0);
-
-            jsonBlocks.put(cb);
-
-            // Save combined image (vertical sprite sheet)
+            jsonBlock.put("fname", imgFilename);
+            jsonBlock.put("type", blockTypeToString(block.type));
+            // Color space: RGB for background/preview, RGBA for overlays
+            boolean isOverlay = (block.type != TYPE_PREVIEW && block.type != TYPE_BACKGROUND);
+            jsonBlock.put("colsp", isOverlay ? "RGBA" : "RGB");
+            jsonBlock.put("comp", block.compress == 0 ? 0 : 6);
+            jsonBlock.put("frms", block.frames);
+            jsonBlock.put("posx", block.x);
+            jsonBlock.put("posy", block.y);
+            jsonBlock.put("w", block.width);
+            // Alignment and center defaults
+            jsonBlock.put("alnx", 9);
+            jsonBlock.put("ctx", 0);
+            jsonBlock.put("cty", 0);
             Bitmap imageToSave = combineBitmapsVertically(block.images);
             File imgFile = new File(tempDir, imgFilename);
             try (FileOutputStream fos = new FileOutputStream(imgFile)) {
                 imageToSave.compress(Bitmap.CompressFormat.PNG, 100, fos);
             }
-
-            nextPicIdx += block.images.length;
+            jsonBlocks.put(jsonBlock);
             blockIndex++;
         }
 
@@ -409,23 +399,37 @@ public class DialCompiler {
         }
         Log.d(TAG, "Wrote dial_desc.json to " + jsonFile.getAbsolutePath());
 
-        // 3. Call comp_decomp.compile_dial()
+        // 4. Call Python: hkcomposer.compile(input_dir, output_file)
         Python py = Python.getInstance();
+        PyObject composerModule = py.getModule("hkcomposer");
         File outFile = new File(outputDir, filename);
 
         try {
-            PyObject compMod = py.getModule("comp_decomp");
-            Log.d(TAG, "Using comp_decomp.compile_dial() to build dial");
-            PyObject res = compMod.callAttr("compile_dial", tempDir.getAbsolutePath(), outFile.getAbsolutePath());
-            if (res != null && res.toBoolean()) {
+            PyObject result = composerModule.callAttr("compile",
+                tempDir.getAbsolutePath(),
+                outFile.getAbsolutePath());
+            if (result != null && result.toBoolean()) {
                 Log.d(TAG, "Compilation Success: " + outFile.length() + " bytes");
                 deleteRecursive(tempDir);
                 return outFile;
             } else {
-                throw new Exception("comp_decomp.compile_dial() returned false");
+                throw new Exception("Python compilation returned false");
             }
         } catch (Exception e) {
             throw new Exception("Python compilation failed: " + e.getMessage());
+        }
+    }
+
+    private String getBlockTypeString(int type) {
+        switch (type) {
+            case TYPE_PREVIEW:      return "BLK_PREV";
+            case TYPE_BACKGROUND:   return "BLK_BGIMG";
+            case TYPE_DIGITAL_HOUR: return "BLK_HOUR";
+            case TYPE_DIGITAL_MIN:  return "BLK_MIN";
+            case TYPE_STEPS:        return "BLK_STEPS";
+            case TYPE_HEART:        return "BLK_PULS";
+            case TYPE_CALORIE:      return "BLK_CALOR";
+            default:                return "BLK_PREV";
         }
     }
 
