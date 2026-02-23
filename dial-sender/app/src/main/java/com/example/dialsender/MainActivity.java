@@ -161,6 +161,15 @@ public class MainActivity extends AppCompatActivity {
     // Protocol Sequencing
     private int preTransferIndex = 0;
     private int setupStep = 0;
+    // Setup method selection (mirrors stfemulator implementation)
+    private enum SetupMethod {
+        CAPTURED,
+        DERIVED
+    }
+
+    private SetupMethod setupMethod = SetupMethod.CAPTURED;
+    private boolean setupAttemptedCaptured = false;
+    private boolean setupAttemptedDerived = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
