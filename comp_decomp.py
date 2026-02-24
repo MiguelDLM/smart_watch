@@ -1528,7 +1528,14 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         img = Image.open(img_path)
         if img.mode != 'RGBA':
             img = img.convert('RGBA')
-            
+        
+        # Respect dial metadata dimensions so replacement backgrounds keep valid geometry.
+        frms = max(1, int(block_meta.get('frms', 1)))
+        target_width = int(block_meta.get('width', img.width))
+        target_total_height = int(block_meta.get('height', img.height // frms)) * frms
+        if img.width != target_width or img.height != target_total_height:
+            img = img.resize((target_width, target_total_height), Image.LANCZOS)
+        
         width, height = img.size
         
         # Determine color space and block type
@@ -1545,7 +1552,6 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         pixels = np.array(img)
         
         # Number of frames
-        frms = block_meta.get('frms', 1)
         frame_height = height // frms if frms > 0 else height
         
         print(f"    read_from {input_dir}/{fname}, uncompressed size:{pixels.nbytes}, ({width}x{height})")
