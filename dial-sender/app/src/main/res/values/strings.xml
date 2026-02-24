@@ -23,6 +23,8 @@
     <string name="send_dial_desc">Connect via Bluetooth and transfer a .bin</string>
     <string name="library">Library</string>
     <string name="library_desc">Pre-made dials and your creations</string>
+    <string name="health_data">Health Data</string>
+    <string name="health_data_desc">Sync and view health metrics charts</string>
     <string name="version_label">Dial Studio v0.2</string>
     <string name="chipset_info">Compatible with Jieli / HK89 chipset</string>
 
@@ -51,6 +53,9 @@
     <string name="error_read_file">Error reading file</string>
     <string name="persistent_ble">v5.2 — Persistent BLE</string>
     <string name="select_file_first">Select a file first</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="health_sync_started">Health sync started</string>
+    <string name="no_health_data">No health data yet</string>
 
     <!-- Editor -->
     <string name="dial_designer">Dial Designer</string>
@@ -64,6 +69,7 @@
     <string name="add_one_layer">Add at least one layer</string>
     <string name="from_gallery">📂  Select from gallery</string>
     <string name="saved_to_library">Saved to Library</string>
+    <string name="editing_dial">Editing dial from library</string>
     <string name="no_preset_images">No images found in this preset</string>
     <string name="style_label">Style %s</string>
     <string name="frames_label">%d frames</string>
@@ -89,6 +95,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="share">Share</string>
     <string name="export">Export to Downloads</string>
+    <string name="edit">Edit</string>
     <string name="dial_exported">Dial saved to Downloads/DialStudio</string>
 
     <!-- Log -->

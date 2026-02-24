@@ -73,6 +73,7 @@ public class DialEditorActivity extends AppCompatActivity {
     private int selectedLayerIndex = -1;
     private int pendingElementType = -1;
     private LayerAdapter layerAdapter;
+    private String suggestedDialName;
 
     private int canvasWidth = 466;
     private int canvasHeight = 466;
@@ -171,7 +172,21 @@ public class DialEditorActivity extends AppCompatActivity {
         // Setup preview with touch drag support
         setupPreviewTouch();
 
+        loadEditableDialPreview();
         refreshAll();
+    }
+
+    private void loadEditableDialPreview() {
+        String previewPath = getIntent().getStringExtra("edit_preview_path");
+        suggestedDialName = getIntent().getStringExtra("edit_dial_name");
+        if (previewPath == null) return;
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inPreferredConfig = Bitmap.Config.RGB_565;
+        Bitmap bmp = BitmapFactory.decodeFile(previewPath, opts);
+        if (bmp != null) {
+            addBackgroundLayer(ensureRgb565(bmp), DialCompiler.TYPE_BACKGROUND);
+            Toast.makeText(this, R.string.editing_dial, Toast.LENGTH_SHORT).show();
+        }
     }
 
     // ===================== TOUCH DRAG ON PREVIEW =====================
@@ -1343,7 +1358,12 @@ public class DialEditorActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
             try {
                 InputStream is = getContentResolver().openInputStream(imageUri);
-                Bitmap bmp = BitmapFactory.decodeStream(is);
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                if (pendingElementType == DialCompiler.TYPE_BACKGROUND) {
+                    opts.inPreferredConfig = Bitmap.Config.RGB_565;
+                    opts.inDither = true;
+                }
+                Bitmap bmp = BitmapFactory.decodeStream(is, null, opts);
                 is.close();
 
                 if (bmp == null) {
@@ -1393,9 +1413,10 @@ public class DialEditorActivity extends AppCompatActivity {
         // background type,
         // but good to be safe if called from elsewhere)
         if (elementType == DialCompiler.TYPE_BACKGROUND) {
+            bmp = ensureRgb565(bmp);
             if (bmp.getWidth() != canvasWidth || bmp.getHeight() != canvasHeight) {
                 Bitmap scaled = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
-                bmp = scaled;
+                bmp = ensureRgb565(scaled);
             }
         }
 
@@ -1662,6 +1683,9 @@ public class DialEditorActivity extends AppCompatActivity {
         EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint(R.string.dial_name_hint);
+        if (suggestedDialName != null && !suggestedDialName.isEmpty()) {
+            input.setText(suggestedDialName);
+        }
         input.setPadding(48, 24, 48, 24);
 
         new AlertDialog.Builder(this)
@@ -1677,7 +1701,8 @@ public class DialEditorActivity extends AppCompatActivity {
                     // Check for duplicates
                     File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
                     File targetFile = new File(userDialsDir, name + ".bin");
-                    if (targetFile.exists()) {
+                    boolean isSameNameAsEditing = suggestedDialName != null && suggestedDialName.equals(name);
+                    if (targetFile.exists() && !isSameNameAsEditing) {
                         Toast.makeText(this, "Name already exists. Please choose another.", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -1823,10 +1848,9 @@ public class DialEditorActivity extends AppCompatActivity {
                                 .setTitle("✅ " + filename)
                                 .setMessage(size)
                                 .setPositiveButton(R.string.send_dial, (d, w) -> {
-                                    // Navigate to Send screen with this file selected
-                                    Intent result = new Intent();
-                                    result.setData(Uri.fromFile(savedFile));
-                                    setResult(RESULT_OK, result);
+                                    Intent intent = new Intent(this, MainActivity.class);
+                                    intent.putExtra("dial_file_path", savedFile.getAbsolutePath());
+                                    startActivity(intent);
                                     finish();
                                 })
                                 .setNegativeButton(R.string.close, null)
@@ -1848,6 +1872,11 @@ public class DialEditorActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    private Bitmap ensureRgb565(Bitmap source) {
+        if (source.getConfig() == Bitmap.Config.RGB_565) return source;
+        return source.copy(Bitmap.Config.RGB_565, false);
     }
 
     // ===================== SVG EDITOR =====================

@@ -35,6 +35,7 @@
         <!-- Dial Editor (Create/Design Dials) -->
         <activity
             android:name=".DialEditorActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"/>
 
         <!-- Debug Log Viewer -->
@@ -45,6 +46,10 @@
         <!-- Dial Library -->
         <activity
             android:name=".DialLibraryActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".HealthDataActivity"
             android:exported="false"/>
 
         <!-- Settings -->

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SettingsActivity.applyGlobalTheme(this);
@@ -22,6 +21,10 @@ public class HomeActivity extends AppCompatActivity {
 
         findViewById(R.id.cardDialLibrary).setOnClickListener(v -> {
             startActivity(new Intent(this, DialLibraryActivity.class));
+        });
+
+        findViewById(R.id.cardHealthData).setOnClickListener(v -> {
+            startActivity(new Intent(this, HealthDataActivity.class));
         });
 
         findViewById(R.id.btnSettings).setOnClickListener(v -> {

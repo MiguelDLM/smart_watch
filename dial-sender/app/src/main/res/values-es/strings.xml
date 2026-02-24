@@ -10,6 +10,8 @@
     <string name="send_dial_desc">Conéctate por Bluetooth y transfiere un .bin</string>
     <string name="library">Biblioteca</string>
     <string name="library_desc">Diales predefinidos y tus creaciones</string>
+    <string name="health_data">Datos de Salud</string>
+    <string name="health_data_desc">Sincroniza y visualiza métricas en gráficos</string>
     <string name="version_label">Dial Studio v5.2</string>
     <string name="chipset_info">Compatible con chipset Jieli / HK89</string>
 
@@ -38,6 +40,9 @@
     <string name="error_read_file">Error al leer el archivo</string>
     <string name="persistent_ble">v5.2 — BLE Persistente</string>
     <string name="select_file_first">Selecciona un archivo primero</string>
+    <string name="sync_now">Sincronizar</string>
+    <string name="health_sync_started">Sincronización iniciada</string>
+    <string name="no_health_data">Aún no hay datos de salud</string>
 
     <!-- Editor -->
     <string name="dial_designer">Diseñador de Diales</string>
@@ -51,6 +56,7 @@
     <string name="add_one_layer">Añade al menos una capa</string>
     <string name="from_gallery">📂  Seleccionar de galería</string>
     <string name="saved_to_library">Guardado en Biblioteca</string>
+    <string name="editing_dial">Editando dial desde la biblioteca</string>
     <string name="no_preset_images">No se encontraron imágenes en este preset</string>
     <string name="style_label">Estilo %s</string>
     <string name="frames_label">%d cuadros</string>
@@ -75,6 +81,7 @@
     <string name="cancelled">Cancelado</string>
     <string name="share">Compartir</string>
     <string name="export">Exportar a Descargas</string>
+    <string name="edit">Editar</string>
     <string name="dial_exported">Dial guardado en Descargas/DialStudio</string>
 
     <!-- Log -->
