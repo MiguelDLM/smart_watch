@@ -231,11 +231,29 @@ public class DialLibraryActivity extends AppCompatActivity {
         }
     }
 
+    private void editDial(DialEntry entry) {
+        try {
+            File file = prepareFile(entry);
+            File previewFile = new File(getCacheDir(), "edit_preview_" + entry.name.replace(".bin", ".png"));
+            Python py = Python.getInstance();
+            PyObject module = py.getModule("comp_decomp");
+            module.callAttr("extract_preview_png", file.getAbsolutePath(), previewFile.getAbsolutePath());
+
+            Intent intent = new Intent(this, DialEditorActivity.class);
+            intent.putExtra("edit_preview_path", previewFile.getAbsolutePath());
+            intent.putExtra("edit_dial_name", entry.name.replace(".bin", ""));
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Edit error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     // ===================== RENAME / DELETE =====================
 
     private void showDialContextMenu(DialEntry entry, int position) {
         List<String> opts = new ArrayList<>();
         opts.add(getString(R.string.send_arrow));
+        opts.add(getString(R.string.edit));
         opts.add(getString(R.string.share));
         opts.add(getString(R.string.export));
         
@@ -250,6 +268,8 @@ public class DialLibraryActivity extends AppCompatActivity {
                 String choice = opts.get(which);
                 if (choice.equals(getString(R.string.send_arrow))) {
                     sendDial(entry);
+                } else if (choice.equals(getString(R.string.edit))) {
+                    editDial(entry);
                 } else if (choice.equals(getString(R.string.share))) {
                     shareDial(entry);
                 } else if (choice.equals(getString(R.string.export))) {

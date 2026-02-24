@@ -44,27 +44,6 @@
             android:clickable="true"
             android:focusable="true"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btnCreateDial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create New Dial"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#009688"/>
-    <Button
-        android:id="@+id/btnSyncHealth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sync Health Data"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#4CAF50"/>
-    <Button
-        android:id="@+id/btnCopyLog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Copy Logs to Clipboard"
-        android:layout_marginTop="8dp"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

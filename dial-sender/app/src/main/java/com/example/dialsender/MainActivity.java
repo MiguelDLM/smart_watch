@@ -13,11 +13,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.ClipboardManager;
-import android.content.ClipData;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +40,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -120,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_NAME = "dial_sender_prefs";
     private static final String PREF_BIND_ID = "bind_id";
     private static final String PREF_DEVICE_ADDRESS = "device_address";
+    private static final String PREF_HEALTH_PREFIX = "health_";
+    private static final int HEALTH_HISTORY_SIZE = 20;
     private Runnable transferTimeoutRunnable;
     private int transferRetryCount = 0;
     private static final int MAX_TRANSFER_RETRIES = 3;
@@ -193,15 +192,6 @@ public class MainActivity extends AppCompatActivity {
         transferCard = findViewById(R.id.transferCard);
         btnScan.setOnClickListener(v -> startScan());
         btnSelectFile.setOnClickListener(v -> openFilePicker());
-        findViewById(R.id.btnCreateDial).setOnClickListener(v -> {
-            Intent intent = new Intent(this, DialEditorActivity.class);
-            startActivityForResult(intent, FILE_SELECT_CODE);
-        });
-        // Health sync button (optional in layout)
-        Button btnHealth = findViewById(R.id.btnSyncHealth);
-        if (btnHealth != null) {
-            btnHealth.setOnClickListener(v -> syncHealth());
-        }
         btnSelectFile.setEnabled(false);
 
         // Send button — only sends when file is loaded AND connected
@@ -223,6 +213,16 @@ public class MainActivity extends AppCompatActivity {
         // Check if launched from library with a pre-selected file
         handleIncomingFile();
         tryAutoReconnect();
+        if (getIntent().getBooleanExtra("trigger_health_sync", false)) {
+            mainHandler.postDelayed(() -> {
+                if (connectionState == ConnectionState.SESSION_READY) {
+                    syncHealth();
+                    Toast.makeText(this, R.string.health_sync_started, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.session_not_ready, Toast.LENGTH_SHORT).show();
+                }
+            }, 500);
+        }
     }
     private void handleIncomingFile() {
         String filePath = getIntent().getStringExtra("dial_file_path");
@@ -715,6 +715,7 @@ public class MainActivity extends AppCompatActivity {
             }
             byte[] healthPayload = (data.length > 9) ? Arrays.copyOfRange(data, 9, data.length) : new byte[0];
             log("Health [" + keyName + "]: " + bytesToHex(healthPayload));
+            storeHealthValue(keyName, healthPayload);
             return;
         }
     }
@@ -1156,6 +1157,21 @@ public class MainActivity extends AppCompatActivity {
         }
         isSending = true;
         sendNextChunk();
+    }
+
+    private void storeHealthValue(String keyName, byte[] payload) {
+        if (payload.length == 0) return;
+        int value = ByteBuffer.wrap(Arrays.copyOf(payload, 4))
+                .order(ByteOrder.LITTLE_ENDIAN)
+                .getInt();
+        String prefKey = PREF_HEALTH_PREFIX + keyName.replace(" ", "_").toLowerCase(Locale.US);
+        String current = prefs.getString(prefKey, "");
+        String next = current.isEmpty() ? Integer.toString(value) : current + "," + value;
+        String[] parts = next.split(",");
+        if (parts.length > HEALTH_HISTORY_SIZE) {
+            next = String.join(",", Arrays.copyOfRange(parts, parts.length - HEALTH_HISTORY_SIZE, parts.length));
+        }
+        prefs.edit().putString(prefKey, next).apply();
     }
 
     private String bytesToHex(byte[] bytes) {
