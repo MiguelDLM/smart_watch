@@ -1160,7 +1160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void storeHealthValue(String keyName, byte[] payload) {
-        if (payload.length == 0) return;
+        if (payload.length < 4) return;
         int value = ByteBuffer.wrap(Arrays.copyOf(payload, 4))
                 .order(ByteOrder.LITTLE_ENDIAN)
                 .getInt();

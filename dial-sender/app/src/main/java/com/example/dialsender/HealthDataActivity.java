@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.Locale;
 
@@ -50,32 +51,40 @@ public class HealthDataActivity extends AppCompatActivity {
             int max = 100;
             if (!history.isEmpty()) {
                 String[] values = history.split(",");
-                latest = Integer.parseInt(values[values.length - 1]);
+                latest = parseIntSafe(values[values.length - 1]);
                 for (String value : values) {
-                    max = Math.max(max, Math.abs(Integer.parseInt(value)));
+                    max = Math.max(max, Math.abs(parseIntSafe(value)));
                 }
             }
 
             TextView title = new TextView(this);
             title.setText(metric.replace("_", " ").toUpperCase(Locale.US));
-            title.setTextColor(getResources().getColor(R.color.text_primary));
+            title.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
             title.setTextSize(14f);
             title.setPadding(0, 12, 0, 4);
             healthContainer.addView(title);
 
             ProgressBar bar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
             bar.setMax(max);
-            bar.setProgress(Math.min(Math.abs(latest), max));
+            bar.setProgress(latest < 0 ? 0 : Math.min(latest, max));
             healthContainer.addView(bar, new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
             TextView details = new TextView(this);
             details.setText(history.isEmpty() ? getString(R.string.no_health_data) : history);
-            details.setTextColor(getResources().getColor(R.color.text_secondary));
+            details.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
             details.setTextSize(11f);
             details.setPadding(0, 4, 0, 0);
             healthContainer.addView(details);
+        }
+    }
+
+    private int parseIntSafe(String value) {
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (Exception ignored) {
+            return 0;
         }
     }
 }

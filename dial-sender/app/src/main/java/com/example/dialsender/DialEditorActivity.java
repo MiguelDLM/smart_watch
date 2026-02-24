@@ -1701,7 +1701,8 @@ public class DialEditorActivity extends AppCompatActivity {
                     // Check for duplicates
                     File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
                     File targetFile = new File(userDialsDir, name + ".bin");
-                    if (targetFile.exists() && (suggestedDialName == null || !suggestedDialName.equals(name))) {
+                    boolean isSameNameAsEditing = suggestedDialName != null && suggestedDialName.equals(name);
+                    if (targetFile.exists() && !isSameNameAsEditing) {
                         Toast.makeText(this, "Name already exists. Please choose another.", Toast.LENGTH_LONG).show();
                         return;
                     }
