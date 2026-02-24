@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     // Protocol Sequencing
     private int preTransferIndex = 0;
     private int setupStep = 0;
+
     // Setup method selection (mirrors stfemulator implementation)
     private enum SetupMethod {
         CAPTURED,
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             }, 500);
         }
     }
+
     private void handleIncomingFile() {
         String filePath = getIntent().getStringExtra("dial_file_path");
         if (filePath != null) {
@@ -626,7 +628,8 @@ public class MainActivity extends AppCompatActivity {
         // Pre-Transfer ACK
 
         if (isReply && connectionState == ConnectionState.PRE_TRANSFER) {
-            if (preTransferTimeoutRunnable != null) mainHandler.removeCallbacks(preTransferTimeoutRunnable);
+            if (preTransferTimeoutRunnable != null)
+                mainHandler.removeCallbacks(preTransferTimeoutRunnable);
             log("Pre-Transfer ACK");
             preTransferIndex++;
             mainHandler.postDelayed(this::sendNextPreTransferCommand, 50);
@@ -635,7 +638,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup1 ACK
         if (isReply && cmd == 0x02 && key == 0x20 && connectionState == ConnectionState.SETUP1_SENT) {
-            if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
+            if (setupTimeoutRunnable != null)
+                mainHandler.removeCallbacks(setupTimeoutRunnable);
             log("Setup1 ACK");
             setupStep = 2;
             mainHandler.postDelayed(this::sendSetupStep2, 50);
@@ -644,7 +648,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup2 ACK
         if (isReply && cmd == 0x04 && key == 0x0C && connectionState == ConnectionState.SETUP2_SENT) {
-            if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
+            if (setupTimeoutRunnable != null)
+                mainHandler.removeCallbacks(setupTimeoutRunnable);
             log("Setup2 ACK");
             mainHandler.postDelayed(this::startStreamTransfer, 50);
             return;
@@ -653,7 +658,8 @@ public class MainActivity extends AppCompatActivity {
         // Progress / Completion
         if (cmd == 0x07 && key == 0x01 && data.length >= 18) {
             // Clear transfer timeout on progress
-            if (transferTimeoutRunnable != null) mainHandler.removeCallbacks(transferTimeoutRunnable);
+            if (transferTimeoutRunnable != null)
+                mainHandler.removeCallbacks(transferTimeoutRunnable);
             transferRetryCount = 0;
             // Parse progress
             byte[] payload = Arrays.copyOfRange(data, 9, data.length);
@@ -703,15 +709,33 @@ public class MainActivity extends AppCompatActivity {
         if (isReply && cmd == 0x05) {
             String keyName;
             switch (key) {
-                case 0x03: keyName = "Steps"; break;
-                case 0x04: keyName = "Calories"; break;
-                case 0x05: keyName = "Sleep"; break;
-                case 0x07: keyName = "Distance"; break;
-                case 0x09: keyName = "Heart Rate"; break;
-                case 0x0B: keyName = "Blood Oxygen"; break;
-                case 0x0D: keyName = "Unknown_0D"; break;
-                case 0x0E: keyName = "Unknown_0E"; break;
-                default: keyName = "Unknown_" + String.format("%02X", key); break;
+                case 0x03:
+                    keyName = "Steps";
+                    break;
+                case 0x04:
+                    keyName = "Calories";
+                    break;
+                case 0x05:
+                    keyName = "Sleep";
+                    break;
+                case 0x07:
+                    keyName = "Distance";
+                    break;
+                case 0x09:
+                    keyName = "Heart Rate";
+                    break;
+                case 0x0B:
+                    keyName = "Blood Oxygen";
+                    break;
+                case 0x0D:
+                    keyName = "Unknown_0D";
+                    break;
+                case 0x0E:
+                    keyName = "Unknown_0E";
+                    break;
+                default:
+                    keyName = "Unknown_" + String.format("%02X", key);
+                    break;
             }
             byte[] healthPayload = (data.length > 9) ? Arrays.copyOfRange(data, 9, data.length) : new byte[0];
             log("Health [" + keyName + "]: " + bytesToHex(healthPayload));
@@ -1073,10 +1097,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void tryAutoReconnect() {
         String lastAddr = prefs.getString(PREF_DEVICE_ADDRESS, null);
-        if (lastAddr == null) return;
+        if (lastAddr == null)
+            return;
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
-        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) return;
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled())
+            return;
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(lastAddr);
         if (device != null) {
             log("Auto-reconnecting to " + lastAddr);
@@ -1085,7 +1111,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scheduleTransferTimeout(long offset) {
-        if (transferTimeoutRunnable != null) mainHandler.removeCallbacks(transferTimeoutRunnable);
+        if (transferTimeoutRunnable != null)
+            mainHandler.removeCallbacks(transferTimeoutRunnable);
         lastTransferOffset = offset;
         transferTimeoutRunnable = () -> {
             if (isFileTransferActive && lastTransferOffset == offset) {
@@ -1104,7 +1131,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void schedulePreTransferTimeout() {
-        if (preTransferTimeoutRunnable != null) mainHandler.removeCallbacks(preTransferTimeoutRunnable);
+        if (preTransferTimeoutRunnable != null)
+            mainHandler.removeCallbacks(preTransferTimeoutRunnable);
         preTransferTimeoutRunnable = () -> {
             List<PreTransferCommand> commands = getPreTransferCommands();
             log("Pre-Transfer timeout at step " + (preTransferIndex + 1));
@@ -1121,7 +1149,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scheduleSetupTimeout(String stage) {
-        if (setupTimeoutRunnable != null) mainHandler.removeCallbacks(setupTimeoutRunnable);
+        if (setupTimeoutRunnable != null)
+            mainHandler.removeCallbacks(setupTimeoutRunnable);
         setupTimeoutRunnable = () -> {
             log("Setup timeout on " + stage + " using " + setupMethod);
             handleSetupTimeout();
@@ -1150,9 +1179,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void syncHealth() {
         log("=== Syncing Health Data ===");
-        int[] keys = {0x03, 0x04, 0x0D, 0x07, 0x05, 0x0E, 0x09, 0x0B};
+        int[] keys = { 0x03, 0x04, 0x0D, 0x07, 0x05, 0x0E, 0x09, 0x0B };
         for (int key : keys) {
-            byte[] msg = createMessage((byte)0x05, (byte)key, (byte)0x10, null);
+            byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, null);
             enqueueLogicalFrame(msg);
         }
         isSending = true;
@@ -1160,13 +1189,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void storeHealthValue(String keyName, byte[] payload) {
-        if (payload.length < 4) return;
-        int value = ByteBuffer.wrap(Arrays.copyOf(payload, 4))
-                .order(ByteOrder.LITTLE_ENDIAN)
-                .getInt();
+        if (payload.length < 4)
+            return;
+        int value = 0;
+        long timestamp = System.currentTimeMillis() / 1000;
+
+        // If payload is 8 bytes, usually it's [4-byte timestamp][4-byte value]
+        if (payload.length >= 8) {
+            timestamp = ByteBuffer.wrap(Arrays.copyOfRange(payload, 0, 4))
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .getInt() & 0xFFFFFFFFL;
+            value = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8))
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .getInt();
+        } else {
+            // fallback: read first 4 bytes as value
+            value = ByteBuffer.wrap(Arrays.copyOf(payload, 4))
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .getInt();
+        }
+
         String prefKey = PREF_HEALTH_PREFIX + keyName.replace(" ", "_").toLowerCase(Locale.US);
         String current = prefs.getString(prefKey, "");
-        String next = current.isEmpty() ? Integer.toString(value) : current + "," + value;
+        String newValue = timestamp + ":" + value;
+        String next = current.isEmpty() ? newValue : current + "," + newValue;
         String[] parts = next.split(",");
         if (parts.length > HEALTH_HISTORY_SIZE) {
             next = String.join(",", Arrays.copyOfRange(parts, parts.length - HEALTH_HISTORY_SIZE, parts.length));
@@ -1176,7 +1222,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String bytesToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) sb.append(String.format("%02X ", b));
+        for (byte b : bytes)
+            sb.append(String.format("%02X ", b));
         return sb.toString().trim();
     }
 }

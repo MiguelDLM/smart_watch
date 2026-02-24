@@ -179,7 +179,8 @@ public class DialEditorActivity extends AppCompatActivity {
     private void loadEditableDialPreview() {
         String previewPath = getIntent().getStringExtra("edit_preview_path");
         suggestedDialName = getIntent().getStringExtra("edit_dial_name");
-        if (previewPath == null) return;
+        if (previewPath == null)
+            return;
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
         Bitmap bmp = BitmapFactory.decodeFile(previewPath, opts);
@@ -1875,8 +1876,13 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     private Bitmap ensureRgb565(Bitmap source) {
-        if (source.getConfig() == Bitmap.Config.RGB_565) return source;
-        return source.copy(Bitmap.Config.RGB_565, false);
+        if (source.getConfig() == Bitmap.Config.RGB_565 && !source.hasAlpha())
+            return source;
+        Bitmap rgb565Bmp = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(rgb565Bmp);
+        canvas.drawColor(android.graphics.Color.BLACK);
+        canvas.drawBitmap(source, 0, 0, null);
+        return rgb565Bmp;
     }
 
     // ===================== SVG EDITOR =====================
