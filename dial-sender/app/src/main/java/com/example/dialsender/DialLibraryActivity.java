@@ -36,8 +36,10 @@ import androidx.core.content.FileProvider;
 import android.graphics.BitmapFactory;
 
 /**
- * Displays pre-made dials from assets/dials/ and user-created dials from internal storage.
- * Features: preview thumbnails extracted from .bin, long-press rename/delete for user dials.
+ * Displays pre-made dials from assets/dials/ and user-created dials from
+ * internal storage.
+ * Features: preview thumbnails extracted from .bin, long-press rename/delete
+ * for user dials.
  */
 public class DialLibraryActivity extends AppCompatActivity {
 
@@ -165,7 +167,8 @@ public class DialLibraryActivity extends AppCompatActivity {
                             FileOutputStream fos = new FileOutputStream(binFile);
                             byte[] buf = new byte[4096];
                             int len;
-                            while ((len = is.read(buf)) != -1) fos.write(buf, 0, len);
+                            while ((len = is.read(buf)) != -1)
+                                fos.write(buf, 0, len);
                             fos.close();
                             is.close();
                         }
@@ -197,7 +200,8 @@ public class DialLibraryActivity extends AppCompatActivity {
 
     public static File getUserDialsDir(Activity activity) {
         File dir = new File(activity.getFilesDir(), "user_dials");
-        if (!dir.exists()) dir.mkdirs();
+        if (!dir.exists())
+            dir.mkdirs();
         return dir;
     }
 
@@ -215,7 +219,8 @@ public class DialLibraryActivity extends AppCompatActivity {
                 FileOutputStream fos = new FileOutputStream(fileToSend);
                 byte[] buf = new byte[4096];
                 int len;
-                while ((len = is.read(buf)) != -1) fos.write(buf, 0, len);
+                while ((len = is.read(buf)) != -1)
+                    fos.write(buf, 0, len);
                 fos.close();
                 is.close();
             } else {
@@ -234,15 +239,23 @@ public class DialLibraryActivity extends AppCompatActivity {
     private void editDial(DialEntry entry) {
         try {
             File file = prepareFile(entry);
-            File previewFile = new File(getCacheDir(), "edit_preview_" + entry.name.replace(".bin", ".png"));
+            String safeName = entry.name.replace(".bin", "");
+            File editDir = new File(getCacheDir(), "edit_" + safeName);
+            if (!editDir.exists())
+                editDir.mkdirs();
+
             Python py = Python.getInstance();
             PyObject module = py.getModule("comp_decomp");
-            module.callAttr("extract_preview_png", file.getAbsolutePath(), previewFile.getAbsolutePath());
+            PyObject result = module.callAttr("extract_dial", file.getAbsolutePath(), editDir.getAbsolutePath());
 
-            Intent intent = new Intent(this, DialEditorActivity.class);
-            intent.putExtra("edit_preview_path", previewFile.getAbsolutePath());
-            intent.putExtra("edit_dial_name", entry.name.replace(".bin", ""));
-            startActivity(intent);
+            if (result != null && result.toBoolean()) {
+                Intent intent = new Intent(this, DialEditorActivity.class);
+                intent.putExtra("edit_dial_folder", editDir.getAbsolutePath());
+                intent.putExtra("edit_dial_name", safeName);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Failed to extract dial", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Edit error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -256,31 +269,31 @@ public class DialLibraryActivity extends AppCompatActivity {
         opts.add(getString(R.string.edit));
         opts.add(getString(R.string.share));
         opts.add(getString(R.string.export));
-        
+
         if (!entry.isPreset) {
             opts.add(getString(R.string.rename));
             opts.add(getString(R.string.delete));
         }
 
         new AlertDialog.Builder(this)
-            .setTitle(entry.name.replace(".bin", ""))
-            .setItems(opts.toArray(new String[0]), (dialog, which) -> {
-                String choice = opts.get(which);
-                if (choice.equals(getString(R.string.send_arrow))) {
-                    sendDial(entry);
-                } else if (choice.equals(getString(R.string.edit))) {
-                    editDial(entry);
-                } else if (choice.equals(getString(R.string.share))) {
-                    shareDial(entry);
-                } else if (choice.equals(getString(R.string.export))) {
-                    exportDial(entry);
-                } else if (choice.equals(getString(R.string.rename))) {
-                    showRenameDialog(entry, position);
-                } else if (choice.equals(getString(R.string.delete))) {
-                    showDeleteConfirm(entry, position);
-                }
-            })
-            .show();
+                .setTitle(entry.name.replace(".bin", ""))
+                .setItems(opts.toArray(new String[0]), (dialog, which) -> {
+                    String choice = opts.get(which);
+                    if (choice.equals(getString(R.string.send_arrow))) {
+                        sendDial(entry);
+                    } else if (choice.equals(getString(R.string.edit))) {
+                        editDial(entry);
+                    } else if (choice.equals(getString(R.string.share))) {
+                        shareDial(entry);
+                    } else if (choice.equals(getString(R.string.export))) {
+                        exportDial(entry);
+                    } else if (choice.equals(getString(R.string.rename))) {
+                        showRenameDialog(entry, position);
+                    } else if (choice.equals(getString(R.string.delete))) {
+                        showDeleteConfirm(entry, position);
+                    }
+                })
+                .show();
     }
 
     private void showRenameDialog(DialEntry entry, int position) {
@@ -290,69 +303,71 @@ public class DialLibraryActivity extends AppCompatActivity {
         input.setPadding(48, 24, 48, 24);
 
         new AlertDialog.Builder(this)
-            .setTitle(R.string.rename_dial)
-            .setView(input)
-            .setPositiveButton(R.string.save, (dialog, which) -> {
-                String newName = input.getText().toString().trim();
-                if (newName.isEmpty()) return;
-                newName = newName.replaceAll("[^a-zA-Z0-9_\\-]", "_") + ".bin";
+                .setTitle(R.string.rename_dial)
+                .setView(input)
+                .setPositiveButton(R.string.save, (dialog, which) -> {
+                    String newName = input.getText().toString().trim();
+                    if (newName.isEmpty())
+                        return;
+                    newName = newName.replaceAll("[^a-zA-Z0-9_\\-]", "_") + ".bin";
 
-                File oldFile = new File(entry.path);
-                File newFile = new File(oldFile.getParentFile(), newName);
-                
-                if (newFile.exists()) {
-                    Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    File oldFile = new File(entry.path);
+                    File newFile = new File(oldFile.getParentFile(), newName);
 
-                if (oldFile.renameTo(newFile)) {
-                    // Also rename thumbnail cache if exists
-                    File oldThumb = new File(getCacheDir(), "preview_" + entry.name.replace(".bin", ".png"));
-                    File newThumb = new File(getCacheDir(), "preview_" + newName.replace(".bin", ".png"));
-                    if (oldThumb.exists()) oldThumb.renameTo(newThumb);
-
-                    entry.name = newName;
-                    entry.path = newFile.getAbsolutePath();
-                    if (dialRecycler.getAdapter() != null) {
-                        dialRecycler.getAdapter().notifyItemChanged(position);
+                    if (newFile.exists()) {
+                        Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                    Toast.makeText(this, R.string.dial_renamed, Toast.LENGTH_SHORT).show();
-                }
-            })
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+
+                    if (oldFile.renameTo(newFile)) {
+                        // Also rename thumbnail cache if exists
+                        File oldThumb = new File(getCacheDir(), "preview_" + entry.name.replace(".bin", ".png"));
+                        File newThumb = new File(getCacheDir(), "preview_" + newName.replace(".bin", ".png"));
+                        if (oldThumb.exists())
+                            oldThumb.renameTo(newThumb);
+
+                        entry.name = newName;
+                        entry.path = newFile.getAbsolutePath();
+                        if (dialRecycler.getAdapter() != null) {
+                            dialRecycler.getAdapter().notifyItemChanged(position);
+                        }
+                        Toast.makeText(this, R.string.dial_renamed, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void showDeleteConfirm(DialEntry entry, int position) {
         new AlertDialog.Builder(this)
-            .setTitle(R.string.delete)
-            .setMessage(R.string.confirm_delete)
-            .setPositiveButton(R.string.delete, (dialog, which) -> {
-                File file = new File(entry.path);
-                file.delete();
-                // Also delete cached preview
-                File thumbFile = new File(getCacheDir(), "preview_" + entry.name.replace(".bin", ".png"));
-                thumbFile.delete();
+                .setTitle(R.string.delete)
+                .setMessage(R.string.confirm_delete)
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
+                    File file = new File(entry.path);
+                    file.delete();
+                    // Also delete cached preview
+                    File thumbFile = new File(getCacheDir(), "preview_" + entry.name.replace(".bin", ".png"));
+                    thumbFile.delete();
 
-                dialEntries.remove(position);
-                if (dialRecycler.getAdapter() != null) {
-                    dialRecycler.getAdapter().notifyItemRemoved(position);
-                }
-                if (dialEntries.isEmpty()) {
-                    emptyState.setVisibility(View.VISIBLE);
-                    dialRecycler.setVisibility(View.GONE);
-                }
-                Toast.makeText(this, R.string.dial_deleted, Toast.LENGTH_SHORT).show();
-            })
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+                    dialEntries.remove(position);
+                    if (dialRecycler.getAdapter() != null) {
+                        dialRecycler.getAdapter().notifyItemRemoved(position);
+                    }
+                    if (dialEntries.isEmpty()) {
+                        emptyState.setVisibility(View.VISIBLE);
+                        dialRecycler.setVisibility(View.GONE);
+                    }
+                    Toast.makeText(this, R.string.dial_deleted, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void shareDial(DialEntry entry) {
         try {
             File file = prepareFile(entry);
             Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
-            
+
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("application/octet-stream");
             intent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -368,11 +383,12 @@ public class DialLibraryActivity extends AppCompatActivity {
             File src = prepareFile(entry);
             File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File destDir = new File(downloads, "DialStudio");
-            if (!destDir.exists()) destDir.mkdirs();
-            
+            if (!destDir.exists())
+                destDir.mkdirs();
+
             File dest = new File(destDir, entry.name);
             copyFile(src, dest);
-            
+
             Toast.makeText(this, getString(R.string.dial_exported), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, "Export error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -380,15 +396,17 @@ public class DialLibraryActivity extends AppCompatActivity {
     }
 
     private File prepareFile(DialEntry entry) throws Exception {
-        if (!entry.isPreset) return new File(entry.path);
-        
+        if (!entry.isPreset)
+            return new File(entry.path);
+
         File cached = new File(getCacheDir(), entry.name);
         if (!cached.exists()) {
             InputStream is = getAssets().open(entry.assetPath);
             FileOutputStream fos = new FileOutputStream(cached);
             byte[] buf = new byte[4096];
             int len;
-            while ((len = is.read(buf)) != -1) fos.write(buf, 0, len);
+            while ((len = is.read(buf)) != -1)
+                fos.write(buf, 0, len);
             fos.close();
             is.close();
         }
@@ -400,7 +418,8 @@ public class DialLibraryActivity extends AppCompatActivity {
         FileOutputStream out = new FileOutputStream(dst);
         byte[] buf = new byte[4096];
         int len;
-        while ((len = in.read(buf)) != -1) out.write(buf, 0, len);
+        while ((len = in.read(buf)) != -1)
+            out.write(buf, 0, len);
         in.close();
         out.close();
     }
@@ -446,11 +465,14 @@ public class DialLibraryActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemCount() { return dialEntries.size(); }
+        public int getItemCount() {
+            return dialEntries.size();
+        }
 
         class VH extends RecyclerView.ViewHolder {
             ImageView imgThumb;
             TextView txtName, txtSize, txtSource, btnSend;
+
             VH(View v) {
                 super(v);
                 imgThumb = v.findViewById(R.id.imgDialThumb);

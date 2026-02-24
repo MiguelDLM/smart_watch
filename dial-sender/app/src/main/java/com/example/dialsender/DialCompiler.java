@@ -134,6 +134,75 @@ public class DialCompiler {
         }
     }
 
+    public static int getTypeFromString(String typeStr) {
+        switch (typeStr) {
+            case "BLK_PREV":
+                return TYPE_PREVIEW;
+            case "BLK_BGIMG":
+                return TYPE_BACKGROUND;
+            case "BLK_ARMH":
+                return TYPE_ARM_HOUR;
+            case "BLK_ARMM":
+                return TYPE_ARM_MIN;
+            case "BLK_ARMS":
+                return TYPE_ARM_SEC;
+            case "BLK_YEAR":
+                return TYPE_YEAR;
+            case "BLK_MONTH":
+                return TYPE_MONTH;
+            case "BLK_DAY":
+                return TYPE_DAY;
+            case "BLK_HOUR":
+                return TYPE_DIGITAL_HOUR;
+            case "BLK_MIN":
+                return TYPE_DIGITAL_MIN;
+            case "BLK_SEC":
+                return TYPE_SECONDS;
+            case "BLK_AMPM":
+                return TYPE_AMPM;
+            case "BLK_WEEKD":
+                return TYPE_WEEKDAY;
+            case "BLK_STEPS":
+                return TYPE_STEPS;
+            case "BLK_PULSE":
+                return TYPE_HEART;
+            case "BLK_CALOR":
+                return TYPE_CALORIE;
+            case "BLK_DIST":
+                return TYPE_DISTANCE;
+            case "BLK_BATTN":
+                return TYPE_BATTERY;
+            case "BLK_CONN":
+                return TYPE_CONNECT;
+            case "BLK_BERRY":
+                return TYPE_BERRY;
+            case "BLK_ANIM":
+                return TYPE_ANIM;
+            case "BLK_BATTS":
+                return TYPE_BATT_STRIP;
+            case "BLK_WEAT":
+                return TYPE_WEATHER;
+            case "BLK_TEMP":
+                return TYPE_TEMP;
+            case "BLK_PROG2":
+                return TYPE_PROGRESS2;
+            case "BLK_PROG1":
+                return TYPE_PROGRESS1;
+            case "BLK_LABEL":
+                return TYPE_LABEL;
+            case "BLK_HOURL":
+                return TYPE_HOUR_LO;
+            case "BLK_HOURH":
+                return TYPE_HOUR_HI;
+            case "BLK_MINH":
+                return TYPE_MIN_HI;
+            case "BLK_MINL":
+                return TYPE_MIN_LO;
+            default:
+                return 0;
+        }
+    }
+
     /**
      * Returns the expected frame count for a given block type.
      * This is how many sub-images a vertical sprite-sheet should contain.
@@ -364,7 +433,8 @@ public class DialCompiler {
         // 3. Process blocks
         int blockIndex = 0;
         for (DialBlock block : blocks) {
-            if (block.images == null || block.images.length == 0) continue;
+            if (block.images == null || block.images.length == 0)
+                continue;
             JSONObject jsonBlock = new JSONObject();
             String imgFilename = "block_" + blockIndex + ".png";
             jsonBlock.put("fname", imgFilename);
@@ -406,8 +476,8 @@ public class DialCompiler {
 
         try {
             PyObject result = composerModule.callAttr("compile",
-                tempDir.getAbsolutePath(),
-                outFile.getAbsolutePath());
+                    tempDir.getAbsolutePath(),
+                    outFile.getAbsolutePath());
             if (result != null && result.toBoolean()) {
                 Log.d(TAG, "Compilation Success: " + outFile.length() + " bytes");
                 deleteRecursive(tempDir);
@@ -422,14 +492,22 @@ public class DialCompiler {
 
     private String getBlockTypeString(int type) {
         switch (type) {
-            case TYPE_PREVIEW:      return "BLK_PREV";
-            case TYPE_BACKGROUND:   return "BLK_BGIMG";
-            case TYPE_DIGITAL_HOUR: return "BLK_HOUR";
-            case TYPE_DIGITAL_MIN:  return "BLK_MIN";
-            case TYPE_STEPS:        return "BLK_STEPS";
-            case TYPE_HEART:        return "BLK_PULS";
-            case TYPE_CALORIE:      return "BLK_CALOR";
-            default:                return "BLK_PREV";
+            case TYPE_PREVIEW:
+                return "BLK_PREV";
+            case TYPE_BACKGROUND:
+                return "BLK_BGIMG";
+            case TYPE_DIGITAL_HOUR:
+                return "BLK_HOUR";
+            case TYPE_DIGITAL_MIN:
+                return "BLK_MIN";
+            case TYPE_STEPS:
+                return "BLK_STEPS";
+            case TYPE_HEART:
+                return "BLK_PULS";
+            case TYPE_CALORIE:
+                return "BLK_CALOR";
+            default:
+                return "BLK_PREV";
         }
     }
 

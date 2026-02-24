@@ -504,10 +504,26 @@ class HKDialComposerEnhanced:
             except Exception as e:
                 print(f"Warning: cannot open image {image_path}: {e}")
                 continue
-            frame_h = int(b.get('h', img.size[1]))
+            # Determine expected color space
+            is_rgba = b.get('colsp', 'RGB') == 'RGBA'
+
+            target_mode = 'RGBA' if is_rgba else 'RGB'
+            if img.mode != target_mode:
+                img = img.convert(target_mode)
+            
+            # Respect dial metadata dimensions to prevent corruption
+            expected_w = int(b.get('w', img.size[0]))
+            expected_frms = max(1, int(b.get('frms', 1)))
+            expected_h_per_frame = int(b.get('h', img.size[1] // expected_frms))
+            expected_total_h = expected_h_per_frame * expected_frms
+            
+            if img.size[0] != expected_w or img.size[1] != expected_total_h:
+                img = img.resize((expected_w, expected_total_h), Image.LANCZOS)
+                
+            frame_h = expected_h_per_frame
             total_h = img.size[1]
-            frames = max(1, total_h // frame_h) if frame_h > 0 else 1
-            is_rgba = (img.mode == 'RGBA' or 'A' in img.getbands())
+            frames = expected_frms
+            
             comp_mode = b.get('compression', 'rle')
             compression_code = 4 if comp_mode == 'rle' else 0
             pic_idx = int(b.get('picidx', 0))

@@ -177,8 +177,74 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     private void loadEditableDialPreview() {
-        String previewPath = getIntent().getStringExtra("edit_preview_path");
         suggestedDialName = getIntent().getStringExtra("edit_dial_name");
+        String editFolder = getIntent().getStringExtra("edit_dial_folder");
+        String previewPath = getIntent().getStringExtra("edit_preview_path");
+
+        if (editFolder != null) {
+            File folder = new File(editFolder);
+            File jsonFile = new File(folder, "dial_desc.json");
+            if (jsonFile.exists()) {
+                try {
+                    String jsonStr = new String(java.nio.file.Files.readAllBytes(jsonFile.toPath()));
+                    org.json.JSONObject desc = new org.json.JSONObject(jsonStr);
+                    org.json.JSONArray blocks = desc.getJSONArray("blocks");
+
+                    for (int i = 0; i < blocks.length(); i++) {
+                        org.json.JSONObject b = blocks.getJSONObject(i);
+                        String typeStr = b.getString("type");
+                        int elementType = DialCompiler.getTypeFromString(typeStr);
+                        String fname = b.optString("fname", null);
+
+                        if (fname == null || fname.isEmpty() || fname.equals("null")) {
+                            continue;
+                        }
+
+                        File imgFile = new File(folder, fname);
+                        if (!imgFile.exists())
+                            continue;
+
+                        BitmapFactory.Options opts = new BitmapFactory.Options();
+                        opts.inPreferredConfig = b.optString("colsp", "RGB").equals("RGB") ? Bitmap.Config.RGB_565
+                                : Bitmap.Config.ARGB_8888;
+                        Bitmap fullBmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath(), opts);
+
+                        if (fullBmp == null)
+                            continue;
+
+                        int frms = b.optInt("frms", 1);
+                        int frameH = fullBmp.getHeight() / frms;
+                        Bitmap[] frames = new Bitmap[frms];
+
+                        for (int f = 0; f < frms; f++) {
+                            frames[f] = Bitmap.createBitmap(fullBmp, 0, f * frameH, fullBmp.getWidth(), frameH);
+                        }
+
+                        DialLayer layer = new DialLayer(
+                                frms > 1 ? DialLayer.TYPE_ELEMENT
+                                        : (elementType == DialCompiler.TYPE_BACKGROUND ? DialLayer.TYPE_BACKGROUND
+                                                : DialLayer.TYPE_ARM),
+                                frames[0], getBlockLabel(elementType), elementType);
+
+                        layer.frames = frames;
+                        layer.frameCount = frms;
+                        layer.isSpriteSheet = frms > 1;
+                        layer.posX = b.optInt("posx", 0);
+                        layer.posY = b.optInt("posy", 0);
+                        layer.scale = 1.0f;
+
+                        layers.add(layer);
+                    }
+                    Toast.makeText(this, "Loaded dial elements", Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Failed parsing edit folder", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        // Fallback to preview
         if (previewPath == null)
             return;
         BitmapFactory.Options opts = new BitmapFactory.Options();

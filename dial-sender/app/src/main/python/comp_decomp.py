@@ -1427,7 +1427,24 @@ class HK89Dial:
             json.dump(metadata, f, indent='\t')
         print(f"    Saved metadata to: dial_desc.json")
         
+
         return metadata
+
+def extract_dial(bin_path: str, output_dir: str) -> bool:
+    """
+    Extract a full .bin dial file to a directory containing dial_desc.json and PNGs.
+    Returns True on success, False on failure.
+    """
+    try:
+        dial = HK89Dial()
+        if not dial.load(bin_path):
+            return False
+            
+        dial.extract_images(output_dir)
+        return True
+    except Exception as e:
+        print(f"extract_dial error: {e}")
+        return False
 
 
 def extract_preview_png(bin_path: str, output_png: str) -> str:
