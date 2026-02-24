@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-    private static final int CREATE_DIAL_REQUEST = 1001;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SettingsActivity.applyGlobalTheme(this);
@@ -14,7 +12,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         findViewById(R.id.cardCreateDial).setOnClickListener(v -> {
-            startActivityForResult(new Intent(this, DialEditorActivity.class), CREATE_DIAL_REQUEST);
+            startActivity(new Intent(this, DialEditorActivity.class));
         });
 
         findViewById(R.id.cardSendDial).setOnClickListener(v -> {
@@ -32,15 +30,5 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.btnSettings).setOnClickListener(v -> {
             startActivity(new Intent(this, SettingsActivity.class));
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CREATE_DIAL_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Intent transferIntent = new Intent(this, MainActivity.class);
-            transferIntent.putExtra("dial_file_path", data.getData().getPath());
-            startActivity(transferIntent);
-        }
     }
 }
