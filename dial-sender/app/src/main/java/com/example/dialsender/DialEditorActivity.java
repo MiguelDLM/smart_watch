@@ -1955,6 +1955,10 @@ public class DialEditorActivity extends AppCompatActivity {
                                                     }
 
                                                     @Override
+                                                    public void onHealthSyncComplete() {
+                                                    }
+
+                                                    @Override
                                                     public void onTransferProgress(int percent, long bytesTransferred,
                                                             long totalBytes) {
                                                         progressDialog.setProgress(percent);
