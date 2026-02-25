@@ -814,8 +814,15 @@ public class BleManager {
                 HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
         };
         healthSyncPending = keys.length;
+
+        // Protocol requires 8-byte timeframe (start to end) for data reads
+        byte[] timeRange = new byte[] {
+                0, 0, 0, 0, // start = 0
+                (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF // end = MAX
+        };
+
         for (int key : keys) {
-            byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, null);
+            byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, timeRange);
             enqueueLogicalFrame(msg);
         }
         isSending = true;
@@ -877,7 +884,7 @@ public class BleManager {
                     StringBuilder calories = new StringBuilder(prefs.getString(prefix + "calories", ""));
                     StringBuilder distance = new StringBuilder(prefs.getString(prefix + "distance", ""));
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int packed = bb.get() & 0xFF;
                         int b0 = bb.get() & 0xFF;
                         int b1 = bb.get() & 0xFF;
@@ -906,7 +913,7 @@ public class BleManager {
                     int itemLen = 6;
                     StringBuilder sb = new StringBuilder(prefs.getString(prefix + "heart_rate", ""));
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int bpm = bb.get() & 0xFF;
                         int type = bb.get() & 0xFF;
                         if (sb.length() > 0)
@@ -922,7 +929,7 @@ public class BleManager {
                     int itemLen = 6;
                     StringBuilder sb = new StringBuilder();
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int sys = bb.get() & 0xFF;
                         int dia = bb.get() & 0xFF;
                         if (sb.length() > 0)
@@ -938,7 +945,7 @@ public class BleManager {
                     int itemLen = 7;
                     StringBuilder sb = new StringBuilder(prefs.getString(prefix + "sleep", ""));
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int mode = bb.get() & 0xFF;
                         int soft = bb.get() & 0xFF;
                         int strong = bb.get() & 0xFF;
@@ -955,7 +962,7 @@ public class BleManager {
                     int itemLen = 6;
                     StringBuilder sb = new StringBuilder();
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int temp = bb.getShort();
                         if (sb.length() > 0)
                             sb.append(",");
@@ -970,7 +977,7 @@ public class BleManager {
                     int itemLen = 6;
                     StringBuilder sb = new StringBuilder(prefs.getString(prefix + "blood_oxygen", ""));
                     while (bb.remaining() >= itemLen) {
-                        int time = bb.getInt();
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
                         int spo2 = bb.get() & 0xFF;
                         bb.get(); // padding
                         if (sb.length() > 0)
