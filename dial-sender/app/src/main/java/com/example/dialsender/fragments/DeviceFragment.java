@@ -157,6 +157,11 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     }
 
     @Override
+    public void onHealthSyncComplete() {
+        // Health sync completion handled in StatusFragment
+    }
+
+    @Override
     public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {
         // Transfer progress handled in sending activity
     }

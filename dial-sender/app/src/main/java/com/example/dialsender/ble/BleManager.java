@@ -140,12 +140,29 @@ public class BleManager {
 
         void onHealthDataReceived(String keyName, byte[] payload);
 
+        void onHealthSyncComplete();
+
         void onTransferProgress(int percent, long bytesTransferred, long totalBytes);
 
         void onTransferComplete();
 
         void onLogUpdated();
     }
+
+    // Health data key codes from protocol doc 03-HEALTH-DATA.md
+    public static final int HEALTH_KEY_ACTIVITY = 0x02; // 16 bytes/record
+    public static final int HEALTH_KEY_HEART_RATE = 0x03; // 6 bytes/record
+    public static final int HEALTH_KEY_BLOOD_PRESSURE = 0x04; // 6 bytes/record
+    public static final int HEALTH_KEY_SLEEP = 0x05; // 7 bytes/record
+    public static final int HEALTH_KEY_WORKOUT = 0x06; // 48 bytes/record
+    public static final int HEALTH_KEY_TEMPERATURE = 0x08; // 6 bytes/record
+    public static final int HEALTH_KEY_BLOOD_OXYGEN = 0x09; // 6 bytes/record
+    public static final int HEALTH_KEY_HRV = 0x0A; // 6 bytes/record
+    public static final int HEALTH_KEY_ECG = 0x0D; // 6 bytes/record
+    public static final int HEALTH_KEY_PRESSURE = 0x0E; // 6 bytes/record (stress)
+    public static final int HEALTH_KEY_BLOOD_GLUCOSE = 0x0F; // 6 bytes/record
+
+    private int healthSyncPending = 0;
 
     // ========== Constructor ==========
 
@@ -550,42 +567,33 @@ public class BleManager {
             return;
         }
 
-        // Health data responses (Cmd=0x05)
-        if (isReply && cmd == 0x05) {
-            String keyName;
-            switch (key) {
-                case 0x03:
-                    keyName = "Steps";
-                    break;
-                case 0x04:
-                    keyName = "Calories";
-                    break;
-                case 0x05:
-                    keyName = "Sleep";
-                    break;
-                case 0x07:
-                    keyName = "Distance";
-                    break;
-                case 0x09:
-                    keyName = "Heart Rate";
-                    break;
-                case 0x0B:
-                    keyName = "Blood Oxygen";
-                    break;
-                case 0x0D:
-                    keyName = "Unknown_0D";
-                    break;
-                case 0x0E:
-                    keyName = "Unknown_0E";
-                    break;
-                default:
-                    keyName = "Unknown_" + String.format("%02X", key);
-                    break;
-            }
+        // Health data responses (Cmd=0x05) — parse per protocol doc 03-HEALTH-DATA.md
+        if (cmd == 0x05) {
             byte[] healthPayload = (data.length > 9) ? Arrays.copyOfRange(data, 9, data.length) : new byte[0];
-            log("Health [" + keyName + "]: " + bytesToHex(healthPayload));
+            String keyName = getHealthKeyName(key & 0xFF);
+            log("Health [" + keyName + "] payload=" + healthPayload.length + "B: " + bytesToHex(healthPayload));
+
+            // Parse health records and store to SharedPreferences
+            parseAndStoreHealthData(key & 0xFF, healthPayload);
+
             if (listener != null) {
                 handler.post(() -> listener.onHealthDataReceived(keyName, healthPayload));
+            }
+
+            // Track sync completion
+            if (healthSyncPending > 0) {
+                healthSyncPending--;
+                if (healthSyncPending == 0) {
+                    log("=== Health Sync Complete ===");
+                    if (listener != null) {
+                        handler.post(() -> listener.onHealthSyncComplete());
+                    }
+                }
+            }
+
+            // ACK if it's a notification (not a reply) to acknowledge receipt
+            if (!isReply) {
+                sendAck(cmd, key, flag);
             }
             return;
         }
@@ -783,15 +791,204 @@ public class BleManager {
 
     // ========== Health Sync ==========
 
+    /**
+     * Request all health data from the watch.
+     * Sends READ (0x10) requests for each health data BleKey in the 0x05xx range.
+     * Per protocol doc 03-HEALTH-DATA.md, the watch responds with packed binary
+     * records.
+     */
     public void syncHealth() {
+        if (connectionState != ConnectionState.SESSION_READY) {
+            log("Cannot sync health: session not ready (state=" + connectionState + ")");
+            return;
+        }
         log("=== Syncing Health Data ===");
-        int[] keys = { 0x03, 0x04, 0x0D, 0x07, 0x05, 0x0E, 0x09, 0x0B };
+        // Query keys from protocol doc: ACTIVITY, HEART_RATE, BLOOD_PRESSURE, SLEEP,
+        // TEMPERATURE, BLOOD_OXYGEN, HRV, PRESSURE (stress)
+        int[] keys = {
+                HEALTH_KEY_ACTIVITY, // 0x02 - Steps/Calories/Distance
+                HEALTH_KEY_HEART_RATE, // 0x03 - Heart rate BPM
+                HEALTH_KEY_BLOOD_PRESSURE, // 0x04 - Systolic/Diastolic
+                HEALTH_KEY_SLEEP, // 0x05 - Sleep stages
+                HEALTH_KEY_TEMPERATURE, // 0x08 - Body temperature
+                HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
+        };
+        healthSyncPending = keys.length;
         for (int key : keys) {
             byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, null);
             enqueueLogicalFrame(msg);
         }
         isSending = true;
         sendNextChunk();
+    }
+
+    private String getHealthKeyName(int key) {
+        switch (key) {
+            case HEALTH_KEY_ACTIVITY:
+                return "activity";
+            case HEALTH_KEY_HEART_RATE:
+                return "heart_rate";
+            case HEALTH_KEY_BLOOD_PRESSURE:
+                return "blood_pressure";
+            case HEALTH_KEY_SLEEP:
+                return "sleep";
+            case HEALTH_KEY_WORKOUT:
+                return "workout";
+            case HEALTH_KEY_TEMPERATURE:
+                return "temperature";
+            case HEALTH_KEY_BLOOD_OXYGEN:
+                return "blood_oxygen";
+            case HEALTH_KEY_HRV:
+                return "hrv";
+            case HEALTH_KEY_ECG:
+                return "ecg";
+            case HEALTH_KEY_PRESSURE:
+                return "stress";
+            case HEALTH_KEY_BLOOD_GLUCOSE:
+                return "blood_glucose";
+            default:
+                return "unknown_" + String.format("%02X", key);
+        }
+    }
+
+    /**
+     * Parse binary health records per protocol doc 03-HEALTH-DATA.md and store to
+     * SharedPreferences.
+     * Each entity type has a fixed ITEM_LENGTH. Records are big-endian packed.
+     */
+    private void parseAndStoreHealthData(int key, byte[] payload) {
+        if (payload == null || payload.length == 0) {
+            log("Health [" + getHealthKeyName(key) + "]: empty payload");
+            return;
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        String prefix = "health_";
+
+        try {
+            ByteBuffer bb = ByteBuffer.wrap(payload);
+            bb.order(ByteOrder.BIG_ENDIAN);
+
+            switch (key) {
+                case HEALTH_KEY_ACTIVITY: {
+                    // ITEM_LENGTH=16: time(4) packed(1) step(3) calorie(4) distance(4)
+                    int itemLen = 16;
+                    StringBuilder steps = new StringBuilder(prefs.getString(prefix + "steps", ""));
+                    StringBuilder calories = new StringBuilder(prefs.getString(prefix + "calories", ""));
+                    StringBuilder distance = new StringBuilder(prefs.getString(prefix + "distance", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int packed = bb.get() & 0xFF;
+                        int b0 = bb.get() & 0xFF;
+                        int b1 = bb.get() & 0xFF;
+                        int b2 = bb.get() & 0xFF;
+                        int step = (b0 << 16) | (b1 << 8) | b2;
+                        int calorie = bb.getInt();
+                        int dist = bb.getInt();
+                        if (steps.length() > 0)
+                            steps.append(",");
+                        steps.append(time).append(":").append(step);
+                        if (calories.length() > 0)
+                            calories.append(",");
+                        calories.append(time).append(":").append(calorie);
+                        if (distance.length() > 0)
+                            distance.append(",");
+                        distance.append(time).append(":").append(dist);
+                        log("  Activity: t=" + time + " steps=" + step + " cal=" + calorie + " dist=" + dist);
+                    }
+                    editor.putString(prefix + "steps", steps.toString());
+                    editor.putString(prefix + "calories", calories.toString());
+                    editor.putString(prefix + "distance", distance.toString());
+                    break;
+                }
+                case HEALTH_KEY_HEART_RATE: {
+                    // ITEM_LENGTH=6: time(4) bpm(1) type(1)
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "heart_rate", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int bpm = bb.get() & 0xFF;
+                        int type = bb.get() & 0xFF;
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(bpm);
+                        log("  HeartRate: t=" + time + " bpm=" + bpm + " type=" + type);
+                    }
+                    editor.putString(prefix + "heart_rate", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_BLOOD_PRESSURE: {
+                    // ITEM_LENGTH=6: time(4) systolic(1) diastolic(1)
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder();
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int sys = bb.get() & 0xFF;
+                        int dia = bb.get() & 0xFF;
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(sys).append("/").append(dia);
+                        log("  BP: t=" + time + " sys=" + sys + " dia=" + dia);
+                    }
+                    editor.putString(prefix + "blood_pressure", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_SLEEP: {
+                    // ITEM_LENGTH=7: time(4) mode(1) soft(1) strong(1)
+                    int itemLen = 7;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "sleep", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int mode = bb.get() & 0xFF;
+                        int soft = bb.get() & 0xFF;
+                        int strong = bb.get() & 0xFF;
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(soft + strong);
+                        log("  Sleep: t=" + time + " mode=" + mode + " light=" + soft + " deep=" + strong);
+                    }
+                    editor.putString(prefix + "sleep", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_TEMPERATURE: {
+                    // ITEM_LENGTH=6: time(4) temperature(2) — value *10
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder();
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int temp = bb.getShort();
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(temp);
+                        log("  Temp: t=" + time + " temp=" + (temp / 10.0) + "°C");
+                    }
+                    editor.putString(prefix + "temperature", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_BLOOD_OXYGEN: {
+                    // ITEM_LENGTH=6: time(4) value(1) padding(1)
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "blood_oxygen", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt();
+                        int spo2 = bb.get() & 0xFF;
+                        bb.get(); // padding
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(spo2);
+                        log("  SpO2: t=" + time + " value=" + spo2 + "%");
+                    }
+                    editor.putString(prefix + "blood_oxygen", sb.toString());
+                    break;
+                }
+                default:
+                    log("  Unhandled health key 0x" + String.format("%02X", key) + " (" + payload.length + " bytes)");
+                    break;
+            }
+            editor.apply();
+        } catch (Exception e) {
+            log("Health parse error: " + e.getMessage());
+        }
     }
 
     // ========== Helpers — ported from omo version ==========

@@ -61,9 +61,15 @@ public class StatusFragment extends Fragment {
         }
 
         view.findViewById(R.id.btnSyncHealthFromScreen).setOnClickListener(v -> {
-            // Send trigger to watch
-            byte[] command = new byte[] { 0x05, 0x01 }; // Sample trigger
-            // TODO real trigger mechanism with BleManager
+            BleManager ble = BleManager.getInstance(requireContext());
+            if (ble.isSessionReady()) {
+                ble.syncHealth();
+                android.widget.Toast.makeText(requireContext(),
+                        "Sincronizando datos de salud...", android.widget.Toast.LENGTH_SHORT).show();
+            } else {
+                android.widget.Toast.makeText(requireContext(),
+                        "No conectado al reloj", android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
 
         toggleTimeRange.addOnButtonCheckedListener((group, checkedId, isChecked) -> {

@@ -137,14 +137,20 @@ public class DialCompiler {
     public static int getTypeFromString(String typeStr) {
         switch (typeStr) {
             case "BLK_PREV":
+            case "BLK_PREVI":
                 return TYPE_PREVIEW;
             case "BLK_BGIMG":
+            case "BLK_BACKGROUND":
+            case "BLK_BACKGROUND2":
                 return TYPE_BACKGROUND;
             case "BLK_ARMH":
+            case "BLK_ARM_HOUR":
                 return TYPE_ARM_HOUR;
             case "BLK_ARMM":
+            case "BLK_ARM_MINUTE":
                 return TYPE_ARM_MIN;
             case "BLK_ARMS":
+            case "BLK_ARM_SECOND":
                 return TYPE_ARM_SEC;
             case "BLK_YEAR":
                 return TYPE_YEAR;
@@ -153,10 +159,13 @@ public class DialCompiler {
             case "BLK_DAY":
                 return TYPE_DAY;
             case "BLK_HOUR":
+            case "BLK_HOURS":
                 return TYPE_DIGITAL_HOUR;
             case "BLK_MIN":
+            case "BLK_MINUTES":
                 return TYPE_DIGITAL_MIN;
             case "BLK_SEC":
+            case "BLK_SECONDS":
                 return TYPE_SECONDS;
             case "BLK_AMPM":
                 return TYPE_AMPM;
@@ -165,38 +174,51 @@ public class DialCompiler {
             case "BLK_STEPS":
                 return TYPE_STEPS;
             case "BLK_PULSE":
+            case "BLK_PULS":
                 return TYPE_HEART;
             case "BLK_CALOR":
                 return TYPE_CALORIE;
             case "BLK_DIST":
                 return TYPE_DISTANCE;
             case "BLK_BATTN":
+            case "BLK_BATTERY":
                 return TYPE_BATTERY;
             case "BLK_CONN":
+            case "BLK_CONNECT":
                 return TYPE_CONNECT;
             case "BLK_BERRY":
+            case "BLK_BIGYO":
                 return TYPE_BERRY;
             case "BLK_ANIM":
+            case "BLK_ANIMPART":
                 return TYPE_ANIM;
             case "BLK_BATTS":
+            case "BLK_BATTERY_STRIP":
                 return TYPE_BATT_STRIP;
             case "BLK_WEAT":
+            case "BLK_WEATHER":
                 return TYPE_WEATHER;
             case "BLK_TEMP":
                 return TYPE_TEMP;
             case "BLK_PROG2":
+            case "BLK_PROGRESS2":
                 return TYPE_PROGRESS2;
             case "BLK_PROG1":
+            case "BLK_PROGRESS1":
                 return TYPE_PROGRESS1;
             case "BLK_LABEL":
                 return TYPE_LABEL;
             case "BLK_HOURL":
+            case "BLK_HOUR_LO":
                 return TYPE_HOUR_LO;
             case "BLK_HOURH":
+            case "BLK_HOUR_HI":
                 return TYPE_HOUR_HI;
             case "BLK_MINH":
+            case "BLK_MINUTE_HI":
                 return TYPE_MIN_HI;
             case "BLK_MINL":
+            case "BLK_MINUTE_LO":
                 return TYPE_MIN_LO;
             default:
                 return 0;
@@ -442,7 +464,7 @@ public class DialCompiler {
             // Color space: RGB for background/preview, RGBA for overlays
             boolean isOverlay = (block.type != TYPE_PREVIEW && block.type != TYPE_BACKGROUND);
             jsonBlock.put("colsp", isOverlay ? "RGBA" : "RGB");
-            jsonBlock.put("comp", block.compress == 0 ? 0 : 6);
+            jsonBlock.put("comp", block.compress == 0 ? 0 : 4);
             jsonBlock.put("frms", block.frames);
             jsonBlock.put("posx", block.x);
             jsonBlock.put("posy", block.y);
