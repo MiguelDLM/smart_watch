@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_status"
+        android:icon="@drawable/ic_nav_status"
+        android:title="Status" />
+    <item
+        android:id="@+id/nav_sport"
+        android:icon="@drawable/ic_nav_sport"
+        android:title="Sport" />
+    <item
+        android:id="@+id/nav_device"
+        android:icon="@drawable/ic_nav_device"
+        android:title="Device" />
+    <item
+        android:id="@+id/nav_me"
+        android:icon="@drawable/ic_nav_me"
+        android:title="Me" />
+</menu>

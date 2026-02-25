@@ -469,13 +469,13 @@ public class DialCompiler {
         }
         Log.d(TAG, "Wrote dial_desc.json to " + jsonFile.getAbsolutePath());
 
-        // 4. Call Python: hkcomposer.compile(input_dir, output_file)
+        // 4. Call Python: comp_decomp.compile(input_dir, output_file)
         Python py = Python.getInstance();
-        PyObject composerModule = py.getModule("hkcomposer");
+        PyObject composerModule = py.getModule("comp_decomp");
         File outFile = new File(outputDir, filename);
 
         try {
-            PyObject result = composerModule.callAttr("compile",
+            PyObject result = composerModule.callAttr("compile_dial",
                     tempDir.getAbsolutePath(),
                     outFile.getAbsolutePath());
             if (result != null && result.toBoolean()) {

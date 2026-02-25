@@ -38,6 +38,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // Include the repository-level `dials` folder as app assets so preset dials
+    // placed in the workspace `dials/` directory are packaged under assets/dials
+    sourceSets {
+        main {
+            assets.srcDirs += file("$rootDir/dials")
+        }
+    }
 }
 
 dependencies {
@@ -48,5 +56,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.caverock:androidsvg-aar:1.4'
-
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
