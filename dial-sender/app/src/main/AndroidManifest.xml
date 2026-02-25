@@ -17,20 +17,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Home Screen (Launcher) -->
+        <!-- Home Screen (Deprecated Launcher) -->
         <activity
             android:name=".HomeActivity"
+            android:exported="false">
+        </activity>
+
+        <!-- Dial Sender / Health Dashboard (BLE Connection + Transfer) -->
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <!-- Dial Sender (BLE Connection + Transfer) -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"/>
 
         <!-- Dial Editor (Create/Design Dials) -->
         <activity
@@ -48,9 +49,6 @@
             android:name=".DialLibraryActivity"
             android:exported="false"/>
 
-        <activity
-            android:name=".HealthDataActivity"
-            android:exported="false"/>
 
         <!-- Settings -->
         <activity

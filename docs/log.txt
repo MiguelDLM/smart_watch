@@ -1,0 +1,123 @@
+[10:05:05.982] Connecting to Kronos Thunder (73:08:11:A5:AE:61)
+[10:05:05.990] Using TRANSPORT_LE
+[10:05:06.027] Connected (status=0). Discovering services...
+[10:05:06.055] STF Services Found!
+[10:05:06.061] Enabling notifications...
+[10:05:06.203] Notifications enabled. Requesting MTU...
+[10:05:06.217] MTU changed to 512 (payload=509)
+[10:05:06.219] Sending Handshake...
+[10:05:06.289] Rx [10]: AB 11 00 04 44 B8 03 02 20 00
+[10:05:06.291] Parse: Hdr=0x11 Cmd=0x03 Key=0x02 Flag=0x20 Reply=true State=HANDSHAKE_SENT
+[10:05:06.292] Handshake OK
+[10:05:06.292] Using stored bind ID, skipping bind
+[10:05:06.392] Sending Login...
+[10:05:06.392] Tx Login: AB 01 00 07 19 7F 03 02 20 25 D5 CB 5E
+[10:05:06.469] Rx [9]: AB 11 00 03 A0 A0 02 02 00
+[10:05:06.470] Parse: Hdr=0x11 Cmd=0x02 Key=0x02 Flag=0x00 Reply=true State=LOGIN_SENT
+[10:05:06.470] Unhandled response: Cmd=0x02 Key=0x02
+[10:05:06.515] Rx [10]: AB 11 00 04 44 B8 03 02 20 00
+[10:05:06.515] Parse: Hdr=0x11 Cmd=0x03 Key=0x02 Flag=0x20 Reply=true State=LOGIN_SENT
+[10:05:06.516] Login OK
+[10:05:06.516] === SESSION READY ===
+[10:05:06.560] Rx [9]: AB 11 00 03 50 A0 02 01 00
+[10:05:06.563] Parse: Hdr=0x11 Cmd=0x02 Key=0x01 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:06.565] Unhandled response: Cmd=0x02 Key=0x01
+[10:05:06.607] Rx [9]: AB 11 00 03 A0 A5 02 0E 00
+[10:05:06.613] Parse: Hdr=0x11 Cmd=0x02 Key=0x0E Flag=0x00 Reply=true State=SESSION_READY
+[10:05:06.615] Unhandled response: Cmd=0x02 Key=0x0E
+[10:05:06.652] Rx [25]: AB 11 00 13 7B 74 02 0A 10 00 01 17 00 07 00 00 00 00 00 00 00 00 00 00 00
+[10:05:06.654] Parse: Hdr=0x11 Cmd=0x02 Key=0x0A Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.655] Unhandled response: Cmd=0x02 Key=0x0A
+[10:05:06.696] Rx [12]: AB 11 00 06 E1 B0 02 17 10 00 00 01
+[10:05:06.699] Parse: Hdr=0x11 Cmd=0x02 Key=0x17 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.700] Unhandled response: Cmd=0x02 Key=0x17
+[10:05:06.742] Rx [13]: AB 11 00 07 22 85 02 18 10 D0 D0 D0 00
+[10:05:06.744] Parse: Hdr=0x11 Cmd=0x02 Key=0x18 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.745] Unhandled response: Cmd=0x02 Key=0x18
+[10:05:06.787] Rx [12]: AB 11 00 06 2C 75 02 64 10 00 00 08
+[10:05:06.789] Parse: Hdr=0x11 Cmd=0x02 Key=0x64 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.790] Unhandled response: Cmd=0x02 Key=0x64
+[10:05:06.831] Rx [12]: AB 11 00 06 E0 74 02 04 10 00 00 06
+[10:05:06.833] Parse: Hdr=0x11 Cmd=0x02 Key=0x04 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.834] Unhandled response: Cmd=0x02 Key=0x04
+[10:05:06.876] Rx [16]: AB 11 00 0A B2 45 04 02 10 00 02 01 02 02 01 02
+[10:05:06.878] Parse: Hdr=0x11 Cmd=0x04 Key=0x02 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.880] Unhandled response: Cmd=0x04 Key=0x02
+[10:05:06.920] Rx [10]: AB 11 00 04 7F 7C 02 03 10 0A
+[10:05:06.922] Parse: Hdr=0x11 Cmd=0x02 Key=0x03 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:06.923] Unhandled response: Cmd=0x02 Key=0x03
+[10:05:06.965] Rx [9]: AB 11 00 03 30 A4 02 0F 00
+[10:05:06.967] Parse: Hdr=0x11 Cmd=0x02 Key=0x0F Flag=0x00 Reply=true State=SESSION_READY
+[10:05:06.968] Unhandled response: Cmd=0x02 Key=0x0F
+[10:05:07.235] Rx [9]: AB 11 00 03 50 AF 02 15 00
+[10:05:07.237] Parse: Hdr=0x11 Cmd=0x02 Key=0x15 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.238] Unhandled response: Cmd=0x02 Key=0x15
+[10:05:07.240] Rx [9]: AB 11 00 03 60 A8 02 1E 00
+[10:05:07.241] Parse: Hdr=0x11 Cmd=0x02 Key=0x1E Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.242] Unhandled response: Cmd=0x02 Key=0x1E
+[10:05:07.327] Rx [9]: AB 11 00 03 3D 42 04 07 10
+[10:05:07.329] Parse: Hdr=0x11 Cmd=0x04 Key=0x07 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:07.330] Unhandled response: Cmd=0x04 Key=0x07
+[10:05:07.460] Rx [9]: AB 11 00 03 C0 AE 02 14 00
+[10:05:07.462] Parse: Hdr=0x11 Cmd=0x02 Key=0x14 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.463] Unhandled response: Cmd=0x02 Key=0x14
+[10:05:07.550] Rx [17]: AB 11 00 0B 83 14 02 49 10 00 00 00 00 00 00 00 00
+[10:05:07.552] Parse: Hdr=0x11 Cmd=0x02 Key=0x49 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:07.553] Unhandled response: Cmd=0x02 Key=0x49
+[10:05:07.641] Rx [9]: AB 11 00 03 00 B8 02 20 00
+[10:05:07.642] Parse: Hdr=0x11 Cmd=0x02 Key=0x20 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.643] Unhandled response: Cmd=0x02 Key=0x20
+[10:05:07.730] Rx [9]: AB 11 00 03 A0 A0 02 02 00
+[10:05:07.732] Parse: Hdr=0x11 Cmd=0x02 Key=0x02 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.733] Unhandled response: Cmd=0x02 Key=0x02
+[10:05:07.825] Rx [9]: AB 11 00 03 50 A0 02 01 00
+[10:05:07.826] Parse: Hdr=0x11 Cmd=0x02 Key=0x01 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.827] Unhandled response: Cmd=0x02 Key=0x01
+[10:05:07.910] Rx [9]: AB 11 00 03 A0 A5 02 0E 00
+[10:05:07.913] Parse: Hdr=0x11 Cmd=0x02 Key=0x0E Flag=0x00 Reply=true State=SESSION_READY
+[10:05:07.914] Unhandled response: Cmd=0x02 Key=0x0E
+[10:05:08.006] Rx [25]: AB 11 00 13 7B 74 02 0A 10 00 01 17 00 07 00 00 00 00 00 00 00 00 00 00 00
+[10:05:08.008] Parse: Hdr=0x11 Cmd=0x02 Key=0x0A Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.009] Unhandled response: Cmd=0x02 Key=0x0A
+[10:05:08.090] Rx [12]: AB 11 00 06 E1 B0 02 17 10 00 00 01
+[10:05:08.091] Parse: Hdr=0x11 Cmd=0x02 Key=0x17 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.093] Unhandled response: Cmd=0x02 Key=0x17
+[10:05:08.180] Rx [13]: AB 11 00 07 22 85 02 18 10 D0 D0 D0 00
+[10:05:08.182] Parse: Hdr=0x11 Cmd=0x02 Key=0x18 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.184] Unhandled response: Cmd=0x02 Key=0x18
+[10:05:08.270] Rx [12]: AB 11 00 06 2C 75 02 64 10 00 00 08
+[10:05:08.272] Parse: Hdr=0x11 Cmd=0x02 Key=0x64 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.273] Unhandled response: Cmd=0x02 Key=0x64
+[10:05:08.360] Rx [12]: AB 11 00 06 E0 74 02 04 10 00 00 06
+[10:05:08.362] Parse: Hdr=0x11 Cmd=0x02 Key=0x04 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.363] Unhandled response: Cmd=0x02 Key=0x04
+[10:05:08.496] Rx [16]: AB 11 00 0A B2 45 04 02 10 00 02 01 02 02 01 02
+[10:05:08.498] Parse: Hdr=0x11 Cmd=0x04 Key=0x02 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.499] Unhandled response: Cmd=0x04 Key=0x02
+[10:05:08.585] Rx [10]: AB 11 00 04 7F 7C 02 03 10 0A
+[10:05:08.586] Parse: Hdr=0x11 Cmd=0x02 Key=0x03 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:08.587] Unhandled response: Cmd=0x02 Key=0x03
+[10:05:08.675] Rx [9]: AB 11 00 03 30 A4 02 0F 00
+[10:05:08.676] Parse: Hdr=0x11 Cmd=0x02 Key=0x0F Flag=0x00 Reply=true State=SESSION_READY
+[10:05:08.678] Unhandled response: Cmd=0x02 Key=0x0F
+[10:05:08.990] Rx [9]: AB 11 00 03 50 AF 02 15 00
+[10:05:08.992] Parse: Hdr=0x11 Cmd=0x02 Key=0x15 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:08.993] Unhandled response: Cmd=0x02 Key=0x15
+[10:05:09.080] Rx [9]: AB 11 00 03 60 A8 02 1E 00
+[10:05:09.082] Parse: Hdr=0x11 Cmd=0x02 Key=0x1E Flag=0x00 Reply=true State=SESSION_READY
+[10:05:09.082] Unhandled response: Cmd=0x02 Key=0x1E
+[10:05:09.170] Rx [9]: AB 11 00 03 90 A8 02 1D 00
+[10:05:09.172] Parse: Hdr=0x11 Cmd=0x02 Key=0x1D Flag=0x00 Reply=true State=SESSION_READY
+[10:05:09.173] Unhandled response: Cmd=0x02 Key=0x1D
+[10:05:09.260] Rx [9]: AB 11 00 03 3D 42 04 07 10
+[10:05:09.262] Parse: Hdr=0x11 Cmd=0x04 Key=0x07 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:09.265] Unhandled response: Cmd=0x04 Key=0x07
+[10:05:09.350] Rx [9]: AB 11 00 03 C0 AE 02 14 00
+[10:05:09.352] Parse: Hdr=0x11 Cmd=0x02 Key=0x14 Flag=0x00 Reply=true State=SESSION_READY
+[10:05:09.353] Unhandled response: Cmd=0x02 Key=0x14
+[10:05:09.440] Rx [17]: AB 11 00 0B 83 14 02 49 10 00 00 00 00 00 00 00 00
+[10:05:09.441] Parse: Hdr=0x11 Cmd=0x02 Key=0x49 Flag=0x10 Reply=true State=SESSION_READY
+[10:05:09.442] Unhandled response: Cmd=0x02 Key=0x49
+[10:05:09.530] Rx [9]: AB 11 00 03 C1 44 04 0C 00
+[10:05:09.531] Parse: Hdr=0x11 Cmd=0x04 Key=0x0C Flag=0x00 Reply=true State=SESSION_READY
+[10:05:09.532] Unhandled response: Cmd=0x04 Key=0x0C

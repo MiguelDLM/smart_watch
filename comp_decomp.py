@@ -1427,7 +1427,70 @@ class HK89Dial:
             json.dump(metadata, f, indent='\t')
         print(f"    Saved metadata to: dial_desc.json")
         
+
         return metadata
+
+def extract_dial(bin_path: str, output_dir: str) -> bool:
+    """
+    Extract a full .bin dial file to a directory containing dial_desc.json and PNGs.
+    Returns True on success, False on failure.
+    """
+    try:
+        dial = HK89Dial()
+        if not dial.load(bin_path):
+            return False
+            
+        dial.extract_images(output_dir)
+        return True
+    except Exception as e:
+        print(f"extract_dial error: {e}")
+        return False
+
+
+def extract_preview_png(bin_path: str, output_png: str) -> str:
+    """
+    Extract the preview image from a .bin dial file and save as PNG.
+    Returns the output path on success, empty string on failure.
+    
+    The preview block has base_type 0x01 (BLK_PREV).
+    """
+    try:
+        dial = HK89Dial()
+        if not dial.load(bin_path):
+            return ""
+
+        for block in dial.blocks:
+            base_type = block.block_type & 0x7F
+            if base_type != 0x01:
+                continue
+
+            # Found preview block, decompress it
+            img_data = dial.raw_data[block.image_offset:]
+            frame_sizes = dial.get_frame_sizes(block.pic_idx, 1)
+
+            if block.compression == 4:
+                if block.is_rgba:
+                    pixels = decompress_rle_rgba(img_data, block.width, block.height, 1, frame_sizes)
+                    mode = 'RGBA'
+                else:
+                    pixels = decompress_rle_rgb(img_data, block.width, block.height, 1, frame_sizes)
+                    mode = 'RGB'
+            else:
+                if block.is_rgba:
+                    pixels = decode_raw_rgba(img_data, block.width, block.height)
+                    mode = 'RGBA'
+                else:
+                    pixels = decode_raw_rgb(img_data, block.width, block.height)
+                    mode = 'RGB'
+
+            img = Image.fromarray(pixels, mode)
+            img.save(output_png)
+            return output_png
+
+        return ""
+    except Exception as e:
+        print(f"extract_preview_png error: {e}")
+        return ""
 
 
 def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
@@ -1435,12 +1498,6 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
     Compile images from a directory into a .bin dial file
     
     Reads dial_desc.json for metadata and compiles all referenced images.
-    
-    IMPORTANT: Image format handling:
-    - Background images (BLK_BGIMG) should use "colsp": "RGB" and can be JPG/JPEG or PNG
-    - Transparent elements (digits, hands, etc.) should use "colsp": "RGBA" and must be PNG
-    - Images are automatically converted to the correct format based on "colsp" field
-    - This ensures JPEG backgrounds work correctly without corruption
     
     File format:
     - Header (4 bytes): pltable_size (2) + num_blocks (1) + format (1)
@@ -1532,21 +1589,13 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         
         # Load image
         img = Image.open(img_path)
-        
-        # Determine color space from metadata FIRST
-        is_rgba = block_meta.get('colsp', 'RGB') == 'RGBA'
-        
-        # Convert image to the correct mode based on metadata colsp
-        # This is CRITICAL for JPEG support - JPEGs must be kept as RGB for background blocks
-        target_mode = 'RGBA' if is_rgba else 'RGB'
-        original_mode = img.mode
-        if img.mode != target_mode:
-            img = img.convert(target_mode)
-            print(f"        Converting {fname} from {original_mode} to {target_mode}")
+        if img.mode != 'RGBA':
+            img = img.convert('RGBA')
             
         width, height = img.size
         
-        # Determine block type
+        # Determine color space and block type
+        is_rgba = block_meta.get('colsp', 'RGB') == 'RGBA'
         type_str = block_meta.get('type', 'BLK_PREV').upper()
         
         # Get base block type from map
