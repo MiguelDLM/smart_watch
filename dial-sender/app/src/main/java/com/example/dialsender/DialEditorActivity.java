@@ -381,6 +381,11 @@ public class DialEditorActivity extends AppCompatActivity {
                 refreshAll();
             });
 
+            holder.itemView.setOnLongClickListener(v -> {
+                saveLayerAsPreset(layer);
+                return true;
+            });
+
             holder.btnDelete.setOnClickListener(v -> {
                 layers.remove(layerIdx);
                 if (selectedLayerIndex >= layers.size()) {
@@ -1171,133 +1176,148 @@ public class DialEditorActivity extends AppCompatActivity {
 
     private List<String> findPresetFolders(int elementType) {
         List<String> found = new ArrayList<>();
-        String base = "dial_customize_2";
+        List<String> allBases = new ArrayList<>();
+        try {
+            String[] assets = getAssets().list("");
+            if (assets != null) {
+                for (String a : assets) {
+                    if (a.startsWith("dial_customize_")) {
+                        allBases.add(a);
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+        if (allBases.isEmpty())
+            allBases.add("dial_customize_2");
 
         try {
-            switch (elementType) {
-                // === ANALOG HANDS (pointer/pointer/hour|minute|second) ===
-                case DialCompiler.TYPE_ARM_HOUR: {
-                    String pointerDir = base + "/time/pointer/pointer/hour";
-                    String[] files = safeListAssets(pointerDir);
-                    for (String f : files) {
-                        if (f.endsWith(".png")) {
-                            found.add(pointerDir + "/" + f);
+            for (String base : allBases) {
+                switch (elementType) {
+                    // === ANALOG HANDS (pointer/pointer/hour|minute|second) ===
+                    case DialCompiler.TYPE_ARM_HOUR: {
+                        String pointerDir = base + "/time/pointer/pointer/hour";
+                        String[] files = safeListAssets(pointerDir);
+                        for (String f : files) {
+                            if (f.endsWith(".png")) {
+                                found.add(pointerDir + "/" + f);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case DialCompiler.TYPE_ARM_MIN: {
-                    String pointerDir = base + "/time/pointer/pointer/minute";
-                    String[] files = safeListAssets(pointerDir);
-                    for (String f : files) {
-                        if (f.endsWith(".png")) {
-                            found.add(pointerDir + "/" + f);
+                    case DialCompiler.TYPE_ARM_MIN: {
+                        String pointerDir = base + "/time/pointer/pointer/minute";
+                        String[] files = safeListAssets(pointerDir);
+                        for (String f : files) {
+                            if (f.endsWith(".png")) {
+                                found.add(pointerDir + "/" + f);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case DialCompiler.TYPE_ARM_SEC: {
-                    String pointerDir = base + "/time/pointer/pointer/second";
-                    String[] files = safeListAssets(pointerDir);
-                    for (String f : files) {
-                        if (f.endsWith(".png")) {
-                            found.add(pointerDir + "/" + f);
+                    case DialCompiler.TYPE_ARM_SEC: {
+                        String pointerDir = base + "/time/pointer/pointer/second";
+                        String[] files = safeListAssets(pointerDir);
+                        for (String f : files) {
+                            if (f.endsWith(".png")) {
+                                found.add(pointerDir + "/" + f);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
 
-                // === DIGITAL DIGITS (time/digital/X/hour_minute) ===
-                case DialCompiler.TYPE_BATTERY: {
-                    // Look in assets/battery/*.svg
-                    String batDir = "battery";
-                    String[] files = safeListAssets(batDir);
-                    for (String f : files) {
-                        if (f.endsWith(".svg")) {
-                            found.add(batDir + "/" + f);
+                    // === DIGITAL DIGITS (time/digital/X/hour_minute) ===
+                    case DialCompiler.TYPE_BATTERY: {
+                        // Look in assets/battery/*.svg
+                        String batDir = "battery";
+                        String[] files = safeListAssets(batDir);
+                        for (String f : files) {
+                            if (f.endsWith(".svg")) {
+                                found.add(batDir + "/" + f);
+                            }
                         }
-                    }
-                    // Also look in standard value folder
-                    String valueBase = base + "/value";
-                    String[] styles = safeListAssets(valueBase);
-                    for (String style : styles) {
-                        String path = valueBase + "/" + style;
-                        if (hasAssetFile(path + "/0.png")) {
-                            found.add(path);
+                        // Also look in standard value folder
+                        String valueBase = base + "/value";
+                        String[] styles = safeListAssets(valueBase);
+                        for (String style : styles) {
+                            String path = valueBase + "/" + style;
+                            if (hasAssetFile(path + "/0.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case DialCompiler.TYPE_DIGITAL_HOUR:
-                case DialCompiler.TYPE_DIGITAL_MIN:
-                case DialCompiler.TYPE_SECONDS:
-                case DialCompiler.TYPE_HOUR_HI:
-                case DialCompiler.TYPE_HOUR_LO:
-                case DialCompiler.TYPE_MIN_HI:
-                case DialCompiler.TYPE_MIN_LO: {
-                    String digitalBase = base + "/time/digital";
-                    String[] styles = safeListAssets(digitalBase);
-                    for (String style : styles) {
-                        String path = digitalBase + "/" + style + "/hour_minute";
-                        if (hasAssetFile(path + "/0.png")) {
-                            found.add(path);
+                    case DialCompiler.TYPE_DIGITAL_HOUR:
+                    case DialCompiler.TYPE_DIGITAL_MIN:
+                    case DialCompiler.TYPE_SECONDS:
+                    case DialCompiler.TYPE_HOUR_HI:
+                    case DialCompiler.TYPE_HOUR_LO:
+                    case DialCompiler.TYPE_MIN_HI:
+                    case DialCompiler.TYPE_MIN_LO: {
+                        String digitalBase = base + "/time/digital";
+                        String[] styles = safeListAssets(digitalBase);
+                        for (String style : styles) {
+                            String path = digitalBase + "/" + style + "/hour_minute";
+                            if (hasAssetFile(path + "/0.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case DialCompiler.TYPE_WEEKDAY: {
-                    String digitalBase = base + "/time/digital";
-                    String[] styles = safeListAssets(digitalBase);
-                    for (String style : styles) {
-                        String path = digitalBase + "/" + style + "/week";
-                        if (hasAssetFile(path + "/0.png")) {
-                            found.add(path);
+                    case DialCompiler.TYPE_WEEKDAY: {
+                        String digitalBase = base + "/time/digital";
+                        String[] styles = safeListAssets(digitalBase);
+                        for (String style : styles) {
+                            String path = digitalBase + "/" + style + "/week";
+                            if (hasAssetFile(path + "/0.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case DialCompiler.TYPE_AMPM: {
-                    String digitalBase = base + "/time/digital";
-                    String[] styles = safeListAssets(digitalBase);
-                    for (String style : styles) {
-                        String path = digitalBase + "/" + style + "/am_pm";
-                        if (hasAssetFile(path + "/am.png")) {
-                            found.add(path);
+                    case DialCompiler.TYPE_AMPM: {
+                        String digitalBase = base + "/time/digital";
+                        String[] styles = safeListAssets(digitalBase);
+                        for (String style : styles) {
+                            String path = digitalBase + "/" + style + "/am_pm";
+                            if (hasAssetFile(path + "/am.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
 
-                // === DATE DIGITS ===
-                case DialCompiler.TYPE_DAY:
-                case DialCompiler.TYPE_MONTH:
-                case DialCompiler.TYPE_YEAR: {
-                    String digitalBase = base + "/time/digital";
-                    String[] styles = safeListAssets(digitalBase);
-                    for (String style : styles) {
-                        String path = digitalBase + "/" + style + "/date";
-                        if (hasAssetFile(path + "/0.png")) {
-                            found.add(path);
+                    // === DATE DIGITS ===
+                    case DialCompiler.TYPE_DAY:
+                    case DialCompiler.TYPE_MONTH:
+                    case DialCompiler.TYPE_YEAR: {
+                        String digitalBase = base + "/time/digital";
+                        String[] styles = safeListAssets(digitalBase);
+                        for (String style : styles) {
+                            String path = digitalBase + "/" + style + "/date";
+                            if (hasAssetFile(path + "/0.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
 
-                // === HEALTH/VALUE DIGITS ===
-                case DialCompiler.TYPE_STEPS:
-                case DialCompiler.TYPE_HEART:
-                case DialCompiler.TYPE_CALORIE:
-                case DialCompiler.TYPE_DISTANCE:
-                case DialCompiler.TYPE_TEMP: {
-                    String valueBase = base + "/value";
-                    String[] styles = safeListAssets(valueBase);
-                    for (String style : styles) {
-                        String path = valueBase + "/" + style;
-                        if (hasAssetFile(path + "/0.png")) {
-                            found.add(path);
+                    // === HEALTH/VALUE DIGITS ===
+                    case DialCompiler.TYPE_STEPS:
+                    case DialCompiler.TYPE_HEART:
+                    case DialCompiler.TYPE_CALORIE:
+                    case DialCompiler.TYPE_DISTANCE:
+                    case DialCompiler.TYPE_TEMP: {
+                        String valueBase = base + "/value";
+                        String[] styles = safeListAssets(valueBase);
+                        for (String style : styles) {
+                            String path = valueBase + "/" + style;
+                            if (hasAssetFile(path + "/0.png")) {
+                                found.add(path);
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
         } catch (Exception e) {
@@ -1306,7 +1326,96 @@ public class DialEditorActivity extends AppCompatActivity {
         return found;
     }
 
+    private InputStream openAssetOrFile(String path) throws java.io.IOException {
+        if (path.startsWith("FILE:")) {
+            return new java.io.FileInputStream(path.substring(5));
+        }
+        return getAssets().open(path);
+    }
+
+    private void saveLayerAsPreset(DialLayer layer) {
+        if (layer == null || layer.frames == null || layer.frames.length == 0)
+            return;
+        try {
+            java.io.File presetsDir = new java.io.File(getFilesDir(), "presets");
+            String customName = "dial_customize_user_" + System.currentTimeMillis();
+            java.io.File newPresetDir = new java.io.File(presetsDir, customName);
+            newPresetDir.mkdirs();
+
+            String subPath = "";
+            int type = layer.nativeElementType;
+            if (type == DialCompiler.TYPE_ARM_HOUR)
+                subPath = "time/pointer/pointer/hour";
+            else if (type == DialCompiler.TYPE_ARM_MIN)
+                subPath = "time/pointer/pointer/minute";
+            else if (type == DialCompiler.TYPE_ARM_SEC)
+                subPath = "time/pointer/pointer/second";
+            else if (type == DialCompiler.TYPE_HOUR_LO || type == DialCompiler.TYPE_HOUR_HI
+                    || type == DialCompiler.TYPE_MIN_LO || type == DialCompiler.TYPE_MIN_HI
+                    || type == DialCompiler.TYPE_DIGITAL_HOUR || type == DialCompiler.TYPE_DIGITAL_MIN)
+                subPath = "time/digital/1/hour_minute";
+            else if (type == DialCompiler.TYPE_SECONDS)
+                subPath = "time/digital/1/second";
+            else if (type == DialCompiler.TYPE_DAY)
+                subPath = "time/digital/1/day";
+            else if (type == DialCompiler.TYPE_MONTH)
+                subPath = "time/digital/1/month";
+            else if (type == DialCompiler.TYPE_YEAR)
+                subPath = "time/digital/1/year";
+            else if (type == DialCompiler.TYPE_WEEKDAY)
+                subPath = "time/digital/1/weekday";
+            else if (type == DialCompiler.TYPE_AMPM)
+                subPath = "time/digital/1/ampm";
+            else if (type == DialCompiler.TYPE_STEPS)
+                subPath = "control/step";
+            else if (type == DialCompiler.TYPE_HEART)
+                subPath = "control/heart_rate";
+            else if (type == DialCompiler.TYPE_CALORIE)
+                subPath = "control/calories";
+            else if (type == DialCompiler.TYPE_DISTANCE)
+                subPath = "control/distance";
+            else if (type == DialCompiler.TYPE_BATTERY)
+                subPath = "control/battery";
+            else if (type == DialCompiler.TYPE_BATT_STRIP)
+                subPath = "control/battery_strip";
+            else {
+                Toast.makeText(this, "Cannot save this type as preset", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            java.io.File targetDir = new java.io.File(newPresetDir, subPath);
+            targetDir.mkdirs();
+
+            if (type == DialCompiler.TYPE_AMPM && layer.frames.length >= 2) {
+                layer.frames[0].compress(Bitmap.CompressFormat.PNG, 100,
+                        new java.io.FileOutputStream(new java.io.File(targetDir, "am.png")));
+                layer.frames[1].compress(Bitmap.CompressFormat.PNG, 100,
+                        new java.io.FileOutputStream(new java.io.File(targetDir, "pm.png")));
+            } else {
+                for (int i = 0; i < layer.frames.length; i++) {
+                    String fname = (i + ".png");
+                    if (layer.frames.length == 1 && (type == DialCompiler.TYPE_ARM_HOUR
+                            || type == DialCompiler.TYPE_ARM_MIN || type == DialCompiler.TYPE_ARM_SEC))
+                        fname = "0.png";
+                    layer.frames[i].compress(Bitmap.CompressFormat.PNG, 100,
+                            new java.io.FileOutputStream(new java.io.File(targetDir, fname)));
+                }
+            }
+            Toast.makeText(this, "Layer saved as custom preset!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error saving preset: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private String[] safeListAssets(String path) {
+        if (path.startsWith("FILE:")) {
+            java.io.File d = new java.io.File(path.substring(5));
+            if (d.exists() && d.isDirectory()) {
+                String[] list = d.list();
+                return list != null ? list : new String[0];
+            }
+            return new String[0];
+        }
         try {
             String[] list = getAssets().list(path);
             return list != null ? list : new String[0];
@@ -1316,8 +1425,11 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     private boolean hasAssetFile(String path) {
+        if (path.startsWith("FILE:")) {
+            return new java.io.File(path.substring(5)).exists();
+        }
         try {
-            InputStream is = getAssets().open(path);
+            InputStream is = openAssetOrFile(path);
             is.close();
             return true;
         } catch (Exception e) {
@@ -1363,7 +1475,7 @@ public class DialEditorActivity extends AppCompatActivity {
             if (elementType == DialCompiler.TYPE_AMPM) {
                 for (String name : new String[] { "am.png", "pm.png" }) {
                     try {
-                        InputStream is = getAssets().open(assetPath + "/" + name);
+                        InputStream is = openAssetOrFile(assetPath + "/" + name);
                         Bitmap bmp = BitmapFactory.decodeStream(is);
                         is.close();
                         if (bmp != null)
@@ -1374,7 +1486,7 @@ public class DialEditorActivity extends AppCompatActivity {
             } else {
                 for (int i = 0; i < expectedFrames; i++) {
                     try {
-                        InputStream is = getAssets().open(assetPath + "/" + i + ".png");
+                        InputStream is = openAssetOrFile(assetPath + "/" + i + ".png");
                         Bitmap bmp = BitmapFactory.decodeStream(is);
                         is.close();
                         if (bmp != null)
@@ -1843,7 +1955,31 @@ public class DialEditorActivity extends AppCompatActivity {
                             block.type == DialCompiler.TYPE_ARM_MIN ||
                             block.type == DialCompiler.TYPE_ARM_SEC);
 
-                    if (layer.frames != null && layer.frames.length > 0) {
+                    if (block.type == DialCompiler.TYPE_BACKGROUND) {
+                        // Backgrounds must be EXACTLY canvasWidth x canvasHeight at 0,0
+                        Bitmap bg565 = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
+                        Canvas bgCanvas = new Canvas(bg565);
+                        bgCanvas.drawColor(Color.BLACK);
+                        Bitmap layerBmp = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0]
+                                : layer.icon;
+                        if (layerBmp != null) {
+                            Matrix m = new Matrix();
+                            m.postScale(layer.scale, layer.scale);
+                            if (layer.rotation != 0) {
+                                float sw = layerBmp.getWidth() * layer.scale;
+                                float sh = layerBmp.getHeight() * layer.scale;
+                                m.postRotate(layer.rotation, sw / 2, sh / 2);
+                            }
+                            m.postTranslate(layer.posX, layer.posY);
+                            bgCanvas.drawBitmap(layerBmp, m, null);
+                        }
+                        block.images = new Bitmap[] { bg565 };
+                        block.width = canvasWidth;
+                        block.height = canvasHeight;
+                        block.frames = 1;
+                        block.x = 0;
+                        block.y = 0;
+                    } else if (layer.frames != null && layer.frames.length > 0) {
                         if (isHand) {
                             // Hands: use original dimensions, ignore scale
                             block.images = layer.frames;
