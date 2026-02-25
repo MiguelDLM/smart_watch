@@ -890,8 +890,8 @@ public class BleManager {
                         int b1 = bb.get() & 0xFF;
                         int b2 = bb.get() & 0xFF;
                         int step = (b0 << 16) | (b1 << 8) | b2;
-                        int calorie = bb.getInt();
-                        int dist = bb.getInt();
+                        int calorie = bb.getInt() / 10000;
+                        int dist = bb.getInt() / 10000;
                         if (steps.length() > 0)
                             steps.append(",");
                         steps.append(time).append(":").append(step);
