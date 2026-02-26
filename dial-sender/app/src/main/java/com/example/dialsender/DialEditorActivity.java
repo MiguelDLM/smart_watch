@@ -1543,10 +1543,8 @@ public class DialEditorActivity extends AppCompatActivity {
             try {
                 InputStream is = getContentResolver().openInputStream(imageUri);
                 BitmapFactory.Options opts = new BitmapFactory.Options();
-                if (pendingElementType == DialCompiler.TYPE_BACKGROUND) {
-                    opts.inPreferredConfig = Bitmap.Config.RGB_565;
-                    opts.inDither = true;
-                }
+                // Always load as ARGB_8888 — the watch firmware expects RGBA blocks
+                opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
                 Bitmap bmp = BitmapFactory.decodeStream(is, null, opts);
                 is.close();
 
@@ -1597,10 +1595,15 @@ public class DialEditorActivity extends AppCompatActivity {
         // background type,
         // but good to be safe if called from elsewhere)
         if (elementType == DialCompiler.TYPE_BACKGROUND) {
-            bmp = ensureRgb565(bmp);
             if (bmp.getWidth() != canvasWidth || bmp.getHeight() != canvasHeight) {
-                Bitmap scaled = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
-                bmp = ensureRgb565(scaled);
+                bmp = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
+            }
+            // Ensure ARGB_8888 for firmware compatibility
+            if (bmp.getConfig() != Bitmap.Config.ARGB_8888) {
+                Bitmap argb = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(argb);
+                c.drawBitmap(bmp, 0, 0, null);
+                bmp = argb;
             }
         }
 
@@ -1926,7 +1929,8 @@ public class DialEditorActivity extends AppCompatActivity {
                 }
 
                 // RESIZE PREVIEW TO 280x280 (Required by chipset)
-                Bitmap scaledPreview = Bitmap.createScaledBitmap(previewBmp, 280, 280, true);
+                // normalizeForWatch quantizes to RGB565 + flattens alpha
+                Bitmap normalizedPreview = DialCompiler.normalizeForWatch(previewBmp, 280, 280);
 
                 DialCompiler.DialBlock previewBlock = new DialCompiler.DialBlock();
                 previewBlock.type = DialCompiler.TYPE_PREVIEW;
@@ -1935,12 +1939,8 @@ public class DialEditorActivity extends AppCompatActivity {
                 previewBlock.x = 0;
                 previewBlock.y = 0;
                 previewBlock.frames = 1;
-                // Convert to RGB_565 to ensure no alpha channel (fixes "corrupt" dial issue)
-                Bitmap preview565 = Bitmap.createBitmap(280, 280, Bitmap.Config.RGB_565);
-                Canvas p565Canvas = new Canvas(preview565);
-                p565Canvas.drawBitmap(scaledPreview, 0, 0, null);
-
-                previewBlock.images = new Bitmap[] { preview565 };
+                previewBlock.hasAlpha = false; // Preview is always RGB
+                previewBlock.images = new Bitmap[] { normalizedPreview };
                 compiler.addBlock(previewBlock);
 
                 for (DialLayer layer : layers) {
@@ -1957,8 +1957,8 @@ public class DialEditorActivity extends AppCompatActivity {
 
                     if (block.type == DialCompiler.TYPE_BACKGROUND) {
                         // Backgrounds must be EXACTLY canvasWidth x canvasHeight at 0,0
-                        Bitmap bg565 = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
-                        Canvas bgCanvas = new Canvas(bg565);
+                        Bitmap bgBitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
+                        Canvas bgCanvas = new Canvas(bgBitmap);
                         bgCanvas.drawColor(Color.BLACK);
                         Bitmap layerBmp = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0]
                                 : layer.icon;
@@ -1973,7 +1973,9 @@ public class DialEditorActivity extends AppCompatActivity {
                             m.postTranslate(layer.posX, layer.posY);
                             bgCanvas.drawBitmap(layerBmp, m, null);
                         }
-                        block.images = new Bitmap[] { bg565 };
+                        // Quantize to RGB565 for firmware compatibility
+                        Bitmap normalizedBg = DialCompiler.normalizeForWatch(bgBitmap, canvasWidth, canvasHeight);
+                        block.images = new Bitmap[] { normalizedBg };
                         block.width = canvasWidth;
                         block.height = canvasHeight;
                         block.frames = 1;
