@@ -2,6 +2,9 @@ package com.example.dialsender;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.chaquo.python.PyObject;
@@ -421,6 +424,14 @@ public class DialCompiler {
         public Bitmap[] images;
         public boolean hasAlpha = false;
         public int compress = 4; // Default to RLE (4=RLE in comp_decomp)
+
+        /**
+         * Returns the color space string for the dial_desc.json.
+         * Backgrounds and previews use RGB; overlays use RGBA.
+         */
+        public String getColorSpace() {
+            return hasAlpha ? "RGBA" : "RGB";
+        }
     }
 
     private List<DialBlock> blocks = new ArrayList<>();
@@ -461,16 +472,17 @@ public class DialCompiler {
             String imgFilename = "block_" + blockIndex + ".png";
             jsonBlock.put("fname", imgFilename);
             jsonBlock.put("type", blockTypeToString(block.type));
-            // Color space: RGB for background/preview, RGBA for overlays
-            boolean isOverlay = (block.type != TYPE_PREVIEW && block.type != TYPE_BACKGROUND);
-            jsonBlock.put("colsp", isOverlay ? "RGBA" : "RGB");
+            // Color space: backgrounds/previews use RGB, overlays use RGBA
+            jsonBlock.put("colsp", block.getColorSpace());
             jsonBlock.put("comp", block.compress == 0 ? 0 : 4);
             jsonBlock.put("frms", block.frames);
             jsonBlock.put("posx", block.x);
             jsonBlock.put("posy", block.y);
             jsonBlock.put("w", block.width);
-            // Alignment and center defaults
-            jsonBlock.put("alnx", 9);
+
+            // Alignment: 0 for full screen blocks, 9 (Center) for overlay elements
+            int alignment = (block.type == TYPE_PREVIEW || block.type == TYPE_BACKGROUND) ? 0 : 9;
+            jsonBlock.put("alnx", alignment);
             jsonBlock.put("ctx", 0);
             jsonBlock.put("cty", 0);
             Bitmap imageToSave = combineBitmapsVertically(block.images);
@@ -478,6 +490,12 @@ public class DialCompiler {
             try (FileOutputStream fos = new FileOutputStream(imgFile)) {
                 imageToSave.compress(Bitmap.CompressFormat.PNG, 100, fos);
             }
+            Log.d(TAG, "Block " + blockIndex + ": type=" + blockTypeToString(block.type)
+                    + ", colsp=" + block.getColorSpace()
+                    + ", size=" + block.width + "x" + block.height
+                    + ", hasAlpha=" + block.hasAlpha
+                    + ", bmpConfig=" + (imageToSave.getConfig() != null ? imageToSave.getConfig().name() : "null")
+                    + ", imgFile=" + imgFile.length() + "B");
             jsonBlocks.put(jsonBlock);
             blockIndex++;
         }
@@ -531,6 +549,77 @@ public class DialCompiler {
             default:
                 return "BLK_PREV";
         }
+    }
+
+    /**
+     * Normalize any input image for the watch firmware.
+     * <p>
+     * This method performs the following transformations:
+     * <ul>
+     * <li>Center-crops to square aspect ratio (if needed)</li>
+     * <li>Scales to exact target dimensions</li>
+     * <li>Quantizes colors to RGB565 palette (5-bit R, 6-bit G, 5-bit B)</li>
+     * <li>Flattens alpha (composites onto black background)</li>
+     * </ul>
+     * <p>
+     * This ensures images from any source (internet, photos, screenshots)
+     * produce the same limited color palette as factory dial backgrounds,
+     * resulting in efficient and firmware-compatible RLE compression.
+     *
+     * @param src     Source bitmap (any format, any size)
+     * @param targetW Target width (e.g. 466 for backgrounds, 280 for previews)
+     * @param targetH Target height
+     * @return Processed ARGB_8888 bitmap with RGB565-quantized colors
+     */
+    public static Bitmap normalizeForWatch(Bitmap src, int targetW, int targetH) {
+        if (src == null)
+            return null;
+
+        // Step 1: Center-crop to target aspect ratio
+        float targetAspect = (float) targetW / targetH;
+        float srcAspect = (float) src.getWidth() / src.getHeight();
+
+        int cropW, cropH, cropX, cropY;
+        if (srcAspect > targetAspect) {
+            // Source is wider — crop sides
+            cropH = src.getHeight();
+            cropW = (int) (cropH * targetAspect);
+            cropX = (src.getWidth() - cropW) / 2;
+            cropY = 0;
+        } else {
+            // Source is taller — crop top/bottom
+            cropW = src.getWidth();
+            cropH = (int) (cropW / targetAspect);
+            cropX = 0;
+            cropY = (src.getHeight() - cropH) / 2;
+        }
+
+        // Step 2: Scale to exact target dimensions
+        Bitmap result = Bitmap.createBitmap(targetW, targetH, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        // Draw solid black first to flatten any alpha
+        canvas.drawColor(Color.BLACK);
+        // Draw the cropped source scaled to fill the target
+        Rect srcRect = new Rect(cropX, cropY, cropX + cropW, cropY + cropH);
+        Rect dstRect = new Rect(0, 0, targetW, targetH);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
+        canvas.drawBitmap(src, srcRect, dstRect, paint);
+
+        // Step 3: Quantize to RGB565 palette
+        // This reduces the color depth so the RLE compressor produces
+        // efficient, firmware-compatible data regardless of input complexity.
+        int[] pixels = new int[targetW * targetH];
+        result.getPixels(pixels, 0, targetW, 0, 0, targetW, targetH);
+        for (int i = 0; i < pixels.length; i++) {
+            int c = pixels[i];
+            int r = (Color.red(c) >> 3) << 3; // 5-bit -> 8-bit
+            int g = (Color.green(c) >> 2) << 2; // 6-bit -> 8-bit
+            int b = (Color.blue(c) >> 3) << 3; // 5-bit -> 8-bit
+            pixels[i] = Color.argb(255, r, g, b);
+        }
+        result.setPixels(pixels, 0, targetW, 0, 0, targetW, targetH);
+
+        return result;
     }
 
     private Bitmap combineBitmapsVertically(Bitmap[] bitmaps) {
