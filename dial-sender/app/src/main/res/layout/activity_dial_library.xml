@@ -32,6 +32,18 @@
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/btnPickFile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_folder"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Pick File"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="12dp"/>
     </LinearLayout>
 
     <!-- Dial List -->

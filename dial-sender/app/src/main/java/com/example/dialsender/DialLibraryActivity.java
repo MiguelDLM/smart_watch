@@ -46,6 +46,7 @@ public class DialLibraryActivity extends AppCompatActivity {
     private RecyclerView dialRecycler;
     private LinearLayout emptyState;
     private List<DialEntry> dialEntries = new ArrayList<>();
+    private androidx.activity.result.ActivityResultLauncher<Intent> filePickerLauncher;
 
     private static class DialEntry {
         String name;
@@ -76,6 +77,34 @@ public class DialLibraryActivity extends AppCompatActivity {
         dialRecycler = findViewById(R.id.dialRecycler);
         emptyState = findViewById(R.id.emptyState);
         findViewById(R.id.btnBackLibrary).setOnClickListener(v -> finish());
+
+        filePickerLauncher = registerForActivityResult(
+                new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        try {
+                            android.net.Uri uri = result.getData().getData();
+                            if (uri != null) {
+                                sendDialFromUri(uri);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        ImageView btnPickFile = findViewById(R.id.btnPickFile);
+        if (btnPickFile != null) {
+            btnPickFile.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                // Try to restrict to bin and octet-stream
+                intent.setType("*/*");
+                String[] mimetypes = { "application/octet-stream", "application/x-macbinary" };
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                filePickerLauncher.launch(Intent.createChooser(intent, "Select .bin file"));
+            });
+        }
 
         dialRecycler.setLayoutManager(new LinearLayoutManager(this));
         loadDials();
@@ -281,6 +310,68 @@ public class DialLibraryActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendDialFromUri(android.net.Uri uri) {
+        try {
+            java.io.InputStream is = getContentResolver().openInputStream(uri);
+            if (is == null)
+                return;
+            java.io.ByteArrayOutputStream byteBuffer = new java.io.ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int len;
+            while ((len = is.read(buffer)) != -1)
+                byteBuffer.write(buffer, 0, len);
+            is.close();
+            byte[] fileBytesToSend = byteBuffer.toByteArray();
+
+            com.example.dialsender.ble.BleManager bleManager = com.example.dialsender.ble.BleManager.getInstance(this);
+
+            android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
+            progressDialog.setTitle(getString(R.string.transfer));
+            progressDialog.setMessage(getString(R.string.waiting));
+            progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(100);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            bleManager.setListener(new com.example.dialsender.ble.BleManager.BleStateListener() {
+                @Override
+                public void onConnectionStateChange(boolean connected, boolean sessionReady) {
+                }
+
+                @Override
+                public void onHealthDataReceived(String keyName, byte[] payload) {
+                }
+
+                @Override
+                public void onHealthSyncComplete() {
+                }
+
+                @Override
+                public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {
+                    progressDialog.setProgress(percent);
+                    progressDialog.setMessage(bytesTransferred + " / " + totalBytes + " bytes");
+                }
+
+                @Override
+                public void onTransferComplete() {
+                    progressDialog.dismiss();
+                    Toast.makeText(DialLibraryActivity.this, R.string.dial_sent_ok, Toast.LENGTH_LONG).show();
+                    bleManager.setListener(null);
+                }
+
+                @Override
+                public void onLogUpdated() {
+                }
+            });
+
+            bleManager.startFileTransfer(fileBytesToSend);
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error sending file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
