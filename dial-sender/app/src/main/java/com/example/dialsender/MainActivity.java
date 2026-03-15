@@ -11,6 +11,7 @@ import com.example.dialsender.ble.BleManager;
 import com.example.dialsender.fragments.DeviceFragment;
 import com.example.dialsender.fragments.DialsFragment;
 import com.example.dialsender.fragments.HomeFragment;
+import com.example.dialsender.fragments.SettingsFragment;
 import com.example.dialsender.fragments.StatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_device) {
                 loadFragment(new DeviceFragment());
             } else if (id == R.id.nav_health) {
-                loadFragment(new StatusFragment());
+                loadFragment(new SettingsFragment());
             } else {
                 return false;
             }
