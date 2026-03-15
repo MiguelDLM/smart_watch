@@ -1086,13 +1086,16 @@ def compress_rle_rgb_with_header(pixels: np.ndarray) -> bytes:
     
     for row_data in scanline_data:
         row_bytes = len(row_data)
-        
-        # Table entry: low (size * 32), high (cumulative end offset)
+
+        # overflow_count = how many times cumulative has crossed a 65536 boundary so far.
+        # This must be computed BEFORE adding row_bytes, matching the original encoder.
+        # The firmware reconstructs the full 32-bit offset as: high + overflow_count * 65536.
+        overflow_count = cumulative // 65536
         cumulative += row_bytes
-        
-        low = (row_bytes * 32) & 0xFFFF
+
+        low = (row_bytes * 32 + overflow_count) & 0xFFFF
         high = cumulative & 0xFFFF
-        
+
         lookup_table.extend(struct.pack('<HH', low, high))
             
     # Combine
@@ -1153,28 +1156,32 @@ def compress_rle_rgba_with_header(pixels: np.ndarray) -> bytes:
     
     for row_data in scanline_data:
         row_bytes = len(row_data)
+
+        # overflow_count = how many times cumulative has crossed a 65536 boundary so far.
+        # Must be computed BEFORE adding row_bytes, matching the original encoder behavior.
+        overflow_count = cumulative // 65536
         cumulative += row_bytes
-        
-        low = (row_bytes * 32) & 0xFFFF
+
+        low = (row_bytes * 32 + overflow_count) & 0xFFFF
         high = cumulative & 0xFFFF
-        
+
         lookup_table.extend(struct.pack('<HH', low, high))
-    
+
     result = bytearray()
     result.extend(struct.pack('<H', skip_offset))
-    
+
     table_bytes = len(lookup_table)
     needed_bytes = skip_offset - 2
-    
+
     if table_bytes >= needed_bytes:
         result.extend(lookup_table[:needed_bytes])
     else:
         result.extend(lookup_table)
         result.extend(b'\x00' * (needed_bytes - table_bytes))
-        
+
     for row_data in scanline_data:
         result.extend(row_data)
-    
+
     return bytes(result)
 
 

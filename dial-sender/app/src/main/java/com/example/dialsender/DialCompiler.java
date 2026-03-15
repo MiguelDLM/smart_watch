@@ -448,7 +448,7 @@ public class DialCompiler {
     }
 
     public File compile(File outputDir, String filename) throws Exception {
-        Log.d(TAG, "Starting comp_decomp Compilation...");
+        Log.d(TAG, "Starting compilation...");
 
         if (!Python.isStarted()) {
             throw new RuntimeException("Python not started. Initialize in Application or Activity.");
@@ -459,11 +459,9 @@ public class DialCompiler {
             throw new IOException("Failed to create temp directory");
         }
 
-        // 2. Build dial_desc.json with new schema
         JSONObject root = new JSONObject();
         root.put("dial_name", filename);
         JSONArray jsonBlocks = new JSONArray();
-        // 3. Process blocks
         int blockIndex = 0;
         for (DialBlock block : blocks) {
             if (block.images == null || block.images.length == 0)
@@ -472,15 +470,12 @@ public class DialCompiler {
             String imgFilename = "block_" + blockIndex + ".png";
             jsonBlock.put("fname", imgFilename);
             jsonBlock.put("type", blockTypeToString(block.type));
-            // Color space: backgrounds/previews use RGB, overlays use RGBA
             jsonBlock.put("colsp", block.getColorSpace());
             jsonBlock.put("comp", block.compress == 0 ? 0 : 4);
             jsonBlock.put("frms", block.frames);
             jsonBlock.put("posx", block.x);
             jsonBlock.put("posy", block.y);
             jsonBlock.put("w", block.width);
-
-            // Alignment: 0 for full screen blocks, 9 (Center) for overlay elements
             int alignment = (block.type == TYPE_PREVIEW || block.type == TYPE_BACKGROUND) ? 0 : 9;
             jsonBlock.put("alnx", alignment);
             jsonBlock.put("ctx", 0);
@@ -493,23 +488,18 @@ public class DialCompiler {
             Log.d(TAG, "Block " + blockIndex + ": type=" + blockTypeToString(block.type)
                     + ", colsp=" + block.getColorSpace()
                     + ", size=" + block.width + "x" + block.height
-                    + ", hasAlpha=" + block.hasAlpha
-                    + ", bmpConfig=" + (imageToSave.getConfig() != null ? imageToSave.getConfig().name() : "null")
-                    + ", imgFile=" + imgFile.length() + "B");
+                    + ", hasAlpha=" + block.hasAlpha);
             jsonBlocks.put(jsonBlock);
             blockIndex++;
         }
-
         root.put("blocks", jsonBlocks);
 
-        // Save dial_desc.json
         File jsonFile = new File(tempDir, "dial_desc.json");
         try (FileOutputStream fos = new FileOutputStream(jsonFile)) {
             fos.write(root.toString(2).getBytes());
         }
         Log.d(TAG, "Wrote dial_desc.json to " + jsonFile.getAbsolutePath());
 
-        // 4. Call Python: comp_decomp.compile(input_dir, output_file)
         Python py = Python.getInstance();
         PyObject composerModule = py.getModule("comp_decomp");
         File outFile = new File(outputDir, filename);
@@ -519,7 +509,7 @@ public class DialCompiler {
                     tempDir.getAbsolutePath(),
                     outFile.getAbsolutePath());
             if (result != null && result.toBoolean()) {
-                Log.d(TAG, "Compilation Success: " + outFile.length() + " bytes");
+                Log.d(TAG, "Compilation success: " + outFile.length() + " bytes");
                 deleteRecursive(tempDir);
                 return outFile;
             } else {
