@@ -1165,32 +1165,34 @@ public class BleManager {
     // ========== Notification Forwarding ==========
 
     public void sendNotification(int category, String title, String content, String packageName) {
-        if (!isSessionReady()) return;
+        handler.post(() -> {
+            if (!isSessionReady()) return;
 
-        // Payload: [category:1B][timestamp:4B LE][package:32B][title:32B][content:250B null-term]
-        byte[] pkgBytes     = fixedBytes(packageName != null ? packageName : "", 32);
-        byte[] titleBytes   = fixedBytes(title != null ? title : "", 32);
-        byte[] contentBytes = limitedBytes(content != null ? content : "", 250);
+            // Payload: [category:1B][timestamp:4B LE][package:32B][title:32B][content:250B null-term]
+            byte[] pkgBytes     = fixedBytes(packageName != null ? packageName : "", 32);
+            byte[] titleBytes   = fixedBytes(title != null ? title : "", 32);
+            byte[] contentBytes = limitedBytes(content != null ? content : "", 250);
 
-        long ts = (System.currentTimeMillis() / 1000L) - 946684800L; // seconds since 2000-01-01
-        byte[] payload = new byte[1 + 4 + 32 + 32 + contentBytes.length];
-        int i = 0;
-        payload[i++] = (byte) category;
-        // timestamp 4 bytes little-endian
-        payload[i++] = (byte)(ts & 0xFF);
-        payload[i++] = (byte)((ts >> 8) & 0xFF);
-        payload[i++] = (byte)((ts >> 16) & 0xFF);
-        payload[i++] = (byte)((ts >> 24) & 0xFF);
-        System.arraycopy(pkgBytes, 0, payload, i, 32);   i += 32;
-        System.arraycopy(titleBytes, 0, payload, i, 32); i += 32;
-        System.arraycopy(contentBytes, 0, payload, i, contentBytes.length);
+            long ts = (System.currentTimeMillis() / 1000L) - 946684800L; // seconds since 2000-01-01
+            byte[] payload = new byte[1 + 4 + 32 + 32 + contentBytes.length];
+            int i = 0;
+            payload[i++] = (byte) category;
+            // timestamp 4 bytes little-endian
+            payload[i++] = (byte)(ts & 0xFF);
+            payload[i++] = (byte)((ts >> 8) & 0xFF);
+            payload[i++] = (byte)((ts >> 16) & 0xFF);
+            payload[i++] = (byte)((ts >> 24) & 0xFF);
+            System.arraycopy(pkgBytes, 0, payload, i, 32);   i += 32;
+            System.arraycopy(titleBytes, 0, payload, i, 32); i += 32;
+            System.arraycopy(contentBytes, 0, payload, i, contentBytes.length);
 
-        byte[] frame = BleMessenger.buildFrame(BleKey.NOTIFICATION, BleKeyFlag.CREATE, payload, false);
-        enqueueLogicalFrame(frame);
-        if (!isSending) {
-            isSending = true;
-            sendNextChunk();
-        }
+            byte[] frame = BleMessenger.buildFrame(BleKey.NOTIFICATION, BleKeyFlag.CREATE, payload, false);
+            enqueueLogicalFrame(frame);
+            if (!isSending) {
+                isSending = true;
+                sendNextChunk();
+            }
+        });
     }
 
     /** Returns a null-padded byte array of exactly {@code len} bytes from {@code s} (UTF-8). */

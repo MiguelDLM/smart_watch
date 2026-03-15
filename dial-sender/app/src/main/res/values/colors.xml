@@ -25,6 +25,7 @@
     <color name="status_connected">#34D399</color>
     <color name="status_disconnected">#F85149</color>
     <color name="status_scanning">#F0883E</color>
+    <color name="status_warning">#FF9800</color>
 
     <!-- Metric card gradients -->
     <color name="card_steps_start">#064E3B</color>

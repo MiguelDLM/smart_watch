@@ -74,6 +74,13 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         rv.setAdapter(new AppAdapter(launcherApps));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean hasPermission = isNotificationListenerEnabled();
+        findViewById(R.id.bannerPermission).setVisibility(hasPermission ? View.GONE : View.VISIBLE);
+    }
+
     private boolean isNotificationListenerEnabled() {
         Set<String> enabled = NotificationManagerCompat.getEnabledListenerPackages(this);
         return enabled.contains(getPackageName());
