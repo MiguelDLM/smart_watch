@@ -173,9 +173,9 @@ def rgb565_to_rgb888(data: bytes, width: int, height: int) -> np.ndarray:
 
 def rgb888_to_rgb565(r: int, g: int, b: int) -> int:
     """Convert RGB888 to RGB565"""
-    r5 = (r >> 3) & 0x1F
-    g6 = (g >> 2) & 0x3F
-    b5 = (b >> 3) & 0x1F
+    r5 = (int(r) >> 3) & 0x1F
+    g6 = (int(g) >> 2) & 0x3F
+    b5 = (int(b) >> 3) & 0x1F
     return (r5 << 11) | (g6 << 5) | b5
 
 

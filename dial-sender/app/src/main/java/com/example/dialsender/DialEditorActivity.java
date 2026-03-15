@@ -1540,10 +1540,26 @@ public class DialEditorActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             try {
-                InputStream is = getContentResolver().openInputStream(imageUri);
+                // Step 1: read dimensions only (no memory allocation)
+                BitmapFactory.Options boundsOpts = new BitmapFactory.Options();
+                boundsOpts.inJustDecodeBounds = true;
+                InputStream is0 = getContentResolver().openInputStream(imageUri);
+                BitmapFactory.decodeStream(is0, null, boundsOpts);
+                is0.close();
+
+                // Step 2: calculate inSampleSize so the decoded bitmap fits within 1024px
+                // (still much larger than the 466px canvas — the final scale happens later)
+                int sampleSize = 1;
+                int w = boundsOpts.outWidth, h = boundsOpts.outHeight;
+                while (w / (sampleSize * 2) >= 466 && h / (sampleSize * 2) >= 466) {
+                    sampleSize *= 2;
+                }
+
+                // Step 3: decode at reduced resolution as ARGB_8888
                 BitmapFactory.Options opts = new BitmapFactory.Options();
-                // Always load as ARGB_8888 — the watch firmware expects RGBA blocks
+                opts.inSampleSize = sampleSize;
                 opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                InputStream is = getContentResolver().openInputStream(imageUri);
                 Bitmap bmp = BitmapFactory.decodeStream(is, null, opts);
                 is.close();
 
@@ -1559,7 +1575,7 @@ public class DialEditorActivity extends AppCompatActivity {
                     addBackgroundLayer(bmp, -1);
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error: " + e.getClass().getSimpleName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == PICK_SVG_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             showSVGEditor(data.getData(), pendingElementType);
