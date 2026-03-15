@@ -1584,21 +1584,7 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     private void addBackgroundLayer(Bitmap bmp) {
-        // Preserve aspect ratio: scale to cover canvas, let user reposition
-        float scaleToCover = Math.max(
-                (float) canvasWidth / bmp.getWidth(),
-                (float) canvasHeight / bmp.getHeight());
-        DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, bmp,
-                getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
-        layer.frames = new Bitmap[] { bmp };
-        layer.scale = scaleToCover;
-        // Center on canvas
-        layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
-        layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
-        layer.locked = false;
-        layers.add(0, layer);
-        selectedLayerIndex = 0;
-        refreshAll();
+        addBackgroundLayer(bmp, DialCompiler.TYPE_BACKGROUND);
     }
 
     private void addBackgroundLayer(Bitmap bmp, int elementType) {
