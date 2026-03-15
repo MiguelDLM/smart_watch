@@ -129,7 +129,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 DialLayer l = layers.get(selectedLayerIndex);
                 if (l.layerType == DialLayer.TYPE_BACKGROUND) {
                     l.locked = !l.locked;
-                    btnLockBg.setText(l.locked ? "Desbloquear fondo" : "Bloquear fondo");
+                    refreshAll();
                 }
             }
         });
@@ -157,8 +157,11 @@ public class DialEditorActivity extends AppCompatActivity {
         seekScale.setOnSeekBarChangeListener(new SimpleSeekListener() {
             @Override
             public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
-                if (fromUser && selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
-                    layers.get(selectedLayerIndex).scale = progress / 100.0f;
+                if (fromUser) {
+                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size()) return;
+                    DialLayer layer = layers.get(selectedLayerIndex);
+                    if (layer.locked) return;
+                    layer.scale = progress / 100.0f;
                     updatePreview();
                 }
             }
@@ -167,8 +170,11 @@ public class DialEditorActivity extends AppCompatActivity {
         seekRotation.setOnSeekBarChangeListener(new SimpleSeekListener() {
             @Override
             public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
-                if (fromUser && selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
-                    layers.get(selectedLayerIndex).rotation = progress;
+                if (fromUser) {
+                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size()) return;
+                    DialLayer layer = layers.get(selectedLayerIndex);
+                    if (layer.locked) return;
+                    layer.rotation = progress;
                     updatePreview();
                 }
             }
@@ -1858,11 +1864,10 @@ public class DialEditorActivity extends AppCompatActivity {
             txtSelectedLayer.setText(info);
             seekScale.setProgress((int) (layer.scale * 100));
             seekRotation.setProgress((int) layer.rotation);
-            boolean isBg = layers.get(selectedLayerIndex).layerType == DialLayer.TYPE_BACKGROUND;
+            boolean isBg = layer.layerType == DialLayer.TYPE_BACKGROUND;
             btnLockBg.setVisibility(isBg ? View.VISIBLE : View.GONE);
             if (isBg) {
-                boolean locked = layers.get(selectedLayerIndex).locked;
-                btnLockBg.setText(locked ? "Desbloquear fondo" : "Bloquear fondo");
+                btnLockBg.setText(layer.locked ? "Desbloquear fondo" : "Bloquear fondo");
             }
         } else {
             selectedLayerControls.setVisibility(View.GONE);
@@ -1967,29 +1972,30 @@ public class DialEditorActivity extends AppCompatActivity {
                             block.type == DialCompiler.TYPE_ARM_SEC);
 
                     if (block.type == DialCompiler.TYPE_BACKGROUND) {
-                        // Backgrounds must be EXACTLY canvasWidth x canvasHeight at 0,0
-                        Bitmap bgBitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
-                        Canvas bgCanvas = new Canvas(bgBitmap);
-                        bgCanvas.drawColor(Color.BLACK);
-                        Bitmap layerBmp = (layer.frames != null && layer.frames.length > 0) ? layer.frames[0]
-                                : layer.icon;
-                        if (layerBmp != null) {
-                            Matrix m = new Matrix();
-                            m.postScale(layer.scale, layer.scale);
-                            if (layer.rotation != 0) {
-                                float sw = layerBmp.getWidth() * layer.scale;
-                                float sh = layerBmp.getHeight() * layer.scale;
-                                m.postRotate(layer.rotation, sw / 2, sh / 2);
+                        int frameCount = (layer.frames != null && layer.frames.length > 0) ? layer.frames.length : 1;
+                        Bitmap[] renderedFrames = new Bitmap[frameCount];
+                        for (int fi = 0; fi < frameCount; fi++) {
+                            Bitmap bgBitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
+                            Canvas bgCanvas = new Canvas(bgBitmap);
+                            bgCanvas.drawColor(Color.BLACK);
+                            Bitmap layerBmp = (layer.frames != null && layer.frames.length > fi) ? layer.frames[fi] : layer.icon;
+                            if (layerBmp != null) {
+                                Matrix m = new Matrix();
+                                m.postScale(layer.scale, layer.scale);
+                                if (layer.rotation != 0) {
+                                    float sw = layerBmp.getWidth() * layer.scale;
+                                    float sh = layerBmp.getHeight() * layer.scale;
+                                    m.postRotate(layer.rotation, sw / 2, sh / 2);
+                                }
+                                m.postTranslate(layer.posX, layer.posY);
+                                bgCanvas.drawBitmap(layerBmp, m, null);
                             }
-                            m.postTranslate(layer.posX, layer.posY);
-                            bgCanvas.drawBitmap(layerBmp, m, null);
+                            renderedFrames[fi] = DialCompiler.normalizeForWatch(bgBitmap, canvasWidth, canvasHeight);
                         }
-                        // Quantize to RGB565 for firmware compatibility
-                        Bitmap normalizedBg = DialCompiler.normalizeForWatch(bgBitmap, canvasWidth, canvasHeight);
-                        block.images = new Bitmap[] { normalizedBg };
+                        block.images = renderedFrames;
                         block.width = canvasWidth;
                         block.height = canvasHeight;
-                        block.frames = 1;
+                        block.frames = frameCount;
                         block.x = 0;
                         block.y = 0;
                     } else if (layer.frames != null && layer.frames.length > 0) {
