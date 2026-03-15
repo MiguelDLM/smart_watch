@@ -187,7 +187,13 @@ public class StatusFragment extends Fragment {
             cardContent.addView(title);
 
             TextView valueText = new TextView(requireContext());
-            valueText.setText(String.valueOf(latestToday));
+            String displayVal;
+            if (latestToday == 0 && metric.equals("blood_oxygen")) {
+                displayVal = "—";
+            } else {
+                displayVal = String.valueOf(latestToday);
+            }
+            valueText.setText(displayVal);
             valueText.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
             valueText.setTextSize(36f);
             valueText.setTypeface(null, android.graphics.Typeface.BOLD);
