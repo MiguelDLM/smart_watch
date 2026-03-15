@@ -78,6 +78,17 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         Button btnSaveLog = view.findViewById(R.id.btnSaveLog);
         Button btnClearLog = view.findViewById(R.id.btnClearLog);
 
+        Button btnToggleLog = view.findViewById(R.id.btnToggleLog);
+        View logButtonsRow = view.findViewById(R.id.logButtonsRow);
+        btnToggleLog.setOnClickListener(v -> {
+            boolean visible = logScrollView.getVisibility() == View.VISIBLE;
+            logScrollView.setVisibility(visible ? View.GONE : View.VISIBLE);
+            if (logButtonsRow != null) {
+                logButtonsRow.setVisibility(visible ? View.GONE : View.VISIBLE);
+            }
+            ((Button) v).setText(visible ? "Mostrar log" : "Ocultar log");
+        });
+
         bluetoothManager = (BluetoothManager) requireContext()
                 .getSystemService(Context.BLUETOOTH_SERVICE);
         if (bluetoothManager != null) {

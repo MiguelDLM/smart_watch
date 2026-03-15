@@ -264,6 +264,17 @@
                     android:textSize="11sp"/>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnToggleLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:text="Ocultar log"
+                android:textSize="11sp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="4dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
             <ScrollView
                 android:id="@+id/logScrollView"
                 android:layout_width="match_parent"
@@ -283,6 +294,7 @@
             </ScrollView>
 
             <LinearLayout
+                android:id="@+id/logButtonsRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
