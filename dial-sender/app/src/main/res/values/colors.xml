@@ -1,43 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Light mode colors -->
-    <color name="bg_primary">#FAFBFC</color>
-    <color name="bg_surface">#FFFFFF</color>
-    <color name="bg_card">#F0F2F5</color>
-    <color name="bg_elevated">#E4E7EB</color>
+    <!-- Backgrounds -->
+    <color name="bg_primary">#060810</color>
+    <color name="bg_surface">#0D1117</color>
+    <color name="bg_card">#111827</color>
+    <color name="bg_elevated">#1C2333</color>
 
-    <color name="accent_primary">#2563EB</color>
-    <color name="accent_secondary">#059669</color>
-    <color name="accent_warning">#D97706</color>
-    <color name="accent_danger">#DC2626</color>
-    <color name="accent_purple">#7C3AED</color>
-    <color name="accent_cyan">#0891B2</color>
+    <!-- Accents -->
+    <color name="accent_primary">#22D3EE</color>
+    <color name="accent_primary_dark">#06B6D4</color>
+    <color name="accent_health">#34D399</color>
+    <color name="accent_heart">#F87171</color>
+    <color name="accent_calories">#FBBF24</color>
+    <color name="accent_danger">#F85149</color>
+    <color name="accent_warning">#F0883E</color>
+    <color name="accent_purple">#BC8CFF</color>
 
-    <color name="text_primary">#111827</color>
-    <color name="text_secondary">#6B7280</color>
-    <color name="text_muted">#9CA3AF</color>
+    <!-- Text -->
+    <color name="text_primary">#F0F6FC</color>
+    <color name="text_secondary">#8B949E</color>
+    <color name="text_muted">#484F58</color>
 
-    <color name="status_connected">#059669</color>
-    <color name="status_disconnected">#DC2626</color>
-    <color name="status_scanning">#D97706</color>
+    <!-- Status -->
+    <color name="status_connected">#34D399</color>
+    <color name="status_disconnected">#F85149</color>
+    <color name="status_scanning">#F0883E</color>
 
-    <color name="gradient_start">#EEF2FF</color>
-    <color name="gradient_end">#FAFBFC</color>
+    <!-- Metric card gradients -->
+    <color name="card_steps_start">#064E3B</color>
+    <color name="card_steps_end">#065F46</color>
+    <color name="card_heart_start">#7F1D1D</color>
+    <color name="card_heart_end">#991B1B</color>
+    <color name="card_calories_start">#78350F</color>
+    <color name="card_calories_end">#92400E</color>
+    <color name="card_sleep_start">#1E3A5F</color>
+    <color name="card_sleep_end">#1E40AF</color>
 
-    <color name="card_create_start">#DBEAFE</color>
-    <color name="card_create_end">#F0F2F5</color>
-    <color name="card_send_start">#D1FAE5</color>
-    <color name="card_send_end">#F0F2F5</color>
-    <color name="card_library_start">#EDE9FE</color>
-    <color name="card_library_end">#F0F2F5</color>
-    <color name="card_border_create">#3B82F6</color>
-    <color name="card_border_send">#10B981</color>
-    <color name="card_border_library">#8B5CF6</color>
+    <!-- Misc -->
+    <color name="divider">#1F2937</color>
+    <color name="ripple">#1A22D3EE</color>
+    <color name="progress_track">#1C2333</color>
+    <color name="progress_fill">#22D3EE</color>
+    <color name="bottom_nav_bg">#0D1117</color>
+    <color name="bottom_nav_active">#22D3EE</color>
+    <color name="bottom_nav_inactive">#484F58</color>
 
-    <color name="progress_track">#E4E7EB</color>
-    <color name="progress_fill">#2563EB</color>
-
-    <color name="divider">#E5E7EB</color>
-    <color name="ripple">#1A2563EB</color>
-    <color name="status_stroke">#E5E7EB</color>
+    <!-- Legacy tokens kept temporarily so existing layouts/drawables compile until replaced in Chunk 3 -->
+    <color name="card_create_start">#1E3A5F</color>
+    <color name="card_create_end">#060810</color>
+    <color name="card_send_start">#1F3D2F</color>
+    <color name="card_send_end">#060810</color>
+    <color name="card_library_start">#2A1A3A</color>
+    <color name="card_library_end">#060810</color>
+    <color name="card_border_create">#1A22D3EE</color>
+    <color name="card_border_send">#1A34D399</color>
+    <color name="card_border_library">#2ABC8CFF</color>
+    <color name="gradient_start">#1A1F36</color>
+    <color name="gradient_end">#060810</color>
+    <color name="accent_secondary">#34D399</color>
+    <color name="status_stroke">#1F2937</color>
+    <!-- accent_cyan is still referenced by item_layer.xml and item_dial.xml -->
+    <color name="accent_cyan">#22D3EE</color>
 </resources>
