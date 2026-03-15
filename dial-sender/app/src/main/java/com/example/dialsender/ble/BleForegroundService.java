@@ -25,13 +25,16 @@ public class BleForegroundService extends Service {
     private Handler handler;
     private BleManager bleManager;
 
-    private final Runnable reconnectRunnable = () -> {
-        if (bleManager != null && !bleManager.isSessionReady()) {
-            String addr = bleManager.getLastDeviceAddress();
-            if (addr != null) bleManager.reconnect(addr);
+    private final Runnable reconnectRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (bleManager != null && !bleManager.isSessionReady()) {
+                String addr = bleManager.getLastDeviceAddress();
+                if (addr != null) bleManager.reconnect(addr);
+            }
+            updateNotification(bleManager != null && bleManager.isConnected());
+            handler.postDelayed(reconnectRunnable, RECONNECT_INTERVAL_MS);
         }
-        updateNotification(bleManager != null && bleManager.isConnected());
-        handler.postDelayed(reconnectRunnable, RECONNECT_INTERVAL_MS);
     };
 
     @Override
