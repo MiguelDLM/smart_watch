@@ -10,10 +10,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="8dp"/>
-                <gradient
-                    android:startColor="@color/accent_primary"
-                    android:endColor="@color/accent_cyan"
-                    android:angle="0"/>
+                <solid android:color="@color/progress_fill"/>
             </shape>
         </clip>
     </item>
