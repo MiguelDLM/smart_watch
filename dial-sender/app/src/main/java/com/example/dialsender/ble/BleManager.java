@@ -284,7 +284,7 @@ public class BleManager {
 
     @SuppressLint("MissingPermission")
     public void reconnect(String address) {
-        if (isConnected || address == null) return;
+        if (isConnected || bluetoothGatt != null || address == null || bluetoothAdapter == null) return;
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         connect(device);
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.dialsender.ble.BleForegroundService;
+import com.example.dialsender.ble.BleManager;
 import com.example.dialsender.fragments.DeviceFragment;
 import com.example.dialsender.fragments.DialsFragment;
 import com.example.dialsender.fragments.HomeFragment;
@@ -29,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Intent serviceIntent = new Intent(this, BleForegroundService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent);
-        } else {
-            startService(serviceIntent);
+        // TODO: call stopService(new Intent(this, BleForegroundService.class)) on explicit disconnect
+        BleManager ble = BleManager.getInstance(this);
+        if (ble.getLastDeviceAddress() != null) {
+            Intent serviceIntent = new Intent(this, BleForegroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            } else {
+                startService(serviceIntent);
+            }
         }
 
         bottomNav = findViewById(R.id.bottomNav);
