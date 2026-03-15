@@ -2,6 +2,7 @@ package com.example.dialsender;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -59,8 +60,10 @@ import com.caverock.androidsvg.PreserveAspectRatio;
 
 public class DialEditorActivity extends AppCompatActivity {
 
+    private static final String TAG = "DialEditorActivity";
     private static final int PICK_IMAGE_CODE = 100;
     private static final int PICK_SVG_CODE = 101;
+    private static final int PICK_ANIMATION_CODE = 2003;
 
     private FrameLayout previewContainer;
     private ImageView previewImage;
@@ -437,11 +440,12 @@ public class DialEditorActivity extends AppCompatActivity {
 
     private void showAddElementDialog() {
         String[] catNames = getCategoryNames();
-        // Top-level: Background, Scale (hour ring), then categories
-        String[] topLevel = new String[catNames.length + 2];
+        // Top-level: Background, Animated background, Scale (hour ring), then categories
+        String[] topLevel = new String[catNames.length + 3];
         topLevel[0] = getString(R.string.bg_image);
-        topLevel[1] = getString(R.string.cat_scale);
-        System.arraycopy(catNames, 0, topLevel, 2, catNames.length);
+        topLevel[1] = "Agregar animación";
+        topLevel[2] = getString(R.string.cat_scale);
+        System.arraycopy(catNames, 0, topLevel, 3, catNames.length);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.add_layer)
@@ -450,9 +454,15 @@ public class DialEditorActivity extends AppCompatActivity {
                         pendingElementType = DialCompiler.TYPE_BACKGROUND;
                         pickImageFromGallery();
                     } else if (which == 1) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        String[] mimeTypes = {"image/gif", "video/mp4", "video/avi", "video/3gpp", "video/*"};
+                        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                        startActivityForResult(intent, PICK_ANIMATION_CODE);
+                    } else if (which == 2) {
                         showScalePicker(); // Watch face ring / scale
                     } else {
-                        showCategoryPicker(which - 2);
+                        showCategoryPicker(which - 3);
                     }
                 })
                 .show();
@@ -1598,6 +1608,93 @@ public class DialEditorActivity extends AppCompatActivity {
         } else if (requestCode == PICK_SVG_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             showSVGEditor(data.getData(), pendingElementType);
             pendingElementType = -1;
+        } else if (requestCode == PICK_ANIMATION_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri animUri = data.getData();
+            String mime = getContentResolver().getType(animUri);
+            boolean isGif = mime != null && mime.equals("image/gif");
+
+            // For GIF: decode Movie once — reused for duration display AND frame extraction
+            @SuppressWarnings("deprecation")
+            final android.graphics.Movie gifMovie;
+            if (isGif) {
+                try {
+                    InputStream is = getContentResolver().openInputStream(animUri);
+                    byte[] gifData = readBytes(is);
+                    is.close();
+                    gifMovie = android.graphics.Movie.decodeByteArray(gifData, 0, gifData.length);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error al leer GIF", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else {
+                gifMovie = null;
+            }
+
+            // Compute duration
+            long durationMs;
+            if (isGif) {
+                durationMs = gifMovie != null ? gifMovie.duration() : 0;
+            } else {
+                android.media.MediaMetadataRetriever r = new android.media.MediaMetadataRetriever();
+                try {
+                    r.setDataSource(this, animUri);
+                    String s = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    durationMs = s != null ? Long.parseLong(s) : 0;
+                } catch (Exception e) { durationMs = 0; }
+                finally { try { r.release(); } catch (Exception ignored) {} }
+            }
+            final long finalDuration = durationMs;
+
+            // Show dialog to pick interval
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_frame_picker, null);
+            android.widget.RadioGroup rg = dialogView.findViewById(R.id.rgInterval);
+            TextView tvInfo = dialogView.findViewById(R.id.tvFramePickerInfo);
+            TextView tvCount = dialogView.findViewById(R.id.tvFrameCount);
+
+            rg.setOnCheckedChangeListener((g, id) -> {
+                int ms = id == R.id.rb100ms ? 100 : id == R.id.rb500ms ? 500 : 200;
+                long est = finalDuration > 0 ? Math.min(30, finalDuration / ms) : 1;
+                tvCount.setText("→ " + est + " frames (máx 30)");
+            });
+            tvInfo.setText("Duración: " + finalDuration + " ms");
+            long estDefault = finalDuration > 0 ? Math.min(30, finalDuration / 200) : 1;
+            tvCount.setText("→ " + estDefault + " frames (máx 30)");
+
+            new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setPositiveButton("Importar", (dlg, w) -> {
+                    int checkedId = rg.getCheckedRadioButtonId();
+                    int ms = checkedId == R.id.rb100ms ? 100 : checkedId == R.id.rb500ms ? 500 : 200;
+                    new Thread(() -> {
+                        Bitmap[] frames = isGif
+                            ? extractGifFrames(gifMovie, ms)
+                            : extractVideoFrames(animUri, ms);
+                        runOnUiThread(() -> {
+                            if (frames == null || frames.length == 0) {
+                                Toast.makeText(this, "No se pudo extraer frames", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, frames[0],
+                                getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
+                            layer.frames = frames;
+                            layer.frameCount = frames.length;
+                            layer.isSpriteSheet = true;
+                            float scaleToCover = Math.max(
+                                (float) canvasWidth / frames[0].getWidth(),
+                                (float) canvasHeight / frames[0].getHeight());
+                            layer.scale = scaleToCover;
+                            layer.posX = (canvasWidth - frames[0].getWidth() * scaleToCover) / 2f;
+                            layer.posY = (canvasHeight - frames[0].getHeight() * scaleToCover) / 2f;
+                            layer.locked = false;
+                            layers.add(0, layer);
+                            selectedLayerIndex = 0;
+                            Toast.makeText(this, "\u2713 " + frames.length + " frames importados", Toast.LENGTH_SHORT).show();
+                            refreshAll();
+                        });
+                    }).start();
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
         }
     }
 
@@ -1635,6 +1732,69 @@ public class DialEditorActivity extends AppCompatActivity {
         layers.add(0, layer);
         selectedLayerIndex = 0;
         refreshAll();
+    }
+
+    @SuppressWarnings("deprecation")
+    private Bitmap[] extractGifFrames(android.graphics.Movie movie, int intervalMs) {
+        try {
+            if (movie == null) return null;
+
+            int duration = movie.duration();
+            List<Bitmap> frames = new ArrayList<>();
+
+            if (duration == 0) {
+                // Single-frame GIF: render at t=0
+                Bitmap bmp = Bitmap.createBitmap(movie.width(), movie.height(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(bmp);
+                c.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
+                movie.setTime(0);
+                movie.draw(c, 0, 0);
+                return new Bitmap[]{bmp};
+            }
+
+            for (int t = 0; t < duration && frames.size() < 30; t += intervalMs) {
+                Bitmap bmp = Bitmap.createBitmap(movie.width(), movie.height(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(bmp);
+                c.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
+                movie.setTime(t);
+                movie.draw(c, 0, 0);
+                frames.add(bmp);
+            }
+            return frames.isEmpty() ? null : frames.toArray(new Bitmap[0]);
+        } catch (Exception e) {
+            Log.e(TAG, "GIF decode failed", e);
+            return null;
+        }
+    }
+
+    private byte[] readBytes(InputStream is) throws Exception {
+        java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+        byte[] buf = new byte[4096];
+        int n;
+        while ((n = is.read(buf)) != -1) bos.write(buf, 0, n);
+        return bos.toByteArray();
+    }
+
+    private Bitmap[] extractVideoFrames(Uri uri, int intervalMs) {
+        android.media.MediaMetadataRetriever retriever = new android.media.MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(this, uri);
+            String durationStr = retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
+            long durationMs = durationStr != null ? Long.parseLong(durationStr) : 0;
+            if (durationMs == 0) return null;
+
+            List<Bitmap> frames = new ArrayList<>();
+            for (long t = 0; t < durationMs && frames.size() < 30; t += intervalMs) {
+                Bitmap bmp = retriever.getFrameAtTime(t * 1000L, android.media.MediaMetadataRetriever.OPTION_CLOSEST);
+                if (bmp != null) frames.add(bmp);
+            }
+            return frames.toArray(new Bitmap[0]);
+        } catch (Exception e) {
+            Log.e(TAG, "Video decode failed", e);
+            return null;
+        } finally {
+            try { retriever.release(); } catch (Exception ignored) {}
+        }
     }
 
     private void addSpriteSheetLayer(Bitmap compositeBmp, int elementType) {
