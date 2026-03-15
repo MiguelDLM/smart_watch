@@ -1,0 +1,155 @@
+<h2>¿Qué dirección de diseño para Dial Studio?</h2>
+<p class="subtitle">Tres estilos inspirados en apps de salud líderes. Haz clic para seleccionar.</p>
+
+<div class="cards">
+
+  <!-- Opción A -->
+  <div class="card" data-choice="A" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0A0A0F; padding:20px; min-height:180px; display:flex; flex-direction:column; gap:12px; border-radius:8px;">
+      <!-- Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="color:#FFFFFF; font-size:18px; font-weight:700; letter-spacing:0.5px;">Dial Studio</div>
+          <div style="color:#6B7280; font-size:11px; margin-top:2px;">Create & send watch faces</div>
+        </div>
+        <div style="width:32px; height:32px; border-radius:8px; background:#1A1A2E; display:flex; align-items:center; justify-content:center;">
+          <div style="width:14px; height:14px; border-radius:3px; background:#22D3EE;"></div>
+        </div>
+      </div>
+      <!-- Cards row -->
+      <div style="display:flex; gap:8px; flex:1;">
+        <div style="flex:1; background:#111827; border-radius:8px; padding:12px; border-left:3px solid #22D3EE;">
+          <div style="color:#22D3EE; font-size:10px; text-transform:uppercase; letter-spacing:1px;">Create</div>
+          <div style="color:#F9FAFB; font-size:13px; font-weight:600; margin-top:4px;">New Dial</div>
+        </div>
+        <div style="flex:1; background:#111827; border-radius:8px; padding:12px; border-left:3px solid #A3E635;">
+          <div style="color:#A3E635; font-size:10px; text-transform:uppercase; letter-spacing:1px;">Send</div>
+          <div style="color:#F9FAFB; font-size:13px; font-weight:600; margin-top:4px;">Via BLE</div>
+        </div>
+      </div>
+      <!-- Bottom nav -->
+      <div style="display:flex; justify-content:space-around; padding-top:8px; border-top:1px solid #1F2937;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:16px; height:2px; background:#22D3EE; border-radius:1px;"></div>
+          <div style="color:#22D3EE; font-size:9px;">Home</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:16px; height:2px; background:#374151; border-radius:1px;"></div>
+          <div style="color:#6B7280; font-size:9px;">Device</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:16px; height:2px; background:#374151; border-radius:1px;"></div>
+          <div style="color:#6B7280; font-size:9px;">Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Dark Neón (Garmin / Whoop)</h3>
+      <p>Fondo negro profundo, acentos cyan y verde lima. Tipografía bold en uppercase. Sensación técnica y premium.</p>
+      <ul style="margin:8px 0 0; padding-left:18px; font-size:13px; color:var(--text-secondary);">
+        <li>Ideal para modo oscuro permanente</li>
+        <li>Muy legible con datos de salud</li>
+        <li>Energético y moderno</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Opción B -->
+  <div class="card" data-choice="B" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#F8FAF9; padding:20px; min-height:180px; display:flex; flex-direction:column; gap:12px; border-radius:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="color:#0F172A; font-size:18px; font-weight:700;">Dial Studio</div>
+          <div style="color:#64748B; font-size:11px; margin-top:2px;">Create & send watch faces</div>
+        </div>
+        <div style="width:32px; height:32px; border-radius:50%; background:#ECFDF5; display:flex; align-items:center; justify-content:center; border:1px solid #D1FAE5;">
+          <div style="width:12px; height:12px; border-radius:50%; background:#10B981;"></div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; flex:1;">
+        <div style="flex:1; background:#FFFFFF; border-radius:12px; padding:12px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+          <div style="color:#10B981; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Create</div>
+          <div style="color:#0F172A; font-size:13px; font-weight:600; margin-top:4px;">New Dial</div>
+          <div style="color:#94A3B8; font-size:10px; margin-top:2px;">Design from scratch</div>
+        </div>
+        <div style="flex:1; background:#FFFFFF; border-radius:12px; padding:12px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+          <div style="color:#10B981; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Send</div>
+          <div style="color:#0F172A; font-size:13px; font-weight:600; margin-top:4px;">Via BLE</div>
+          <div style="color:#94A3B8; font-size:10px; margin-top:2px;">Bluetooth transfer</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-around; padding-top:8px; border-top:1px solid #F1F5F9;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:#10B981; border-radius:2px;"></div>
+          <div style="color:#10B981; font-size:9px; font-weight:600;">Home</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:#E2E8F0; border-radius:2px;"></div>
+          <div style="color:#CBD5E1; font-size:9px;">Device</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:#E2E8F0; border-radius:2px;"></div>
+          <div style="color:#CBD5E1; font-size:9px;">Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Clean Light (Apple Health / Samsung Health)</h3>
+      <p>Blanco puro, verde esmeralda como primario, sombras suaves. Dashboard legible y moderno.</p>
+      <ul style="margin:8px 0 0; padding-left:18px; font-size:13px; color:var(--text-secondary);">
+        <li>Familiar para usuarios de apps de salud</li>
+        <li>Alta legibilidad al aire libre</li>
+        <li>Se adapta bien a modo claro/oscuro</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Opción C -->
+  <div class="card" data-choice="C" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0F0C29,#302B63,#24243E); padding:20px; min-height:180px; display:flex; flex-direction:column; gap:12px; border-radius:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="color:#FFFFFF; font-size:18px; font-weight:700; letter-spacing:0.3px;">Dial Studio</div>
+          <div style="color:rgba(255,255,255,0.5); font-size:11px; margin-top:2px;">Create & send watch faces</div>
+        </div>
+        <div style="width:32px; height:32px; border-radius:10px; background:rgba(255,255,255,0.1); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center;">
+          <div style="width:12px; height:12px; border-radius:3px; background:linear-gradient(135deg,#A78BFA,#60A5FA);"></div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; flex:1;">
+        <div style="flex:1; background:rgba(255,255,255,0.07); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.12);">
+          <div style="background:linear-gradient(90deg,#A78BFA,#60A5FA); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Create</div>
+          <div style="color:#F8FAFC; font-size:13px; font-weight:600; margin-top:4px;">New Dial</div>
+        </div>
+        <div style="flex:1; background:rgba(255,255,255,0.07); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.12);">
+          <div style="background:linear-gradient(90deg,#34D399,#60A5FA); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Send</div>
+          <div style="color:#F8FAFC; font-size:13px; font-weight:600; margin-top:4px;">Via BLE</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-around; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:linear-gradient(90deg,#A78BFA,#60A5FA); border-radius:2px;"></div>
+          <div style="background:linear-gradient(90deg,#A78BFA,#60A5FA); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:9px; font-weight:600;">Home</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:rgba(255,255,255,0.15); border-radius:2px;"></div>
+          <div style="color:rgba(255,255,255,0.3); font-size:9px;">Device</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <div style="width:18px; height:3px; background:rgba(255,255,255,0.15); border-radius:2px;"></div>
+          <div style="color:rgba(255,255,255,0.3); font-size:9px;">Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Premium Dark Gradient (Fitbit / Oura Ring)</h3>
+      <p>Gradientes morado-azul, capas semitransparentes con glassmorphism, sensación de profundidad.</p>
+      <ul style="margin:8px 0 0; padding-left:18px; font-size:13px; color:var(--text-secondary);">
+        <li>Aspecto premium y diferenciado</li>
+        <li>Muy visual, ideal para mostrar carátulas</li>
+        <li>Tendencia fuerte en 2024–2025</li>
+      </ul>
+    </div>
+  </div>
+
+</div>

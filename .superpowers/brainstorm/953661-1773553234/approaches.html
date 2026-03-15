@@ -1,0 +1,42 @@
+<h2>¿Cómo implementamos el rediseño?</h2>
+<p class="subtitle">Tres enfoques con distintos alcances. Recomiendo la opción A.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="A" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Rediseño completo de layouts y tokens ⭐ Recomendado</h3>
+      <p>Reescribir todos los XMLs de layout y actualizar <code>colors.xml</code> + <code>styles.xml</code>. Nuevo bottom nav con 4 tabs, Home con metric cards estilo Huawei Health, Carátulas como tab independiente.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Resultado final limpio y coherente</li><li>Sin deuda técnica de diseño</li><li>Cada pantalla queda optimizada</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Más archivos modificados</li><li>Requiere probar todas las pantallas</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="B" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Solo actualizar colores y tipografía</h3>
+      <p>Cambiar únicamente <code>colors.xml</code>, <code>styles.xml</code> y valores de tipografía. Mantener estructura de layouts existente tal cual.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Riesgo mínimo de romper funcionalidad</li><li>Cambios muy acotados</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>No consigue el look Huawei Health</li><li>Las metric cards no aparecen en Home</li><li>El bottom nav no cambia a 4 tabs</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="C" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Rediseño por fases (Home primero)</h3>
+      <p>Empezar solo por Home + bottom nav + colores. Dejar el resto de pantallas para una segunda fase.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Resultados visibles rápido</li><li>Menos cambios a revisar en cada iteración</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Inconsistencia temporal entre pantallas</li><li>Hay que volver a tocar archivos en fase 2</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

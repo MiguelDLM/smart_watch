@@ -1,0 +1,115 @@
+<h2>Sección 1 — Paleta de colores & tokens</h2>
+<p class="subtitle">Base del sistema de diseño. ¿Se ve bien así?</p>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+
+  <!-- Fondos -->
+  <div>
+    <p class="label">Fondos</p>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#060810; border:1px solid #1F2937;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">bg_primary</div><div style="font-size:11px; color:var(--text-secondary);">#060810 — fondo principal</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#0D1117; border:1px solid #1F2937;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">bg_surface</div><div style="font-size:11px; color:var(--text-secondary);">#0D1117 — surface / toolbar</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#111827; border:1px solid #1F2937;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">bg_card</div><div style="font-size:11px; color:var(--text-secondary);">#111827 — cards</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#1C2333; border:1px solid #1F2937;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">bg_elevated</div><div style="font-size:11px; color:var(--text-secondary);">#1C2333 — inputs, elevated</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acentos -->
+  <div>
+    <p class="label">Acentos</p>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#22D3EE;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">accent_primary (cyan)</div><div style="font-size:11px; color:var(--text-secondary);">#22D3EE — botones, nav activo</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#06B6D4;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">accent_primary_dark</div><div style="font-size:11px; color:var(--text-secondary);">#06B6D4 — pressed state</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#34D399;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">accent_health (verde)</div><div style="font-size:11px; color:var(--text-secondary);">#34D399 — métricas de salud</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#F87171;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">accent_heart (rojo)</div><div style="font-size:11px; color:var(--text-secondary);">#F87171 — frecuencia cardíaca</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#FBBF24;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">accent_calories (ámbar)</div><div style="font-size:11px; color:var(--text-secondary);">#FBBF24 — calorías, advertencias</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Texto -->
+  <div>
+    <p class="label">Texto</p>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#F0F6FC; border:1px solid #374151;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">text_primary</div><div style="font-size:11px; color:var(--text-secondary);">#F0F6FC</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#8B949E; border:1px solid #374151;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">text_secondary</div><div style="font-size:11px; color:var(--text-secondary);">#8B949E</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:#484F58; border:1px solid #374151;"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">text_muted</div><div style="font-size:11px; color:var(--text-secondary);">#484F58</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards de métricas -->
+  <div>
+    <p class="label">Cards de métricas (Huawei Health style)</p>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#064E3B,#065F46);"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">card_steps</div><div style="font-size:11px; color:var(--text-secondary);">Pasos — verde oscuro</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#7F1D1D,#991B1B);"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">card_heart</div><div style="font-size:11px; color:var(--text-secondary);">Frec. cardíaca — rojo oscuro</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#78350F,#92400E);"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">card_calories</div><div style="font-size:11px; color:var(--text-secondary);">Calorías — ámbar oscuro</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#1E3A5F,#1E40AF);"></div>
+        <div><div style="font-size:13px; font-weight:600; color:var(--text-primary);">card_sleep</div><div style="font-size:11px; color:var(--text-secondary);">Sueño — azul oscuro</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Aprobado — continuar con layouts</h3>
+      <p>Esta paleta me convence, pasemos a los mockups de pantallas.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Quiero ajustar algo</h3>
+      <p>Dime qué cambiar en el terminal.</p>
+    </div>
+  </div>
+</div>
