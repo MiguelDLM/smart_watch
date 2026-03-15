@@ -33,6 +33,7 @@ public class SleepTimelineView extends View {
     private long sessionStart, sessionEnd;
     private final Paint segPaint  = new Paint();
     private final Paint labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint dotPaint = new Paint();
 
     public SleepTimelineView(Context context) { super(context); }
     public SleepTimelineView(Context context, AttributeSet a) { super(context, a); }
@@ -125,7 +126,6 @@ public class SleepTimelineView extends View {
         String[] names = {"Profundo", "Ligero", "REM", "Despierto"};
         float legendY = h * 0.93f;
         float cellW   = w / modes.length;
-        Paint dotPaint = new Paint();
         labelPaint.setTextSize(h * 0.12f);
         for (int i = 0; i < modes.length; i++) {
             float cx = cellW * i + 4f;

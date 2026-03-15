@@ -279,7 +279,7 @@
                     android:id="@+id/etGoalDistance"
                     android:layout_width="80dp"
                     android:layout_height="36dp"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
                     android:background="@drawable/bg_card"/>

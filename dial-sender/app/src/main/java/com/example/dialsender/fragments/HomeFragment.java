@@ -113,6 +113,20 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (bleManager != null) {
+            bleManager.setListener(null);
+        }
+        gaugeSteps = null;
+        gaugeHeart = null;
+        gaugeCalories = null;
+        gaugeSpo2 = null;
+        gaugeSleep = null;
+        txtSleepPhases = null;
+    }
+
     private void applyGaugeStyle() {
         if (!isAdded() || prefs == null) return;
         String style = prefs.getString("gauge_style", GaugeView.STYLE_A);
