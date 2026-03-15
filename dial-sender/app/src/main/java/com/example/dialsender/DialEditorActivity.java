@@ -1595,7 +1595,7 @@ public class DialEditorActivity extends AppCompatActivity {
         // Center on canvas
         layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
         layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
-        layer.locked = true; // Auto-lock background
+        layer.locked = false;
         layers.add(0, layer);
         selectedLayerIndex = 0;
         refreshAll();
@@ -1606,14 +1606,8 @@ public class DialEditorActivity extends AppCompatActivity {
         // Usually only 1 background. Remove existing if any?
         // For now, just add.
 
-        // Ensure it's exactly canvas size (already done in onActivityResult for
-        // background type,
-        // but good to be safe if called from elsewhere)
         if (elementType == DialCompiler.TYPE_BACKGROUND) {
-            if (bmp.getWidth() != canvasWidth || bmp.getHeight() != canvasHeight) {
-                bmp = Bitmap.createScaledBitmap(bmp, canvasWidth, canvasHeight, true);
-            }
-            // Ensure ARGB_8888 for firmware compatibility
+            // Ensure ARGB_8888 for firmware compatibility (but don't stretch — preserve aspect ratio)
             if (bmp.getConfig() != Bitmap.Config.ARGB_8888) {
                 Bitmap argb = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(argb);
@@ -1622,12 +1616,9 @@ public class DialEditorActivity extends AppCompatActivity {
             }
         }
 
-        float scaleToCover = 1.0f; // For background, it's already scaled to cover
-        if (elementType != DialCompiler.TYPE_BACKGROUND) {
-            scaleToCover = Math.max(
-                    (float) canvasWidth / bmp.getWidth(),
-                    (float) canvasHeight / bmp.getHeight());
-        }
+        float scaleToCover = Math.max(
+                (float) canvasWidth / bmp.getWidth(),
+                (float) canvasHeight / bmp.getHeight());
 
         DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, bmp,
                 getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
@@ -1636,7 +1627,7 @@ public class DialEditorActivity extends AppCompatActivity {
         // Center on canvas
         layer.posX = (canvasWidth - bmp.getWidth() * scaleToCover) / 2f;
         layer.posY = (canvasHeight - bmp.getHeight() * scaleToCover) / 2f;
-        layer.locked = true; // Auto-lock background
+        layer.locked = false;
         layers.add(0, layer);
         selectedLayerIndex = 0;
         refreshAll();
