@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -1647,7 +1648,7 @@ public class DialEditorActivity extends AppCompatActivity {
 
             // Show dialog to pick interval
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_frame_picker, null);
-            android.widget.RadioGroup rg = dialogView.findViewById(R.id.rgInterval);
+            RadioGroup rg = dialogView.findViewById(R.id.rgInterval);
             TextView tvInfo = dialogView.findViewById(R.id.tvFramePickerInfo);
             TextView tvCount = dialogView.findViewById(R.id.tvFrameCount);
 
@@ -1665,11 +1666,16 @@ public class DialEditorActivity extends AppCompatActivity {
                 .setPositiveButton("Importar", (dlg, w) -> {
                     int checkedId = rg.getCheckedRadioButtonId();
                     int ms = checkedId == R.id.rb100ms ? 100 : checkedId == R.id.rb500ms ? 500 : 200;
+                    android.app.ProgressDialog progress = new android.app.ProgressDialog(this);
+                    progress.setMessage("Extrayendo frames...");
+                    progress.setCancelable(false);
+                    progress.show();
                     new Thread(() -> {
                         Bitmap[] frames = isGif
                             ? extractGifFrames(gifMovie, ms)
                             : extractVideoFrames(animUri, ms);
                         runOnUiThread(() -> {
+                            progress.dismiss();
                             if (frames == null || frames.length == 0) {
                                 Toast.makeText(this, "No se pudo extraer frames", Toast.LENGTH_SHORT).show();
                                 return;
@@ -1686,6 +1692,12 @@ public class DialEditorActivity extends AppCompatActivity {
                             layer.posX = (canvasWidth - frames[0].getWidth() * scaleToCover) / 2f;
                             layer.posY = (canvasHeight - frames[0].getHeight() * scaleToCover) / 2f;
                             layer.locked = false;
+                            // Remove any existing background layer before adding the new animated one
+                            for (int i = layers.size() - 1; i >= 0; i--) {
+                                if (layers.get(i).layerType == DialLayer.TYPE_BACKGROUND) {
+                                    layers.remove(i);
+                                }
+                            }
                             layers.add(0, layer);
                             selectedLayerIndex = 0;
                             Toast.makeText(this, "\u2713 " + frames.length + " frames importados", Toast.LENGTH_SHORT).show();
@@ -1756,6 +1768,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 Bitmap bmp = Bitmap.createBitmap(movie.width(), movie.height(), Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(bmp);
                 c.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
+                // movie.setTime() mutates the Movie object; caller must ensure no concurrent access
                 movie.setTime(t);
                 movie.draw(c, 0, 0);
                 frames.add(bmp);
