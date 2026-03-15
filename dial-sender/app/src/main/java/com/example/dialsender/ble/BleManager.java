@@ -951,7 +951,7 @@ public class BleManager {
                         int strong = bb.get() & 0xFF;
                         if (sb.length() > 0)
                             sb.append(",");
-                        sb.append(time).append(":").append(soft + strong);
+                        sb.append(time).append(":").append(mode).append(":").append(soft).append(":").append(strong);
                         log("  Sleep: t=" + time + " mode=" + mode + " light=" + soft + " deep=" + strong);
                     }
                     editor.putString(prefix + "sleep", sb.toString());
