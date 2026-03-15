@@ -177,4 +177,10 @@
     <string name="create_digits">Create Digits</string>
     <string name="font_creator_title">Font Digit Creator</string>
     <string name="select_style">Select Style</string>
+
+    <!-- Bottom nav tab labels -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_dials">Carátulas</string>
+    <string name="nav_device">Dispositivo</string>
+    <string name="nav_health">Salud</string>
 </resources>

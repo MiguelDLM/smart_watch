@@ -161,4 +161,10 @@
     <string name="create_digits">Crear Dígitos</string>
     <string name="font_creator_title">Crear Dígitos con Tipografía</string>
     <string name="select_style">Seleccionar Estilo</string>
+
+    <!-- Bottom nav tab labels -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_dials">Carátulas</string>
+    <string name="nav_device">Dispositivo</string>
+    <string name="nav_health">Salud</string>
 </resources>
