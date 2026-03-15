@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_status"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_nav_status"
-        android:title="Status" />
+        android:title="@string/nav_home" />
     <item
-        android:id="@+id/nav_sport"
+        android:id="@+id/nav_dials"
         android:icon="@drawable/ic_nav_sport"
-        android:title="Sport" />
+        android:title="@string/nav_dials" />
     <item
         android:id="@+id/nav_device"
         android:icon="@drawable/ic_nav_device"
-        android:title="Device" />
+        android:title="@string/nav_device" />
     <item
-        android:id="@+id/nav_me"
+        android:id="@+id/nav_health"
         android:icon="@drawable/ic_nav_me"
-        android:title="Me" />
+        android:title="@string/nav_health" />
 </menu>

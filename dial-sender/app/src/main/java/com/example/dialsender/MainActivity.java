@@ -4,8 +4,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.dialsender.fragments.DeviceFragment;
-import com.example.dialsender.fragments.MeFragment;
-import com.example.dialsender.fragments.SportFragment;
+import com.example.dialsender.fragments.DialsFragment;
+import com.example.dialsender.fragments.HomeFragment;
 import com.example.dialsender.fragments.StatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,30 +15,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SettingsActivity.applyGlobalTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(item -> {
-            boolean isChecked = true;
-            if (item.getItemId() == R.id.nav_status) {
-                loadFragment(new StatusFragment());
-            } else if (item.getItemId() == R.id.nav_sport) {
-                loadFragment(new SportFragment());
-            } else if (item.getItemId() == R.id.nav_device) {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                loadFragment(new HomeFragment());
+            } else if (id == R.id.nav_dials) {
+                loadFragment(new DialsFragment());
+            } else if (id == R.id.nav_device) {
                 loadFragment(new DeviceFragment());
-            } else if (item.getItemId() == R.id.nav_me) {
-                loadFragment(new MeFragment());
+            } else if (id == R.id.nav_health) {
+                loadFragment(new StatusFragment());
             } else {
                 return false;
             }
             return true;
         });
 
-        // Load default fragment
         if (savedInstanceState == null) {
-            bottomNav.setSelectedItemId(R.id.nav_status);
+            bottomNav.setSelectedItemId(R.id.nav_home);
         }
     }
 
