@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvFramePickerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Importar animación"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvFramePickerInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Duración: — ms · Frames estimados: —"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Intervalo entre frames:"
+        android:layout_marginBottom="4dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgInterval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton android:id="@+id/rb100ms" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="100ms"/>
+        <RadioButton android:id="@+id/rb200ms" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="200ms" android:checked="true"/>
+        <RadioButton android:id="@+id/rb500ms" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="500ms"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvFrameCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="→ 0 frames (máx 30)"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>
