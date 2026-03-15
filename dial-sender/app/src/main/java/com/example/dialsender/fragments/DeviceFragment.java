@@ -99,6 +99,9 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             startActivity(intent);
         });
 
+        view.findViewById(R.id.btnNotificationSettings).setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), com.example.dialsender.NotificationSettingsActivity.class)));
+
         // Log action buttons
         btnCopyLog.setOnClickListener(v -> copyLogToClipboard());
         btnSaveLog.setOnClickListener(v -> saveLogToFile());

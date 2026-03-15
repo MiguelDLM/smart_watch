@@ -58,6 +58,22 @@
             android:name=".SettingsActivity"
             android:exported="false"/>
 
+        <activity
+            android:name=".NotificationSettingsActivity"
+            android:exported="false"/>
+
+        <service
+            android:name=".ble.WatchNotificationService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.notification.default_filter_types"
+                android:value="conversations|alerts"/>
+        </service>
+
         <service
             android:name=".ble.BleForegroundService"
             android:foregroundServiceType="connectedDevice"
