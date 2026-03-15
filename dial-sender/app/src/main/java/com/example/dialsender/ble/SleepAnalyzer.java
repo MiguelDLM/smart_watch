@@ -44,6 +44,7 @@ public class SleepAnalyzer {
 
         for (int i = startIdx + 1; i <= endIdx; i++) {
             long ts = parseTs(records[i]);
+            if (ts <= 0 || ts < currentTs) continue;
             int mode = parseMode(records[i]);
             long spanSecs = ts - currentTs;
             int spanMin = (int) (spanSecs / 60);

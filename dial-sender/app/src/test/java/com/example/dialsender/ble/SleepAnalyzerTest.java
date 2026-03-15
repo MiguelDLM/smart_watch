@@ -69,4 +69,16 @@ public class SleepAnalyzerTest {
         SleepAnalyzer.SleepResult r = SleepAnalyzer.analyze(data);
         assertEquals(30, r.totalMinutes); // 9000-7200=1800s=30min
     }
+
+    @Test
+    public void testSessionWithNoPhasesShowsZeroPhases() {
+        // Valid session but no phase records between start and end
+        String data = rec(0, BleSleep.MODE_START) + ","
+                + rec(1800, BleSleep.MODE_END);
+        SleepAnalyzer.SleepResult r = SleepAnalyzer.analyze(data);
+        assertEquals(30, r.totalMinutes); // 1800s = 30min
+        assertEquals(0, r.deepMin);
+        assertEquals(0, r.lightMin);
+        assertEquals(0, r.remMin);
+    }
 }

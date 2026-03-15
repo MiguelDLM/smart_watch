@@ -255,7 +255,7 @@ public class StatusFragment extends Fragment {
             // Bar chart with phase breakdown
             BarChart chart = new BarChart(requireContext());
             chart.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, 300));
+                    LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(180)));
             List<BarEntry> entries = new ArrayList<>();
             entries.add(new BarEntry(0, sr.deepMin));
             entries.add(new BarEntry(1, sr.lightMin));
@@ -264,7 +264,7 @@ public class StatusFragment extends Fragment {
             BarDataSet ds = new BarDataSet(entries, "Fases");
             ds.setColors(
                 ContextCompat.getColor(requireContext(), R.color.accent_primary),
-                android.graphics.Color.parseColor("#22EE9C"),
+                ContextCompat.getColor(requireContext(), R.color.accent_health),
                 0xFF9C27B0, // purple for REM
                 ContextCompat.getColor(requireContext(), R.color.text_secondary)
             );

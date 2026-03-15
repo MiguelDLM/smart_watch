@@ -115,9 +115,15 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
             int m = sleepMin % 60;
             txtSleep.setText(h > 0 ? h + "h " + m + "m" : m + "m");
             String phases = "";
-            if (sleepRes.deepMin > 0) phases += "P: " + (sleepRes.deepMin/60) + "h" + (sleepRes.deepMin%60) + "m  ";
-            if (sleepRes.lightMin > 0) phases += "L: " + (sleepRes.lightMin/60) + "h" + (sleepRes.lightMin%60) + "m  ";
-            if (sleepRes.remMin > 0)   phases += "REM: " + sleepRes.remMin + "m";
+            if (sleepRes.deepMin > 0) {
+                int dh = sleepRes.deepMin / 60, dm = sleepRes.deepMin % 60;
+                phases += "Prof: " + (dh > 0 ? dh + "h" + dm + "m" : dm + "m") + "  ";
+            }
+            if (sleepRes.lightMin > 0) {
+                int lh = sleepRes.lightMin / 60, lm = sleepRes.lightMin % 60;
+                phases += "Lig: " + (lh > 0 ? lh + "h" + lm + "m" : lm + "m") + "  ";
+            }
+            if (sleepRes.remMin > 0) phases += "REM: " + sleepRes.remMin + "m";
             txtSleepSub.setText(phases.trim().isEmpty() ? "Sin desglose" : phases.trim());
         } else {
             txtSleep.setText("—");
