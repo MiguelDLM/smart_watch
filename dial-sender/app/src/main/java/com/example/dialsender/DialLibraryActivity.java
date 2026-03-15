@@ -65,7 +65,6 @@ public class DialLibraryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SettingsActivity.applyGlobalTheme(this);
         super.onCreate(savedInstanceState);
 
         if (!Python.isStarted()) {

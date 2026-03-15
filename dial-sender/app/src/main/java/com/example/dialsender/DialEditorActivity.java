@@ -105,7 +105,6 @@ public class DialEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SettingsActivity.applyGlobalTheme(this);
         super.onCreate(savedInstanceState);
 
         if (!Python.isStarted()) {

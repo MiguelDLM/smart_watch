@@ -12,7 +12,7 @@
         android:background="@color/bg_surface"
         android:padding="16dp"
         android:gravity="center_vertical"
-        android:elevation="4dp">
+        android:elevation="0dp">
 
         <ImageView
             android:id="@+id/btnBackLog"
@@ -73,7 +73,7 @@
             android:textIsSelectable="true"
             android:text=""
             android:textSize="11sp"
-            android:textColor="@color/accent_cyan"
+            android:textColor="@color/accent_primary"
             android:typeface="monospace"
             android:fontFamily="monospace"/>
     </ScrollView>

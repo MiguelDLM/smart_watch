@@ -12,7 +12,7 @@
         android:padding="12dp"
         android:background="@color/bg_surface"
         android:gravity="center_vertical"
-        android:elevation="4dp">
+        android:elevation="0dp">
 
         <ImageView
             android:id="@+id/btnBackEditor"
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#050810">
+            android:background="@color/bg_primary">
 
             <FrameLayout
                 android:id="@+id/previewContainer"

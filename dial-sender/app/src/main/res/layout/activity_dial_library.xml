@@ -12,7 +12,7 @@
         android:background="@color/bg_surface"
         android:padding="16dp"
         android:gravity="center_vertical"
-        android:elevation="4dp">
+        android:elevation="0dp">
 
         <ImageView
             android:id="@+id/btnBackLibrary"
