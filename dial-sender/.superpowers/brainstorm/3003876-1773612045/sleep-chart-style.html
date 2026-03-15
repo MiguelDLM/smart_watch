@@ -1,0 +1,96 @@
+<h2>Gráfico de Sueño — ¿Qué estilo?</h2>
+<p class="subtitle">El eje X es el tiempo (ej. 22:00 → 07:00). Elige cómo se muestran las fases.</p>
+
+<div class="cards">
+
+  <!-- Option A: Hypnogram (step line, deeper = lower) -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#060810;padding:12px;">
+      <div style="font-size:10px;color:#8B949E;margin-bottom:8px;">SUEÑO — 22:00 a 06:30</div>
+      <div style="position:relative;background:#0D1117;border-radius:8px;padding:10px 8px 20px 36px;height:100px;">
+        <!-- Y axis labels -->
+        <div style="position:absolute;left:0;top:8px;bottom:20px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div style="color:#8B949E;font-size:7px;">Despierto</div>
+          <div style="color:#BC8CFF;font-size:7px;">REM</div>
+          <div style="color:#22D3EE;font-size:7px;">Ligero</div>
+          <div style="color:#34D399;font-size:7px;">Profundo</div>
+        </div>
+        <!-- Step line chart (hypnogram) -->
+        <svg viewBox="0 0 200 70" width="100%" height="70" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="17" x2="200" y2="17" stroke="#1a2332" stroke-width="0.5"/>
+          <line x1="0" y1="34" x2="200" y2="34" stroke="#1a2332" stroke-width="0.5"/>
+          <line x1="0" y1="51" x2="200" y2="51" stroke="#1a2332" stroke-width="0.5"/>
+          <line x1="0" y1="68" x2="200" y2="68" stroke="#1a2332" stroke-width="0.5"/>
+          <!-- Sleep hypnogram path: step function -->
+          <!-- Despierto(17) → Ligero(51) → Profundo(68) → Ligero(51) → REM(34) → Ligero(51) → Profundo(68) → Ligero(51) → REM(34) → Despierto(17) -->
+          <polyline points="0,17 10,17 10,51 30,51 30,68 55,68 55,51 75,51 75,34 95,34 95,51 110,51 110,68 135,68 135,51 155,51 155,34 175,34 175,51 185,51 185,17 200,17"
+            fill="none" stroke="#22D3EE" stroke-width="1.5" stroke-linejoin="round"/>
+          <!-- Shade under the line with phase colors -->
+          <polygon points="10,51 30,51 30,68 55,68 55,51 75,51 75,70 10,70" fill="#34D399" opacity="0.2"/>
+          <polygon points="75,34 95,34 95,70 75,70" fill="#BC8CFF" opacity="0.2"/>
+          <polygon points="110,51 135,51 135,68 155,68 155,51 110,51 110,70 155,70 110,70" fill="#34D399" opacity="0.2"/>
+          <polygon points="155,34 175,34 175,70 155,70" fill="#BC8CFF" opacity="0.2"/>
+        </svg>
+        <!-- X axis time labels -->
+        <div style="display:flex;justify-content:space-between;margin-top:2px;">
+          <div style="color:#484F58;font-size:7px;">22:00</div>
+          <div style="color:#484F58;font-size:7px;">00:00</div>
+          <div style="color:#484F58;font-size:7px;">02:00</div>
+          <div style="color:#484F58;font-size:7px;">04:00</div>
+          <div style="color:#484F58;font-size:7px;">06:30</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hipnograma (línea escalonada)</h3>
+      <p>El estilo clásico de los trackers de sueño. La línea baja = más profundo. Muestra los ciclos de sueño con claridad. Fácil de leer de un vistazo.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Stacked colored bars by time segment -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#060810;padding:12px;">
+      <div style="font-size:10px;color:#8B949E;margin-bottom:8px;">SUEÑO — 22:00 a 06:30</div>
+      <div style="background:#0D1117;border-radius:8px;padding:10px 8px;">
+        <!-- Horizontal stacked bar showing time segments by phase -->
+        <div style="height:32px;border-radius:6px;overflow:hidden;display:flex;margin-bottom:8px;">
+          <!-- Each segment = a time block colored by phase -->
+          <div style="background:#F87171;width:3%;opacity:0.9;" title="Despierto"></div>
+          <div style="background:#22D3EE;width:8%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#34D399;width:12%;opacity:0.9;" title="Profundo"></div>
+          <div style="background:#22D3EE;width:6%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#BC8CFF;width:9%;opacity:0.9;" title="REM"></div>
+          <div style="background:#22D3EE;width:5%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#34D399;width:14%;opacity:0.9;" title="Profundo"></div>
+          <div style="background:#22D3EE;width:7%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#BC8CFF;width:10%;opacity:0.9;" title="REM"></div>
+          <div style="background:#22D3EE;width:8%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#34D399;width:10%;opacity:0.9;" title="Profundo"></div>
+          <div style="background:#22D3EE;width:6%;opacity:0.9;" title="Ligero"></div>
+          <div style="background:#F87171;width:2%;opacity:0.9;" title="Despierto"></div>
+        </div>
+        <!-- X axis -->
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <div style="color:#484F58;font-size:7px;">22:00</div>
+          <div style="color:#484F58;font-size:7px;">00:00</div>
+          <div style="color:#484F58;font-size:7px;">02:00</div>
+          <div style="color:#484F58;font-size:7px;">04:00</div>
+          <div style="color:#484F58;font-size:7px;">06:30</div>
+        </div>
+        <!-- Legend -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#34D399;border-radius:2px;"></div><span style="color:#8B949E;font-size:8px;">Profundo</span></div>
+          <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#22D3EE;border-radius:2px;"></div><span style="color:#8B949E;font-size:8px;">Ligero</span></div>
+          <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#BC8CFF;border-radius:2px;"></div><span style="color:#8B949E;font-size:8px;">REM</span></div>
+          <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#F87171;border-radius:2px;"></div><span style="color:#8B949E;font-size:8px;">Despierto</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Barra de tiempo segmentada</h3>
+      <p>Una barra horizontal coloreada por fase. Muy visual y compacto. Ves de un vistazo cuánto tiempo pasaste en cada fase y cuándo.</p>
+    </div>
+  </div>
+
+</div>

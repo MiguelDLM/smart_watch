@@ -1,0 +1,189 @@
+<h2>Home Screen — ¿Cómo se ven los Gauges?</h2>
+<p class="subtitle">Elige el estilo de gauge que prefieres para las métricas del home. Al tocar un gauge, abre el gráfico detallado en Health.</p>
+
+<div class="cards">
+
+  <!-- Option A: Semi-circle gauge (speedometer style) -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#060810;padding:16px;">
+      <div style="font-size:11px;color:#8B949E;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Opción A — Semi-círculo (Velocímetro)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <!-- Steps gauge -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:80px;height:45px;margin:0 auto 4px;">
+            <svg viewBox="0 0 80 45" width="80" height="45">
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#1a2332" stroke-width="8" stroke-linecap="round"/>
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#34D399" stroke-width="8" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="44"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:13px;font-weight:700;">7.2K</div>
+          </div>
+          <div style="color:#34D399;font-size:10px;">PASOS</div>
+        </div>
+        <!-- Heart gauge -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:80px;height:45px;margin:0 auto 4px;">
+            <svg viewBox="0 0 80 45" width="80" height="45">
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#1a2332" stroke-width="8" stroke-linecap="round"/>
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#F87171" stroke-width="8" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="66"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:13px;font-weight:700;">72</div>
+          </div>
+          <div style="color:#F87171;font-size:10px;">BPM</div>
+        </div>
+        <!-- Calories gauge -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:80px;height:45px;margin:0 auto 4px;">
+            <svg viewBox="0 0 80 45" width="80" height="45">
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#1a2332" stroke-width="8" stroke-linecap="round"/>
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#FBBF24" stroke-width="8" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="55"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:13px;font-weight:700;">384</div>
+          </div>
+          <div style="color:#FBBF24;font-size:10px;">KCAL</div>
+        </div>
+        <!-- SpO2 gauge -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:80px;height:45px;margin:0 auto 4px;">
+            <svg viewBox="0 0 80 45" width="80" height="45">
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#1a2332" stroke-width="8" stroke-linecap="round"/>
+              <path d="M5,40 A35,35 0 0,1 75,40" fill="none" stroke="#22D3EE" stroke-width="8" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="11"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:13px;font-weight:700;">98%</div>
+          </div>
+          <div style="color:#22D3EE;font-size:10px;">SPO2</div>
+        </div>
+      </div>
+      <div style="color:#484F58;font-size:10px;text-align:center;margin-top:8px;">+ tarjetas de valores abajo</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Semi-círculo</h3>
+      <p>Gauge estilo velocímetro. El arco muestra progreso respecto al objetivo. Compacto, cabe en 2×2.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Full circle donut gauge -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#060810;padding:16px;">
+      <div style="font-size:11px;color:#8B949E;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Opción B — Círculo completo (Donut)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <!-- Steps -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:70px;height:70px;margin:0 auto 4px;">
+            <svg viewBox="0 0 70 70" width="70" height="70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#1a2332" stroke-width="7"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#34D399" stroke-width="7" stroke-linecap="round"
+                stroke-dasharray="175.9" stroke-dashoffset="52.8" transform="rotate(-90 35 35)"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="color:#F0F6FC;font-size:12px;font-weight:700;line-height:1;">7.2K</div>
+              <div style="color:#34D399;font-size:8px;">pasos</div>
+            </div>
+          </div>
+        </div>
+        <!-- Heart -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:70px;height:70px;margin:0 auto 4px;">
+            <svg viewBox="0 0 70 70" width="70" height="70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#1a2332" stroke-width="7"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#F87171" stroke-width="7" stroke-linecap="round"
+                stroke-dasharray="175.9" stroke-dashoffset="88" transform="rotate(-90 35 35)"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="color:#F0F6FC;font-size:12px;font-weight:700;line-height:1;">72</div>
+              <div style="color:#F87171;font-size:8px;">bpm</div>
+            </div>
+          </div>
+        </div>
+        <!-- Calories -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:70px;height:70px;margin:0 auto 4px;">
+            <svg viewBox="0 0 70 70" width="70" height="70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#1a2332" stroke-width="7"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#FBBF24" stroke-width="7" stroke-linecap="round"
+                stroke-dasharray="175.9" stroke-dashoffset="70" transform="rotate(-90 35 35)"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="color:#F0F6FC;font-size:12px;font-weight:700;line-height:1;">384</div>
+              <div style="color:#FBBF24;font-size:8px;">kcal</div>
+            </div>
+          </div>
+        </div>
+        <!-- SpO2 -->
+        <div style="background:#0D1117;border-radius:12px;padding:12px;text-align:center;">
+          <div style="position:relative;width:70px;height:70px;margin:0 auto 4px;">
+            <svg viewBox="0 0 70 70" width="70" height="70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#1a2332" stroke-width="7"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#22D3EE" stroke-width="7" stroke-linecap="round"
+                stroke-dasharray="175.9" stroke-dashoffset="3.5" transform="rotate(-90 35 35)"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="color:#F0F6FC;font-size:12px;font-weight:700;line-height:1;">98%</div>
+              <div style="color:#22D3EE;font-size:8px;">spo2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Círculo completo</h3>
+      <p>Donut con valor y unidad al centro. Más legible, icónico estilo fitness. El más usado en apps de salud.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Gauge + bar hybrid (keep cards, add gauge on top) -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#060810;padding:16px;">
+      <div style="font-size:11px;color:#8B949E;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Opción C — Gauge arriba, tarjeta abajo</div>
+      <!-- Big gauge + smaller cards below -->
+      <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;">
+        <!-- Main gauge (steps) -->
+        <div style="background:#0D1117;border-radius:12px;padding:10px;text-align:center;flex:1;">
+          <div style="position:relative;width:80px;height:80px;margin:0 auto;">
+            <svg viewBox="0 0 80 80" width="80" height="80">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#1a2332" stroke-width="8"/>
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#34D399" stroke-width="8" stroke-linecap="round"
+                stroke-dasharray="201" stroke-dashoffset="60" transform="rotate(-90 40 40)"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">7.2K</div>
+              <div style="color:#34D399;font-size:8px;">pasos</div>
+            </div>
+          </div>
+          <div style="color:#8B949E;font-size:9px;margin-top:4px;">meta: 10K</div>
+        </div>
+        <!-- 3 small gauges column -->
+        <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
+          <div style="background:#0D1117;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 30 30" width="30" height="30">
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#1a2332" stroke-width="4"/>
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#F87171" stroke-width="4" stroke-dasharray="69" stroke-dashoffset="27" transform="rotate(-90 15 15)"/>
+            </svg>
+            <div><div style="color:#F0F6FC;font-size:11px;font-weight:600;">72 bpm</div><div style="color:#8B949E;font-size:9px;">Corazón</div></div>
+          </div>
+          <div style="background:#0D1117;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 30 30" width="30" height="30">
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#1a2332" stroke-width="4"/>
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#FBBF24" stroke-width="4" stroke-dasharray="69" stroke-dashoffset="35" transform="rotate(-90 15 15)"/>
+            </svg>
+            <div><div style="color:#F0F6FC;font-size:11px;font-weight:600;">384 kcal</div><div style="color:#8B949E;font-size:9px;">Calorías</div></div>
+          </div>
+          <div style="background:#0D1117;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 30 30" width="30" height="30">
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#1a2332" stroke-width="4"/>
+              <circle cx="15" cy="15" r="11" fill="none" stroke="#22D3EE" stroke-width="4" stroke-dasharray="69" stroke-dashoffset="1" transform="rotate(-90 15 15)"/>
+            </svg>
+            <div><div style="color:#F0F6FC;font-size:11px;font-weight:600;">98% SpO2</div><div style="color:#8B949E;font-size:9px;">Oxígeno</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="color:#484F58;font-size:9px;text-align:center;">+ sueño y sección inferior</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Gauge principal + mini gauges</h3>
+      <p>Un gauge grande para pasos (métrica clave), tres mini-gauges para el resto. Jerarquía visual clara.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">En todos los casos: tocar un gauge navega al gráfico detallado de esa métrica en la pestaña Health/Settings.</p>

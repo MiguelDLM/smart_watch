@@ -1,0 +1,136 @@
+<h2>Home Screen — Mockup completo</h2>
+<p class="subtitle">Sin "Enviar carátula". 5 gauges (semi-círculo). Al tocar uno se abre el gráfico detallado. ¿Cómo se abre ese gráfico?</p>
+
+<div class="split">
+
+  <!-- Left: Home mockup -->
+  <div class="mockup">
+    <div class="mockup-header">Home</div>
+    <div class="mockup-body" style="background:#060810;padding:12px;font-family:monospace;">
+      <!-- Header -->
+      <div style="margin-bottom:14px;">
+        <div style="color:#8B949E;font-size:10px;">Lunes, 15 Mar</div>
+        <div style="color:#F0F6FC;font-size:18px;font-weight:700;">Dial Studio</div>
+        <div style="display:inline-flex;align-items:center;gap:5px;background:#0D1117;border-radius:12px;padding:3px 8px;margin-top:4px;">
+          <div style="width:7px;height:7px;border-radius:50%;background:#34D399;"></div>
+          <span style="color:#34D399;font-size:10px;">Conectado</span>
+        </div>
+      </div>
+
+      <!-- 2x2 gauge grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+
+        <!-- Steps -->
+        <div style="background:#0D1117;border-radius:12px;padding:10px;text-align:center;border:1px solid #1a2332;cursor:pointer;">
+          <div style="position:relative;width:72px;height:40px;margin:0 auto 2px;">
+            <svg viewBox="0 0 72 40" width="72" height="40">
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#1a2332" stroke-width="7" stroke-linecap="round"/>
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#34D399" stroke-width="7" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="40"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">7.2K</div>
+          </div>
+          <div style="color:#34D399;font-size:9px;margin-top:2px;">PASOS</div>
+          <div style="color:#484F58;font-size:8px;">meta 10K</div>
+        </div>
+
+        <!-- Heart Rate -->
+        <div style="background:#0D1117;border-radius:12px;padding:10px;text-align:center;border:1px solid #1a2332;cursor:pointer;">
+          <div style="position:relative;width:72px;height:40px;margin:0 auto 2px;">
+            <svg viewBox="0 0 72 40" width="72" height="40">
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#1a2332" stroke-width="7" stroke-linecap="round"/>
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#F87171" stroke-width="7" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="60"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">72</div>
+          </div>
+          <div style="color:#F87171;font-size:9px;margin-top:2px;">BPM</div>
+          <div style="color:#484F58;font-size:8px;">Normal</div>
+        </div>
+
+        <!-- Calories -->
+        <div style="background:#0D1117;border-radius:12px;padding:10px;text-align:center;border:1px solid #1a2332;cursor:pointer;">
+          <div style="position:relative;width:72px;height:40px;margin:0 auto 2px;">
+            <svg viewBox="0 0 72 40" width="72" height="40">
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#1a2332" stroke-width="7" stroke-linecap="round"/>
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#FBBF24" stroke-width="7" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="50"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">384</div>
+          </div>
+          <div style="color:#FBBF24;font-size:9px;margin-top:2px;">KCAL</div>
+          <div style="color:#484F58;font-size:8px;">meta 500</div>
+        </div>
+
+        <!-- SpO2 -->
+        <div style="background:#0D1117;border-radius:12px;padding:10px;text-align:center;border:1px solid #1a2332;cursor:pointer;">
+          <div style="position:relative;width:72px;height:40px;margin:0 auto 2px;">
+            <svg viewBox="0 0 72 40" width="72" height="40">
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#1a2332" stroke-width="7" stroke-linecap="round"/>
+              <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#22D3EE" stroke-width="7" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="10"/>
+            </svg>
+            <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">98%</div>
+          </div>
+          <div style="color:#22D3EE;font-size:9px;margin-top:2px;">SPO2</div>
+          <div style="color:#484F58;font-size:8px;">Normal</div>
+        </div>
+      </div>
+
+      <!-- Sleep - full width -->
+      <div style="background:#0D1117;border-radius:12px;padding:10px;border:1px solid #1a2332;display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <div style="position:relative;width:72px;height:40px;flex-shrink:0;">
+          <svg viewBox="0 0 72 40" width="72" height="40">
+            <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#1a2332" stroke-width="7" stroke-linecap="round"/>
+            <path d="M4,36 A32,32 0 0,1 68,36" fill="none" stroke="#BC8CFF" stroke-width="7" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="25"/>
+          </svg>
+          <div style="position:absolute;bottom:0;width:100%;text-align:center;color:#F0F6FC;font-size:14px;font-weight:700;line-height:1;">6h30</div>
+        </div>
+        <div>
+          <div style="color:#BC8CFF;font-size:9px;">SUEÑO</div>
+          <div style="color:#8B949E;font-size:8px;">Prof: 1h20 · Lig: 3h · REM: 45m</div>
+          <div style="color:#484F58;font-size:8px;">meta 8h</div>
+        </div>
+      </div>
+
+      <!-- Bottom nav hint -->
+      <div style="display:flex;justify-content:space-around;margin-top:12px;padding-top:8px;border-top:1px solid #1a2332;">
+        <div style="text-align:center;"><div style="color:#22D3EE;font-size:16px;">⌂</div><div style="color:#22D3EE;font-size:8px;">Home</div></div>
+        <div style="text-align:center;"><div style="color:#484F58;font-size:16px;">◈</div><div style="color:#484F58;font-size:8px;">Dials</div></div>
+        <div style="text-align:center;"><div style="color:#484F58;font-size:16px;">⌚</div><div style="color:#484F58;font-size:8px;">Reloj</div></div>
+        <div style="text-align:center;"><div style="color:#484F58;font-size:16px;">⚙</div><div style="color:#484F58;font-size:8px;">Settings</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: How does the detail open? -->
+  <div class="mockup">
+    <div class="mockup-header">Al tocar un gauge → ¿cómo se abre el gráfico?</div>
+    <div class="mockup-body" style="background:#060810;padding:12px;">
+
+      <div class="options" style="margin:0;">
+        <div class="option" data-choice="fullscreen" onclick="toggleSelect(this)">
+          <div class="letter">X</div>
+          <div class="content">
+            <h3>Pantalla completa</h3>
+            <p>Abre una Activity/Fragment dedicada que ocupa toda la pantalla. Título de la métrica, selector Día/Semana/Mes, gráfico de barras. Flecha atrás para volver al Home.</p>
+            <div style="margin-top:8px;background:#0D1117;border-radius:8px;padding:8px;font-size:10px;color:#8B949E;">
+              ← Pasos<br>
+              [Día] [Semana] [Mes]<br>
+              ▓▓▓▓▓▓▓▓▓▓▓ chart
+            </div>
+          </div>
+        </div>
+        <div class="option" data-choice="bottomsheet" onclick="toggleSelect(this)">
+          <div class="letter">Y</div>
+          <div class="content">
+            <h3>Bottom Sheet</h3>
+            <p>El gráfico sube desde abajo (modal). El Home sigue visible detrás. Swipe down para cerrar. Más fluido, sin salir del contexto.</p>
+            <div style="margin-top:8px;background:#0D1117;border-radius:8px;padding:8px;font-size:10px;color:#8B949E;">
+              ━━━━━━━━━<br>
+              Pasos — Día<br>
+              ▓▓▓▓▓▓▓▓▓
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
