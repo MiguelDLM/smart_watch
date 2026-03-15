@@ -56,17 +56,11 @@ public class NotificationSettingsActivity extends AppCompatActivity {
                 startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
 
         // Load launcher apps
-        List<ApplicationInfo> allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         List<ApplicationInfo> launcherApps = new ArrayList<>();
         Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
         launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         for (ResolveInfo ri : pm.queryIntentActivities(launcherIntent, 0)) {
-            for (ApplicationInfo ai : allApps) {
-                if (ai.packageName.equals(ri.activityInfo.packageName)) {
-                    launcherApps.add(ai);
-                    break;
-                }
-            }
+            launcherApps.add(ri.activityInfo.applicationInfo);
         }
 
         RecyclerView rv = findViewById(R.id.rvApps);
