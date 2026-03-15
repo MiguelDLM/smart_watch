@@ -274,6 +274,21 @@ public class BleManager {
         return isConnected && connectionState == ConnectionState.SESSION_READY;
     }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public String getLastDeviceAddress() {
+        return prefs.getString("last_device_address", null);
+    }
+
+    @SuppressLint("MissingPermission")
+    public void reconnect(String address) {
+        if (isConnected || address == null) return;
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
+        connect(device);
+    }
+
     // ========== GATT Callback — ported from omo version ==========
 
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
@@ -282,6 +297,7 @@ public class BleManager {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 isConnected = true;
+                prefs.edit().putString("last_device_address", gatt.getDevice().getAddress()).apply();
                 log("Connected (status=" + status + "). Discovering services...");
                 if (listener != null) {
                     handler.post(() -> listener.onConnectionStateChange(true, false));
