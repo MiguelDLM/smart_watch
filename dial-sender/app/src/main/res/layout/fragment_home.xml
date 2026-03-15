@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_primary"
@@ -75,251 +76,152 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Metric cards grid (2x2) -->
+        <!-- 2x2 Gauge grid: Steps, Heart Rate -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
 
-            <!-- Steps -->
             <LinearLayout
+                android:id="@+id/gaugeCardSteps"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_card_steps"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
-                android:padding="14dp"
-                android:layout_marginEnd="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PASOS"
-                    style="@style/MetricLabel"/>
-
-                <TextView
-                    android:id="@+id/txtSteps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="—"
-                    style="@style/MetricValue"
-                    android:layout_marginTop="4dp"/>
-
-                <ProgressBar
-                    android:id="@+id/progressSteps"
-                    style="?android:attr/progressBarStyleHorizontal"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_marginEnd="6dp"
+                android:clickable="true"
+                android:focusable="true">
+                <com.example.dialsender.views.GaugeView
+                    android:id="@+id/gaugeSteps"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:progressDrawable="@drawable/progress_bar"
-                    android:max="10000"
-                    android:progress="0"
-                    android:layout_marginTop="8dp"/>
-
-                <TextView
-                    android:id="@+id/txtStepsGoal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meta: 10,000"
-                    android:textColor="#80FFFFFF"
-                    android:textSize="9sp"
-                    android:layout_marginTop="3dp"/>
+                    android:layout_height="match_parent"
+                    app:gv_label="PASOS"
+                    app:gv_valueText="—"
+                    app:gv_subText="meta 10K"
+                    app:gv_color="#34D399"
+                    app:gv_value="0"/>
             </LinearLayout>
 
-            <!-- Heart rate -->
             <LinearLayout
+                android:id="@+id/gaugeCardHeart"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_card_heart"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
-                android:padding="14dp"
-                android:layout_marginStart="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FREC. CARDÍACA"
-                    style="@style/MetricLabel"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="4dp">
-
-                    <TextView
-                        android:id="@+id/txtHeartRate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="—"
-                        style="@style/MetricValue"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" bpm"
-                        android:textColor="#80FFFFFF"
-                        android:textSize="10sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txtHeartRateSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin datos"
-                    android:textColor="#80FFFFFF"
-                    android:textSize="9sp"
-                    android:layout_marginTop="8dp"/>
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_marginStart="6dp"
+                android:clickable="true"
+                android:focusable="true">
+                <com.example.dialsender.views.GaugeView
+                    android:id="@+id/gaugeHeart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:gv_label="BPM"
+                    app:gv_valueText="—"
+                    app:gv_subText="Normal"
+                    app:gv_color="#F87171"
+                    app:gv_value="0"/>
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 2x2 Gauge grid: Calories, SpO2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="10dp">
 
-            <!-- Calories -->
             <LinearLayout
+                android:id="@+id/gaugeCardCalories"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_card_calories"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
-                android:padding="14dp"
-                android:layout_marginEnd="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CALORÍAS"
-                    style="@style/MetricLabel"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="4dp">
-
-                    <TextView
-                        android:id="@+id/txtCalories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="—"
-                        style="@style/MetricValue"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" kcal"
-                        android:textColor="#80FFFFFF"
-                        android:textSize="10sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txtCaloriesSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meta: 2,000 kcal"
-                    android:textColor="#80FFFFFF"
-                    android:textSize="9sp"
-                    android:layout_marginTop="8dp"/>
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_marginEnd="6dp"
+                android:clickable="true"
+                android:focusable="true">
+                <com.example.dialsender.views.GaugeView
+                    android:id="@+id/gaugeCalories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:gv_label="KCAL"
+                    app:gv_valueText="—"
+                    app:gv_subText="meta 500"
+                    app:gv_color="#FBBF24"
+                    app:gv_value="0"/>
             </LinearLayout>
 
-            <!-- Sleep -->
             <LinearLayout
+                android:id="@+id/gaugeCardSpo2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_card_sleep"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
-                android:padding="14dp"
-                android:layout_marginStart="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SUEÑO"
-                    style="@style/MetricLabel"/>
-
-                <TextView
-                    android:id="@+id/txtSleep"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="—"
-                    style="@style/MetricValue"
-                    android:layout_marginTop="4dp"/>
-
-                <TextView
-                    android:id="@+id/txtSleepSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin datos"
-                    android:textColor="#80FFFFFF"
-                    android:textSize="9sp"
-                    android:layout_marginTop="8dp"/>
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_marginStart="6dp"
+                android:clickable="true"
+                android:focusable="true">
+                <com.example.dialsender.views.GaugeView
+                    android:id="@+id/gaugeSpo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:gv_label="SPO2"
+                    app:gv_valueText="—"
+                    app:gv_subText="Normal"
+                    app:gv_color="#22D3EE"
+                    app:gv_value="0"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Quick action: Send dial -->
+        <!-- Sleep gauge — full width -->
         <LinearLayout
-            android:id="@+id/cardSendDialHome"
+            android:id="@+id/gaugeCardSleep"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:background="@drawable/bg_card"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="16dp"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true">
 
-            <LinearLayout
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_chip_active"
-                android:gravity="center"
-                android:layout_marginEnd="12dp">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_send"
-                    android:contentDescription="Send"/>
-            </LinearLayout>
+            <com.example.dialsender.views.GaugeView
+                android:id="@+id/gaugeSleep"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                app:gv_label="SUEÑO"
+                app:gv_valueText="—"
+                app:gv_subText="meta 8h"
+                app:gv_color="#BC8CFF"
+                app:gv_value="0"/>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
 
                 <TextView
+                    android:id="@+id/txtSleepPhases"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enviar carátula"
-                    android:textColor="@color/text_primary"
-                    android:textSize="13sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/txtLastDial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Última: —"
+                    android:text="Sin datos"
                     android:textColor="@color/text_secondary"
-                    android:textSize="11sp"
-                    android:layout_marginTop="2dp"/>
+                    android:textSize="11sp"/>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="›"
-                android:textColor="@color/accent_primary"
-                android:textSize="22sp"/>
         </LinearLayout>
 
     </LinearLayout>
