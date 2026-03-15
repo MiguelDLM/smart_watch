@@ -155,14 +155,24 @@ public class StatusFragment extends Fragment {
                 }
             }
 
+            // Map metric to gradient drawable
+            int bgRes;
+            switch (metric) {
+                case "heart_rate": bgRes = R.drawable.bg_card_heart; break;
+                case "calories":   bgRes = R.drawable.bg_card_calories; break;
+                case "sleep":      bgRes = R.drawable.bg_card_sleep; break;
+                default:           bgRes = R.drawable.bg_card_steps; break;
+            }
+
             androidx.cardview.widget.CardView card = new androidx.cardview.widget.CardView(requireContext());
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            cardParams.setMargins(0, 0, 0, dpToPx(24));
+            cardParams.setMargins(0, 0, 0, dpToPx(16));
             card.setLayoutParams(cardParams);
-            card.setRadius(dpToPx(24));
-            card.setCardElevation(dpToPx(8));
-            card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.card_library_start));
+            card.setRadius(dpToPx(12));
+            card.setCardElevation(0);
+            card.setCardBackgroundColor(android.graphics.Color.TRANSPARENT);
+            card.setBackground(ContextCompat.getDrawable(requireContext(), bgRes));
 
             LinearLayout cardContent = new LinearLayout(requireContext());
             cardContent.setOrientation(LinearLayout.VERTICAL);
