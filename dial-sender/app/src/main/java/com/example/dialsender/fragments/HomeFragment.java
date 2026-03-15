@@ -1,23 +1,25 @@
 package com.example.dialsender.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.dialsender.DialLibraryActivity;
 import com.example.dialsender.R;
 import com.example.dialsender.ble.BleManager;
 import com.example.dialsender.ble.SleepAnalyzer;
+import com.example.dialsender.views.GaugeView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,12 +30,12 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
     private static final String PREF_NAME = "dial_sender_prefs";
     private static final String PREF_HEALTH_PREFIX = "health_";
 
-    private TextView txtGreeting, txtDate, txtSteps, txtStepsGoal;
-    private TextView txtHeartRate, txtHeartRateSub, txtCalories, txtCaloriesSub;
-    private TextView txtSleep, txtSleepSub, txtLastDial;
-    private TextView homeStatusText;
+    private TextView txtGreeting, txtDate, homeStatusText;
     private View homeStatusDot;
-    private ProgressBar progressSteps;
+    private GaugeView gaugeSteps, gaugeHeart, gaugeCalories, gaugeSpo2, gaugeSleep;
+    private TextView txtSleepPhases;
+    private BroadcastReceiver gaugeStyleReceiver;
+
     private SharedPreferences prefs;
     private BleManager bleManager;
 
@@ -45,26 +47,38 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
 
         txtGreeting = view.findViewById(R.id.txtGreeting);
         txtDate = view.findViewById(R.id.txtDate);
-        txtSteps = view.findViewById(R.id.txtSteps);
-        txtStepsGoal = view.findViewById(R.id.txtStepsGoal);
-        txtHeartRate = view.findViewById(R.id.txtHeartRate);
-        txtHeartRateSub = view.findViewById(R.id.txtHeartRateSub);
-        txtCalories = view.findViewById(R.id.txtCalories);
-        txtCaloriesSub = view.findViewById(R.id.txtCaloriesSub);
-        txtSleep = view.findViewById(R.id.txtSleep);
-        txtSleepSub = view.findViewById(R.id.txtSleepSub);
-        txtLastDial = view.findViewById(R.id.txtLastDial);
         homeStatusText = view.findViewById(R.id.homeStatusText);
         homeStatusDot = view.findViewById(R.id.homeStatusDot);
-        progressSteps = view.findViewById(R.id.progressSteps);
+
+        gaugeSteps = view.findViewById(R.id.gaugeSteps);
+        gaugeHeart = view.findViewById(R.id.gaugeHeart);
+        gaugeCalories = view.findViewById(R.id.gaugeCalories);
+        gaugeSpo2 = view.findViewById(R.id.gaugeSpo2);
+        gaugeSleep = view.findViewById(R.id.gaugeSleep);
+        txtSleepPhases = view.findViewById(R.id.txtSleepPhases);
 
         prefs = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         bleManager = BleManager.getInstance(requireContext());
 
-        view.findViewById(R.id.cardSendDialHome).setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), DialLibraryActivity.class);
-            startActivity(intent);
-        });
+        view.findViewById(R.id.gaugeCardSteps).setOnClickListener(v ->
+                MetricDetailBottomSheet.newInstance("steps")
+                        .show(getChildFragmentManager(), "detail"));
+
+        view.findViewById(R.id.gaugeCardHeart).setOnClickListener(v ->
+                MetricDetailBottomSheet.newInstance("heart_rate")
+                        .show(getChildFragmentManager(), "detail"));
+
+        view.findViewById(R.id.gaugeCardCalories).setOnClickListener(v ->
+                MetricDetailBottomSheet.newInstance("calories")
+                        .show(getChildFragmentManager(), "detail"));
+
+        view.findViewById(R.id.gaugeCardSpo2).setOnClickListener(v ->
+                MetricDetailBottomSheet.newInstance("blood_oxygen")
+                        .show(getChildFragmentManager(), "detail"));
+
+        view.findViewById(R.id.gaugeCardSleep).setOnClickListener(v ->
+                MetricDetailBottomSheet.newInstance("sleep")
+                        .show(getChildFragmentManager(), "detail"));
 
         updateDate();
         return view;
@@ -76,11 +90,36 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
         bleManager.setListener(this);
         refreshMetrics();
         updateConnectionState(bleManager.isSessionReady());
+
+        gaugeStyleReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                applyGaugeStyle();
+            }
+        };
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+                gaugeStyleReceiver,
+                new IntentFilter(SettingsFragment.ACTION_GAUGE_STYLE_CHANGED));
+        applyGaugeStyle();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (gaugeStyleReceiver != null) {
+            LocalBroadcastManager.getInstance(requireContext())
+                    .unregisterReceiver(gaugeStyleReceiver);
+            gaugeStyleReceiver = null;
+        }
+    }
+
+    private void applyGaugeStyle() {
+        if (!isAdded() || prefs == null) return;
+        String style = prefs.getString("gauge_style", GaugeView.STYLE_A);
+        GaugeView[] gauges = {gaugeSteps, gaugeHeart, gaugeCalories, gaugeSpo2, gaugeSleep};
+        for (GaugeView g : gauges) {
+            if (g != null) g.setGaugeStyle(style);
+        }
     }
 
     private void updateDate() {
@@ -92,43 +131,64 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
     private void refreshMetrics() {
         if (!isAdded() || prefs == null) return;
 
+        int goalSteps = prefs.getInt("goal_steps", 10000);
+        int goalCal   = prefs.getInt("goal_calories", 500);
+        int goalSleep = prefs.getInt("goal_sleep_min", 480);
+
         // Steps
         int steps = getLatestMetricValue("steps");
-        txtSteps.setText(steps > 0 ? String.format(Locale.US, "%,d", steps) : "—");
-        progressSteps.setProgress(Math.min(steps, 10000));
+        gaugeSteps.setValue(steps > 0 ? (float) steps / goalSteps : 0f);
+        gaugeSteps.setValueText(steps > 0 ? formatSteps(steps) : "—");
+        gaugeSteps.setSubText("meta " + formatSteps(goalSteps));
 
         // Heart rate
         int hr = getLatestMetricValue("heart_rate");
-        txtHeartRate.setText(hr > 0 ? String.valueOf(hr) : "—");
-        txtHeartRateSub.setText(hr > 0 ? "Normal" : "Sin datos");
+        gaugeHeart.setValue(hr > 0 ? (float) hr / 200f : 0f);
+        gaugeHeart.setValueText(hr > 0 ? String.valueOf(hr) : "—");
+        gaugeHeart.setSubText(hr > 0 ? "Normal" : "Sin datos");
 
         // Calories
         int cal = getLatestMetricValue("calories");
-        txtCalories.setText(cal > 0 ? String.format(Locale.US, "%,d", cal) : "—");
+        gaugeCalories.setValue(cal > 0 ? (float) cal / goalCal : 0f);
+        gaugeCalories.setValueText(cal > 0 ? String.valueOf(cal) : "—");
+        gaugeCalories.setSubText("meta " + goalCal);
 
-        // Sleep (analyzed from raw mode records)
+        // SpO2
+        int spo2 = getLatestMetricValue("blood_oxygen");
+        gaugeSpo2.setValue(spo2 > 0 ? (float) spo2 / 100f : 0f);
+        gaugeSpo2.setValueText(spo2 > 0 ? spo2 + "%" : "—");
+        gaugeSpo2.setSubText(spo2 > 0 ? "Normal" : "Sin datos");
+
+        // Sleep
         String sleepData = prefs.getString(PREF_HEALTH_PREFIX + "sleep", "");
-        SleepAnalyzer.SleepResult sleepRes = SleepAnalyzer.analyze(sleepData);
-        int sleepMin = sleepRes.totalMinutes;
+        SleepAnalyzer.SleepResult sr = SleepAnalyzer.analyze(sleepData);
+        int sleepMin = sr.totalMinutes;
+        gaugeSleep.setValue(sleepMin > 0 ? (float) sleepMin / goalSleep : 0f);
         if (sleepMin > 0) {
-            int h = sleepMin / 60;
-            int m = sleepMin % 60;
-            txtSleep.setText(h > 0 ? h + "h " + m + "m" : m + "m");
-            String phases = "";
-            if (sleepRes.deepMin > 0) {
-                int dh = sleepRes.deepMin / 60, dm = sleepRes.deepMin % 60;
-                phases += "Prof: " + (dh > 0 ? dh + "h" + dm + "m" : dm + "m") + "  ";
-            }
-            if (sleepRes.lightMin > 0) {
-                int lh = sleepRes.lightMin / 60, lm = sleepRes.lightMin % 60;
-                phases += "Lig: " + (lh > 0 ? lh + "h" + lm + "m" : lm + "m") + "  ";
-            }
-            if (sleepRes.remMin > 0) phases += "REM: " + sleepRes.remMin + "m";
-            txtSleepSub.setText(phases.trim().isEmpty() ? "Sin desglose" : phases.trim());
+            int h = sleepMin / 60, m = sleepMin % 60;
+            gaugeSleep.setValueText(h > 0 ? h + "h" + m + "m" : m + "m");
+            StringBuilder phases = new StringBuilder();
+            if (sr.deepMin > 0) phases.append("Prof: ").append(formatMins(sr.deepMin)).append("  ");
+            if (sr.lightMin > 0) phases.append("Lig: ").append(formatMins(sr.lightMin)).append("  ");
+            if (sr.remMin > 0)   phases.append("REM: ").append(formatMins(sr.remMin));
+            String phasesStr = phases.toString().trim();
+            txtSleepPhases.setText(phasesStr.isEmpty() ? "Sin desglose" : phasesStr);
         } else {
-            txtSleep.setText("—");
-            txtSleepSub.setText("Sin datos");
+            gaugeSleep.setValueText("—");
+            txtSleepPhases.setText("Sin datos");
         }
+    }
+
+    private String formatSteps(int steps) {
+        if (steps >= 1000) {
+            return (steps / 1000) + "." + ((steps % 1000) / 100) + "K";
+        }
+        return String.valueOf(steps);
+    }
+
+    private String formatMins(int mins) {
+        int h = mins / 60, m = mins % 60;
+        return h > 0 ? h + "h" + m + "m" : m + "m";
     }
 
     private int getLatestMetricValue(String metric) {
@@ -167,10 +227,13 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
     }
 
     @Override public void onHealthDataReceived(String keyName, byte[] payload) {}
-    @Override public void onHealthSyncComplete() {
+
+    @Override
+    public void onHealthSyncComplete() {
         if (!isAdded()) return;
         requireActivity().runOnUiThread(this::refreshMetrics);
     }
+
     @Override public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {}
     @Override public void onTransferComplete() {}
     @Override public void onLogUpdated() {}
