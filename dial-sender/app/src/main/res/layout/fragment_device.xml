@@ -11,65 +11,165 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Connection Status Card -->
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_device"
+            style="@style/ScreenTitle"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Device status card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_status"
+            android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginBottom="24dp">
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
 
+            <!-- Device info row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="14dp">
 
-                <View
-                    android:id="@+id/statusIndicator"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/indicator_disconnected"
-                    android:layout_marginEnd="12dp"/>
+                <!-- Watch icon -->
+                <LinearLayout
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_chip_inactive"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp">
 
-                <TextView
-                    android:id="@+id/txtStatus"
+                    <View
+                        android:id="@+id/statusIndicator"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/indicator_disconnected"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/disconnected"
-                    android:textColor="@color/text_primary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Smart Watch"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/disconnected"
+                        android:textColor="@color/status_disconnected"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnConnect"
+            <!-- Battery / RSSI chips -->
+            <LinearLayout
+                android:id="@+id/statsRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_chip_inactive"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/txtBattery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—%"
+                        android:textColor="@color/accent_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Batería"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_chip_inactive"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginStart="6dp">
+
+                    <TextView
+                        android:id="@+id/txtRssi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—"
+                        android:textColor="@color/accent_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RSSI"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Connect button -->
+            <Button
+                android:id="@+id/btnConnect"
                 style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/scan_connect"/>
+
         </LinearLayout>
 
-        <!-- Watchface Gallery Entry -->
+        <!-- Watch face shortcuts -->
         <LinearLayout
             android:id="@+id/btnWatchFaceGallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_card"
-            android:padding="20dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical">
+            android:layout_marginBottom="8dp">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_back"
                 android:rotation="180"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="14dp"
+                android:contentDescription="Gallery"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -77,27 +177,35 @@
                 android:layout_weight="1"
                 android:text="Watch Face Gallery"
                 android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="@color/accent_primary"
+                android:textSize="20sp"/>
         </LinearLayout>
 
-        <!-- Watchface Builder Entry -->
         <LinearLayout
             android:id="@+id/btnWatchFaceBuilder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_card"
-            android:padding="20dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginBottom="24dp"
-            android:gravity="center_vertical">
+            android:layout_marginBottom="16dp">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_create"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="14dp"
+                android:contentDescription="Builder"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -105,11 +213,18 @@
                 android:layout_weight="1"
                 android:text="Watch Face Builder"
                 android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="@color/accent_primary"
+                android:textSize="20sp"/>
         </LinearLayout>
 
-        <!-- BLE Protocol Log Section -->
+        <!-- BLE Log section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,85 +232,81 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Log Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="BLE Protocol Log"
+                    android:text="Log BLE"
                     android:textColor="@color/text_primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtLogCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 lines"
+                    android:text="0 líneas"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="11sp"/>
             </LinearLayout>
 
-            <!-- Log View (Scrollable) -->
             <ScrollView
                 android:id="@+id/logScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#1A1A2E"
-                android:padding="8dp"
-                android:layout_marginBottom="12dp">
+                android:layout_height="160dp"
+                android:background="@color/bg_surface"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/txtBleLog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
-                    android:textColor="#4ADE80"
-                    android:textSize="11sp"
-                    android:text="Waiting for BLE events..." />
+                    android:textColor="@color/accent_primary"
+                    android:textSize="10sp"
+                    android:text="Waiting for BLE events..."/>
             </ScrollView>
 
-            <!-- Log Action Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCopyLog"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="38dp"
                     android:layout_weight="1"
-                    android:text="📋 Copy"
-                    android:textSize="13sp"
+                    android:text="Copiar"
+                    android:textSize="12sp"
                     android:layout_marginEnd="6dp"
-                    style="@style/ButtonPrimary" />
+                    style="@style/ButtonPrimary"/>
 
                 <Button
                     android:id="@+id/btnSaveLog"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="38dp"
                     android:layout_weight="1"
-                    android:text="💾 Save .txt"
-                    android:textSize="13sp"
+                    android:text="Guardar"
+                    android:textSize="12sp"
                     android:layout_marginEnd="6dp"
-                    style="@style/ButtonPrimary" />
+                    style="@style/ButtonPrimary"/>
 
                 <Button
                     android:id="@+id/btnClearLog"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="38dp"
                     android:layout_weight="1"
-                    android:text="🗑 Clear"
-                    android:textSize="13sp"
-                    style="@style/ButtonPrimary" />
+                    android:text="Limpiar"
+                    android:textSize="12sp"
+                    style="@style/ButtonDanger"/>
             </LinearLayout>
         </LinearLayout>
 
