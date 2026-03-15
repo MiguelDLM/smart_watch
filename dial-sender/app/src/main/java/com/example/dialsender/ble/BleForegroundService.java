@@ -53,6 +53,7 @@ public class BleForegroundService extends Service {
             return START_NOT_STICKY;
         }
         startForeground(NOTIF_ID, buildNotification(bleManager.isConnected()));
+        handler.removeCallbacks(reconnectRunnable);
         scheduleReconnect();
         return START_STICKY;
     }

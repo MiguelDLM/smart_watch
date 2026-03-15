@@ -21,15 +21,25 @@ public class WatchNotificationService extends NotificationListenerService {
 
     private SharedPreferences prefs;
     private Set<String> enabledPackages = new HashSet<>();
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
         prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         reloadPackages();
-        prefs.registerOnSharedPreferenceChangeListener((p, key) -> {
+        prefListener = (p, key) -> {
             if (PREF_NOTIF_PACKAGES.equals(key)) reloadPackages();
-        });
+        };
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
+    }
+
+    @Override
+    public void onListenerDisconnected() {
+        super.onListenerDisconnected();
+        if (prefs != null && prefListener != null) {
+            prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
+        }
     }
 
     private void reloadPackages() {

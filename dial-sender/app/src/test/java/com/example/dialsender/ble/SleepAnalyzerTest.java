@@ -21,6 +21,7 @@ public class SleepAnalyzerTest {
                 + rec(3600, BleSleep.MODE_END);
         SleepAnalyzer.SleepResult r = SleepAnalyzer.analyze(data);
         assertEquals(60, r.totalMinutes); // 3600s = 60min
+        assertEquals(1, r.awakeMin);      // 100s gap before first phase = 1min awake
         assertEquals(30, r.deepMin);      // 1800s = 30min
         assertEquals(28, r.lightMin);     // 1700s ≈ 28min
     }
