@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GaugeView">
+        <attr name="gv_value" format="float"/>
+        <attr name="gv_label" format="string"/>
+        <attr name="gv_valueText" format="string"/>
+        <attr name="gv_subText" format="string"/>
+        <attr name="gv_color" format="color"/>
+    </declare-styleable>
+</resources>
