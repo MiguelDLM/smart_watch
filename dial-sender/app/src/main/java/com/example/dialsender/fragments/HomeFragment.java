@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.dialsender.DialLibraryActivity;
 import com.example.dialsender.R;
 import com.example.dialsender.ble.BleManager;
+import com.example.dialsender.ble.SleepAnalyzer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -105,13 +106,19 @@ public class HomeFragment extends Fragment implements BleManager.BleStateListene
         int cal = getLatestMetricValue("calories");
         txtCalories.setText(cal > 0 ? String.format(Locale.US, "%,d", cal) : "—");
 
-        // Sleep (stored in minutes)
-        int sleepMin = getLatestMetricValue("sleep");
+        // Sleep (analyzed from raw mode records)
+        String sleepData = prefs.getString(PREF_HEALTH_PREFIX + "sleep", "");
+        SleepAnalyzer.SleepResult sleepRes = SleepAnalyzer.analyze(sleepData);
+        int sleepMin = sleepRes.totalMinutes;
         if (sleepMin > 0) {
             int h = sleepMin / 60;
             int m = sleepMin % 60;
-            txtSleep.setText(h + "h " + m + "m");
-            txtSleepSub.setText(h >= 7 ? "Bueno" : h >= 5 ? "Regular" : "Insuficiente");
+            txtSleep.setText(h > 0 ? h + "h " + m + "m" : m + "m");
+            String phases = "";
+            if (sleepRes.deepMin > 0) phases += "P: " + (sleepRes.deepMin/60) + "h" + (sleepRes.deepMin%60) + "m  ";
+            if (sleepRes.lightMin > 0) phases += "L: " + (sleepRes.lightMin/60) + "h" + (sleepRes.lightMin%60) + "m  ";
+            if (sleepRes.remMin > 0)   phases += "REM: " + sleepRes.remMin + "m";
+            txtSleepSub.setText(phases.trim().isEmpty() ? "Sin desglose" : phases.trim());
         } else {
             txtSleep.setText("—");
             txtSleepSub.setText("Sin datos");
