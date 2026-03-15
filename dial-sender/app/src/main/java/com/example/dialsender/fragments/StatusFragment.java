@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dialsender.R;
 import com.example.dialsender.ble.BleManager;
+import com.example.dialsender.ble.SleepAnalyzer;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -238,6 +239,46 @@ public class StatusFragment extends Fragment {
 
             card.addView(cardContent);
             healthContainer.addView(card);
+        }
+
+        // Sleep phase card
+        String sleepData = prefs.getString(PREF_HEALTH_PREFIX + "sleep", "");
+        SleepAnalyzer.SleepResult sr = SleepAnalyzer.analyze(sleepData);
+        if (sr.totalMinutes > 0) {
+            // Title
+            TextView sleepTitle = new TextView(requireContext());
+            sleepTitle.setText("Sueño: " + (sr.totalMinutes/60) + "h " + (sr.totalMinutes%60) + "m");
+            sleepTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            sleepTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
+            healthContainer.addView(sleepTitle);
+
+            // Bar chart with phase breakdown
+            BarChart chart = new BarChart(requireContext());
+            chart.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 300));
+            List<BarEntry> entries = new ArrayList<>();
+            entries.add(new BarEntry(0, sr.deepMin));
+            entries.add(new BarEntry(1, sr.lightMin));
+            entries.add(new BarEntry(2, sr.remMin));
+            entries.add(new BarEntry(3, sr.awakeMin));
+            BarDataSet ds = new BarDataSet(entries, "Fases");
+            ds.setColors(
+                ContextCompat.getColor(requireContext(), R.color.accent_primary),
+                android.graphics.Color.parseColor("#22EE9C"),
+                0xFF9C27B0, // purple for REM
+                ContextCompat.getColor(requireContext(), R.color.text_secondary)
+            );
+            ds.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
+            chart.setData(new BarData(ds));
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(
+                    new String[]{"Profundo", "Ligero", "REM", "Despierto"}));
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart.getAxisRight().setEnabled(false);
+            chart.getLegend().setEnabled(false);
+            chart.getDescription().setEnabled(false);
+            chart.invalidate();
+            healthContainer.addView(chart);
         }
     }
 
