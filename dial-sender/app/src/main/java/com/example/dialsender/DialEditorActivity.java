@@ -42,6 +42,7 @@ import android.widget.Spinner;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,6 +69,7 @@ public class DialEditorActivity extends AppCompatActivity {
     private TextView txtSelectedLayer, txtLayerCount;
     private SeekBar seekScale, seekRotation;
     private Button btnUpload;
+    private MaterialButton btnLockBg;
 
     private List<DialLayer> layers = new ArrayList<>();
     private int selectedLayerIndex = -1;
@@ -121,6 +123,16 @@ public class DialEditorActivity extends AppCompatActivity {
         seekScale = findViewById(R.id.seekScale);
         seekRotation = findViewById(R.id.seekRotation);
         btnUpload = findViewById(R.id.btnUpload);
+        btnLockBg = findViewById(R.id.btnLockBackground);
+        btnLockBg.setOnClickListener(v -> {
+            if (selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
+                DialLayer l = layers.get(selectedLayerIndex);
+                if (l.layerType == DialLayer.TYPE_BACKGROUND) {
+                    l.locked = !l.locked;
+                    btnLockBg.setText(l.locked ? "Desbloquear fondo" : "Bloquear fondo");
+                }
+            }
+        });
 
         findViewById(R.id.btnBackEditor).setOnClickListener(v -> finish());
         findViewById(R.id.btnAddElement).setOnClickListener(v -> showAddElementDialog());
@@ -1846,8 +1858,15 @@ public class DialEditorActivity extends AppCompatActivity {
             txtSelectedLayer.setText(info);
             seekScale.setProgress((int) (layer.scale * 100));
             seekRotation.setProgress((int) layer.rotation);
+            boolean isBg = layers.get(selectedLayerIndex).layerType == DialLayer.TYPE_BACKGROUND;
+            btnLockBg.setVisibility(isBg ? View.VISIBLE : View.GONE);
+            if (isBg) {
+                boolean locked = layers.get(selectedLayerIndex).locked;
+                btnLockBg.setText(locked ? "Desbloquear fondo" : "Bloquear fondo");
+            }
         } else {
             selectedLayerControls.setVisibility(View.GONE);
+            btnLockBg.setVisibility(View.GONE);
         }
     }
 
