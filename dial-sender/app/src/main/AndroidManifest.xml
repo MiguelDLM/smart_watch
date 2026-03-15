@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -53,6 +56,11 @@
         <!-- Settings -->
         <activity
             android:name=".SettingsActivity"
+            android:exported="false"/>
+
+        <service
+            android:name=".ble.BleForegroundService"
+            android:foregroundServiceType="connectedDevice"
             android:exported="false"/>
 
         <provider
