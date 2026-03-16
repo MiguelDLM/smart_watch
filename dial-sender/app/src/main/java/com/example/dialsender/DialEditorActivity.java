@@ -162,9 +162,11 @@ public class DialEditorActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
                 if (fromUser) {
-                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size()) return;
+                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size())
+                        return;
                     DialLayer layer = layers.get(selectedLayerIndex);
-                    if (layer.locked) return;
+                    if (layer.locked)
+                        return;
                     layer.scale = progress / 100.0f;
                     updatePreview();
                 }
@@ -175,9 +177,11 @@ public class DialEditorActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
                 if (fromUser) {
-                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size()) return;
+                    if (selectedLayerIndex < 0 || selectedLayerIndex >= layers.size())
+                        return;
                     DialLayer layer = layers.get(selectedLayerIndex);
-                    if (layer.locked) return;
+                    if (layer.locked)
+                        return;
                     layer.rotation = progress;
                     updatePreview();
                 }
@@ -441,7 +445,8 @@ public class DialEditorActivity extends AppCompatActivity {
 
     private void showAddElementDialog() {
         String[] catNames = getCategoryNames();
-        // Top-level: Background, Animated background, Scale (hour ring), then categories
+        // Top-level: Background, Animated background, Scale (hour ring), then
+        // categories
         String[] topLevel = new String[catNames.length + 3];
         topLevel[0] = getString(R.string.bg_image);
         topLevel[1] = "Agregar animación";
@@ -457,7 +462,7 @@ public class DialEditorActivity extends AppCompatActivity {
                     } else if (which == 1) {
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("*/*");
-                        String[] mimeTypes = {"image/gif", "video/mp4", "video/avi", "video/3gpp", "video/*"};
+                        String[] mimeTypes = { "image/gif", "video/mp4", "video/avi", "video/3gpp", "video/*" };
                         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
                         startActivityForResult(intent, PICK_ANIMATION_CODE);
                     } else if (which == 2) {
@@ -1604,12 +1609,14 @@ public class DialEditorActivity extends AppCompatActivity {
                     addBackgroundLayer(bmp, -1);
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Error: " + e.getClass().getSimpleName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error: " + e.getClass().getSimpleName() + ": " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == PICK_SVG_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             showSVGEditor(data.getData(), pendingElementType);
             pendingElementType = -1;
-        } else if (requestCode == PICK_ANIMATION_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        } else if (requestCode == PICK_ANIMATION_CODE && resultCode == RESULT_OK && data != null
+                && data.getData() != null) {
             Uri animUri = data.getData();
             String mime = getContentResolver().getType(animUri);
             boolean isGif = mime != null && mime.equals("image/gif");
@@ -1641,8 +1648,14 @@ public class DialEditorActivity extends AppCompatActivity {
                     r.setDataSource(this, animUri);
                     String s = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
                     durationMs = s != null ? Long.parseLong(s) : 0;
-                } catch (Exception e) { durationMs = 0; }
-                finally { try { r.release(); } catch (Exception ignored) {} }
+                } catch (Exception e) {
+                    durationMs = 0;
+                } finally {
+                    try {
+                        r.release();
+                    } catch (Exception ignored) {
+                    }
+                }
             }
             final long finalDuration = durationMs;
 
@@ -1662,51 +1675,74 @@ public class DialEditorActivity extends AppCompatActivity {
             tvCount.setText("→ " + estDefault + " frames (máx 30)");
 
             new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setPositiveButton("Importar", (dlg, w) -> {
-                    int checkedId = rg.getCheckedRadioButtonId();
-                    int ms = checkedId == R.id.rb100ms ? 100 : checkedId == R.id.rb500ms ? 500 : 200;
-                    android.app.ProgressDialog progress = new android.app.ProgressDialog(this);
-                    progress.setMessage("Extrayendo frames...");
-                    progress.setCancelable(false);
-                    progress.show();
-                    new Thread(() -> {
-                        Bitmap[] frames = isGif
-                            ? extractGifFrames(gifMovie, ms)
-                            : extractVideoFrames(animUri, ms);
-                        runOnUiThread(() -> {
-                            progress.dismiss();
-                            if (frames == null || frames.length == 0) {
-                                Toast.makeText(this, "No se pudo extraer frames", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, frames[0],
-                                getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
-                            layer.frames = frames;
-                            layer.frameCount = frames.length;
-                            layer.isSpriteSheet = true;
-                            float scaleToCover = Math.max(
-                                (float) canvasWidth / frames[0].getWidth(),
-                                (float) canvasHeight / frames[0].getHeight());
-                            layer.scale = scaleToCover;
-                            layer.posX = (canvasWidth - frames[0].getWidth() * scaleToCover) / 2f;
-                            layer.posY = (canvasHeight - frames[0].getHeight() * scaleToCover) / 2f;
-                            layer.locked = false;
-                            // Remove any existing background layer before adding the new animated one
-                            for (int i = layers.size() - 1; i >= 0; i--) {
-                                if (layers.get(i).layerType == DialLayer.TYPE_BACKGROUND) {
-                                    layers.remove(i);
+                    .setView(dialogView)
+                    .setPositiveButton("Importar", (dlg, w) -> {
+                        int checkedId = rg.getCheckedRadioButtonId();
+                        int ms = checkedId == R.id.rb100ms ? 100 : checkedId == R.id.rb500ms ? 500 : 200;
+                        EditText etInterval = dialogView.findViewById(R.id.etManualInterval);
+                        EditText etLimit = dialogView.findViewById(R.id.etMaxFrames);
+
+                        int finalMaxFrames = 30;
+                        try {
+                            String s = etLimit.getText().toString().trim();
+                            if (!s.isEmpty())
+                                finalMaxFrames = Integer.parseInt(s);
+                        } catch (Exception ignored) {
+                        }
+
+                        int finalMs = ms;
+                        try {
+                            String s = etInterval.getText().toString().trim();
+                            if (!s.isEmpty())
+                                finalMs = Integer.parseInt(s);
+                        } catch (Exception ignored) {
+                        }
+
+                        final int extractionMs = finalMs;
+                        final int extractionLimit = finalMaxFrames;
+
+                        android.app.ProgressDialog progress = new android.app.ProgressDialog(this);
+                        progress.setMessage("Extrayendo frames...");
+                        progress.setCancelable(false);
+                        progress.show();
+                        new Thread(() -> {
+                            Bitmap[] frames = isGif
+                                    ? extractGifFrames(gifMovie, extractionMs, extractionLimit)
+                                    : extractVideoFrames(animUri, extractionMs, extractionLimit);
+                            runOnUiThread(() -> {
+                                progress.dismiss();
+                                if (frames == null || frames.length == 0) {
+                                    Toast.makeText(this, "No se pudo extraer frames", Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
-                            }
-                            layers.add(0, layer);
-                            selectedLayerIndex = 0;
-                            Toast.makeText(this, "\u2713 " + frames.length + " frames importados", Toast.LENGTH_SHORT).show();
-                            refreshAll();
-                        });
-                    }).start();
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+                                DialLayer layer = new DialLayer(DialLayer.TYPE_BACKGROUND, frames[0],
+                                        getBlockLabel(DialCompiler.TYPE_BACKGROUND), DialCompiler.TYPE_BACKGROUND);
+                                layer.frames = frames;
+                                layer.frameCount = frames.length;
+                                layer.isSpriteSheet = true;
+                                float scaleToCover = Math.max(
+                                        (float) canvasWidth / frames[0].getWidth(),
+                                        (float) canvasHeight / frames[0].getHeight());
+                                layer.scale = scaleToCover;
+                                layer.posX = (canvasWidth - frames[0].getWidth() * scaleToCover) / 2f;
+                                layer.posY = (canvasHeight - frames[0].getHeight() * scaleToCover) / 2f;
+                                layer.locked = false;
+                                // Remove any existing background layer before adding the new animated one
+                                for (int i = layers.size() - 1; i >= 0; i--) {
+                                    if (layers.get(i).layerType == DialLayer.TYPE_BACKGROUND) {
+                                        layers.remove(i);
+                                    }
+                                }
+                                layers.add(0, layer);
+                                selectedLayerIndex = 0;
+                                Toast.makeText(this, "\u2713 " + frames.length + " frames importados",
+                                        Toast.LENGTH_SHORT).show();
+                                refreshAll();
+                            });
+                        }).start();
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
         }
     }
 
@@ -1720,7 +1756,8 @@ public class DialEditorActivity extends AppCompatActivity {
         // For now, just add.
 
         if (elementType == DialCompiler.TYPE_BACKGROUND) {
-            // Ensure ARGB_8888 for firmware compatibility (but don't stretch — preserve aspect ratio)
+            // Ensure ARGB_8888 for firmware compatibility (but don't stretch — preserve
+            // aspect ratio)
             if (bmp.getConfig() != Bitmap.Config.ARGB_8888) {
                 Bitmap argb = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(argb);
@@ -1747,9 +1784,10 @@ public class DialEditorActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("deprecation")
-    private Bitmap[] extractGifFrames(android.graphics.Movie movie, int intervalMs) {
+    private Bitmap[] extractGifFrames(android.graphics.Movie movie, int intervalMs, int maxFrames) {
         try {
-            if (movie == null) return null;
+            if (movie == null)
+                return null;
 
             int duration = movie.duration();
             List<Bitmap> frames = new ArrayList<>();
@@ -1761,14 +1799,15 @@ public class DialEditorActivity extends AppCompatActivity {
                 c.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
                 movie.setTime(0);
                 movie.draw(c, 0, 0);
-                return new Bitmap[]{bmp};
+                return new Bitmap[] { bmp };
             }
 
-            for (int t = 0; t < duration && frames.size() < 30; t += intervalMs) {
+            for (int t = 0; t < duration && frames.size() < maxFrames; t += intervalMs) {
                 Bitmap bmp = Bitmap.createBitmap(movie.width(), movie.height(), Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(bmp);
                 c.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
-                // movie.setTime() mutates the Movie object; caller must ensure no concurrent access
+                // movie.setTime() mutates the Movie object; caller must ensure no concurrent
+                // access
                 movie.setTime(t);
                 movie.draw(c, 0, 0);
                 frames.add(bmp);
@@ -1784,29 +1823,35 @@ public class DialEditorActivity extends AppCompatActivity {
         java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
         byte[] buf = new byte[4096];
         int n;
-        while ((n = is.read(buf)) != -1) bos.write(buf, 0, n);
+        while ((n = is.read(buf)) != -1)
+            bos.write(buf, 0, n);
         return bos.toByteArray();
     }
 
-    private Bitmap[] extractVideoFrames(Uri uri, int intervalMs) {
+    private Bitmap[] extractVideoFrames(Uri uri, int intervalMs, int maxFrames) {
         android.media.MediaMetadataRetriever retriever = new android.media.MediaMetadataRetriever();
         try {
             retriever.setDataSource(this, uri);
             String durationStr = retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
             long durationMs = durationStr != null ? Long.parseLong(durationStr) : 0;
-            if (durationMs == 0) return null;
+            if (durationMs == 0)
+                return null;
 
             List<Bitmap> frames = new ArrayList<>();
-            for (long t = 0; t < durationMs && frames.size() < 30; t += intervalMs) {
+            for (long t = 0; t < durationMs && frames.size() < maxFrames; t += intervalMs) {
                 Bitmap bmp = retriever.getFrameAtTime(t * 1000L, android.media.MediaMetadataRetriever.OPTION_CLOSEST);
-                if (bmp != null) frames.add(bmp);
+                if (bmp != null)
+                    frames.add(bmp);
             }
             return frames.toArray(new Bitmap[0]);
         } catch (Exception e) {
             Log.e(TAG, "Video decode failed", e);
             return null;
         } finally {
-            try { retriever.release(); } catch (Exception ignored) {}
+            try {
+                retriever.release();
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -2075,7 +2120,9 @@ public class DialEditorActivity extends AppCompatActivity {
                     name = name.replaceAll("[^a-zA-Z0-9_\\-]", "_");
 
                     // Check for duplicates
-                    File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
+                    File userDialsDir = new File(getFilesDir(), "user_dials");
+                    if (!userDialsDir.exists())
+                        userDialsDir.mkdirs();
                     File targetFile = new File(userDialsDir, name + ".bin");
                     boolean isSameNameAsEditing = suggestedDialName != null && suggestedDialName.equals(name);
                     if (targetFile.exists() && !isSameNameAsEditing) {
@@ -2151,7 +2198,8 @@ public class DialEditorActivity extends AppCompatActivity {
                             Bitmap bgBitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
                             Canvas bgCanvas = new Canvas(bgBitmap);
                             bgCanvas.drawColor(Color.BLACK);
-                            Bitmap layerBmp = (layer.frames != null && layer.frames.length > fi) ? layer.frames[fi] : layer.icon;
+                            Bitmap layerBmp = (layer.frames != null && layer.frames.length > fi) ? layer.frames[fi]
+                                    : layer.icon;
                             if (layerBmp != null) {
                                 Matrix m = new Matrix();
                                 m.postScale(layer.scale, layer.scale);
@@ -2232,7 +2280,9 @@ public class DialEditorActivity extends AppCompatActivity {
                 File outFile = compiler.compile(cacheDir, filename);
 
                 if (outFile != null && outFile.exists()) {
-                    File userDialsDir = DialLibraryActivity.getUserDialsDir(this);
+                    File userDialsDir = new File(getFilesDir(), "user_dials");
+                    if (!userDialsDir.exists())
+                        userDialsDir.mkdirs();
                     File savedFile = new File(userDialsDir, filename);
                     copyFile(outFile, savedFile);
 
@@ -2261,14 +2311,36 @@ public class DialEditorActivity extends AppCompatActivity {
                                         com.example.dialsender.ble.BleManager bleManager = com.example.dialsender.ble.BleManager
                                                 .getInstance(DialEditorActivity.this);
 
-                                        android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(
+                                        android.widget.LinearLayout layout = new android.widget.LinearLayout(
                                                 DialEditorActivity.this);
-                                        progressDialog.setTitle(getString(R.string.transfer));
-                                        progressDialog.setMessage(getString(R.string.waiting));
-                                        progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
-                                        progressDialog.setMax(100);
-                                        progressDialog.setIndeterminate(false);
-                                        progressDialog.setCancelable(false);
+                                        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+                                        layout.setPadding(50, 40, 50, 0);
+
+                                        android.widget.ProgressBar progressBar = new android.widget.ProgressBar(
+                                                DialEditorActivity.this, null,
+                                                android.R.attr.progressBarStyleHorizontal);
+                                        progressBar.setIndeterminate(false);
+                                        progressBar.setMax(100);
+                                        progressBar.setProgress(0);
+                                        layout.addView(progressBar);
+
+                                        android.widget.TextView progressText = new android.widget.TextView(
+                                                DialEditorActivity.this);
+                                        progressText.setText(getString(R.string.waiting));
+                                        progressText.setPadding(0, 20, 0, 0);
+                                        layout.addView(progressText);
+
+                                        androidx.appcompat.app.AlertDialog progressDialog = new AlertDialog.Builder(
+                                                DialEditorActivity.this)
+                                                .setTitle(getString(R.string.transfer))
+                                                .setView(layout)
+                                                .setNegativeButton("Cancelar", (d2, w2) -> {
+                                                    bleManager.cancelTransfer();
+                                                    bleManager.setListener(null);
+                                                })
+                                                .setCancelable(false)
+                                                .create();
+
                                         progressDialog.show();
 
                                         bleManager.setListener(
@@ -2289,8 +2361,8 @@ public class DialEditorActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onTransferProgress(int percent, long bytesTransferred,
                                                             long totalBytes) {
-                                                        progressDialog.setProgress(percent);
-                                                        progressDialog.setMessage(
+                                                        progressBar.setProgress(percent);
+                                                        progressText.setText(
                                                                 bytesTransferred + " / " + totalBytes + " bytes");
                                                     }
 

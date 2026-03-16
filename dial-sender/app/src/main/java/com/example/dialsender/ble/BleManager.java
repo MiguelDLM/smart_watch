@@ -284,7 +284,8 @@ public class BleManager {
 
     @SuppressLint("MissingPermission")
     public void reconnect(String address) {
-        if (isConnected || bluetoothGatt != null || address == null || bluetoothAdapter == null) return;
+        if (isConnected || bluetoothGatt != null || address == null || bluetoothAdapter == null)
+            return;
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         connect(device);
     }
@@ -567,7 +568,16 @@ public class BleManager {
 
             if (transferStatus == 0) {
                 if (isFileTransferActive && completed < total) {
-                    sendStreamChunk(completed);
+                    // Guard: only send next chunk if the offset actually advanced.
+                    // This prevents an infinite loop when the watch echoes back
+                    // completed=0 (or a stale offset) before the transfer truly begins.
+                    if (completed > lastTransferOffset || lastTransferOffset < 0) {
+                        lastTransferOffset = completed;
+                        sendStreamChunk(completed);
+                    } else {
+                        log("Progress stalled at " + completed + " (lastOffset=" + lastTransferOffset
+                                + ") — waiting for watch to advance");
+                    }
                 } else if (isFileTransferActive && completed >= total) {
                     log("=== Transfer Complete! ===");
                     isFileTransferActive = false;
@@ -575,6 +585,7 @@ public class BleManager {
                     commandQueue.clear();
                     isSending = false;
                     packetsSent = 0;
+                    lastTransferOffset = -1;
                     if (listener != null) {
                         handler.post(() -> listener.onTransferComplete());
                     }
@@ -638,6 +649,7 @@ public class BleManager {
         preTransferIndex = 0;
         setupStep = 0;
         isFileTransferActive = true;
+        lastTransferOffset = -1;
 
         log("Starting file transfer (" + fileTotalSize + " bytes)");
         startPreTransferSequence();
@@ -1166,11 +1178,13 @@ public class BleManager {
 
     public void sendNotification(int category, String title, String content, String packageName) {
         handler.post(() -> {
-            if (!isSessionReady()) return;
+            if (!isSessionReady())
+                return;
 
-            // Payload: [category:1B][timestamp:4B LE][package:32B][title:32B][content:250B null-term]
-            byte[] pkgBytes     = fixedBytes(packageName != null ? packageName : "", 32);
-            byte[] titleBytes   = fixedBytes(title != null ? title : "", 32);
+            // Payload: [category:1B][timestamp:4B LE][package:32B][title:32B][content:250B
+            // null-term]
+            byte[] pkgBytes = fixedBytes(packageName != null ? packageName : "", 32);
+            byte[] titleBytes = fixedBytes(title != null ? title : "", 32);
             byte[] contentBytes = limitedBytes(content != null ? content : "", 250);
 
             long ts = (System.currentTimeMillis() / 1000L) - 946684800L; // seconds since 2000-01-01
@@ -1178,12 +1192,14 @@ public class BleManager {
             int i = 0;
             payload[i++] = (byte) category;
             // timestamp 4 bytes little-endian
-            payload[i++] = (byte)(ts & 0xFF);
-            payload[i++] = (byte)((ts >> 8) & 0xFF);
-            payload[i++] = (byte)((ts >> 16) & 0xFF);
-            payload[i++] = (byte)((ts >> 24) & 0xFF);
-            System.arraycopy(pkgBytes, 0, payload, i, 32);   i += 32;
-            System.arraycopy(titleBytes, 0, payload, i, 32); i += 32;
+            payload[i++] = (byte) (ts & 0xFF);
+            payload[i++] = (byte) ((ts >> 8) & 0xFF);
+            payload[i++] = (byte) ((ts >> 16) & 0xFF);
+            payload[i++] = (byte) ((ts >> 24) & 0xFF);
+            System.arraycopy(pkgBytes, 0, payload, i, 32);
+            i += 32;
+            System.arraycopy(titleBytes, 0, payload, i, 32);
+            i += 32;
             System.arraycopy(contentBytes, 0, payload, i, contentBytes.length);
 
             byte[] frame = BleMessenger.buildFrame(BleKey.NOTIFICATION, BleKeyFlag.CREATE, payload, false);
@@ -1195,7 +1211,10 @@ public class BleManager {
         });
     }
 
-    /** Returns a null-padded byte array of exactly {@code len} bytes from {@code s} (UTF-8). */
+    /**
+     * Returns a null-padded byte array of exactly {@code len} bytes from {@code s}
+     * (UTF-8).
+     */
     private byte[] fixedBytes(String s, int len) {
         byte[] src = s.getBytes(java.nio.charset.StandardCharsets.UTF_8);
         byte[] dst = new byte[len];
@@ -1203,7 +1222,10 @@ public class BleManager {
         return dst;
     }
 
-    /** Returns UTF-8 bytes of {@code s}, truncated to {@code maxLen}, null-terminated. */
+    /**
+     * Returns UTF-8 bytes of {@code s}, truncated to {@code maxLen},
+     * null-terminated.
+     */
     private byte[] limitedBytes(String s, int maxLen) {
         byte[] src = s.getBytes(java.nio.charset.StandardCharsets.UTF_8);
         int len = Math.min(src.length, maxLen - 1);

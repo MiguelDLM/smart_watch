@@ -182,5 +182,6 @@
     <string name="nav_home">Inicio</string>
     <string name="nav_dials">Carátulas</string>
     <string name="nav_device">Dispositivo</string>
-    <string name="nav_health">Ajustes</string>
+    <string name="nav_health">Salud</string>
+    <string name="nav_settings">Ajustes</string>
 </resources>

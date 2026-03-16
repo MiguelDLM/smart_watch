@@ -25,13 +25,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 200);
+            if (checkSelfPermission(
+                    android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] { android.Manifest.permission.POST_NOTIFICATIONS }, 200);
             }
         }
 
-        // TODO: call stopService(new Intent(this, BleForegroundService.class)) on explicit disconnect
+        // TODO: call stopService(new Intent(this, BleForegroundService.class)) on
+        // explicit disconnect
         BleManager ble = BleManager.getInstance(this);
         if (ble.getLastDeviceAddress() != null) {
             Intent serviceIntent = new Intent(this, BleForegroundService.class);
@@ -41,6 +42,36 @@ public class MainActivity extends AppCompatActivity {
                 startService(serviceIntent);
             }
         }
+
+        // Auto-sync when the session becomes ready
+        ble.setListener(new BleManager.BleStateListener() {
+            @Override
+            public void onConnectionStateChange(boolean connected, boolean sessionReady) {
+                if (sessionReady) {
+                    ble.syncHealth();
+                }
+            }
+
+            @Override
+            public void onHealthDataReceived(String k, byte[] p) {
+            }
+
+            @Override
+            public void onHealthSyncComplete() {
+            }
+
+            @Override
+            public void onTransferProgress(int pct, long done, long tot) {
+            }
+
+            @Override
+            public void onTransferComplete() {
+            }
+
+            @Override
+            public void onLogUpdated() {
+            }
+        });
 
         bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -52,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_device) {
                 loadFragment(new DeviceFragment());
             } else if (id == R.id.nav_health) {
+                loadFragment(new StatusFragment());
+            } else if (id == R.id.nav_settings) {
                 loadFragment(new SettingsFragment());
             } else {
                 return false;

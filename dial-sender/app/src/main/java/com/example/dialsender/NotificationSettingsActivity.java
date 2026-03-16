@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -40,7 +39,8 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_settings);
-        if (getSupportActionBar() != null) getSupportActionBar().setTitle("Notificaciones");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("Notificaciones");
 
         pm = getPackageManager();
         prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -52,20 +52,35 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         LinearLayout banner = findViewById(R.id.bannerPermission);
         boolean hasPermission = isNotificationListenerEnabled();
         banner.setVisibility(hasPermission ? View.GONE : View.VISIBLE);
-        findViewById(R.id.btnGrantPermission).setOnClickListener(v ->
-                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
+        findViewById(R.id.btnGrantPermission)
+                .setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
 
-        // Load launcher apps
-        List<ApplicationInfo> launcherApps = new ArrayList<>();
-        Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
-        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        for (ResolveInfo ri : pm.queryIntentActivities(launcherIntent, 0)) {
-            launcherApps.add(ri.activityInfo.applicationInfo);
+        // Load ALL installed apps that are not pure system apps (no launcher icon)
+        List<ApplicationInfo> allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<ApplicationInfo> userApps = new ArrayList<>();
+        for (ApplicationInfo ai : allApps) {
+            // Include: non-system apps OR system apps that have a launchable intent
+            boolean isSystem = (ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+            if (!isSystem) {
+                userApps.add(ai);
+            } else {
+                // Also include system apps that have a launcher (like Phone, Messages)
+                Intent launchIntent = pm.getLaunchIntentForPackage(ai.packageName);
+                if (launchIntent != null) {
+                    userApps.add(ai);
+                }
+            }
         }
+        // Sort alphabetically
+        userApps.sort((a, b) -> {
+            String nameA = pm.getApplicationLabel(a).toString();
+            String nameB = pm.getApplicationLabel(b).toString();
+            return nameA.compareToIgnoreCase(nameB);
+        });
 
         RecyclerView rv = findViewById(R.id.rvApps);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(new AppAdapter(launcherApps));
+        rv.setAdapter(new AppAdapter(userApps));
     }
 
     @Override
@@ -86,7 +101,10 @@ public class NotificationSettingsActivity extends AppCompatActivity {
 
     class AppAdapter extends RecyclerView.Adapter<AppAdapter.VH> {
         private final List<ApplicationInfo> apps;
-        AppAdapter(List<ApplicationInfo> apps) { this.apps = apps; }
+
+        AppAdapter(List<ApplicationInfo> apps) {
+            this.apps = apps;
+        }
 
         @Override
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,21 +121,29 @@ public class NotificationSettingsActivity extends AppCompatActivity {
             h.sw.setOnCheckedChangeListener(null);
             h.sw.setChecked(enabledPackages.contains(ai.packageName));
             h.sw.setOnCheckedChangeListener((btn, checked) -> {
-                if (checked) enabledPackages.add(ai.packageName);
-                else enabledPackages.remove(ai.packageName);
+                if (checked)
+                    enabledPackages.add(ai.packageName);
+                else
+                    enabledPackages.remove(ai.packageName);
                 saveEnabledPackages();
             });
         }
 
-        @Override public int getItemCount() { return apps.size(); }
+        @Override
+        public int getItemCount() {
+            return apps.size();
+        }
 
         class VH extends RecyclerView.ViewHolder {
-            ImageView imgIcon; TextView tvName; SwitchMaterial sw;
+            ImageView imgIcon;
+            TextView tvName;
+            SwitchMaterial sw;
+
             VH(View v) {
                 super(v);
                 imgIcon = v.findViewById(R.id.imgAppIcon);
-                tvName  = v.findViewById(R.id.tvAppName);
-                sw      = v.findViewById(R.id.switchEnabled);
+                tvName = v.findViewById(R.id.tvAppName);
+                sw = v.findViewById(R.id.switchEnabled);
             }
         }
     }

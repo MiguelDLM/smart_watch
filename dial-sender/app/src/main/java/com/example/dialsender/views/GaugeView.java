@@ -125,7 +125,8 @@ public class GaugeView extends View {
         super.onDraw(canvas);
         int w = getWidth();
         int h = getHeight();
-        if (w == 0 || h == 0) return;
+        if (w == 0 || h == 0)
+            return;
 
         float stroke = STYLE_C.equals(gaugeStyle) ? STROKE_WIDTH_THIN : STROKE_WIDTH_NORMAL;
         trackPaint.setStrokeWidth(stroke);
@@ -159,9 +160,10 @@ public class GaugeView extends View {
             canvas.drawArc(oval, startAngle, sweep, false, arcPaint);
         }
 
-        float valueSp = w * 0.22f;
-        float labelSp = w * 0.10f;
-        float subSp   = w * 0.08f;
+        float referenceWidth = Math.min(w, h * 1.5f);
+        float valueSp = referenceWidth * 0.22f;
+        float labelSp = referenceWidth * 0.10f;
+        float subSp = referenceWidth * 0.08f;
         float textY;
         if (isSemi) {
             textY = top + arcDiameter / 2f + stroke;

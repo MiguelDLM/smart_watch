@@ -20,7 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.cardDialLibrary).setOnClickListener(v -> {
-            startActivity(new Intent(this, DialLibraryActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         });
 
         findViewById(R.id.cardHealthData).setOnClickListener(v -> {

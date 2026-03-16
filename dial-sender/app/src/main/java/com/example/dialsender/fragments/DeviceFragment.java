@@ -29,7 +29,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.dialsender.DialLibraryActivity;
 import com.example.dialsender.R;
 import com.example.dialsender.ble.BleManager;
 
@@ -46,7 +45,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private View statusIndicator;
     private TextView txtStatus;
     private Button btnConnect;
-    private View btnWatchFaceGallery;
 
     // BLE Log UI
     private TextView txtBleLog;
@@ -68,7 +66,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         statusIndicator = view.findViewById(R.id.statusIndicator);
         txtStatus = view.findViewById(R.id.txtStatus);
         btnConnect = view.findViewById(R.id.btnConnect);
-        btnWatchFaceGallery = view.findViewById(R.id.btnWatchFaceGallery);
 
         // BLE Log UI
         txtBleLog = view.findViewById(R.id.txtBleLog);
@@ -99,21 +96,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         bleManager.setListener(this);
 
         btnConnect.setOnClickListener(v -> handleConnect());
-        btnWatchFaceGallery.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), DialLibraryActivity.class);
-            startActivity(intent);
-        });
-
-        View btnWatchFaceBuilder = view.findViewById(R.id.btnWatchFaceBuilder);
-        btnWatchFaceBuilder.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), com.example.dialsender.DialEditorActivity.class);
-            startActivity(intent);
-        });
-
-        view.findViewById(R.id.btnNotificationSettings).setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), com.example.dialsender.NotificationSettingsActivity.class)));
-
-        // Log action buttons
         btnCopyLog.setOnClickListener(v -> copyLogToClipboard());
         btnSaveLog.setOnClickListener(v -> saveLogToFile());
         btnClearLog.setOnClickListener(v -> {

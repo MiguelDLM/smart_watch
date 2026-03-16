@@ -5,72 +5,67 @@
     android:orientation="vertical"
     android:background="@color/bg_primary">
 
-    <!-- Header -->
-    <LinearLayout
+    <!-- Header with title + create button -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingEnd="16dp"
         android:paddingTop="20dp"
         android:paddingBottom="12dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_dials"
-            style="@style/ScreenTitle"/>
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_dials"
+                style="@style/ScreenTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Biblioteca instalada"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Action Buttons top-right -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Biblioteca y creación"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
 
-    <!-- Tabs: Mis carátulas / Presets -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="14dp">
+            <ImageView
+                android:id="@+id/btnPickFile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_upload"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Select local dial"/>
 
-        <TextView
-            android:id="@+id/tabMyDials"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mis carátulas"
-            android:textColor="@color/accent_primary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:background="@drawable/bg_chip_active"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="true"
-            android:focusable="true"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCreateDial"
+                style="@style/ButtonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Nueva"
+                android:textSize="13sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"/>
 
-        <TextView
-            android:id="@+id/tabPresets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Presets"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            android:background="@drawable/bg_chip_inactive"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:clickable="true"
-            android:focusable="true"/>
-    </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <!-- Dial grid -->
     <androidx.recyclerview.widget.RecyclerView
@@ -81,17 +76,5 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:clipToPadding="false"/>
-
-    <!-- FAB: Create new dial -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateDial"
-        style="@style/ButtonPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+ Crear nueva carátula"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="16dp"/>
 
 </LinearLayout>

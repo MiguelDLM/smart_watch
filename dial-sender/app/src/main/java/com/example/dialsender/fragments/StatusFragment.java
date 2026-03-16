@@ -159,10 +159,18 @@ public class StatusFragment extends Fragment {
             // Map metric to gradient drawable
             int bgRes;
             switch (metric) {
-                case "heart_rate": bgRes = R.drawable.bg_card_heart; break;
-                case "calories":   bgRes = R.drawable.bg_card_calories; break;
-                case "sleep":      bgRes = R.drawable.bg_card_sleep; break;
-                default:           bgRes = R.drawable.bg_card_steps; break;
+                case "heart_rate":
+                    bgRes = R.drawable.bg_card_heart;
+                    break;
+                case "calories":
+                    bgRes = R.drawable.bg_card_calories;
+                    break;
+                case "sleep":
+                    bgRes = R.drawable.bg_card_sleep;
+                    break;
+                default:
+                    bgRes = R.drawable.bg_card_steps;
+                    break;
             }
 
             androidx.cardview.widget.CardView card = new androidx.cardview.widget.CardView(requireContext());
@@ -224,10 +232,12 @@ public class StatusFragment extends Fragment {
                 chart.getXAxis().setDrawGridLines(false);
                 chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                 chart.getXAxis().setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary));
+                chart.getXAxis().setTextSize(9f);
                 chart.getXAxis().setAxisMinimum(-0.5f);
                 chart.getXAxis().setAxisMaximum(numBuckets - 0.5f);
 
                 chart.getAxisLeft().setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary));
+                chart.getAxisLeft().setTextSize(9f);
                 chart.getAxisLeft().setAxisMinimum(0f);
                 chart.getAxisRight().setEnabled(false);
 
@@ -247,44 +257,53 @@ public class StatusFragment extends Fragment {
             healthContainer.addView(card);
         }
 
-        // Sleep phase card
-        String sleepData = prefs.getString(PREF_HEALTH_PREFIX + "sleep", "");
-        SleepAnalyzer.SleepResult sr = SleepAnalyzer.analyze(sleepData);
-        if (sr.totalMinutes > 0) {
-            // Title
-            TextView sleepTitle = new TextView(requireContext());
-            sleepTitle.setText("Sueño: " + (sr.totalMinutes/60) + "h " + (sr.totalMinutes%60) + "m");
-            sleepTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-            sleepTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
-            healthContainer.addView(sleepTitle);
+        // Sleep phase card (only in Day view)
+        if (currentRange == RANGE_DAY) {
+            String sleepDataStr = prefs.getString(PREF_HEALTH_PREFIX + "sleep", "");
+            SleepAnalyzer.SleepResult sr = SleepAnalyzer.analyze(sleepDataStr);
+            if (sr.totalMinutes > 0) {
+                // Title
+                TextView sleepTitle = new TextView(requireContext());
+                sleepTitle.setText("Detalle de Fases: " + (sr.totalMinutes / 60) + "h " + (sr.totalMinutes % 60) + "m");
+                sleepTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+                sleepTitle.setPadding(0, dpToPx(16), 0, dpToPx(8));
+                sleepTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
+                healthContainer.addView(sleepTitle);
 
-            // Bar chart with phase breakdown
-            BarChart chart = new BarChart(requireContext());
-            chart.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(180)));
-            List<BarEntry> entries = new ArrayList<>();
-            entries.add(new BarEntry(0, sr.deepMin));
-            entries.add(new BarEntry(1, sr.lightMin));
-            entries.add(new BarEntry(2, sr.remMin));
-            entries.add(new BarEntry(3, sr.awakeMin));
-            BarDataSet ds = new BarDataSet(entries, "Fases");
-            ds.setColors(
-                ContextCompat.getColor(requireContext(), R.color.accent_primary),
-                ContextCompat.getColor(requireContext(), R.color.accent_health),
-                0xFF9C27B0, // purple for REM
-                ContextCompat.getColor(requireContext(), R.color.text_secondary)
-            );
-            ds.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
-            chart.setData(new BarData(ds));
-            XAxis xAxis = chart.getXAxis();
-            xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(
-                    new String[]{"Profundo", "Ligero", "REM", "Despierto"}));
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            chart.getAxisRight().setEnabled(false);
-            chart.getLegend().setEnabled(false);
-            chart.getDescription().setEnabled(false);
-            chart.invalidate();
-            healthContainer.addView(chart);
+                // Bar chart with phase breakdown
+                BarChart chart = new BarChart(requireContext());
+                chart.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(150)));
+                List<BarEntry> entries = new ArrayList<>();
+                entries.add(new BarEntry(0, sr.deepMin));
+                entries.add(new BarEntry(1, sr.lightMin));
+                entries.add(new BarEntry(2, sr.remMin));
+                entries.add(new BarEntry(3, sr.awakeMin));
+                BarDataSet ds = new BarDataSet(entries, "Fases");
+                ds.setColors(
+                        ContextCompat.getColor(requireContext(), R.color.accent_primary),
+                        ContextCompat.getColor(requireContext(), R.color.accent_health),
+                        0xFF9C27B0, // purple for REM
+                        ContextCompat.getColor(requireContext(), R.color.text_secondary));
+                ds.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary));
+                ds.setValueTextSize(9f);
+                chart.setData(new BarData(ds));
+                XAxis xAxis = chart.getXAxis();
+                xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(
+                        new String[] { "Profundo", "Ligero", "REM", "Despierto" }));
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary));
+                xAxis.setTextSize(9f);
+                xAxis.setDrawGridLines(false);
+                chart.getAxisLeft().setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary));
+                chart.getAxisLeft().setTextSize(9f);
+                chart.getAxisRight().setEnabled(false);
+                chart.getLegend().setEnabled(false);
+                chart.getDescription().setEnabled(false);
+                chart.setTouchEnabled(false);
+                chart.invalidate();
+                healthContainer.addView(chart);
+            }
         }
     }
 

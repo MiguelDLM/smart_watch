@@ -1589,7 +1589,6 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         
         # Load image
         img = Image.open(img_path)
-<<<<<<< HEAD
         frms = max(1, int(block_meta.get('frms', 1)))
 
         # Determine color space from metadata FIRST
@@ -1608,11 +1607,6 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         target_total_height = int(block_meta.get('height', img.height // frms)) * frms
         if img.width != target_width or img.height != target_total_height:
             img = img.resize((target_width, target_total_height), Image.LANCZOS)
-=======
-        if img.mode != 'RGBA':
-            img = img.convert('RGBA')
-            
->>>>>>> e26b9a638 (fixed connection again)
         width, height = img.size
         
         # Determine color space and block type

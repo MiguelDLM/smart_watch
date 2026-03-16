@@ -150,87 +150,7 @@
 
         </LinearLayout>
 
-        <!-- Watch face shortcuts -->
-        <LinearLayout
-            android:id="@+id/btnWatchFaceGallery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_back"
-                android:rotation="180"
-                android:layout_marginEnd="14dp"
-                android:contentDescription="Gallery"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Watch Face Gallery"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="›"
-                android:textColor="@color/accent_primary"
-                android:textSize="20sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btnWatchFaceBuilder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_create"
-                android:layout_marginEnd="14dp"
-                android:contentDescription="Builder"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Watch Face Builder"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="›"
-                android:textColor="@color/accent_primary"
-                android:textSize="20sp"/>
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnNotificationSettings"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Notificaciones →"/>
 
         <!-- BLE Log section -->
         <LinearLayout
@@ -269,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="0dp"
-                android:text="Ocultar log"
+                android:text="Mostrar log"
                 android:textSize="11sp"
                 android:layout_gravity="end"
                 android:layout_marginBottom="4dp"
@@ -281,7 +201,8 @@
                 android:layout_height="160dp"
                 android:background="@color/bg_surface"
                 android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/txtBleLog"
@@ -297,7 +218,8 @@
                 android:id="@+id/logButtonsRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/btnCopyLog"
@@ -327,6 +249,7 @@
                     android:layout_height="38dp"
                     android:layout_weight="1"
                     android:text="Limpiar"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"
                     style="@style/ButtonDanger"/>
             </LinearLayout>
