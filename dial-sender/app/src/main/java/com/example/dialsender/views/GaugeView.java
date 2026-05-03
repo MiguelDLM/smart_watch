@@ -29,6 +29,7 @@ public class GaugeView extends View {
     private String subText = "";
     private int arcColor = Color.parseColor("#22D3EE");
     private String gaugeStyle = STYLE_A;
+    private float valueTextSizeMultiplier = 1.0f;
 
     private final RectF oval = new RectF();
     private static final int TRACK_COLOR = Color.parseColor("#1a2332");
@@ -120,6 +121,11 @@ public class GaugeView extends View {
         invalidate();
     }
 
+    public void setValueTextSizeMultiplier(float multiplier) {
+        this.valueTextSizeMultiplier = multiplier;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -161,7 +167,7 @@ public class GaugeView extends View {
         }
 
         float referenceWidth = Math.min(w, h * 1.5f);
-        float valueSp = referenceWidth * 0.22f;
+        float valueSp = referenceWidth * 0.22f * valueTextSizeMultiplier;
         float labelSp = referenceWidth * 0.10f;
         float subSp = referenceWidth * 0.08f;
         float textY;

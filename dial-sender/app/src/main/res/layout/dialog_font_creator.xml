@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_surface">
@@ -42,7 +43,28 @@
             android:layout_height="40dp"
             android:background="@color/bg_card"
             android:padding="8dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="4dp"/>
+
+    <!-- Custom source label and button -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Seleccionar archivo de fuente (.ttf)"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoadFont"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:icon="@android:drawable/ic_menu_agenda"
+        android:text="EXPLORAR ARCHIVOS..."
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"/>
 
         <!-- Language (Hidden by default) -->
         <LinearLayout
@@ -68,29 +90,32 @@
         </LinearLayout>
 
         <!-- Custom Text (Hidden by default) -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/lblCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Texto personalizado a dibujar"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerCustom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:visibility="gone"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEXT"
-                android:textStyle="bold"
-                android:layout_marginEnd="16dp"/>
-
-            <EditText
+            android:hint="Escribe aquí el texto"
+            android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtCustom"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint=": , ."
                 android:inputType="text"/>
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Digit Size -->
         <TextView

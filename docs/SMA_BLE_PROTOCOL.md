@@ -233,6 +233,13 @@ Example: `HEART_RATE` has mKey=0x0503 → command=5 (DATA), rawKey=3.
 | IDENTITY   | 0x0301 |  3  |  1  | Device binding          |
 | SESSION    | 0x0302 |  3  |  2  | Session login/persistence |
 
+### Key Settings/Control Keys (Command = 0x02 / SET)
+
+| BleKey     | mKey   | Cmd | Key | Description             |
+|------------|--------|-----|-----|-------------------------|
+| TIME       | 0x0201 |  2  |  1  | Set/sync device time    |
+| POWER      | 0x0203 |  2  |  3  | Read battery level (%)  |
+
 ### Key IO Keys (Command = 0x07 / IO)
 
 | BleKey     | mKey   | Cmd | Key | Description             |
@@ -254,6 +261,21 @@ Example: `HEART_RATE` has mKey=0x0503 → command=5 (DATA), rawKey=3.
 6. requestMtu(desired_mtu)
 7. onMtuChanged(mtu) → triggers bind or login
 ```
+
+### Reading Battery Level
+
+To read the battery level from the device:
+1. Send `READ` (0x10) request for `POWER` (0x0203):
+   `send(command=2, key=3, keyFlag=0x10)`
+   Frame: `AB 01 00 03 <CRC> 02 03 10`
+2. Device responds with `isReply=true` and a 1-byte payload containing the percentage (0-100).
+
+### Deleting Health Data
+
+To clear health data from the watch after successful sync:
+1. Send `DELETE` (0x30) request for the specific key (e.g., `ACTIVITY` 0x0502):
+   `send(command=5, key=2, keyFlag=0x30)`
+2. Device responds with `isReply=true` once the data is cleared.
 
 ### Auto-Reconnect
 

@@ -159,11 +159,12 @@ public class DialsFragment extends Fragment {
     }
 
     private void extractThumbnailsAsync() {
+        List<DialEntry> entriesToProcess = new ArrayList<>(dialEntries);
         new Thread(() -> {
             Python py = Python.getInstance();
             PyObject module = py.getModule("comp_decomp");
 
-            for (DialEntry entry : dialEntries) {
+            for (DialEntry entry : entriesToProcess) {
                 try {
                     File thumbFile = new File(requireContext().getCacheDir(),
                             "preview_" + entry.name.replace(".bin", ".png"));
@@ -238,12 +239,14 @@ public class DialsFragment extends Fragment {
             layout.addView(progressBar);
             layout.addView(msgView);
 
+            final boolean[] done = {false};
+
             androidx.appcompat.app.AlertDialog transferDialog = new AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.transfer))
                     .setView(layout)
                     .setNegativeButton("Cancelar", (d, w) -> {
+                        done[0] = true;
                         bleManager.cancelTransfer();
-                        bleManager.setListener(null);
                     })
                     .setCancelable(false)
                     .create();
@@ -264,17 +267,29 @@ public class DialsFragment extends Fragment {
 
                 @Override
                 public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {
+                    if (done[0]) return;
                     progressBar.setProgress(percent);
                     msgView.setText(bytesTransferred + " / " + totalBytes + " bytes");
                 }
 
                 @Override
                 public void onTransferComplete() {
+                    if (done[0]) return;
+                    done[0] = true;
                     transferDialog.dismiss();
                     if (isAdded()) {
                         Toast.makeText(requireContext(), R.string.dial_sent_ok, Toast.LENGTH_LONG).show();
                     }
-                    bleManager.setListener(null);
+                }
+
+                @Override
+                public void onTransferFailed(String reason) {
+                    if (done[0]) return;
+                    done[0] = true;
+                    transferDialog.dismiss();
+                    if (isAdded()) {
+                        Toast.makeText(requireContext(), "Transfer failed: " + reason, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -321,12 +336,14 @@ public class DialsFragment extends Fragment {
             layout.addView(progressBar);
             layout.addView(msgView);
 
+            final boolean[] done = {false};
+
             androidx.appcompat.app.AlertDialog transferDialog = new AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.transfer))
                     .setView(layout)
                     .setNegativeButton("Cancelar", (d, w) -> {
+                        done[0] = true;
                         bleManager.cancelTransfer();
-                        bleManager.setListener(null);
                     })
                     .setCancelable(false)
                     .create();
@@ -347,17 +364,29 @@ public class DialsFragment extends Fragment {
 
                 @Override
                 public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {
+                    if (done[0]) return;
                     progressBar.setProgress(percent);
                     msgView.setText(bytesTransferred + " / " + totalBytes + " bytes");
                 }
 
                 @Override
                 public void onTransferComplete() {
+                    if (done[0]) return;
+                    done[0] = true;
                     transferDialog.dismiss();
                     if (isAdded()) {
                         Toast.makeText(requireContext(), R.string.dial_sent_ok, Toast.LENGTH_LONG).show();
                     }
-                    bleManager.setListener(null);
+                }
+
+                @Override
+                public void onTransferFailed(String reason) {
+                    if (done[0]) return;
+                    done[0] = true;
+                    transferDialog.dismiss();
+                    if (isAdded()) {
+                        Toast.makeText(requireContext(), "Transfer failed: " + reason, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override

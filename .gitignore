@@ -6,6 +6,7 @@ __pycache__/
 *.bin
 *.log
 *.apk
+dials/*_extracted/
 decompiled_apk/
 hk89comp_decomp/
 hk89comp_decomp.tgz

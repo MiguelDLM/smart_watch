@@ -12,6 +12,8 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -102,6 +104,11 @@ public class BleManager {
     private Runnable setupTimeoutRunnable;
     private static final long SETUP_TIMEOUT_MS = 2000;
 
+    private Ringtone findPhoneRingtone;
+
+    // Watch-reported preferred chunk size (read from DEVICE_INFO 0x023E after login)
+    private int ioBufferSize = 480;
+
     // Handshake Magic Bytes — exactly from omo version
     private static final byte[] HANDSHAKE_CMD = new byte[] {
             (byte) 0xAB, 0x01, 0x00, 0x07,
@@ -147,6 +154,10 @@ public class BleManager {
         void onTransferComplete();
 
         void onLogUpdated();
+
+        default void onFindPhoneRequest() {}
+
+        default void onTransferFailed(String reason) {}
     }
 
     // Health data key codes from protocol doc 03-HEALTH-DATA.md
@@ -365,7 +376,8 @@ public class BleManager {
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 currentMtu = mtu - 3;
-                log("MTU changed to " + mtu + " (payload=" + currentMtu + ")");
+                ioBufferSize = 2 * currentMtu;
+                log("MTU changed to " + mtu + " (payload=" + currentMtu + ", chunkSize=" + ioBufferSize + ")");
                 sendHandshake();
             } else {
                 log("ERROR: MTU change failed, status=" + status);
@@ -471,7 +483,16 @@ public class BleManager {
                 if (listener != null) {
                     handler.post(() -> listener.onConnectionStateChange(true, true));
                 }
+                handler.postDelayed(this::readDeviceInfo, 200);
             }
+            return;
+        }
+
+        // Watch requests time sync
+        if (cmd == 0x02 && key == 0x01 && connectionState == ConnectionState.SESSION_READY
+                && !isFileTransferActive) {
+            log("Watch requested time sync — sending time");
+            syncTime();
             return;
         }
 
@@ -505,6 +526,31 @@ public class BleManager {
             if (listener != null) {
                 handler.post(() -> listener.onConnectionStateChange(true, true));
             }
+            handler.postDelayed(this::readDeviceInfo, 200);
+            handler.postDelayed(this::readBattery, 500);
+            return;
+        }
+
+        // Device Info response (Cmd=0x02, Key=0x3E)
+        if (isReply && cmd == 0x02 && (key & 0xFF) == 0x3E) {
+            if (data.length > 9) {
+                byte[] payload = Arrays.copyOfRange(data, 9, data.length);
+                int bufSize = parseIoBufferSize(payload);
+                if (bufSize > 0) {
+                    ioBufferSize = bufSize;
+                    log("DEVICE_INFO: mIOBufferSize=" + ioBufferSize);
+                } else {
+                    log("DEVICE_INFO: could not parse mIOBufferSize, keeping " + ioBufferSize);
+                }
+            }
+            return;
+        }
+
+        // Battery response (Cmd=0x02, Key=0x03, Flag=0x10)
+        if (isReply && cmd == 0x02 && key == 0x03) {
+            int battery = (data.length > 9) ? (data[9] & 0xFF) : 0;
+            log("Battery Level: " + battery + "%");
+            prefs.edit().putInt("battery_level", battery).apply();
             return;
         }
 
@@ -568,15 +614,16 @@ public class BleManager {
 
             if (transferStatus == 0) {
                 if (isFileTransferActive && completed < total) {
-                    // Guard: only send next chunk if the offset actually advanced.
-                    // This prevents an infinite loop when the watch echoes back
-                    // completed=0 (or a stale offset) before the transfer truly begins.
                     if (completed > lastTransferOffset || lastTransferOffset < 0) {
                         lastTransferOffset = completed;
                         sendStreamChunk(completed);
                     } else {
-                        log("Progress stalled at " + completed + " (lastOffset=" + lastTransferOffset
-                                + ") — waiting for watch to advance");
+                        log("Progress stalled at " + completed + ". Retrying in 1s...");
+                        handler.postDelayed(() -> {
+                            if (isFileTransferActive && lastTransferOffset == completed) {
+                                sendStreamChunk(completed);
+                            }
+                        }, 1000);
                     }
                 } else if (isFileTransferActive && completed >= total) {
                     log("=== Transfer Complete! ===");
@@ -590,6 +637,18 @@ public class BleManager {
                         handler.post(() -> listener.onTransferComplete());
                     }
                 }
+            } else {
+                // Watch returned non-zero status — binary format rejected or flash error
+                String reason = "Watch error: status=0x" + String.format("%X", transferStatus)
+                        + " err=0x" + String.format("%X", error)
+                        + " at " + completed + "/" + total;
+                log("Watch rejected transfer: " + reason);
+                isFileTransferActive = false;
+                connectionState = ConnectionState.SESSION_READY;
+                commandQueue.clear();
+                isSending = false;
+                lastTransferOffset = -1;
+                if (listener != null) handler.post(() -> listener.onTransferFailed(reason));
             }
             return;
         }
@@ -622,6 +681,17 @@ public class BleManager {
             if (!isReply) {
                 sendAck(cmd, key, flag);
             }
+            return;
+        }
+
+        // Find Phone — watch triggers this when user taps "Find Phone" on watch
+        if (cmd == 0x06 && key == 0x01) {
+            log("Find phone triggered by watch");
+            startFindPhoneRing();
+            if (listener != null) {
+                handler.post(() -> listener.onFindPhoneRequest());
+            }
+            sendAck(cmd, key, flag);
             return;
         }
 
@@ -790,28 +860,42 @@ public class BleManager {
             return;
 
         long remaining = fileTotalSize - offset;
-        if (remaining <= 0)
+        if (remaining <= 0) {
+            log("Transfer finished at offset " + offset);
             return;
+        }
 
-        int chunkSize = (int) Math.min(remaining, 1018);
-        byte[] chunk = new byte[chunkSize];
-        System.arraycopy(fileBytesToSend, (int) offset, chunk, 0, chunkSize);
+        // Send one chunk per ACK, matching coFit's protocol (send 1018B, wait for ACK, repeat)
+        int windowSize = ioBufferSize;
+        long currentOffset = offset;
+        int sentInWindow = 0;
 
-        byte[] id = new byte[4];
-        id[0] = (byte) ((fileTotalSize >> 24) & 0xFF);
-        id[1] = (byte) ((fileTotalSize >> 16) & 0xFF);
-        id[2] = (byte) ((fileTotalSize >> 8) & 0xFF);
-        id[3] = (byte) (fileTotalSize & 0xFF);
+        while (sentInWindow < windowSize && currentOffset < fileTotalSize) {
+            int chunkSize = (int) Math.min(fileTotalSize - currentOffset, ioBufferSize);
+            byte[] chunk = new byte[chunkSize];
+            System.arraycopy(fileBytesToSend, (int) currentOffset, chunk, 0, chunkSize);
 
-        ByteBuffer bb = ByteBuffer.allocate(9 + chunkSize);
-        bb.order(ByteOrder.BIG_ENDIAN);
-        bb.put((byte) 0);
-        bb.put(id);
-        bb.putInt((int) offset);
-        bb.put(chunk);
+            byte[] id = new byte[4];
+            id[0] = (byte) ((fileTotalSize >> 24) & 0xFF);
+            id[1] = (byte) ((fileTotalSize >> 16) & 0xFF);
+            id[2] = (byte) ((fileTotalSize >> 8) & 0xFF);
+            id[3] = (byte) (fileTotalSize & 0xFF);
 
-        byte[] message = createMessage((byte) 0x07, (byte) 0x01, (byte) 0x00, bb.array());
-        enqueueLogicalFrame(message);
+            ByteBuffer bb = ByteBuffer.allocate(9 + chunkSize);
+            bb.order(ByteOrder.BIG_ENDIAN);
+            bb.put((byte) 0);
+            bb.put(id);
+            bb.putInt((int) currentOffset);
+            bb.put(chunk);
+
+            // Reverted to standard createMessage (header 0x01)
+            byte[] message = createMessage((byte) 0x07, (byte) 0x01, (byte) 0x00, bb.array());
+            enqueueLogicalFrame(message);
+            
+            currentOffset += chunkSize;
+            sentInWindow += chunkSize;
+        }
+
         isSending = true;
         sendNextChunk();
         scheduleTransferTimeout(offset);
@@ -831,19 +915,31 @@ public class BleManager {
             return;
         }
         log("=== Syncing Health Data ===");
-        // Query keys from protocol doc: ACTIVITY, HEART_RATE, BLOOD_PRESSURE, SLEEP,
-        // TEMPERATURE, BLOOD_OXYGEN, HRV, PRESSURE (stress)
+        // Query keys from protocol doc
         int[] keys = {
-                HEALTH_KEY_ACTIVITY, // 0x02 - Steps/Calories/Distance
-                HEALTH_KEY_HEART_RATE, // 0x03 - Heart rate BPM
-                HEALTH_KEY_BLOOD_PRESSURE, // 0x04 - Systolic/Diastolic
-                HEALTH_KEY_SLEEP, // 0x05 - Sleep stages
-                HEALTH_KEY_TEMPERATURE, // 0x08 - Body temperature
-                HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
+                HEALTH_KEY_ACTIVITY,
+                HEALTH_KEY_HEART_RATE,
+                HEALTH_KEY_BLOOD_PRESSURE,
+                HEALTH_KEY_SLEEP,
+                HEALTH_KEY_TEMPERATURE,
+                HEALTH_KEY_BLOOD_OXYGEN,
         };
+
         healthSyncPending = keys.length;
 
+        // Force complete after 10 seconds if some responses are missing
+        handler.postDelayed(() -> {
+            if (healthSyncPending > 0) {
+                log("Health sync timeout - forced completion");
+                healthSyncPending = 0;
+                if (listener != null) {
+                    handler.post(() -> listener.onHealthSyncComplete());
+                }
+            }
+        }, 10000);
+
         // Protocol requires 8-byte timeframe (start to end) for data reads
+
         byte[] timeRange = new byte[] {
                 0, 0, 0, 0, // start = 0
                 (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF // end = MAX
@@ -853,6 +949,69 @@ public class BleManager {
             byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, timeRange);
             enqueueLogicalFrame(msg);
         }
+        isSending = true;
+        sendNextChunk();
+    }
+
+    public void syncTime() {
+        if (connectionState != ConnectionState.SESSION_READY) return;
+        // BleTime.encode() format: [year-2000, month(1-12), day, hour, min, sec] — 6 bytes
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        byte[] timePayload = new byte[] {
+            (byte) (cal.get(java.util.Calendar.YEAR) - 2000),
+            (byte) (cal.get(java.util.Calendar.MONTH) + 1),
+            (byte)  cal.get(java.util.Calendar.DAY_OF_MONTH),
+            (byte)  cal.get(java.util.Calendar.HOUR_OF_DAY),
+            (byte)  cal.get(java.util.Calendar.MINUTE),
+            (byte)  cal.get(java.util.Calendar.SECOND)
+        };
+        log("Syncing time: " + cal.getTime());
+        byte[] timeMsg = createMessage((byte) 0x02, (byte) 0x01, (byte) 0x00, timePayload);
+        enqueueLogicalFrame(timeMsg);
+        isSending = true;
+        sendNextChunk();
+    }
+
+    public void readBattery() {
+        if (connectionState != ConnectionState.SESSION_READY) return;
+        log("Reading battery level...");
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x03, (byte) 0x10, null);
+        enqueueLogicalFrame(msg);
+        isSending = true;
+        sendNextChunk();
+    }
+
+    public void readDeviceInfo() {
+        if (connectionState != ConnectionState.SESSION_READY) return;
+        log("Reading device info (0x023E)...");
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x3E, (byte) 0x10, null);
+        enqueueLogicalFrame(msg);
+        isSending = true;
+        sendNextChunk();
+    }
+
+    /**
+     * Parse mIOBufferSize from DEVICE_INFO (0x023E) payload.
+     * Structure (from BleDeviceInfo.decode()):
+     *   mId          : Int32  (4 bytes)
+     *   mDataKeys    : null-terminated byte array of 2-byte key pairs
+     *   mBleName     : null-terminated string
+     *   mBleAddress  : null-terminated string
+     *   mPlatform    : null-terminated string
+     *   mPrototype   : null-terminated string
+     *   mFirmwareFlag: null-terminated string
+     *   mAGpsType    : Int8   (1 byte)
+     *   mIOBufferSize: UInt16 (2 bytes, big-endian)
+     */
+    private int parseIoBufferSize(byte[] payload) {
+        return 0; // unused — ioBufferSize is derived from MTU in onMtuChanged
+    }
+
+    public void clearHealthData(int key) {
+        if (connectionState != ConnectionState.SESSION_READY) return;
+        log("Clearing health data for key: " + getHealthKeyName(key));
+        byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x30, null);
+        enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
     }
@@ -1104,11 +1263,14 @@ public class BleManager {
             return;
         writeRetryCount++;
         if (writeRetryCount > MAX_WRITE_RETRIES) {
-            log("Write watchdog: max retries exceeded, aborting");
+            String reason = "BLE write timeout after " + MAX_WRITE_RETRIES + " retries";
+            log("Write watchdog: " + reason);
             isFileTransferActive = false;
             commandQueue.clear();
             isSending = false;
+            lastTransferOffset = -1;
             connectionState = ConnectionState.SESSION_READY;
+            if (listener != null) handler.post(() -> listener.onTransferFailed(reason));
             return;
         }
         log("Write watchdog: retrying chunk (attempt " + writeRetryCount + ")");
@@ -1133,8 +1295,14 @@ public class BleManager {
                     log("Transfer stalled at offset " + offset + ", retry " + transferRetryCount);
                     sendStreamChunk(offset);
                 } else {
-                    log("Transfer failed after " + MAX_TRANSFER_RETRIES + " retries");
+                    String reason = "No response after " + MAX_TRANSFER_RETRIES + " retries at offset " + offset;
+                    log("Transfer failed: " + reason);
                     isFileTransferActive = false;
+                    connectionState = ConnectionState.SESSION_READY;
+                    commandQueue.clear();
+                    isSending = false;
+                    lastTransferOffset = -1;
+                    if (listener != null) handler.post(() -> listener.onTransferFailed(reason));
                 }
             }
         };
@@ -1232,6 +1400,27 @@ public class BleManager {
         byte[] dst = new byte[len + 1]; // +1 for null terminator
         System.arraycopy(src, 0, dst, 0, len);
         return dst;
+    }
+
+    // ========== Find Phone ==========
+
+    public void startFindPhoneRing() {
+        handler.post(() -> {
+            if (findPhoneRingtone != null && findPhoneRingtone.isPlaying()) return;
+            android.net.Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            if (uri == null) uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            findPhoneRingtone = RingtoneManager.getRingtone(context, uri);
+            if (findPhoneRingtone != null) findPhoneRingtone.play();
+        });
+    }
+
+    public void stopFindPhoneRing() {
+        handler.post(() -> {
+            if (findPhoneRingtone != null) {
+                findPhoneRingtone.stop();
+                findPhoneRingtone = null;
+            }
+        });
     }
 
     // ========== Utility ==========

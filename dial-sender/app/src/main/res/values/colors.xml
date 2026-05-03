@@ -15,6 +15,7 @@
     <color name="accent_danger">#F85149</color>
     <color name="accent_warning">#F0883E</color>
     <color name="accent_purple">#BC8CFF</color>
+    <color name="accent_pink">#F472B6</color>
 
     <!-- Text -->
     <color name="text_primary">#F0F6FC</color>

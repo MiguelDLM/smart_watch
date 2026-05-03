@@ -26,6 +26,9 @@ public class DialLayer {
     public boolean isSpriteSheet = false;
     public boolean locked = false;
 
+    // Animation interval (ms per frame, for TYPE_ANIM blocks only)
+    public int animIntervalMs = 100;
+
     // Full composite bitmap for sprite-sheets loaded from file
     public Bitmap compositeImage;
 

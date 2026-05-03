@@ -39,6 +39,7 @@ public class StatusFragment extends Fragment {
     private static final int RANGE_DAY = 0;
     private static final int RANGE_WEEK = 1;
     private static final int RANGE_MONTH = 2;
+    private static final int RANGE_ALL = 3;
 
     private LinearLayout healthContainer;
     private SharedPreferences prefs;
@@ -81,6 +82,8 @@ public class StatusFragment extends Fragment {
                     currentRange = RANGE_WEEK;
                 } else if (checkedId == R.id.btnRangeMonth) {
                     currentRange = RANGE_MONTH;
+                } else if (checkedId == R.id.btnRangeAll) {
+                    currentRange = RANGE_ALL;
                 }
                 renderMetrics();
             }
@@ -113,9 +116,15 @@ public class StatusFragment extends Fragment {
             rangeStart = todayStart - 6 * 86400; // 7 days total including today
             numBuckets = 7;
             bucketSize = 86400;
-        } else {
+        } else if (currentRange == RANGE_MONTH) {
             rangeStart = todayStart - 29 * 86400; // 30 days
             numBuckets = 30;
+            bucketSize = 86400;
+        } else {
+            rangeStart = findEarliestTimestamp();
+            numBuckets = (int) ((now - rangeStart) / 86400) + 1;
+            if (numBuckets <= 0)
+                numBuckets = 1;
             bucketSize = 86400;
         }
 
@@ -123,9 +132,17 @@ public class StatusFragment extends Fragment {
             String history = prefs.getString(PREF_HEALTH_PREFIX + metric, "");
             int latestToday = 0;
             float[] buckets = new float[numBuckets];
+            float[][] sleepStacks = null; // [bucketIdx][0:Deep, 1:Light, 2:REM]
+
+            if (metric.equals("sleep") && currentRange != RANGE_DAY) {
+                sleepStacks = new float[numBuckets][3];
+            }
 
             if (!history.isEmpty()) {
                 String[] entries = history.split(",");
+                long lastTs = -1;
+                int lastMode = -1;
+
                 for (String entry : entries) {
                     long ts = 0;
                     int val = 0;
@@ -138,20 +155,43 @@ public class StatusFragment extends Fragment {
                         }
                     } else {
                         val = parseIntSafe(entry);
-                        ts = todayStart + 3600; // Fake recent time for backwards compatibility
+                        ts = todayStart + 3600;
                     }
 
                     if (ts >= rangeStart && ts <= now + 86400) {
                         int bucketIdx = (int) ((ts - rangeStart) / bucketSize);
                         if (bucketIdx >= 0 && bucketIdx < numBuckets) {
-                            if (val > buckets[bucketIdx]) {
+                            if (metric.equals("sleep") && currentRange != RANGE_DAY) {
+                                // Accumulate durations based on time gaps
+                                if (lastTs != -1 && ts > lastTs) {
+                                    int lastBucketIdx = (int) ((lastTs - rangeStart) / bucketSize);
+                                    if (lastBucketIdx >= 0 && lastBucketIdx < numBuckets) {
+                                        float deltaHours = (ts - lastTs) / 3600f;
+                                        if (lastMode == 1)
+                                            sleepStacks[lastBucketIdx][0] += deltaHours; // Deep
+                                        else if (lastMode == 2 || lastMode == 8)
+                                            sleepStacks[lastBucketIdx][1] += deltaHours; // Light
+                                        else if (lastMode == 9)
+                                            sleepStacks[lastBucketIdx][2] += deltaHours; // REM
+                                    }
+                                }
+                                lastTs = ts;
+                                lastMode = val;
+                            } else if (metric.equals("sleep") && currentRange == RANGE_DAY) {
+                                buckets[bucketIdx] = val; // Just mode for day chart
+                            } else if (val > buckets[bucketIdx]) {
                                 buckets[bucketIdx] = val;
                             }
                         }
-                    }
-
-                    if (ts >= todayStart || !entry.contains(":")) {
-                        latestToday = val;
+                        if (ts >= todayStart && ts <= now) {
+                            if (metric.equals("sleep")) {
+                                // For the headline value, we still show the total of the last session
+                                if (lastTs != -1)
+                                    latestToday = (int) SleepAnalyzer.analyze(history).totalMinutes / 60;
+                            } else {
+                                latestToday = val;
+                            }
+                        }
                     }
                 }
             }
@@ -211,9 +251,15 @@ public class StatusFragment extends Fragment {
             List<BarEntry> chartEntries = new ArrayList<>();
             boolean hasData = false;
             for (int i = 0; i < numBuckets; i++) {
-                chartEntries.add(new BarEntry(i, buckets[i]));
-                if (buckets[i] > 0)
-                    hasData = true;
+                if (sleepStacks != null) {
+                    chartEntries.add(new BarEntry(i, sleepStacks[i]));
+                    if (sleepStacks[i][0] > 0 || sleepStacks[i][1] > 0 || sleepStacks[i][2] > 0)
+                        hasData = true;
+                } else {
+                    chartEntries.add(new BarEntry(i, buckets[i]));
+                    if (buckets[i] > 0)
+                        hasData = true;
+                }
             }
 
             if (hasData || history.isEmpty()) {
@@ -223,6 +269,15 @@ public class StatusFragment extends Fragment {
 
                 BarData barData = new BarData(dataSet);
                 barData.setBarWidth(0.7f);
+
+                if (sleepStacks != null) {
+                    dataSet.setColors(new int[] {
+                            ContextCompat.getColor(requireContext(), R.color.accent_purple), // Deep
+                            ContextCompat.getColor(requireContext(), R.color.accent_primary), // Light
+                            ContextCompat.getColor(requireContext(), R.color.accent_pink) // REM
+                    });
+                    dataSet.setStackLabels(new String[] { "Profundo", "Ligero", "REM" });
+                }
 
                 BarChart chart = new BarChart(requireContext());
                 chart.setData(barData);
@@ -320,6 +375,25 @@ public class StatusFragment extends Fragment {
         cal.set(java.util.Calendar.SECOND, 0);
         cal.set(java.util.Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis() / 1000;
+    }
+
+    private long findEarliestTimestamp() {
+        long earliest = System.currentTimeMillis() / 1000;
+        for (String metric : METRICS) {
+            String history = prefs.getString(PREF_HEALTH_PREFIX + metric, "");
+            if (!history.isEmpty()) {
+                String firstEntry = history.split(",")[0];
+                if (firstEntry.contains(":")) {
+                    try {
+                        long ts = Long.parseLong(firstEntry.split(":")[0]);
+                        if (ts < earliest)
+                            earliest = ts;
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+        }
+        return earliest;
     }
 
     private int parseIntSafe(String value) {
