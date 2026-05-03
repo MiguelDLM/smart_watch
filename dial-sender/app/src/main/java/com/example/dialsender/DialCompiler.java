@@ -111,7 +111,7 @@ public class DialCompiler {
             case TYPE_BERRY:
                 return "BLK_BERRY";
             case TYPE_ANIM:
-                return "BLK_ANIM";
+                return "BLK_ANIMPART";
             case TYPE_BATT_STRIP:
                 return "BLK_BATTS";
             case TYPE_WEATHER:
@@ -234,13 +234,14 @@ public class DialCompiler {
      */
     public static int getDefaultFrameCount(int type) {
         switch (type) {
+            case TYPE_DISTANCE:
+                return 11; // digits 0-9 + '.'
             case TYPE_DIGITAL_HOUR:
             case TYPE_DIGITAL_MIN:
             case TYPE_SECONDS:
             case TYPE_STEPS:
             case TYPE_HEART:
             case TYPE_CALORIE:
-            case TYPE_DISTANCE:
             case TYPE_DAY:
             case TYPE_YEAR:
             case TYPE_HOUR_LO:
@@ -424,6 +425,7 @@ public class DialCompiler {
         public Bitmap[] images;
         public boolean hasAlpha = false;
         public int compress = 4; // Default to RLE (4=RLE in comp_decomp)
+        public int animIntervalMs = 0; // For TYPE_ANIM: frame duration in ms (stored as centX)
 
         /**
          * Returns the color space string for the dial_desc.json.
@@ -476,10 +478,34 @@ public class DialCompiler {
             jsonBlock.put("posx", block.x);
             jsonBlock.put("posy", block.y);
             jsonBlock.put("w", block.width);
-            int alignment = (block.type == TYPE_PREVIEW || block.type == TYPE_BACKGROUND) ? 0 : 9;
+            // align=0 for hands, align=10 for numeric scroll elements, align=9 for rest
+            int alignment;
+            if (block.type == TYPE_ARM_HOUR || block.type == TYPE_ARM_MIN || block.type == TYPE_ARM_SEC) {
+                alignment = 0;
+            } else if (block.type == TYPE_DIGITAL_HOUR || block.type == TYPE_DIGITAL_MIN ||
+                    block.type == TYPE_SECONDS || block.type == TYPE_STEPS || block.type == TYPE_HEART ||
+                    block.type == TYPE_CALORIE || block.type == TYPE_DISTANCE || block.type == TYPE_BATTERY ||
+                    block.type == TYPE_TEMP || block.type == TYPE_DAY || block.type == TYPE_MONTH ||
+                    block.type == TYPE_YEAR || block.type == TYPE_HOUR_HI || block.type == TYPE_HOUR_LO ||
+                    block.type == TYPE_MIN_HI || block.type == TYPE_MIN_LO) {
+                alignment = 10;
+            } else {
+                alignment = 9;
+            }
             jsonBlock.put("alnx", alignment);
-            jsonBlock.put("ctx", 0);
-            jsonBlock.put("cty", 0);
+            // centX for ANIM = frame interval in 10ms units (animIntervalMs / 10)
+            if (block.type == TYPE_ANIM) {
+                jsonBlock.put("ctx", block.animIntervalMs / 10);
+                jsonBlock.put("cty", 0);
+            } else if (block.type == TYPE_ARM_HOUR || block.type == TYPE_ARM_MIN || block.type == TYPE_ARM_SEC) {
+                // Heuristic for hands: pivot at middle-bottom (with 20px tail)
+                // cty=tail length from bottom. ctx=center of image.
+                jsonBlock.put("ctx", block.width / 2);
+                jsonBlock.put("cty", 20); 
+            } else {
+                jsonBlock.put("ctx", 0);
+                jsonBlock.put("cty", 0);
+            }
             Bitmap imageToSave = combineBitmapsVertically(block.images);
             File imgFile = new File(tempDir, imgFilename);
             try (FileOutputStream fos = new FileOutputStream(imgFile)) {
