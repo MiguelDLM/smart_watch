@@ -308,12 +308,18 @@ public class DialEditorActivity extends AppCompatActivity {
                     int hitIdx = findLayerAt(tx, ty);
                     if (hitIdx >= 0) {
                         selectedLayerIndex = hitIdx;
+                        DialLayer tappedLayer = layers.get(hitIdx);
+                        if (tappedLayer.pendingStyle) {
+                            isDragging = false;
+                            showSourcePickerForPendingLayer(tappedLayer);
+                            refreshAll();
+                            return true;
+                        }
                         isDragging = true;
                         dragStartX = tx;
                         dragStartY = ty;
-                        DialLayer l = layers.get(hitIdx);
-                        layerStartX = l.posX;
-                        layerStartY = l.posY;
+                        layerStartX = tappedLayer.posX;
+                        layerStartY = tappedLayer.posY;
                         refreshAll();
                     }
                     return true;
@@ -342,13 +348,18 @@ public class DialEditorActivity extends AppCompatActivity {
     private int findLayerAt(float x, float y) {
         for (int i = layers.size() - 1; i >= 0; i--) {
             DialLayer l = layers.get(i);
-            if (l.locked)
-                continue; // Skip locked layers
-            Bitmap bmp = (l.frames != null && l.frames.length > 0) ? l.frames[0] : l.icon;
-            if (bmp == null)
-                continue;
-            float w = bmp.getWidth() * l.scale;
-            float h = bmp.getHeight() * l.scale;
+            if (l.locked) continue;
+            float w, h;
+            if (l.isColonSeparator) {
+                w = 16; h = 60;
+            } else if (l.pendingStyle) {
+                w = 40; h = 60;
+            } else {
+                Bitmap bmp = (l.frames != null && l.frames.length > 0) ? l.frames[0] : l.icon;
+                if (bmp == null) continue;
+                w = bmp.getWidth() * l.scale;
+                h = bmp.getHeight() * l.scale;
+            }
             if (x >= l.posX && x <= l.posX + w && y >= l.posY && y <= l.posY + h) {
                 return i;
             }
@@ -701,6 +712,28 @@ public class DialEditorActivity extends AppCompatActivity {
             if (g.groupId.equals(groupId)) return g;
         }
         return null;
+    }
+
+    private void showSourcePickerForPendingLayer(DialLayer layer) {
+        pendingGroupTarget      = null;
+        pendingGroupSourceLayer = null;
+
+        if (layer.timeGroupId != null) {
+            TimeGroup group = findGroup(layer.timeGroupId);
+            if (group != null) {
+                DialLayer donor = group.styledSiblingOf(layer);
+                if (donor != null) {
+                    showSourcePickerWithAutoApply(layer, donor, group);
+                    return;
+                }
+            }
+        }
+        showSourcePicker(layer.nativeElementType);
+    }
+
+    // Implemented in Task 6 — stub so Tasks 4/5 compile
+    private void showSourcePickerWithAutoApply(DialLayer target, DialLayer donor, TimeGroup group) {
+        showSourcePicker(target.nativeElementType);
     }
 
     private void showCategoryPicker(int categoryIndex) {
@@ -2277,6 +2310,49 @@ public class DialEditorActivity extends AppCompatActivity {
 
         for (int i = 0; i < layers.size(); i++) {
             DialLayer layer = layers.get(i);
+
+            if (layer.isColonSeparator) {
+                Paint colonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                colonPaint.setColor(Color.WHITE);
+                colonPaint.setTextSize(48f);
+                colonPaint.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText(":", layer.posX, layer.posY + 48f, colonPaint);
+                if (i == selectedLayerIndex) {
+                    Paint border = new Paint();
+                    border.setStyle(Paint.Style.STROKE);
+                    border.setColor(Color.parseColor("#58A6FF"));
+                    border.setStrokeWidth(2);
+                    canvas.drawRect(layer.posX, layer.posY, layer.posX + 16, layer.posY + 60, border);
+                }
+                continue;
+            }
+
+            if (layer.pendingStyle) {
+                float px = layer.posX, py = layer.posY;
+                int pw = 40, ph = 60;
+                Paint bg = new Paint();
+                bg.setColor(0x33FF8C00);
+                canvas.drawRect(px, py, px + pw, py + ph, bg);
+                Paint border = new Paint();
+                border.setStyle(Paint.Style.STROKE);
+                border.setColor(0xFFFF8C00);
+                border.setStrokeWidth(2);
+                canvas.drawRect(px, py, px + pw, py + ph, border);
+                Paint txt = new Paint(Paint.ANTI_ALIAS_FLAG);
+                txt.setColor(0xFFFF8C00);
+                txt.setTextSize(18f);
+                txt.setTextAlign(Paint.Align.CENTER);
+                String label = layer.name != null ? layer.name.substring(0, Math.min(2, layer.name.length())) : "??";
+                canvas.drawText(label, px + pw / 2f, py + ph / 2f, txt);
+                txt.setTextSize(12f);
+                canvas.drawText("tap", px + pw / 2f, py + ph - 6f, txt);
+                if (i == selectedLayerIndex) {
+                    border.setColor(Color.parseColor("#58A6FF"));
+                    canvas.drawRect(px, py, px + pw, py + ph, border);
+                }
+                continue;
+            }
+
             Bitmap drawBmp = getPreviewBitmap(layer);
             if (drawBmp == null)
                 continue;
