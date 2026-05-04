@@ -26,6 +26,12 @@ public class DialLayer {
     public boolean isSpriteSheet = false;
     public boolean locked = false;
 
+    // Time group support
+    public String  layerId         = java.util.UUID.randomUUID().toString();
+    public String  timeGroupId     = null;   // null = not part of any time group
+    public boolean pendingStyle    = false;  // true = placeholder, no style assigned yet
+    public boolean isColonSeparator = false; // true = the ":" between HH/MM/SS, not compiled
+
     // Animation interval (ms per frame, for TYPE_ANIM blocks only)
     public int animIntervalMs = 100;
 
