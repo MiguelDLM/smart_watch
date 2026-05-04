@@ -753,9 +753,85 @@ public class DialEditorActivity extends AppCompatActivity {
         showSourcePicker(layer.nativeElementType);
     }
 
-    // Implemented in Task 6 — stub so Tasks 4/5 compile
     private void showSourcePickerWithAutoApply(DialLayer target, DialLayer donor, TimeGroup group) {
-        showSourcePicker(target.nativeElementType);
+        int elementType = target.nativeElementType;
+        List<String> presetPaths = findPresetFolders(elementType);
+
+        View galleryView = LayoutInflater.from(this).inflate(R.layout.dialog_preset_gallery, null);
+        TextView titleView = galleryView.findViewById(R.id.txtGalleryTitle);
+        titleView.setText(getString(R.string.select_style) + " — " + getBlockLabel(elementType));
+        RecyclerView grid = galleryView.findViewById(R.id.gridPresets);
+        grid.setLayoutManager(new GridLayoutManager(this, 3));
+
+        List<Object[]> items = new ArrayList<>();
+        items.add(new Object[]{ "🔁 " + getString(R.string.same_as) + " " + donor.name, "__COPY__", null });
+        items.add(new Object[]{ getString(R.string.from_gallery), null, null });
+        if (isDigitElementType(elementType)) {
+            items.add(new Object[]{ getString(R.string.from_font), "__FONT__", null });
+        }
+        items.add(new Object[]{ getString(R.string.from_svg), "__SVG__", null });
+        for (String p : presetPaths) {
+            Bitmap thumb = loadPresetThumbnail(p, elementType);
+            int lastSlash = p.lastIndexOf('/');
+            String styleName = lastSlash >= 0 ? p.substring(lastSlash + 1) : p;
+            items.add(new Object[]{ styleName, p, thumb });
+        }
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(galleryView)
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        grid.setAdapter(new RecyclerView.Adapter<PresetVH>() {
+            @NonNull @Override
+            public PresetVH onCreateViewHolder(@NonNull ViewGroup parent, int vt) {
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_preset_thumb, parent, false);
+                return new PresetVH(v);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull PresetVH h, int pos) {
+                Object[] item = items.get(pos);
+                h.txtName.setText((String) item[0]);
+                Bitmap thumb = (Bitmap) item[2];
+                if ("__COPY__".equals(item[1]) && donor.frames != null && donor.frames.length > 0) {
+                    h.imgThumb.setImageBitmap(donor.frames[0]);
+                } else if (thumb != null) {
+                    h.imgThumb.setImageBitmap(thumb);
+                } else {
+                    h.imgThumb.setImageBitmap(null);
+                }
+                h.itemView.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    String path = (String) item[1];
+                    if ("__COPY__".equals(path)) {
+                        target.frames        = donor.frames != null ? donor.frames.clone() : null;
+                        target.icon          = donor.icon;
+                        target.scale         = donor.scale;
+                        target.frameCount    = donor.frameCount;
+                        target.isSpriteSheet = donor.isSpriteSheet;
+                        target.pendingStyle  = false;
+                        refreshAll();
+                    } else if (path == null) {
+                        pendingElementType = elementType;
+                        pickImageFromGallery();
+                    } else if ("__FONT__".equals(path)) {
+                        showFontCreator(elementType);
+                    } else if ("__SVG__".equals(path)) {
+                        pendingElementType = elementType;
+                        pickSvgFromGallery();
+                    } else {
+                        loadPreset(path, elementType);
+                        target.pendingStyle = false;
+                    }
+                });
+            }
+
+            @Override public int getItemCount() { return items.size(); }
+        });
+
+        dialog.show();
     }
 
     private void showCategoryPicker(int categoryIndex) {
@@ -1752,6 +1828,7 @@ public class DialEditorActivity extends AppCompatActivity {
 
                 layers.add(layer);
                 selectedLayerIndex = layers.size() - 1;
+                applyGroupPropagation(layer);
                 refreshAll();
                 Toast.makeText(this, "✓ " + name, Toast.LENGTH_SHORT).show();
                 return;
@@ -1812,12 +1889,35 @@ public class DialEditorActivity extends AppCompatActivity {
 
             layers.add(layer);
             selectedLayerIndex = layers.size() - 1;
+            applyGroupPropagation(layer);
             refreshAll();
 
             Toast.makeText(this, "✓ " + name + " — " + frames.length + " frames", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void applyGroupPropagation(DialLayer justLoaded) {
+        if (pendingGroupTarget == null || pendingGroupSourceLayer == null) return;
+        pendingGroupSourceLayer.frames        = justLoaded.frames != null ? justLoaded.frames.clone() : null;
+        pendingGroupSourceLayer.icon          = justLoaded.icon;
+        pendingGroupSourceLayer.scale         = justLoaded.scale;
+        pendingGroupSourceLayer.frameCount    = justLoaded.frameCount;
+        pendingGroupSourceLayer.isSpriteSheet = justLoaded.isSpriteSheet;
+        pendingGroupSourceLayer.pendingStyle  = false;
+        layers.remove(justLoaded);
+        for (DialLayer sibling : pendingGroupTarget.parts) {
+            if (sibling == pendingGroupSourceLayer || sibling.isColonSeparator) continue;
+            sibling.frames        = pendingGroupSourceLayer.frames != null ? pendingGroupSourceLayer.frames.clone() : null;
+            sibling.icon          = pendingGroupSourceLayer.icon;
+            sibling.scale         = pendingGroupSourceLayer.scale;
+            sibling.frameCount    = pendingGroupSourceLayer.frameCount;
+            sibling.isSpriteSheet = pendingGroupSourceLayer.isSpriteSheet;
+            sibling.pendingStyle  = false;
+        }
+        pendingGroupTarget      = null;
+        pendingGroupSourceLayer = null;
     }
 
     // ===================== GALLERY PICK =====================
