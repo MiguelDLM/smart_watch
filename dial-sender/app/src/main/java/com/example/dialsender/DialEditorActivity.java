@@ -94,6 +94,8 @@ public class DialEditorActivity extends AppCompatActivity {
     private final List<TimeGroup> timeGroups = new ArrayList<>();
     private TimeGroup pendingGroupTarget      = null;
     private DialLayer pendingGroupSourceLayer = null;
+    private List<DialLayer> activeDragGroup             = new ArrayList<>();
+    private List<float[]>   groupMemberStartPositions   = new ArrayList<>();
 
     // Element categories - no more "preview" option since it's auto-generated
     private static final int[][] ELEMENT_CATEGORIES = {
@@ -320,6 +322,17 @@ public class DialEditorActivity extends AppCompatActivity {
                         dragStartY = ty;
                         layerStartX = tappedLayer.posX;
                         layerStartY = tappedLayer.posY;
+                        activeDragGroup.clear();
+                        groupMemberStartPositions.clear();
+                        if (tappedLayer.timeGroupId != null) {
+                            TimeGroup grp = findGroup(tappedLayer.timeGroupId);
+                            if (grp != null && grp.mode == TimeGroup.Mode.TOGETHER) {
+                                for (DialLayer part : grp.parts) {
+                                    activeDragGroup.add(part);
+                                    groupMemberStartPositions.add(new float[]{part.posX, part.posY});
+                                }
+                            }
+                        }
                         refreshAll();
                     }
                     return true;
@@ -328,9 +341,16 @@ public class DialEditorActivity extends AppCompatActivity {
                     if (isDragging && selectedLayerIndex >= 0 && selectedLayerIndex < layers.size()) {
                         float dx = tx - dragStartX;
                         float dy = ty - dragStartY;
-                        DialLayer l = layers.get(selectedLayerIndex);
-                        l.posX = layerStartX + dx;
-                        l.posY = layerStartY + dy;
+                        if (!activeDragGroup.isEmpty()) {
+                            for (int gi = 0; gi < activeDragGroup.size(); gi++) {
+                                activeDragGroup.get(gi).posX = groupMemberStartPositions.get(gi)[0] + dx;
+                                activeDragGroup.get(gi).posY = groupMemberStartPositions.get(gi)[1] + dy;
+                            }
+                        } else {
+                            DialLayer l = layers.get(selectedLayerIndex);
+                            l.posX = layerStartX + dx;
+                            l.posY = layerStartY + dy;
+                        }
                         updatePreview();
                     }
                     return true;
@@ -338,6 +358,8 @@ public class DialEditorActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     isDragging = false;
+                    activeDragGroup.clear();
+                    groupMemberStartPositions.clear();
                     updateControls();
                     return true;
             }
