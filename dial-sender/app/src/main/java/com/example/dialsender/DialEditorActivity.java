@@ -2719,9 +2719,11 @@ public class DialEditorActivity extends AppCompatActivity {
                 compiler.addBlock(previewBlock);
 
                 for (DialLayer layer : layers) {
+                    if (layer.isColonSeparator) continue;
+                    if (layer.pendingStyle) continue;
                     DialCompiler.DialBlock block = new DialCompiler.DialBlock();
                     block.type = layer.nativeElementType;
-                    
+
                     // Default pos (top-left for alignment 9)
                     block.x = (int) layer.posX;
                     block.y = (int) layer.posY;
