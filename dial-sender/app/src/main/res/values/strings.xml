@@ -78,6 +78,15 @@
     <string name="dial_name_hint">My awesome dial</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="cont">Continuar</string>
+    <string name="add_time_group">Agregar hora</string>
+    <string name="lbl_hours">Horas</string>
+    <string name="lbl_minutes">Minutos</string>
+    <string name="lbl_seconds">Segundos</string>
+    <string name="same_as">Igual que</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="assign_style">Asignar estilo</string>
+    <string name="delete_layer">Eliminar capa</string>
     <string name="close">Close</string>
 
     <!-- Library -->

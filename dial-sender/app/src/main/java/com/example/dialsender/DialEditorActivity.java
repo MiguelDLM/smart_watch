@@ -90,6 +90,11 @@ public class DialEditorActivity extends AppCompatActivity {
     private float layerStartX, layerStartY;
     private boolean isDragging = false;
 
+    // Time group state
+    private final List<TimeGroup> timeGroups = new ArrayList<>();
+    private TimeGroup pendingGroupTarget      = null;
+    private DialLayer pendingGroupSourceLayer = null;
+
     // Element categories - no more "preview" option since it's auto-generated
     private static final int[][] ELEMENT_CATEGORIES = {
             { DialCompiler.TYPE_DIGITAL_HOUR, DialCompiler.TYPE_DIGITAL_MIN, DialCompiler.TYPE_SECONDS,
@@ -588,7 +593,122 @@ public class DialEditorActivity extends AppCompatActivity {
         }
     }
 
+    private void showTimeFormatDialog() {
+        final TimeGroup.Format[] selectedFormat = {TimeGroup.Format.HH_MM};
+        final TimeGroup.Mode[]   selectedMode   = {TimeGroup.Mode.TOGETHER};
+
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_time_format, null);
+        RadioGroup rgFormat = v.findViewById(R.id.rgTimeFormat);
+        RadioGroup rgMode   = v.findViewById(R.id.rgTimeMode);
+
+        rgFormat.setOnCheckedChangeListener((g, id) ->
+                selectedFormat[0] = (id == R.id.rbHHMMSS)
+                        ? TimeGroup.Format.HH_MM_SS : TimeGroup.Format.HH_MM);
+        rgMode.setOnCheckedChangeListener((g, id) ->
+                selectedMode[0] = (id == R.id.rbParts)
+                        ? TimeGroup.Mode.PARTS : TimeGroup.Mode.TOGETHER);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.add_time_group)
+                .setView(v)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.cont, (d, w) ->
+                        createTimeGroup(selectedFormat[0], selectedMode[0]))
+                .show();
+    }
+
+    private void createTimeGroup(TimeGroup.Format format, TimeGroup.Mode mode) {
+        String groupId = java.util.UUID.randomUUID().toString();
+        boolean withSeconds = (format == TimeGroup.Format.HH_MM_SS);
+
+        int digitW = 40;
+        int digitH = 60;
+        int colonW = 16;
+        int cx = canvasWidth  / 2;
+        int cy = canvasHeight / 2;
+
+        int totalW = digitW * 2 + colonW + (withSeconds ? digitW + colonW : 0);
+        int startX = cx - totalW / 2;
+        int topY   = cy - digitH / 2;
+
+        DialLayer hoursLayer = new DialLayer(DialLayer.TYPE_ELEMENT, null, getString(R.string.lbl_hours));
+        hoursLayer.nativeElementType = DialCompiler.TYPE_DIGITAL_HOUR;
+        hoursLayer.posX         = startX;
+        hoursLayer.posY         = topY;
+        hoursLayer.timeGroupId  = groupId;
+        hoursLayer.pendingStyle = true;
+
+        DialLayer colon1 = new DialLayer(DialLayer.TYPE_ELEMENT, null, ":");
+        colon1.posX              = startX + digitW;
+        colon1.posY              = topY;
+        colon1.timeGroupId       = groupId;
+        colon1.isColonSeparator  = true;
+
+        DialLayer minutesLayer = new DialLayer(DialLayer.TYPE_ELEMENT, null, getString(R.string.lbl_minutes));
+        minutesLayer.nativeElementType = DialCompiler.TYPE_DIGITAL_MIN;
+        minutesLayer.posX         = startX + digitW + colonW;
+        minutesLayer.posY         = topY;
+        minutesLayer.timeGroupId  = groupId;
+        minutesLayer.pendingStyle = true;
+
+        List<DialLayer> parts = new ArrayList<>();
+        parts.add(hoursLayer);
+        parts.add(colon1);
+        parts.add(minutesLayer);
+
+        layers.add(hoursLayer);
+        layers.add(colon1);
+        layers.add(minutesLayer);
+
+        if (withSeconds) {
+            DialLayer colon2 = new DialLayer(DialLayer.TYPE_ELEMENT, null, ":");
+            colon2.posX             = startX + digitW + colonW + digitW;
+            colon2.posY             = topY;
+            colon2.timeGroupId      = groupId;
+            colon2.isColonSeparator = true;
+
+            DialLayer secondsLayer = new DialLayer(DialLayer.TYPE_ELEMENT, null, getString(R.string.lbl_seconds));
+            secondsLayer.nativeElementType = DialCompiler.TYPE_SECONDS;
+            secondsLayer.posX         = startX + digitW + colonW + digitW + colonW;
+            secondsLayer.posY         = topY;
+            secondsLayer.timeGroupId  = groupId;
+            secondsLayer.pendingStyle = true;
+
+            parts.add(colon2);
+            parts.add(secondsLayer);
+            layers.add(colon2);
+            layers.add(secondsLayer);
+        }
+
+        TimeGroup group = new TimeGroup(groupId, format, mode, parts);
+        timeGroups.add(group);
+        selectedLayerIndex = layers.size() - 1;
+        refreshAll();
+
+        if (mode == TimeGroup.Mode.TOGETHER) {
+            showSourcePickerForGroup(hoursLayer, group);
+        }
+    }
+
+    private void showSourcePickerForGroup(DialLayer hoursLayer, TimeGroup group) {
+        pendingGroupTarget      = group;
+        pendingGroupSourceLayer = hoursLayer;
+        showSourcePicker(hoursLayer.nativeElementType);
+    }
+
+    private TimeGroup findGroup(String groupId) {
+        for (TimeGroup g : timeGroups) {
+            if (g.groupId.equals(groupId)) return g;
+        }
+        return null;
+    }
+
     private void showCategoryPicker(int categoryIndex) {
+        if (categoryIndex == 0) {
+            showTimeFormatDialog();
+            return;
+        }
+
         String[] catNames = getCategoryNames();
         int[] types = ELEMENT_CATEGORIES[categoryIndex];
         String[] labels = new String[types.length];
@@ -1557,6 +1677,14 @@ public class DialEditorActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.no_preset_images, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                
+                boolean isHand = (elementType == DialCompiler.TYPE_ARM_HOUR ||
+                                  elementType == DialCompiler.TYPE_ARM_MIN ||
+                                  elementType == DialCompiler.TYPE_ARM_SEC);
+                if (isHand) {
+                    bmp = trimBitmap(bmp);
+                }
+
                 String name = getBlockLabel(elementType);
                 DialLayer layer = new DialLayer(DialLayer.TYPE_ARM, bmp, name, elementType);
                 layer.frames = new Bitmap[] { bmp };
@@ -1607,7 +1735,17 @@ public class DialEditorActivity extends AppCompatActivity {
                 return;
             }
 
+            boolean isHand = (elementType == DialCompiler.TYPE_ARM_HOUR ||
+                              elementType == DialCompiler.TYPE_ARM_MIN ||
+                              elementType == DialCompiler.TYPE_ARM_SEC);
+
             Bitmap[] frames = loadedFrames.toArray(new Bitmap[0]);
+            if (isHand) {
+                for (int i = 0; i < frames.length; i++) {
+                    frames[i] = trimBitmap(frames[i]);
+                }
+            }
+            
             String name = getBlockLabel(elementType);
             DialLayer layer = new DialLayer(DialLayer.TYPE_ELEMENT, frames[0], name, elementType);
             layer.frames = frames;
@@ -2080,45 +2218,55 @@ public class DialEditorActivity extends AppCompatActivity {
             }
             return (layer.frames != null && layer.frames.length > 0) ? layer.frames[fi] : layer.icon;
         }
-        // Two-digit pairs for time/date types
-        int hiIdx, loIdx;
+        // Multi-digit combinations
+        int[] indices;
+        int spacing = 2; // Better spacing for preview
         switch (layer.nativeElementType) {
             case DialCompiler.TYPE_DIGITAL_HOUR:
-                hiIdx = 1;
-                loIdx = 2;
-                break; // "12"
+                indices = new int[] { 1, 2 }; // "12"
+                break;
             case DialCompiler.TYPE_DIGITAL_MIN:
-                hiIdx = 5;
-                loIdx = 6;
-                break; // "56"
+                indices = new int[] { 5, 6 }; // "56"
+                break;
             case DialCompiler.TYPE_SECONDS:
-                hiIdx = 3;
-                loIdx = 4;
-                break; // "34"
+                indices = new int[] { 3, 4 }; // "34"
+                break;
             case DialCompiler.TYPE_DAY:
-                hiIdx = 1;
-                loIdx = 5;
-                break; // "15"
+                indices = new int[] { 1, 5 }; // "15"
+                break;
             case DialCompiler.TYPE_YEAR:
-                hiIdx = 2;
-                loIdx = 6;
-                break; // "26"
+                indices = new int[] { 2, 6 }; // "26"
+                break;
+            case DialCompiler.TYPE_DISTANCE:
+                // Show "12.3" — Frame 10 is usually the dot
+                if (layer.frames.length > 10) {
+                    indices = new int[] { 1, 2, 10, 3 };
+                    spacing = 0; // Tight spacing for distance + dot
+                } else {
+                    indices = new int[] { 4 };
+                }
+                break;
             default:
-                // Single digit preview for split types and others
                 int fi = getPreviewFrameIndex(layer.nativeElementType, layer.frames.length);
                 return layer.frames[Math.min(fi, layer.frames.length - 1)];
         }
-        hiIdx = Math.min(hiIdx, layer.frames.length - 1);
-        loIdx = Math.min(loIdx, layer.frames.length - 1);
-        Bitmap hi = layer.frames[hiIdx];
-        Bitmap lo = layer.frames[loIdx];
-        // Combine side-by-side
-        int w = hi.getWidth() + lo.getWidth();
-        int h = Math.max(hi.getHeight(), lo.getHeight());
-        Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        
+        // Combine digits
+        int totalW = 0;
+        int maxH = 0;
+        for (int idx : indices) {
+            Bitmap b = layer.frames[Math.min(idx, layer.frames.length - 1)];
+            totalW += b.getWidth() + (idx == 10 ? -2 : spacing); // Closer dot
+            maxH = Math.max(maxH, b.getHeight());
+        }
+        Bitmap combined = Bitmap.createBitmap(Math.max(1, totalW), maxH, Bitmap.Config.ARGB_8888);
         Canvas cc = new Canvas(combined);
-        cc.drawBitmap(hi, 0, 0, null);
-        cc.drawBitmap(lo, hi.getWidth(), 0, null);
+        int curX = 0;
+        for (int idx : indices) {
+            Bitmap b = layer.frames[Math.min(idx, layer.frames.length - 1)];
+            cc.drawBitmap(b, curX, (maxH - b.getHeight()) / 2f, null);
+            curX += b.getWidth() + (idx == 10 ? -2 : spacing);
+        }
         return combined;
     }
 
@@ -2136,14 +2284,40 @@ public class DialEditorActivity extends AppCompatActivity {
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setAlpha((int) (layer.alpha * 255));
 
+            boolean isHand = (layer.nativeElementType == DialCompiler.TYPE_ARM_HOUR ||
+                              layer.nativeElementType == DialCompiler.TYPE_ARM_MIN ||
+                              layer.nativeElementType == DialCompiler.TYPE_ARM_SEC);
+
             Matrix m = new Matrix();
             float scaledW = drawBmp.getWidth() * layer.scale;
             float scaledH = drawBmp.getHeight() * layer.scale;
             m.postScale(layer.scale, layer.scale);
-            if (layer.rotation != 0) {
+            
+            float drawX = layer.posX;
+            float drawY = layer.posY;
+
+            if (isHand) {
+                // FORCE TO CENTER in editor too
+                // Pivot point is horizontally center, and 24px (scaled) from the BOTTOM of the image
+                float pivotX = (drawBmp.getWidth() / 2f) * layer.scale;
+                float pivotY = (drawBmp.getHeight() - 24f) * layer.scale;
+                
+                drawX = (canvasWidth / 2f) - pivotX;
+                drawY = (canvasHeight / 2f) - pivotY;
+                
+                float mockRotation = layer.rotation;
+                if (mockRotation == 0) {
+                    if (layer.nativeElementType == DialCompiler.TYPE_ARM_HOUR) mockRotation = 90; // 3h
+                    else if (layer.nativeElementType == DialCompiler.TYPE_ARM_MIN) mockRotation = 0; // 0m
+                    else if (layer.nativeElementType == DialCompiler.TYPE_ARM_SEC) mockRotation = 270; // 45s
+                }
+                
+                m.postRotate(mockRotation, pivotX / layer.scale, pivotY / layer.scale);
+            } else if (layer.rotation != 0) {
                 m.postRotate(layer.rotation, scaledW / 2, scaledH / 2);
             }
-            m.postTranslate(layer.posX, layer.posY);
+            
+            m.postTranslate(drawX, drawY);
             canvas.drawBitmap(drawBmp, m, paint);
 
             if (i == selectedLayerIndex) {
@@ -2151,8 +2325,7 @@ public class DialEditorActivity extends AppCompatActivity {
                 border.setStyle(Paint.Style.STROKE);
                 border.setColor(Color.parseColor("#58A6FF"));
                 border.setStrokeWidth(2);
-                canvas.drawRect(layer.posX, layer.posY,
-                        layer.posX + scaledW, layer.posY + scaledH, border);
+                canvas.drawRect(drawX, drawY, drawX + scaledW, drawY + scaledH, border);
             }
         }
 
@@ -2280,14 +2453,41 @@ public class DialEditorActivity extends AppCompatActivity {
                 for (DialLayer layer : layers) {
                     DialCompiler.DialBlock block = new DialCompiler.DialBlock();
                     block.type = layer.nativeElementType;
+                    
+                    // Default pos (top-left for alignment 9)
                     block.x = (int) layer.posX;
                     block.y = (int) layer.posY;
 
-                    // Other elements: scale each frame properly
-                    // BUT analog hands are NEVER scaled — firmware requires exact preset dims
                     boolean isHand = (block.type == DialCompiler.TYPE_ARM_HOUR ||
                             block.type == DialCompiler.TYPE_ARM_MIN ||
                             block.type == DialCompiler.TYPE_ARM_SEC);
+
+                    // For alignment 10 (numeric), the watch uses the center point.
+                    // If we placed it at posX,posY as top-left, we must adjust to center.
+                    boolean isNumeric = (block.type == DialCompiler.TYPE_DIGITAL_HOUR || 
+                            block.type == DialCompiler.TYPE_DIGITAL_MIN ||
+                            block.type == DialCompiler.TYPE_SECONDS || 
+                            block.type == DialCompiler.TYPE_STEPS || 
+                            block.type == DialCompiler.TYPE_HEART ||
+                            block.type == DialCompiler.TYPE_CALORIE || 
+                            block.type == DialCompiler.TYPE_DISTANCE || 
+                            block.type == DialCompiler.TYPE_BATTERY ||
+                            block.type == DialCompiler.TYPE_TEMP || 
+                            block.type == DialCompiler.TYPE_DAY || 
+                            block.type == DialCompiler.TYPE_MONTH ||
+                            block.type == DialCompiler.TYPE_YEAR || 
+                            block.type == DialCompiler.TYPE_HOUR_HI || 
+                            block.type == DialCompiler.TYPE_HOUR_LO ||
+                            block.type == DialCompiler.TYPE_MIN_HI || 
+                            block.type == DialCompiler.TYPE_MIN_LO);
+
+                    if (isNumeric && layer.frames != null && layer.frames.length > 0) {
+                        Bitmap previewBmpForSize = getPreviewBitmap(layer);
+                        int totalW = Math.round(previewBmpForSize.getWidth() * layer.scale);
+                        int totalH = Math.round(previewBmpForSize.getHeight() * layer.scale);
+                        block.x = (int) (layer.posX + totalW / 2);
+                        block.y = (int) (layer.posY + totalH / 2);
+                    }
 
                     if (block.type == DialCompiler.TYPE_BACKGROUND) {
                         int frameCount = 1;
@@ -2335,28 +2535,22 @@ public class DialEditorActivity extends AppCompatActivity {
                         block.y = Math.round(layer.posY);
                         block.animIntervalMs = layer.animIntervalMs;
                     } else if (layer.frames != null && layer.frames.length > 0) {
-                        if (isHand) {
-                            // Hands: use original dimensions, ignore scale
-                            block.images = layer.frames;
-                            block.width = layer.frames[0].getWidth();
-                            block.height = layer.frames[0].getHeight();
-                        } else {
-                            int scaledW = Math.max(1, (int) (layer.frames[0].getWidth() * layer.scale));
-                            int scaledH = Math.max(1, (int) (layer.frames[0].getHeight() * layer.scale));
-                            if (Math.abs(layer.scale - 1.0f) > 0.01f) {
-                                // Scale each frame individually
-                                Bitmap[] scaledFrames = new Bitmap[layer.frames.length];
-                                for (int fi = 0; fi < layer.frames.length; fi++) {
-                                    scaledFrames[fi] = Bitmap.createScaledBitmap(
-                                            layer.frames[fi], scaledW, scaledH, true);
-                                }
-                                block.images = scaledFrames;
-                            } else {
-                                block.images = layer.frames;
+                        int scaledW = Math.max(1, (int) (layer.frames[0].getWidth() * layer.scale));
+                        int scaledH = Math.max(1, (int) (layer.frames[0].getHeight() * layer.scale));
+                        
+                        // Apply scaling to hands too! (Previously ignored)
+                        if (Math.abs(layer.scale - 1.0f) > 0.01f || isHand) {
+                            Bitmap[] scaledFrames = new Bitmap[layer.frames.length];
+                            for (int fi = 0; fi < layer.frames.length; fi++) {
+                                scaledFrames[fi] = Bitmap.createScaledBitmap(
+                                        layer.frames[fi], scaledW, scaledH, true);
                             }
-                            block.width = scaledW;
-                            block.height = scaledH;
+                            block.images = scaledFrames;
+                        } else {
+                            block.images = layer.frames;
                         }
+                        block.width = scaledW;
+                        block.height = scaledH;
                         block.frames = layer.frames.length;
                     } else if (layer.icon != null) {
                         int scaledW = Math.max(1, (int) (layer.icon.getWidth() * layer.scale));
@@ -3048,6 +3242,29 @@ public class DialEditorActivity extends AppCompatActivity {
             fos.write(buf, 0, len);
         fos.close();
         fis.close();
+    }
+
+    private Bitmap trimBitmap(Bitmap bmp) {
+        int imgW = bmp.getWidth();
+        int imgH = bmp.getHeight();
+        int top = imgH, left = imgW, right = 0, bottom = 0;
+
+        for (int y = 0; y < imgH; y++) {
+            for (int x = 0; x < imgW; x++) {
+                int color = bmp.getPixel(x, y);
+                if ((color >> 24) != 0) { // If pixel is NOT transparent
+                    if (x < left) left = x;
+                    if (x > right) right = x;
+                    if (y < top) top = y;
+                    if (y > bottom) bottom = y;
+                }
+            }
+        }
+        
+        // Check if image is completely transparent
+        if (left > right || top > bottom) return bmp;
+
+        return Bitmap.createBitmap(bmp, left, top, (right - left) + 1, (bottom - top) + 1);
     }
 
     private static abstract class SimpleSeekListener implements SeekBar.OnSeekBarChangeListener {
