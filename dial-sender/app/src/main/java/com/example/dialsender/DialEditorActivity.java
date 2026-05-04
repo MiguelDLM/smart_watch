@@ -446,16 +446,20 @@ public class DialEditorActivity extends AppCompatActivity {
             });
 
             holder.itemView.setOnLongClickListener(v -> {
-                saveLayerAsPreset(layer);
+                showLayerContextMenu(layer, layerIdx);
                 return true;
             });
 
             holder.btnDelete.setOnClickListener(v -> {
-                layers.remove(layerIdx);
-                if (selectedLayerIndex >= layers.size()) {
-                    selectedLayerIndex = layers.size() - 1;
+                if (layer.pendingStyle) {
+                    showPendingLayerMenu(layer);
+                } else {
+                    layers.remove(layerIdx);
+                    if (selectedLayerIndex >= layers.size()) {
+                        selectedLayerIndex = layers.size() - 1;
+                    }
+                    refreshAll();
                 }
-                refreshAll();
             });
         }
 
@@ -734,6 +738,72 @@ public class DialEditorActivity extends AppCompatActivity {
             if (g.groupId.equals(groupId)) return g;
         }
         return null;
+    }
+
+    private void showLayerContextMenu(DialLayer layer, int layerIdx) {
+        if (layer.pendingStyle) {
+            showPendingLayerMenu(layer);
+            return;
+        }
+        List<String> options = new ArrayList<>();
+        if (layer.timeGroupId != null && !layer.isColonSeparator) {
+            options.add(getString(R.string.ungroup));
+        }
+        options.add("Guardar como preset");
+        new AlertDialog.Builder(DialEditorActivity.this)
+                .setTitle(layer.name)
+                .setItems(options.toArray(new String[0]), (d, w) -> {
+                    String chosen = options.get(w);
+                    if (getString(R.string.ungroup).equals(chosen)) {
+                        ungroupTimeGroup(layer.timeGroupId);
+                    } else {
+                        saveLayerAsPreset(layer);
+                    }
+                })
+                .show();
+    }
+
+    private void showPendingLayerMenu(DialLayer layer) {
+        new AlertDialog.Builder(DialEditorActivity.this)
+                .setTitle(layer.name)
+                .setItems(new String[]{
+                        getString(R.string.assign_style),
+                        getString(R.string.delete_layer)
+                }, (d, w) -> {
+                    if (w == 0) showSourcePickerForPendingLayer(layer);
+                    else        removePendingLayer(layer);
+                })
+                .show();
+    }
+
+    private void ungroupTimeGroup(String groupId) {
+        TimeGroup group = findGroup(groupId);
+        if (group == null) return;
+        layers.removeIf(l -> l.isColonSeparator && groupId.equals(l.timeGroupId));
+        for (DialLayer l : group.parts) {
+            if (!l.isColonSeparator) {
+                l.timeGroupId  = null;
+                l.pendingStyle = false;
+            }
+        }
+        timeGroups.remove(group);
+        refreshAll();
+    }
+
+    private void removePendingLayer(DialLayer layer) {
+        String gid = layer.timeGroupId;
+        if (gid != null) {
+            TimeGroup group = findGroup(gid);
+            if (group != null) {
+                group.parts.remove(layer);
+                group.parts.removeIf(l -> l.isColonSeparator);
+                layers.removeIf(l -> l.isColonSeparator && gid.equals(l.timeGroupId));
+                if (group.parts.isEmpty()) timeGroups.remove(group);
+            }
+        }
+        layers.remove(layer);
+        if (selectedLayerIndex >= layers.size()) selectedLayerIndex = layers.size() - 1;
+        refreshAll();
     }
 
     private void showSourcePickerForPendingLayer(DialLayer layer) {
