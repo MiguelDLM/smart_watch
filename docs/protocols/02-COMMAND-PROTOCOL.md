@@ -213,21 +213,27 @@ procedure buildPacket(bleKey, bleKeyFlag, data):
 
 ### 5.3 Worked Example — SET TIME
 
+> **CORRECTION (verified against live capture — see [10-CAPTURE-FINDINGS.md](./10-CAPTURE-FINDINGS.md)):**
+> `TIME (0x0201)` does **not** carry a 4-byte Unix timestamp. The real payload
+> is a **6-byte local calendar**: `[year-2000, month(1-12), day, hour, minute,
+> second]`. The 4-byte-Unix example below is incorrect for this device family
+> and is kept only to show packet framing.
+
 ```
-Goal: Set device time to Unix timestamp 1740398400 (0x67BB6E80)
+Goal: Set device time to 2026-02-05 08:49:11 (verified capture value)
 
 BleKey   = TIME      → mKey = 0x0201
 BleCommand           → cmd  = 0x0201 >>> 8 = 0x02
 Key index            → key  = 0x0201 & 0xFF = 0x01
 BleKeyFlag = UPDATE  → flag = 0x00
-Data (4 bytes, BE):    67 BB 6E 80
+Data (6 bytes):        1A 02 05 08 31 0B
+                       └ year-2000=0x1A(26), month=02, day=05, hh=08, mm=49, ss=11
 
-CRC input: [02 01 00 67 BB 6E 80]
-LENGTH:    4 + 3 = 7 = 0x0007
-CRC16:     (compute per algorithm in 01-BLE-COMMUNICATION.md)
+CRC input: [02 01 00 1A 02 05 08 31 0B]
+LENGTH:    6 + 3 = 9 = 0x0009
 
-Final packet:
-  AB 01 00 07 <CRC_H> <CRC_L> 02 01 00 67 BB 6E 80
+Final packet (from capture):
+  AB 01 00 09 0F 76 02 01 00 1A 02 05 08 31 0B
 ```
 
 ### 5.4 Worked Example — READ FIRMWARE VERSION
@@ -284,7 +290,7 @@ The largest command group. Used to read (`FLAG=READ`) or write (`FLAG=UPDATE`) d
 
 | Key Name | mKey (hex) | mKey (dec) | KEY byte | Description |
 |----------|-----------|-----------|----------|-------------|
-| TIME | `0x0201` | 513 | `0x01` | Unix timestamp sync |
+| TIME | `0x0201` | 513 | `0x01` | Clock sync — **6-byte calendar** `[yy-2000,MM,dd,hh,mm,ss]`, not Unix (see doc 10) |
 | TIME_ZONE | `0x0202` | 514 | `0x02` | UTC offset in minutes |
 | POWER | `0x0203` | 515 | `0x03` | Battery / power state |
 | FIRMWARE_VERSION | `0x0204` | 516 | `0x04` | Firmware version string |
@@ -516,7 +522,15 @@ Host should:
 
 ## 8. Connection Handshake Commands
 
-The following commands are sent in sequence during every connection establishment (see `01-BLE-COMMUNICATION.md` Section 7 for the full connection lifecycle):
+> **CORRECTION (verified against live capture — see [10-CAPTURE-FINDINGS.md](./10-CAPTURE-FINDINGS.md)):**
+> The real app does **not** open with `IDENTITY (0x0215, CREATE)` + a random
+> nonce. It sends a single fixed **SESSION CREATE** frame and proceeds as soon
+> as the watch replies — no separate bind/login:
+> ```
+> AB 01 00 07 B1 B2 03 02 20 FF FF FF FF   (cmd=0x03 key=0x02 flag=0x20, fixed CRC B1 B2)
+> ```
+> It then pushes `TIME_ZONE`, the 6-byte `TIME`, `HOUR_SYSTEM`, and reads device
+> settings. The idealised steps below are retained for historical reference.
 
 ### Step 1 — IDENTITY (CREATE)
 

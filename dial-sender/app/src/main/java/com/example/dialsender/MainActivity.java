@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment;
 import com.example.dialsender.ble.BleForegroundService;
 import com.example.dialsender.ble.BleManager;
 import com.example.dialsender.fragments.DeviceFragment;
-import com.example.dialsender.fragments.DialsFragment;
-import com.example.dialsender.fragments.HomeFragment;
 import com.example.dialsender.fragments.SettingsFragment;
+import com.example.dialsender.fragments.SportFragment;
 import com.example.dialsender.fragments.StatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -76,15 +75,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) {
-                loadFragment(new HomeFragment());
-            } else if (id == R.id.nav_dials) {
-                loadFragment(new DialsFragment());
+            if (id == R.id.nav_status) {
+                loadFragment(new StatusFragment());
+            } else if (id == R.id.nav_sport) {
+                loadFragment(new SportFragment());
             } else if (id == R.id.nav_device) {
                 loadFragment(new DeviceFragment());
-            } else if (id == R.id.nav_health) {
-                loadFragment(new StatusFragment());
-            } else if (id == R.id.nav_settings) {
+            } else if (id == R.id.nav_me) {
                 loadFragment(new SettingsFragment());
             } else {
                 return false;
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            bottomNav.setSelectedItemId(R.id.nav_home);
+            bottomNav.setSelectedItemId(R.id.nav_status);
         }
     }
 
@@ -101,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
+                .commit();
+    }
+
+    /**
+     * Show a fragment in the main container WITHOUT changing the bottom tab —
+     * used e.g. to open the watch-face library from inside the Device tab.
+     */
+    public void showFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 }

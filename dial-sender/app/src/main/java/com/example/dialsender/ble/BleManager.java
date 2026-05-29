@@ -10,21 +10,35 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -67,7 +81,6 @@ public class BleManager {
     private ConnectionState connectionState = ConnectionState.DISCONNECTED;
     private final SharedPreferences prefs;
     private static final String PREF_NAME = "dial_sender_prefs";
-    private static final String PREF_BIND_ID = "bind_id";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -158,11 +171,10 @@ public class BleManager {
     public static final int HEALTH_KEY_TEMPERATURE = 0x08; // 6 bytes/record
     public static final int HEALTH_KEY_BLOOD_OXYGEN = 0x09; // 6 bytes/record
     public static final int HEALTH_KEY_HRV = 0x0A; // 6 bytes/record
-    public static final int HEALTH_KEY_ECG = 0x0D; // 6 bytes/record
-    public static final int HEALTH_KEY_PRESSURE = 0x0E; // 6 bytes/record (stress)
-    public static final int HEALTH_KEY_BLOOD_GLUCOSE = 0x0F; // 6 bytes/record
-
-    private int healthSyncPending = 0;
+    // Corrected against the decompiled BleKey enum (protocols/reference):
+    public static final int HEALTH_KEY_PRESSURE = 0x0D; // stress (was wrongly 0x0E)
+    public static final int HEALTH_KEY_ECG = 0x20; // ECG (was wrongly 0x0D)
+    public static final int HEALTH_KEY_BLOOD_GLUCOSE = 0x10; // blood glucose
 
     // ========== Constructor ==========
 
@@ -407,35 +419,23 @@ public class BleManager {
         sendNextChunk();
     }
 
-    private void sendBind() {
-        log("Sending Bind...");
-        int bindId = new Random().nextInt();
-        prefs.edit().putInt(PREF_BIND_ID, bindId).apply();
-        ByteBuffer payload = ByteBuffer.allocate(4);
-        payload.order(ByteOrder.LITTLE_ENDIAN);
-        payload.putInt(bindId);
-
-        byte[] message = createMessage((byte) 0x03, (byte) 0x01, (byte) 0x20, payload.array());
-        connectionState = ConnectionState.BIND_SENT;
-        log("Tx Bind: " + bytesToHex(message));
-        enqueueLogicalFrame(message);
-        isSending = true;
-        sendNextChunk();
-    }
-
-    private void sendLogin() {
-        log("Sending Login...");
-        int sessionId = new Random().nextInt();
-        ByteBuffer payload = ByteBuffer.allocate(4);
-        payload.order(ByteOrder.LITTLE_ENDIAN);
-        payload.putInt(sessionId);
-
-        byte[] message = createMessage((byte) 0x03, (byte) 0x02, (byte) 0x20, payload.array());
-        connectionState = ConnectionState.LOGIN_SENT;
-        log("Tx Login: " + bytesToHex(message));
-        enqueueLogicalFrame(message);
-        isSending = true;
-        sendNextChunk();
+    /**
+     * Called when the watch acknowledges the SESSION CREATE handshake.
+     * Marks the session ready and replicates the CO-FIT app's post-connect
+     * routine: synchronise the clock and basic device settings, then notify the
+     * UI. This mirrors the verified capture, where the phone pushes TIME_ZONE +
+     * TIME + HOUR_SYSTEM immediately after the handshake reply.
+     */
+    private void onSessionReady() {
+        connectionState = ConnectionState.SESSION_READY;
+        log("=== SESSION READY ===");
+        if (listener != null) {
+            handler.post(() -> listener.onConnectionStateChange(true, true));
+        }
+        // Push time + settings shortly after the session is up.
+        handler.postDelayed(this::syncTimeAndSettings, 200);
+        // Then push weather (network fetch, off the main thread) once things settle.
+        handler.postDelayed(() -> WeatherSync.syncIfPossible(context, this), 2500);
     }
 
     /**
@@ -461,50 +461,28 @@ public class BleManager {
                 + " Key=0x" + String.format("%02X", key) + " Flag=0x" + String.format("%02X", flag)
                 + " Reply=" + isReply + " State=" + connectionState);
 
-        // Handle Identity Info Request from watch -> implies Session Ready
+        // Handle Identity Info Request from watch -> implies Session Ready.
+        // Kept as a fallback for firmware variants that solicit identity before
+        // we observe the SESSION CREATE reply.
         if ((header & 0x10) == 0 && header == 0x01 && cmd == 0x03 && key == 0x01) {
             log("Received Identity Request - Sending ACK");
             sendAck(cmd, key, flag);
-            if (connectionState == ConnectionState.LOGIN_SENT) {
-                connectionState = ConnectionState.SESSION_READY;
-                log("=== SESSION READY ===");
-                if (listener != null) {
-                    handler.post(() -> listener.onConnectionStateChange(true, true));
-                }
+            if (connectionState != ConnectionState.SESSION_READY) {
+                onSessionReady();
             }
             return;
         }
 
-        // Handshake ACK
-        if (isReply && connectionState == ConnectionState.HANDSHAKE_SENT) {
-            log("Handshake OK");
-            connectionState = ConnectionState.HANDSHAKE_OK;
-            int storedBindId = prefs.getInt(PREF_BIND_ID, 0);
-            if (storedBindId != 0) {
-                log("Using stored bind ID, skipping bind");
-                handler.postDelayed(this::sendLogin, 100);
-            } else {
-                handler.postDelayed(this::sendBind, 100);
-            }
-            return;
-        }
-
-        // Bind ACK
-        if (isReply && cmd == 0x03 && key == 0x01 && connectionState == ConnectionState.BIND_SENT) {
-            log("Bind OK");
-            connectionState = ConnectionState.BIND_OK;
-            handler.postDelayed(this::sendLogin, 100);
-            return;
-        }
-
-        // Login ACK
-        if (isReply && cmd == 0x03 && key == 0x02 && connectionState == ConnectionState.LOGIN_SENT) {
-            log("Login OK");
-            connectionState = ConnectionState.SESSION_READY;
-            log("=== SESSION READY ===");
-            if (listener != null) {
-                handler.post(() -> listener.onConnectionStateChange(true, true));
-            }
+        // Handshake / SESSION CREATE ACK.
+        // The real CO-FIT app (verified against full_capture.log) does NOT send a
+        // separate bind/login with random ints — it sends the fixed SESSION CREATE
+        // (cmd=0x03 key=0x02 flag=0x20, data=FFFFFFFF) and proceeds straight into
+        // its config sequence as soon as the watch replies. So the reply to the
+        // handshake *is* the session being established.
+        if (isReply && connectionState == ConnectionState.HANDSHAKE_SENT
+                && cmd == 0x03 && key == 0x02) {
+            log("SESSION CREATE OK");
+            onSessionReady();
             return;
         }
 
@@ -607,20 +585,37 @@ public class BleManager {
                 handler.post(() -> listener.onHealthDataReceived(keyName, healthPayload));
             }
 
-            // Track sync completion
-            if (healthSyncPending > 0) {
-                healthSyncPending--;
-                if (healthSyncPending == 0) {
-                    log("=== Health Sync Complete ===");
-                    if (listener != null) {
-                        handler.post(() -> listener.onHealthSyncComplete());
-                    }
-                }
-            }
-
-            // ACK if it's a notification (not a reply) to acknowledge receipt
+            // ACK unsolicited pushes (watch -> phone) before driving the sync state
+            // machine, otherwise advance the sequential paging.
             if (!isReply) {
                 sendAck(cmd, key, flag);
+            } else {
+                onHealthPage(key & 0xFF, healthPayload.length);
+            }
+            return;
+        }
+
+        // Find phone (SET FIND_PHONE 0x0213, watch -> phone): the watch asks the
+        // phone to ring. The phone keeps ringing until the user stops it (or the
+        // watch sends a stop, payload[0]==0). Verified against the original app's
+        // BleHandleCallback.onFindPhone(boolean).
+        if (cmd == 0x02 && key == 0x13 && !isReply) {
+            boolean start = (data.length <= 9) || (data[9] != 0);
+            log("Find phone: start=" + start);
+            sendAck(cmd, key, flag);
+            if (start)
+                startFindPhoneAlert();
+            else
+                stopFindPhoneAlert();
+            return;
+        }
+
+        // Camera shutter pushed from the watch (CONTROL 0x0601, watch -> phone)
+        if (cmd == 0x06 && key == 0x01 && !isReply) {
+            log("Camera shutter from watch");
+            sendAck(cmd, key, flag);
+            if (cameraListener != null) {
+                handler.post(() -> cameraListener.onShutter());
             }
             return;
         }
@@ -825,36 +820,71 @@ public class BleManager {
      * Per protocol doc 03-HEALTH-DATA.md, the watch responds with packed binary
      * records.
      */
+    // Keys queried during a full health sync, in order.
+    private static final int[] HEALTH_SYNC_KEYS = {
+            HEALTH_KEY_ACTIVITY, // 0x02 - Steps/Calories/Distance
+            HEALTH_KEY_HEART_RATE, // 0x03 - Heart rate BPM
+            HEALTH_KEY_BLOOD_PRESSURE, // 0x04 - Systolic/Diastolic
+            HEALTH_KEY_SLEEP, // 0x05 - Sleep stages
+            HEALTH_KEY_TEMPERATURE, // 0x08 - Body temperature
+            HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
+            HEALTH_KEY_HRV, // 0x0A - Heart rate variability
+            HEALTH_KEY_PRESSURE, // 0x0D - Stress level
+    };
+    private int healthKeyIndex = -1;
+    private int healthPageCount = 0;
+    private static final int MAX_HEALTH_PAGES = 64; // safety cap against infinite paging
+
+    /**
+     * Request all health data from the watch, one key at a time.
+     * For each key we send a READ; the watch replies with a page of packed
+     * records. While the page is non-empty we keep paging with READ_CONTINUE;
+     * an empty page means that key is exhausted and we advance to the next.
+     */
     public void syncHealth() {
         if (connectionState != ConnectionState.SESSION_READY) {
             log("Cannot sync health: session not ready (state=" + connectionState + ")");
             return;
         }
         log("=== Syncing Health Data ===");
-        // Query keys from protocol doc: ACTIVITY, HEART_RATE, BLOOD_PRESSURE, SLEEP,
-        // TEMPERATURE, BLOOD_OXYGEN, HRV, PRESSURE (stress)
-        int[] keys = {
-                HEALTH_KEY_ACTIVITY, // 0x02 - Steps/Calories/Distance
-                HEALTH_KEY_HEART_RATE, // 0x03 - Heart rate BPM
-                HEALTH_KEY_BLOOD_PRESSURE, // 0x04 - Systolic/Diastolic
-                HEALTH_KEY_SLEEP, // 0x05 - Sleep stages
-                HEALTH_KEY_TEMPERATURE, // 0x08 - Body temperature
-                HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
-        };
-        healthSyncPending = keys.length;
+        healthKeyIndex = 0;
+        healthPageCount = 0;
+        requestHealthKey(HEALTH_SYNC_KEYS[0], BleKeyFlag.READ.getValue());
+    }
 
-        // Protocol requires 8-byte timeframe (start to end) for data reads
-        byte[] timeRange = new byte[] {
-                0, 0, 0, 0, // start = 0
-                (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF // end = MAX
-        };
-
-        for (int key : keys) {
-            byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) 0x10, timeRange);
-            enqueueLogicalFrame(msg);
-        }
+    private void requestHealthKey(int key, int flag) {
+        // Verified against the live CO-FIT capture: data reads carry NO payload
+        // (the request is just CMD=05, KEY, FLAG=READ with an empty body). An
+        // empty reply from the watch means "no more records" for that key.
+        byte[] msg = createMessage((byte) 0x05, (byte) key, (byte) flag, null);
+        log("Health READ key=0x" + String.format("%02X", key) + " flag=0x" + String.format("%02X", flag));
+        enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();
+    }
+
+    /** Advance the sequential health sync after a key's page was processed. */
+    private void onHealthPage(int key, int payloadLen) {
+        if (healthKeyIndex < 0)
+            return; // not in a sync session (e.g. unsolicited push)
+        boolean more = payloadLen > 0 && healthPageCount < MAX_HEALTH_PAGES;
+        if (more) {
+            healthPageCount++;
+            requestHealthKey(key, BleKeyFlag.READ_CONTINUE.getValue());
+            return;
+        }
+        // This key is done — move to the next one.
+        healthKeyIndex++;
+        healthPageCount = 0;
+        if (healthKeyIndex < HEALTH_SYNC_KEYS.length) {
+            requestHealthKey(HEALTH_SYNC_KEYS[healthKeyIndex], BleKeyFlag.READ.getValue());
+        } else {
+            healthKeyIndex = -1;
+            log("=== Health Sync Complete ===");
+            if (listener != null) {
+                handler.post(() -> listener.onHealthSyncComplete());
+            }
+        }
     }
 
     private String getHealthKeyName(int key) {
@@ -1016,6 +1046,36 @@ public class BleManager {
                     editor.putString(prefix + "blood_oxygen", sb.toString());
                     break;
                 }
+                case HEALTH_KEY_HRV: {
+                    // ITEM_LENGTH=6: time(4) value(1) avg(1)
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "hrv", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt() + 946684800;
+                        int val = bb.get(); // signed
+                        bb.get(); // avg
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(val);
+                    }
+                    editor.putString(prefix + "hrv", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_PRESSURE: {
+                    // ITEM_LENGTH=6: time(4) value(1) padding(1) — stress 0..100
+                    int itemLen = 6;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "stress", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt() + 946684800;
+                        int val = bb.get() & 0xFF;
+                        bb.get(); // padding
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(val);
+                    }
+                    editor.putString(prefix + "stress", sb.toString());
+                    break;
+                }
                 default:
                     log("  Unhandled health key 0x" + String.format("%02X", key) + " (" + payload.length + " bytes)");
                     break;
@@ -1174,6 +1234,337 @@ public class BleManager {
         startStreamTransfer();
     }
 
+    // ========== Time / Date / Settings Sync ==========
+
+    /**
+     * Push current time + basic clock settings to the watch.
+     * Order mirrors the verified CO-FIT capture: TIME_ZONE, TIME, HOUR_SYSTEM.
+     */
+    public void syncTimeAndSettings() {
+        if (!isSessionReady()) {
+            log("syncTimeAndSettings: session not ready");
+            return;
+        }
+        log("=== Syncing time & settings ===");
+        sendTimeZone();
+        sendTime();
+        sendHourSystem();
+        isSending = true;
+        sendNextChunk();
+    }
+
+    /**
+     * SET TIME (BleKey 0x0201, UPDATE).
+     *
+     * IMPORTANT: the device clock is NOT a 4-byte Unix timestamp (as previously
+     * documented). The verified capture shows a 6-byte calendar structure:
+     *     [year-2000, month(1-12), day, hour(0-23), minute, second]
+     * e.g. 1A 02 05 08 31 0B == 2026-02-05 08:49:11.
+     */
+    public void sendTime() {
+        Calendar c = Calendar.getInstance();
+        byte[] payload = new byte[] {
+                (byte) (c.get(Calendar.YEAR) - 2000),
+                (byte) (c.get(Calendar.MONTH) + 1), // Calendar.MONTH is 0-based
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x01, (byte) 0x00, payload);
+        log("Tx TIME: " + bytesToHex(payload));
+        enqueueLogicalFrame(msg);
+    }
+
+    /**
+     * SET TIME_ZONE (BleKey 0x0202, UPDATE) — single signed byte.
+     * Verified against the original app's BleTimeZone entity: the value is the
+     * UTC offset expressed in 15-minute units, i.e. offsetMillis/1000/60/15.
+     * (e.g. UTC+2 -> 8, UTC-6 -> -24.)
+     */
+    public void sendTimeZone() {
+        int offsetMs = TimeZone.getDefault().getOffset(System.currentTimeMillis());
+        int quarters = offsetMs / 1000 / 60 / 15;
+        byte[] payload = new byte[] { (byte) quarters };
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x02, (byte) 0x00, payload);
+        log("Tx TIME_ZONE: " + bytesToHex(payload) + " (" + quarters + " x15min)");
+        enqueueLogicalFrame(msg);
+    }
+
+    /**
+     * SET HOUR_SYSTEM (BleKey 0x020E, UPDATE) — 0x00 = 12h, 0x01 = 24h.
+     * Defaults to the phone's locale setting.
+     */
+    public void sendHourSystem() {
+        boolean is24 = android.text.format.DateFormat.is24HourFormat(context);
+        byte[] payload = new byte[] { (byte) (is24 ? 0x01 : 0x00) };
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x0E, (byte) 0x00, payload);
+        log("Tx HOUR_SYSTEM: " + bytesToHex(payload));
+        enqueueLogicalFrame(msg);
+    }
+
+    // ========== Weather Push ==========
+    //
+    // Byte layout verified against the original app's decompiled entities
+    // (com.szabh.smable3.entity.BleWeather / BleWeatherRealtime / BleWeatherForecast):
+    //
+    //   BleWeather (10 bytes): currentTemp(i8) maxTemp(i8) minTemp(i8) code(i8)
+    //                          windSpeed(i8) humidity(i8) visibility(i8)
+    //                          uvIndex(i8) precipitation(i16 LITTLE-ENDIAN)
+    //   WEATHER_REALTIME (0x0404, UPDATE): BleTime(6) + BleWeather          = 16 B
+    //   WEATHER_FORECAST (0x0405, UPDATE): BleTime(6) + 3 x BleWeather      = 36 B
+    //
+    // Weather codes: 0=other 1=sunny 2=cloudy 3=overcast 4=rainy 5=thunder
+    //   6=thundershower 7=high-wind 8=snowy 9=foggy 10=sandstorm 11=haze.
+
+    public static final int WEATHER_OTHER = 0, WEATHER_SUNNY = 1, WEATHER_CLOUDY = 2,
+            WEATHER_OVERCAST = 3, WEATHER_RAINY = 4, WEATHER_THUNDER = 5,
+            WEATHER_THUNDERSHOWER = 6, WEATHER_HIGH_WIND = 7, WEATHER_SNOWY = 8,
+            WEATHER_FOGGY = 9, WEATHER_SANDSTORM = 10, WEATHER_HAZE = 11;
+
+    /** One BleWeather record (10 bytes once encoded). All temps in °C. */
+    public static class WeatherDay {
+        public int conditionCode; // 0..11 (see WEATHER_* constants)
+        public int tempCurrent;
+        public int tempLow;
+        public int tempHigh;
+        public int windSpeed;     // km/h
+        public int humidity;      // %
+        public int visibility;    // km
+        public int uvIndex;
+        public int precipitation; // % (0..100), encoded as int16 LE
+
+        public WeatherDay(int conditionCode, int tempCurrent, int tempLow, int tempHigh) {
+            this(conditionCode, tempCurrent, tempLow, tempHigh, 0, 0, 0, 0, 0);
+        }
+
+        public WeatherDay(int conditionCode, int tempCurrent, int tempLow, int tempHigh,
+                int windSpeed, int humidity, int visibility, int uvIndex, int precipitation) {
+            this.conditionCode = conditionCode;
+            this.tempCurrent = tempCurrent;
+            this.tempLow = tempLow;
+            this.tempHigh = tempHigh;
+            this.windSpeed = windSpeed;
+            this.humidity = humidity;
+            this.visibility = visibility;
+            this.uvIndex = uvIndex;
+            this.precipitation = precipitation;
+        }
+    }
+
+    /** Appends a 10-byte BleWeather record. precipitation is int16 little-endian. */
+    private void putBleWeather(ByteBuffer buf, WeatherDay d) {
+        buf.put((byte) d.tempCurrent);
+        buf.put((byte) d.tempHigh);
+        buf.put((byte) d.tempLow);
+        buf.put((byte) d.conditionCode);
+        buf.put((byte) d.windSpeed);
+        buf.put((byte) d.humidity);
+        buf.put((byte) d.visibility);
+        buf.put((byte) d.uvIndex);
+        buf.put((byte) (d.precipitation & 0xFF));        // LE low byte
+        buf.put((byte) ((d.precipitation >> 8) & 0xFF)); // LE high byte
+    }
+
+    /**
+     * Push current weather (today) + a 3-day forecast to the watch.
+     *
+     * @param days today first, then the next days (forecast uses up to 3)
+     * @param city ignored by this protocol variant (kept for the public API)
+     */
+    public void sendWeather(List<WeatherDay> days, String city) {
+        if (!isSessionReady() || days == null || days.isEmpty()) {
+            log("sendWeather: not ready or no data");
+            return;
+        }
+        Calendar now = Calendar.getInstance();
+
+        // --- WEATHER_REALTIME (0x0404): BleTime + BleWeather (16 bytes) ---
+        ByteBuffer rt = ByteBuffer.allocate(16);
+        rt.order(ByteOrder.BIG_ENDIAN);
+        putBleTime(rt, now);
+        putBleWeather(rt, days.get(0));
+        enqueueLogicalFrame(createMessage((byte) 0x04, (byte) 0x04, (byte) 0x00, rt.array()));
+        log("Tx WEATHER_REALTIME: " + bytesToHex(rt.array()));
+
+        // --- WEATHER_FORECAST (0x0405): BleTime + 3 x BleWeather (36 bytes) ---
+        ByteBuffer fc = ByteBuffer.allocate(36);
+        fc.order(ByteOrder.BIG_ENDIAN);
+        putBleTime(fc, now);
+        for (int i = 0; i < 3; i++) {
+            // Repeat the last available day if fewer than 3 were supplied.
+            WeatherDay d = days.get(Math.min(i, days.size() - 1));
+            putBleWeather(fc, d);
+        }
+        enqueueLogicalFrame(createMessage((byte) 0x04, (byte) 0x05, (byte) 0x00, fc.array()));
+        log("Tx WEATHER_FORECAST: " + bytesToHex(fc.array()));
+
+        isSending = true;
+        sendNextChunk();
+    }
+
+    /** Convenience hook for the UI: fetch current weather and push it to the watch. */
+    public void syncWeather() {
+        WeatherSync.syncIfPossible(context, this);
+    }
+
+    /**
+     * Writes a 6-byte BleTime [year-2000, month, day, hour, min, sec].
+     * Verified against the original app's decompiled BleTime entity
+     * (ITEM_LENGTH = 6, no weekday byte).
+     */
+    private void putBleTime(ByteBuffer buf, Calendar c) {
+        buf.put((byte) (c.get(Calendar.YEAR) - 2000));
+        buf.put((byte) (c.get(Calendar.MONTH) + 1));
+        buf.put((byte) c.get(Calendar.DAY_OF_MONTH));
+        buf.put((byte) c.get(Calendar.HOUR_OF_DAY));
+        buf.put((byte) c.get(Calendar.MINUTE));
+        buf.put((byte) c.get(Calendar.SECOND));
+    }
+
+    // ========== Device Control & Settings ==========
+
+    /** Optional callback for remote-camera events from the watch. */
+    public interface CameraListener {
+        void onShutter();
+    }
+
+    private CameraListener cameraListener;
+
+    public void setCameraListener(CameraListener l) {
+        this.cameraListener = l;
+    }
+
+    // CAMERA (0x0601) control states observed from the original app.
+    public static final int CAMERA_ENTER = 0x01; // phone entered camera screen
+    public static final int CAMERA_EXIT = 0x00; // phone left camera screen
+
+    /**
+     * Tell the watch the phone's camera screen is open/closed (CAMERA 0x0601).
+     * While open, pressing the watch's shutter makes the watch send a 0x0601
+     * push which we surface via {@link CameraListener#onShutter()}.
+     */
+    public void sendCamera(int state) {
+        if (!isSessionReady())
+            return;
+        byte[] msg = createMessage((byte) 0x06, (byte) 0x01, (byte) 0x00, new byte[] { (byte) state });
+        log("Tx CAMERA state=" + state);
+        enqueueLogicalFrame(msg);
+        isSending = true;
+        sendNextChunk();
+    }
+
+    // ===== Find phone (watch rings the phone) =====
+    private MediaPlayer findPhonePlayer;
+    private static final String FIND_PHONE_CHANNEL = "find_phone";
+    private static final int FIND_PHONE_NOTIF_ID = 4101;
+    public static final String ACTION_FIND_PHONE_STOP = "com.example.dialsender.FIND_PHONE_STOP";
+
+    /** Start ringing + vibrating the phone, with a notification + screen to stop. */
+    public void startFindPhoneAlert() {
+        handler.post(() -> {
+            try {
+                if (findPhonePlayer == null) {
+                    Uri uri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE);
+                    if (uri == null)
+                        uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                    findPhonePlayer = new MediaPlayer();
+                    findPhonePlayer.setAudioAttributes(new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_ALARM)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+                    findPhonePlayer.setDataSource(context, uri);
+                    findPhonePlayer.setLooping(true);
+                    findPhonePlayer.prepare();
+                    findPhonePlayer.start();
+                }
+                try {
+                    Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                    if (v != null && v.hasVibrator()) {
+                        v.vibrate(VibrationEffect.createWaveform(new long[] { 0, 600, 400 }, 0));
+                    }
+                } catch (Exception ve) {
+                    log("Find phone vibrate skipped: " + ve.getMessage());
+                }
+                postFindPhoneNotification();
+                log("Find phone: ringing");
+            } catch (Exception e) {
+                log("Find phone ring error: " + e.getMessage());
+            }
+        });
+    }
+
+    /** Stop the find-phone alert. */
+    public void stopFindPhoneAlert() {
+        handler.post(() -> {
+            if (findPhonePlayer != null) {
+                try {
+                    findPhonePlayer.stop();
+                    findPhonePlayer.release();
+                } catch (Exception ignored) {
+                }
+                findPhonePlayer = null;
+            }
+            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (v != null)
+                v.cancel();
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (nm != null)
+                nm.cancel(FIND_PHONE_NOTIF_ID);
+            log("Find phone: stopped");
+        });
+    }
+
+    public boolean isFindPhoneActive() {
+        return findPhonePlayer != null;
+    }
+
+    @SuppressLint("MissingPermission")
+    private void postFindPhoneNotification() {
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel ch = new NotificationChannel(FIND_PHONE_CHANNEL,
+                    "Buscar teléfono", NotificationManager.IMPORTANCE_HIGH);
+            ch.setSound(null, null); // we ring via MediaPlayer
+            nm.createNotificationChannel(ch);
+        }
+        Intent stopIntent = new Intent(ACTION_FIND_PHONE_STOP).setPackage(context.getPackageName());
+        PendingIntent stopPi = PendingIntent.getBroadcast(context, 0, stopIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        Intent full = new Intent(context, com.example.dialsender.FindPhoneActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent fullPi = PendingIntent.getActivity(context, 1, full,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context, FIND_PHONE_CHANNEL)
+                .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+                .setContentTitle("Tu reloj está buscando el teléfono")
+                .setContentText("Toca «Detener» para silenciar")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setOngoing(true)
+                .setFullScreenIntent(fullPi, true)
+                .addAction(0, "Detener", stopPi);
+        try {
+            nm.notify(FIND_PHONE_NOTIF_ID, b.build());
+        } catch (Exception ignored) {
+        }
+    }
+
+    /**
+     * Generic settings writer for SET (0x02) keys. Use the authoritative key
+     * values in protocols/reference/blekey_map_authoritative.txt.
+     */
+    public void sendSetting(int key, byte[] data) {
+        if (!isSessionReady())
+            return;
+        byte[] msg = createMessage((byte) 0x02, (byte) key, (byte) 0x00, data);
+        log("Tx SET key=0x" + String.format("%02X", key) + " " + bytesToHex(data));
+        enqueueLogicalFrame(msg);
+        isSending = true;
+        sendNextChunk();
+    }
+
     // ========== Notification Forwarding ==========
 
     public void sendNotification(int category, String title, String content, String packageName) {
@@ -1181,28 +1572,25 @@ public class BleManager {
             if (!isSessionReady())
                 return;
 
-            // Payload: [category:1B][timestamp:4B LE][package:32B][title:32B][content:250B
-            // null-term]
-            byte[] pkgBytes = fixedBytes(packageName != null ? packageName : "", 32);
-            byte[] titleBytes = fixedBytes(title != null ? title : "", 32);
-            byte[] contentBytes = limitedBytes(content != null ? content : "", 250);
+            // BleNotification (0x0401, UPDATE) — layout verified against the
+            // original app's decompiled BleNotification entity:
+            //   [0]       mCategory (int8)
+            //   [1..6]    mTime (BleTime, 6 bytes: yy,MM,dd,hh,mm,ss)
+            //   [7..38]   mPackage (32 bytes fixed, UTF-8, null-padded)
+            //   [39..70]  mTitle   (32 bytes fixed, UTF-8, null-padded)
+            //   [71..]    mContent (actual UTF-8 bytes, truncated to 250, NOT padded)
+            // Total = 71 + contentBytes (variable length).
+            byte[] contentBytes = truncatedUtf8(content != null ? content : "", 250);
+            ByteBuffer buf = ByteBuffer.allocate(71 + contentBytes.length);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.put((byte) category);
+            putBleTime(buf, Calendar.getInstance());
+            buf.put(fixedBytes(packageName != null ? packageName : "", 32));
+            buf.put(fixedBytes(title != null ? title : "", 32));
+            buf.put(contentBytes);
 
-            long ts = (System.currentTimeMillis() / 1000L) - 946684800L; // seconds since 2000-01-01
-            byte[] payload = new byte[1 + 4 + 32 + 32 + contentBytes.length];
-            int i = 0;
-            payload[i++] = (byte) category;
-            // timestamp 4 bytes little-endian
-            payload[i++] = (byte) (ts & 0xFF);
-            payload[i++] = (byte) ((ts >> 8) & 0xFF);
-            payload[i++] = (byte) ((ts >> 16) & 0xFF);
-            payload[i++] = (byte) ((ts >> 24) & 0xFF);
-            System.arraycopy(pkgBytes, 0, payload, i, 32);
-            i += 32;
-            System.arraycopy(titleBytes, 0, payload, i, 32);
-            i += 32;
-            System.arraycopy(contentBytes, 0, payload, i, contentBytes.length);
-
-            byte[] frame = BleMessenger.buildFrame(BleKey.NOTIFICATION, BleKeyFlag.CREATE, payload, false);
+            byte[] frame = createMessage((byte) 0x04, (byte) 0x01, (byte) 0x00, buf.array());
+            log("Tx NOTIFICATION cat=" + category + " pkg=" + packageName + " title=" + title);
             enqueueLogicalFrame(frame);
             if (!isSending) {
                 isSending = true;
@@ -1222,16 +1610,12 @@ public class BleManager {
         return dst;
     }
 
-    /**
-     * Returns UTF-8 bytes of {@code s}, truncated to {@code maxLen},
-     * null-terminated.
-     */
-    private byte[] limitedBytes(String s, int maxLen) {
+    /** UTF-8 bytes of {@code s}, truncated to at most {@code maxLen} bytes. */
+    private byte[] truncatedUtf8(String s, int maxLen) {
         byte[] src = s.getBytes(java.nio.charset.StandardCharsets.UTF_8);
-        int len = Math.min(src.length, maxLen - 1);
-        byte[] dst = new byte[len + 1]; // +1 for null terminator
-        System.arraycopy(src, 0, dst, 0, len);
-        return dst;
+        if (src.length <= maxLen)
+            return src;
+        return Arrays.copyOf(src, maxLen);
     }
 
     // ========== Utility ==========

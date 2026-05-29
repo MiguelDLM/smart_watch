@@ -31,6 +31,17 @@
             android:textColor="@color/accent_primary"
             android:textSize="20sp"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/btnShareDetail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_send"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/text_primary"
+            android:contentDescription="Compartir"/>
     </LinearLayout>
 
     <!-- Time range toggle -->

@@ -9,7 +9,7 @@ __pycache__
 decompiled_apk/
 hk89comp_decomp/
 hk89comp_decomp.tgz
-6.12_test-master/
+6.12_test-master/**
 apk/
 test_suite/
 output_enhanced_v2/
@@ -23,3 +23,34 @@ local.properties
 dial-sender/app/src/main/stfemulator/
 jieli/
 ideas/**
+tools/**
+hk89comp_decomp_from_xda/**
+dial_verification/**
+_dial/**
+.agents/**
+.claude/**
+.github/**
+firmware/**
+
+# --- Scripts de análisis / ingeniería inversa (no parte de la app) ---
+*.py
+*.js
+*.hex
+*.png
+*.tgz
+
+# --- Archivos de debug y capturas ---
+debug_log*.txt
+full_capture.log
+*.log
+
+# --- Documentación interna y otros ---
+README_DIAL_FORMAT.md
+skills-lock.json
+
+# --- Directorios de herramientas externas ---
+protocols/
+zzuler/
+temp_ref/
+_/
+

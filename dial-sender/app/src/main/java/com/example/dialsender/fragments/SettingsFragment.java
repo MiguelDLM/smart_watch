@@ -37,6 +37,14 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         prefs = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
+        // Profile header — show the bound device address (if any)
+        android.widget.TextView profileDevice = view.findViewById(R.id.txtProfileDevice);
+        if (profileDevice != null) {
+            String addr = com.example.dialsender.ble.BleManager.getInstance(requireContext())
+                    .getLastDeviceAddress();
+            profileDevice.setText(addr != null ? "Reloj: " + addr : "Sin dispositivo vinculado");
+        }
+
         // Notifications row
         view.findViewById(R.id.rowNotifications).setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), NotificationSettingsActivity.class)));
