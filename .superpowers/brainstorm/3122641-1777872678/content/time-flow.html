@@ -1,0 +1,87 @@
+<h2>¿Cómo aparece el diálogo al agregar "Hora"?</h2>
+<p class="subtitle">Cuando el usuario toca <strong>+ → Hora</strong>, ¿qué ve primero?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1a2e;padding:16px;border-radius:8px;font-family:sans-serif">
+      <div style="background:#252540;border-radius:12px;padding:14px;color:#e0e0f0;font-size:13px">
+        <div style="font-weight:bold;font-size:15px;margin-bottom:10px">⏰ Formato de hora</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <div style="flex:1;background:#4a4aff;border-radius:8px;padding:8px;text-align:center;font-size:12px">HH:MM</div>
+          <div style="flex:1;background:#333;border-radius:8px;padding:8px;text-align:center;font-size:12px">HH:MM:SS</div>
+        </div>
+        <div style="font-weight:bold;margin-bottom:8px">Modo de diseño</div>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;background:#4a4aff;border-radius:8px;padding:8px;text-align:center;font-size:12px">🎨 Todo junto</div>
+          <div style="flex:1;background:#333;border-radius:8px;padding:8px;text-align:center;font-size:12px">✂️ Por partes</div>
+        </div>
+        <div style="margin-top:12px;text-align:right">
+          <span style="background:#4a4aff;border-radius:6px;padding:6px 14px;font-size:12px">Continuar →</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Diálogo único</h3>
+      <p>Un solo diálogo con formato + modo. Compacto, una sola confirmación. Mejor para usuarios que ya saben lo que quieren.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1a2e;padding:16px;border-radius:8px;font-family:sans-serif">
+      <div style="background:#252540;border-radius:12px;padding:14px;color:#e0e0f0;font-size:13px">
+        <div style="font-weight:bold;font-size:15px;margin-bottom:6px">Paso 1 de 2 — Formato</div>
+        <div style="color:#aaa;font-size:11px;margin-bottom:10px">¿Con o sin segundos?</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:#4a4aff;border-radius:8px;padding:10px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:16px">🕐</span>
+            <div><div style="font-weight:bold">HH:MM</div><div style="font-size:10px;color:#ccc">Hora y minutos</div></div>
+          </div>
+          <div style="background:#333;border-radius:8px;padding:10px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:16px">⏱️</span>
+            <div><div style="font-weight:bold">HH:MM:SS</div><div style="font-size:10px;color:#ccc">Hora, minutos y segundos</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Wizard en pasos</h3>
+      <p>Paso 1: elegir formato. Paso 2: elegir modo (junto/separado). Más guiado, menos decisiones simultáneas.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1a2e;padding:16px;border-radius:8px;font-family:sans-serif">
+      <div style="background:#252540;border-radius:12px;padding:14px;color:#e0e0f0;font-size:13px">
+        <div style="font-weight:bold;font-size:15px;margin-bottom:10px">Agregar elemento</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:#333;border-radius:8px;padding:10px;text-align:center;font-size:11px">
+            <div style="font-size:20px">🕐</div>
+            <div style="font-weight:bold">HH:MM</div>
+            <div style="color:#aaa;font-size:10px">Junto</div>
+          </div>
+          <div style="background:#333;border-radius:8px;padding:10px;text-align:center;font-size:11px">
+            <div style="font-size:20px">🕐</div>
+            <div style="font-weight:bold">HH:MM</div>
+            <div style="color:#aaa;font-size:10px">Por partes</div>
+          </div>
+          <div style="background:#333;border-radius:8px;padding:10px;text-align:center;font-size:11px">
+            <div style="font-size:20px">⏱️</div>
+            <div style="font-weight:bold">HH:MM:SS</div>
+            <div style="color:#aaa;font-size:10px">Junto</div>
+          </div>
+          <div style="background:#333;border-radius:8px;padding:10px;text-align:center;font-size:11px">
+            <div style="font-size:20px">⏱️</div>
+            <div style="font-weight:bold">HH:MM:SS</div>
+            <div style="color:#aaa;font-size:10px">Por partes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 4 opciones directas</h3>
+      <p>Todas las combinaciones visibles de una vez en el menú de agregar. Sin pasos adicionales, pero más denso visualmente.</p>
+    </div>
+  </div>
+
+</div>

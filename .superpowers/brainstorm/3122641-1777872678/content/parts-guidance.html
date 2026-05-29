@@ -1,0 +1,61 @@
+<h2>Modo "Por partes" — ¿cómo sabe el usuario que falta Minutos?</h2>
+<p class="subtitle">El usuario eligió <strong>HH:MM · Por partes</strong>, ya puso Horas en el canvas. ¿Qué le indica que falta crear Minutos?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#1e1e1e;border-radius:50%;width:160px;height:160px;margin:0 auto;position:relative;border:2px solid #333">
+        <!-- hora en canvas -->
+        <div style="position:absolute;top:32%;left:38%;transform:translate(-50%,-50%);background:rgba(74,74,255,0.15);border:1px solid #4a4aff;border-radius:4px;padding:4px 8px;font-size:18px;color:#4a4aff;font-weight:bold">12</div>
+        <!-- placeholder minutos -->
+        <div style="position:absolute;top:32%;left:62%;transform:translate(-50%,-50%);background:rgba(255,160,0,0.1);border:2px dashed #FFA000;border-radius:4px;padding:4px 8px;font-size:11px;color:#FFA000;font-weight:bold">MM<br><span style="font-size:8px">pendiente</span></div>
+      </div>
+      <div style="margin-top:8px;text-align:center;font-size:10px;color:#FFA000">⚠ Toca "MM" para completar</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Placeholder visual en el canvas</h3>
+      <p>Al elegir "Por partes", ambas capas (Horas ✓ y Minutos ⏳) aparecen en el canvas desde el inicio. La de Minutos está vacía/naranja hasta que el usuario la toca para elegir estilo.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#1e1e1e;border-radius:8px;padding:10px;font-size:11px;color:#e0e0f0">
+        <div style="font-weight:bold;margin-bottom:6px;font-size:12px">📋 Capas</div>
+        <div style="display:flex;align-items:center;gap:6px;background:#252540;border-radius:6px;padding:6px;margin-bottom:4px">
+          <span style="color:#4CAF50">✓</span>
+          <span style="flex:1">Horas — Digital Blue</span>
+          <span style="font-size:9px;color:#888">listo</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;background:#3a2a00;border:1px solid #FFA000;border-radius:6px;padding:6px;margin-bottom:4px">
+          <span style="color:#FFA000">○</span>
+          <span style="flex:1;color:#FFA000">Minutos — sin estilo</span>
+          <span style="background:#FFA000;color:#000;border-radius:4px;padding:1px 5px;font-size:9px">Tap</span>
+        </div>
+        <div style="font-size:9px;color:#555;margin-top:4px">2/2 partes — falta 1</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Indicador en panel de capas</h3>
+      <p>El panel de capas muestra todas las partes del grupo con su estado (✓ listo / ⏳ pendiente). Las pendientes tienen un botón "Tap" para asignarles estilo.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#1e1e1e;border-radius:50%;width:160px;height:160px;margin:0 auto;position:relative;border:2px solid #333">
+        <div style="position:absolute;top:32%;left:50%;transform:translate(-50%,-50%);background:rgba(74,74,255,0.15);border:1px solid #4a4aff;border-radius:4px;padding:4px 8px;font-size:18px;color:#4a4aff;font-weight:bold">12</div>
+      </div>
+      <div style="background:#3a2a00;border:1px solid #FFA000;border-radius:6px;padding:8px;margin-top:8px;font-size:11px;color:#FFA000;display:flex;align-items:center;gap:6px">
+        <span>⚠️</span>
+        <span>Falta diseñar: <strong>Minutos</strong> — toca + para continuar</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Banner de advertencia flotante</h3>
+      <p>Un banner naranja aparece debajo del canvas advirtiendo "Falta: Minutos". Al tocar + y seleccionar Hora, el flujo sabe que continúa con Minutos automáticamente.</p>
+    </div>
+  </div>
+
+</div>

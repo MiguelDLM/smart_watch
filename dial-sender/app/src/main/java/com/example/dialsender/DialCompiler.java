@@ -478,11 +478,9 @@ public class DialCompiler {
             jsonBlock.put("posx", block.x);
             jsonBlock.put("posy", block.y);
             jsonBlock.put("w", block.width);
-            // align=0 for hands, align=10 for numeric scroll elements, align=9 for rest
+            // align=10 for numeric scroll elements, align=9 for rest (including hands)
             int alignment;
-            if (block.type == TYPE_ARM_HOUR || block.type == TYPE_ARM_MIN || block.type == TYPE_ARM_SEC) {
-                alignment = 0;
-            } else if (block.type == TYPE_DIGITAL_HOUR || block.type == TYPE_DIGITAL_MIN ||
+            if (block.type == TYPE_DIGITAL_HOUR || block.type == TYPE_DIGITAL_MIN ||
                     block.type == TYPE_SECONDS || block.type == TYPE_STEPS || block.type == TYPE_HEART ||
                     block.type == TYPE_CALORIE || block.type == TYPE_DISTANCE || block.type == TYPE_BATTERY ||
                     block.type == TYPE_TEMP || block.type == TYPE_DAY || block.type == TYPE_MONTH ||
@@ -498,10 +496,16 @@ public class DialCompiler {
                 jsonBlock.put("ctx", block.animIntervalMs / 10);
                 jsonBlock.put("cty", 0);
             } else if (block.type == TYPE_ARM_HOUR || block.type == TYPE_ARM_MIN || block.type == TYPE_ARM_SEC) {
-                // Heuristic for hands: pivot at middle-bottom (with 20px tail)
-                // cty=tail length from bottom. ctx=center of image.
+                // FORCE POSITION TO CENTER for hands (ignore user movement for now as it's too unstable)
+                jsonBlock.put("posx", deviceWidth / 2);
+                jsonBlock.put("posy", deviceHeight / 2);
+                
+                // centX = horizontal middle of hand image
                 jsonBlock.put("ctx", block.width / 2);
-                jsonBlock.put("cty", 20); 
+                
+                // centY = tail length from bottom. 
+                // Using 24px as default tail to ensure it covers the center pin.
+                jsonBlock.put("cty", 24); 
             } else {
                 jsonBlock.put("ctx", 0);
                 jsonBlock.put("cty", 0);

@@ -1,0 +1,62 @@
+<h2>Modo "Todo junto" — ¿qué crea en el canvas?</h2>
+<p class="subtitle">El usuario eligió <strong>HH:MM</strong> + <strong>Todo junto</strong>. Seleccionó un preset/font. ¿Qué aparece en el canvas?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#1e1e1e;border-radius:50%;width:160px;height:160px;margin:0 auto;position:relative;border:2px solid #333">
+        <!-- canvas circular -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);display:flex;gap:0;align-items:center">
+          <div style="background:rgba(74,74,255,0.15);border:1px dashed #4a4aff;border-radius:4px;padding:4px 6px;font-size:18px;color:#4a4aff;font-weight:bold">12</div>
+          <div style="color:#888;font-size:18px;padding:0 2px">:</div>
+          <div style="background:rgba(74,74,255,0.15);border:1px dashed #4a4aff;border-radius:4px;padding:4px 6px;font-size:18px;color:#4a4aff;font-weight:bold">34</div>
+        </div>
+        <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:9px;color:#555;white-space:nowrap">2 capas, mismo estilo</div>
+      </div>
+      <div style="margin-top:8px;text-align:center;font-size:11px;color:#aaa">Capas en panel: <span style="color:#4a4aff">■ Horas &nbsp; ■ Minutos</span></div>
+    </div>
+    <div class="card-body">
+      <h3>A — 2 capas independientes, mismo estilo</h3>
+      <p>Aparecen Horas y Minutos como capas separadas con el mismo preset/font ya aplicado. El usuario las mueve libremente.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#1e1e1e;border-radius:50%;width:160px;height:160px;margin:0 auto;position:relative;border:2px solid #333">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);display:flex;gap:0;align-items:center">
+          <div style="background:rgba(74,74,255,0.15);border:2px solid #4a4aff;border-radius:4px;padding:4px 6px;font-size:18px;color:#4a4aff;font-weight:bold">12</div>
+          <div style="color:#888;font-size:18px;padding:0 2px">:</div>
+          <div style="background:rgba(74,74,255,0.15);border:2px solid #4a4aff;border-radius:4px;padding:4px 6px;font-size:18px;color:#4a4aff;font-weight:bold">34</div>
+        </div>
+        <div style="position:absolute;top:calc(50% - 34px);left:50%;transform:translateX(-50%);width:90px;border:1px dashed #4a4aff;border-radius:6px;height:38px;pointer-events:none"></div>
+        <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:9px;color:#555;white-space:nowrap">grupo vinculado</div>
+      </div>
+      <div style="margin-top:8px;text-align:center;font-size:11px;color:#aaa">Panel: <span style="color:#4a4aff">▣ Grupo HH:MM</span> (expandible)</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Grupo vinculado</h3>
+      <p>Horas y Minutos aparecen como un grupo. Se mueven juntos. El usuario puede separar el grupo si quiere ajustar individualmente.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;border-radius:8px;padding:12px;font-family:sans-serif">
+      <div style="background:#252540;border-radius:10px;padding:12px;color:#e0e0f0;font-size:12px">
+        <div style="font-weight:bold;margin-bottom:8px">📍 ¿Dónde quieres "HH:MM"?</div>
+        <div style="display:flex;gap:6px;margin-bottom:6px">
+          <div style="background:#333;border-radius:6px;flex:1;padding:6px;text-align:center;font-size:11px">Centro</div>
+          <div style="background:#4a4aff;border-radius:6px;flex:1;padding:6px;text-align:center;font-size:11px">Superior</div>
+          <div style="background:#333;border-radius:6px;flex:1;padding:6px;text-align:center;font-size:11px">Inferior</div>
+        </div>
+        <div style="font-size:10px;color:#888">Después puedes ajustar en el canvas</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Posición guiada + 2 capas</h3>
+      <p>El diálogo pregunta dónde ubicar la hora. Crea 2 capas separadas pre-posicionadas en ese lugar. Más simple para el usuario nuevo.</p>
+    </div>
+  </div>
+
+</div>
