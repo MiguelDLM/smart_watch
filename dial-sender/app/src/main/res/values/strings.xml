@@ -193,5 +193,18 @@
     <string name="nav_dials">Carátulas</string>
     <string name="nav_device">Reloj</string>
     <string name="nav_health">Salud</string>
-    <string name="nav_settings">Mi</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_estado">Estado</string>
+    <string name="nav_deporte">Deporte</string>
+    <string name="nav_yo">Yo</string>
+    <string name="dev_watchfaces">Esferas del reloj</string>
+    <string name="dev_camera">Cámara</string>
+    <string name="dev_find_watch">Buscar teléfono (probar)</string>
+    <string name="dev_notifications">Notificación de mensajes</string>
+    <string name="dev_antilost">Anti-pérdida</string>
+    <string name="dev_disconnect">Desconectar</string>
+    <string name="state_on">Encendido</string>
+    <string name="state_off">Apagado</string>
+    <string name="dev_dnd">No molestar</string>
+    <string name="dev_sedentary">Recordatorio sedentario</string>
 </resources>

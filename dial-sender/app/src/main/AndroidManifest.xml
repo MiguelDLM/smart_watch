@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dialsender">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera.any" android:required="false"/>
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -57,6 +61,33 @@
         <activity
             android:name=".NotificationSettingsActivity"
             android:exported="false"/>
+
+        <activity
+            android:name=".CameraActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity
+            android:name=".MetricDetailActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity
+            android:name=".FindPhoneActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"/>
+
+        <receiver
+            android:name=".ble.FindPhoneStopReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.dialsender.FIND_PHONE_STOP"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".ble.WatchNotificationService"

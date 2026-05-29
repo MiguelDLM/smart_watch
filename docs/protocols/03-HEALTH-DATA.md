@@ -41,6 +41,14 @@ Every entity has a constant `ITEM_LENGTH` value. The total payload length is
 always a multiple of `ITEM_LENGTH`. The receiving side iterates over the
 payload by advancing a `ByteBuffer` cursor by `ITEM_LENGTH` bytes per record.
 
+> **EPOCH NOTE (see [10-CAPTURE-FINDINGS.md](./10-CAPTURE-FINDINGS.md) §4):**
+> The `mTime` field is a 32-bit seconds counter, but the origin is most likely
+> **2000-01-01**, not the 1970 Unix epoch. The reference app adds `946684800`
+> (the 1970→2000 delta) to convert record times to real Unix time, and the
+> device clock (doc 02 / doc 10) is 2000-based. This was not confirmed on the
+> wire (the capture contained no health sync); verify before relying on absolute
+> record times. Sensor values are unaffected by the epoch choice.
+
 ---
 
 ## 2. Common Conventions
@@ -48,7 +56,7 @@ payload by advancing a `ByteBuffer` cursor by `ITEM_LENGTH` bytes per record.
 | Convention          | Detail                                                      |
 |---------------------|-------------------------------------------------------------|
 | Byte order          | Big-endian (network byte order) for all multi-byte fields   |
-| Timestamp field     | `int32`, seconds since Unix epoch (1970-01-01T00:00:00Z)    |
+| Timestamp field     | `int32` seconds counter — **likely 2000-01-01 epoch**, see note |
 | Payload layout      | N records × ITEM_LENGTH bytes, no framing between records   |
 | Read method         | Sequential `ByteBuffer` reads (`getInt`, `get`, `getShort`) |
 | Signed integers     | Java `byte` / `short` / `int` — sign-extended on read       |

@@ -166,10 +166,12 @@ public class GaugeView extends View {
             canvas.drawArc(oval, startAngle, sweep, false, arcPaint);
         }
 
-        float referenceWidth = Math.min(w, h * 1.5f);
-        float valueSp = referenceWidth * 0.22f * valueTextSizeMultiplier;
-        float labelSp = referenceWidth * 0.10f;
-        float subSp = referenceWidth * 0.08f;
+        // Size text relative to the actual arc diameter so the value never
+        // overflows the ring (previously based on full view width).
+        float referenceWidth = isSemi ? Math.min(w, h * 1.5f) : arcDiameter;
+        float valueSp = referenceWidth * (isSemi ? 0.22f : 0.20f);
+        float labelSp = referenceWidth * (isSemi ? 0.10f : 0.09f);
+        float subSp = referenceWidth * (isSemi ? 0.08f : 0.07f);
         float textY;
         if (isSemi) {
             textY = top + arcDiameter / 2f + stroke;

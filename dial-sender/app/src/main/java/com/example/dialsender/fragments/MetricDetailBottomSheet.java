@@ -96,6 +96,10 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
+        View btnShare = view.findViewById(R.id.btnShareDetail);
+        if (btnShare != null)
+            btnShare.setOnClickListener(v -> shareMetric());
+
         return view;
     }
 
@@ -250,6 +254,18 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT));
         }
+    }
+
+    private void shareMetric() {
+        String label = metricKey.replace("_", " ");
+        String range = currentRange == RANGE_DAY ? "hoy"
+                : currentRange == RANGE_WEEK ? "esta semana" : "este mes";
+        String val = txtValue.getText() != null ? txtValue.getText().toString() : "—";
+        String text = "Mi " + label + " (" + range + "): " + val + "\nCompartido desde Dial Studio";
+        android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, text);
+        startActivity(android.content.Intent.createChooser(i, "Compartir"));
     }
 
     private long getTodayStart() {

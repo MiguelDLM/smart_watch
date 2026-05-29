@@ -150,7 +150,67 @@
 
         </LinearLayout>
 
+        <!-- Device functions / settings list (Co-Fit style) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:layout_marginBottom="12dp">
 
+            <LinearLayout android:id="@+id/btnWatchFaces" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_watchfaces"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/btnNotifs" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_notifications"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/btnCamera" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_camera"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/rowDnd" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_dnd"/>
+                <TextView android:id="@+id/txtDnd" style="@style/DeviceRowValue"
+                    android:text="@string/state_off"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/rowSedentary" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_sedentary"/>
+                <TextView android:id="@+id/txtSedentary" style="@style/DeviceRowValue"
+                    android:text="@string/state_off"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/rowAntiLost" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_antilost"/>
+                <TextView android:id="@+id/txtAntiLost" style="@style/DeviceRowValue"
+                    android:text="@string/state_off"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/btnFindWatch" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_find_watch"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/btnDisconnect" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel"
+                    android:textColor="@color/status_disconnected"
+                    android:text="@string/dev_disconnect"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <!-- BLE Log section -->
         <LinearLayout

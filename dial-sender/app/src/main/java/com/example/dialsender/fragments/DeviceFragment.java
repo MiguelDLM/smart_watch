@@ -100,6 +100,119 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         bleManager.setListener(this);
 
         btnConnect.setOnClickListener(v -> handleConnect());
+
+        // Device function entries
+        View btnWatchFaces = view.findViewById(R.id.btnWatchFaces);
+        if (btnWatchFaces != null) {
+            btnWatchFaces.setOnClickListener(v -> {
+                if (getActivity() instanceof com.example.dialsender.MainActivity) {
+                    ((com.example.dialsender.MainActivity) getActivity())
+                            .showFragment(new DialsFragment());
+                }
+            });
+        }
+        View btnCamera = view.findViewById(R.id.btnCamera);
+        if (btnCamera != null) {
+            btnCamera.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.example.dialsender.CameraActivity.class)));
+        }
+        // "Buscar teléfono" is normally triggered FROM the watch (the phone rings).
+        // This entry lets the user preview/stop that alert.
+        View btnFindWatch = view.findViewById(R.id.btnFindWatch);
+        if (btnFindWatch != null) {
+            btnFindWatch.setOnClickListener(v -> {
+                if (bleManager.isFindPhoneActive()) {
+                    bleManager.stopFindPhoneAlert();
+                } else {
+                    bleManager.startFindPhoneAlert();
+                    Toast.makeText(requireContext(),
+                            "Sonando… (el reloj activa esto). Toca de nuevo o «Detener» para parar.",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        // Notificaciones de apps
+        View btnNotifs = view.findViewById(R.id.btnNotifs);
+        if (btnNotifs != null) {
+            btnNotifs.setOnClickListener(v -> startActivity(
+                    new Intent(requireContext(), com.example.dialsender.NotificationSettingsActivity.class)));
+        }
+
+        // Anti-pérdida toggle (verified: SET ANTI_LOST 0x0215, int8 0/1)
+        TextView txtAntiLost = view.findViewById(R.id.txtAntiLost);
+        View rowAntiLost = view.findViewById(R.id.rowAntiLost);
+        if (txtAntiLost != null && rowAntiLost != null) {
+            android.content.SharedPreferences sp = requireContext()
+                    .getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE);
+            boolean[] state = { sp.getBoolean("set_antilost", false) };
+            txtAntiLost.setText(state[0] ? R.string.state_on : R.string.state_off);
+            rowAntiLost.setOnClickListener(v -> {
+                state[0] = !state[0];
+                txtAntiLost.setText(state[0] ? R.string.state_on : R.string.state_off);
+                sp.edit().putBoolean("set_antilost", state[0]).apply();
+                if (bleManager.isSessionReady()) {
+                    bleManager.sendSetting(0x15, new byte[] { (byte) (state[0] ? 1 : 0) });
+                } else {
+                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        android.content.SharedPreferences sp2 = requireContext()
+                .getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE);
+
+        // No molestar (verified: NO_DISTURB_RANGE 0x020A = enabled + 3x BleTimeRange[en,sh,sm,eh,em])
+        TextView txtDnd = view.findViewById(R.id.txtDnd);
+        View rowDnd = view.findViewById(R.id.rowDnd);
+        if (txtDnd != null && rowDnd != null) {
+            boolean[] on = { sp2.getBoolean("set_dnd", false) };
+            txtDnd.setText(on[0] ? R.string.state_on : R.string.state_off);
+            rowDnd.setOnClickListener(v -> {
+                on[0] = !on[0];
+                txtDnd.setText(on[0] ? R.string.state_on : R.string.state_off);
+                sp2.edit().putBoolean("set_dnd", on[0]).apply();
+                if (bleManager.isSessionReady()) {
+                    byte en = (byte) (on[0] ? 1 : 0);
+                    byte[] p = new byte[16];
+                    p[0] = en;                 // global enabled
+                    p[1] = en; p[2] = 22; p[3] = 0; p[4] = 8; p[5] = 0; // range1 22:00–08:00
+                    bleManager.sendSetting(0x0A, p);
+                } else {
+                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        // Recordatorio sedentario (SEDENTARINESS 0x0209, 6B: bitfield[en|repeat], sh,sm,eh,em,interval)
+        TextView txtSed = view.findViewById(R.id.txtSedentary);
+        View rowSed = view.findViewById(R.id.rowSedentary);
+        if (txtSed != null && rowSed != null) {
+            boolean[] on = { sp2.getBoolean("set_sedentary", false) };
+            txtSed.setText(on[0] ? R.string.state_on : R.string.state_off);
+            rowSed.setOnClickListener(v -> {
+                on[0] = !on[0];
+                txtSed.setText(on[0] ? R.string.state_on : R.string.state_off);
+                sp2.edit().putBoolean("set_sedentary", on[0]).apply();
+                if (bleManager.isSessionReady()) {
+                    byte b0 = (byte) ((on[0] ? 0x80 : 0x00) | 0x7F); // enabled bit + all weekdays
+                    byte[] p = new byte[] { b0, 8, 0, 22, 0, 60 };   // 08:00–22:00, cada 60 min
+                    bleManager.sendSetting(0x09, p);
+                } else {
+                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        // Desconectar
+        View btnDisconnect = view.findViewById(R.id.btnDisconnect);
+        if (btnDisconnect != null) {
+            btnDisconnect.setOnClickListener(v -> {
+                bleManager.disconnect();
+                Toast.makeText(requireContext(), "Desconectando…", Toast.LENGTH_SHORT).show();
+            });
+        }
+
         btnCopyLog.setOnClickListener(v -> copyLogToClipboard());
         btnSaveLog.setOnClickListener(v -> saveLogToFile());
         btnClearLog.setOnClickListener(v -> {
