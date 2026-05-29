@@ -50,6 +50,8 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private TextView txtBleLog;
     private TextView txtLogCount;
     private ScrollView logScrollView;
+    private TextView txtBattery;
+    private View statsRow;
 
     private BleManager bleManager;
     private BluetoothManager bluetoothManager;
@@ -71,6 +73,8 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         txtBleLog = view.findViewById(R.id.txtBleLog);
         txtLogCount = view.findViewById(R.id.txtLogCount);
         logScrollView = view.findViewById(R.id.logScrollView);
+        txtBattery = view.findViewById(R.id.txtBattery);
+        statsRow = view.findViewById(R.id.statsRow);
         Button btnCopyLog = view.findViewById(R.id.btnCopyLog);
         Button btnSaveLog = view.findViewById(R.id.btnSaveLog);
         Button btnClearLog = view.findViewById(R.id.btnClearLog);
@@ -115,6 +119,53 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         super.onResume();
         bleManager.setListener(this);
         refreshLogView();
+        syncConnectionUi();
+        checkNotificationListenerAccess();
+    }
+
+    private void syncConnectionUi() {
+        boolean sessionReady = bleManager.isSessionReady();
+        boolean connected = bleManager.isConnected();
+        if (sessionReady) {
+            statusIndicator.setBackgroundResource(R.drawable.indicator_connected);
+            txtStatus.setText(R.string.connected);
+            txtStatus.setTextColor(getResources().getColor(R.color.status_connected));
+            btnConnect.setText(R.string.reconnect);
+
+            if (statsRow != null) {
+                statsRow.setVisibility(View.VISIBLE);
+                int batt = requireContext().getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE)
+                        .getInt("battery_level", 0);
+                if (txtBattery != null)
+                    txtBattery.setText(batt > 0 ? batt + "%" : "—%");
+            }
+        } else if (connected) {
+            txtStatus.setText(R.string.connecting);
+            txtStatus.setTextColor(getResources().getColor(R.color.status_scanning));
+            if (statsRow != null)
+                statsRow.setVisibility(View.GONE);
+        } else {
+            statusIndicator.setBackgroundResource(R.drawable.indicator_disconnected);
+            txtStatus.setText(R.string.disconnected);
+            txtStatus.setTextColor(getResources().getColor(R.color.status_disconnected));
+            btnConnect.setText(R.string.scan_connect);
+            if (statsRow != null)
+                statsRow.setVisibility(View.GONE);
+        }
+    }
+
+    private void checkNotificationListenerAccess() {
+        androidx.core.app.NotificationManagerCompat nmc = androidx.core.app.NotificationManagerCompat.from(requireContext());
+        boolean granted = nmc.getEnabledListenerPackages(requireContext()).contains(requireContext().getPackageName());
+        if (!granted) {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("⚠️ Notificaciones desactivadas")
+                    .setMessage("El acceso a notificaciones fue revocado. Las notificaciones no se reenviarán al reloj.\n\nVe a Ajustes → Notificaciones para reactivarlo.")
+                    .setPositiveButton("Ir a Ajustes", (d, w) ->
+                            startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)))
+                    .setNegativeButton("Ignorar", null)
+                    .show();
+        }
     }
 
     @Override
@@ -281,37 +332,45 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             }
         }
 
-        // Check already connected GATT devices — offer chooser if multiple
-        if (bluetoothManager != null) {
-            if (ContextCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
-                    || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                List<BluetoothDevice> connectedDevices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
-                List<BluetoothDevice> namedDevices = new ArrayList<>();
-                for (BluetoothDevice device : connectedDevices) {
-                    namedDevices.add(device);
-                }
+        // Check already connected GATT devices first, then bonded devices
+        // (watch stops advertising when bonded, so scan finds nothing)
+        if (bluetoothManager != null && (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.S)) {
 
-                if (namedDevices.size() == 1) {
-                    txtStatus.setText(R.string.connecting);
-                    bleManager.connect(namedDevices.get(0));
-                    return;
-                } else if (namedDevices.size() > 1) {
-                    String[] names = new String[namedDevices.size()];
-                    for (int i = 0; i < namedDevices.size(); i++) {
-                        BluetoothDevice d = namedDevices.get(i);
-                        String name = d.getName();
-                        names[i] = (name != null && !name.isEmpty() ? name : "Unknown") + " (" + d.getAddress() + ")";
-                    }
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle(R.string.select_watch)
-                            .setItems(names, (dialog, which) -> {
-                                txtStatus.setText(R.string.connecting);
-                                bleManager.connect(namedDevices.get(which));
-                            })
-                            .show();
-                    return;
+            List<BluetoothDevice> candidates = new ArrayList<>();
+
+            // 1. Active GATT connections
+            for (BluetoothDevice d : bluetoothManager.getConnectedDevices(BluetoothProfile.GATT)) {
+                candidates.add(d);
+            }
+
+            // 2. Bonded (paired) devices if no active GATT connections found
+            if (candidates.isEmpty()) {
+                for (BluetoothDevice d : bluetoothAdapter.getBondedDevices()) {
+                    candidates.add(d);
                 }
+            }
+
+            if (candidates.size() == 1) {
+                txtStatus.setText(R.string.connecting);
+                bleManager.connect(candidates.get(0));
+                return;
+            } else if (candidates.size() > 1) {
+                String[] names = new String[candidates.size()];
+                for (int i = 0; i < candidates.size(); i++) {
+                    BluetoothDevice d = candidates.get(i);
+                    String name = d.getName();
+                    names[i] = (name != null && !name.isEmpty() ? name : "Unknown") + " (" + d.getAddress() + ")";
+                }
+                new AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.select_watch)
+                        .setItems(names, (dialog, which) -> {
+                            txtStatus.setText(R.string.connecting);
+                            bleManager.connect(candidates.get(which));
+                        })
+                        .show();
+                return;
             }
         }
 
@@ -319,23 +378,21 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         btnConnect.setEnabled(false);
 
         List<BluetoothDevice> foundDevices = new ArrayList<>();
-        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
-            @Override
-            public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-                boolean exists = false;
-                for (BluetoothDevice d : foundDevices) {
-                    if (d.getAddress().equals(device.getAddress())) {
-                        exists = true;
-                        break;
-                    }
+        BluetoothAdapter.LeScanCallback leScanCallback = (device, rssi, scanRecord) -> {
+            boolean exists = false;
+            for (BluetoothDevice d : foundDevices) {
+                if (d.getAddress().equals(device.getAddress())) {
+                    exists = true;
+                    break;
                 }
-                if (!exists)
-                    foundDevices.add(device);
             }
-        });
+            if (!exists)
+                foundDevices.add(device);
+        };
+        bluetoothAdapter.startLeScan(leScanCallback);
 
         handler.postDelayed(() -> {
-            bluetoothAdapter.stopLeScan(null);
+            bluetoothAdapter.stopLeScan(leScanCallback);
             if (!isAdded())
                 return;
             btnConnect.setText(R.string.scan_connect);

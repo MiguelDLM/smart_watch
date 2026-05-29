@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConnectionStateChange(boolean connected, boolean sessionReady) {
                 if (sessionReady) {
+                    ble.syncTime();
+                    ble.readBattery();
                     ble.syncHealth();
                 }
             }
@@ -71,19 +73,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLogUpdated() {
             }
+
+            @Override
+            public void onFindPhoneRequest() {
+                runOnUiThread(() -> new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                        .setTitle("📍 Find Phone")
+                        .setMessage("Your watch is looking for this phone.")
+                        .setPositiveButton("Stop Ringing", (d, w) -> ble.stopFindPhoneRing())
+                        .setCancelable(false)
+                        .show());
+            }
         });
 
         bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) {
+            if (id == R.id.nav_health) {
                 loadFragment(new HomeFragment());
-            } else if (id == R.id.nav_dials) {
-                loadFragment(new DialsFragment());
             } else if (id == R.id.nav_device) {
                 loadFragment(new DeviceFragment());
-            } else if (id == R.id.nav_health) {
-                loadFragment(new StatusFragment());
+            } else if (id == R.id.nav_dials) {
+                loadFragment(new DialsFragment());
             } else if (id == R.id.nav_settings) {
                 loadFragment(new SettingsFragment());
             } else {
@@ -92,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        // Set default fragment
         if (savedInstanceState == null) {
-            bottomNav.setSelectedItemId(R.id.nav_home);
+            loadFragment(new HomeFragment());
+            bottomNav.setSelectedItemId(R.id.nav_health);
         }
     }
 

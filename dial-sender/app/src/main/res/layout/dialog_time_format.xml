@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formato"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/rgTimeFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/rbHHMM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HH:MM"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbHHMMSS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HH:MM:SS" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modo de diseño"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/rgTimeMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbTogether"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Todo junto — un solo estilo para todos"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbParts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por partes — diseñas cada parte" />
+    </RadioGroup>
+
+</LinearLayout>

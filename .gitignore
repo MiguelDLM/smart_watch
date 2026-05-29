@@ -1,11 +1,12 @@
 /_dialzz_006j
-__pycache__
+__pycache__/
 /_enhanced_kronos
 /_kronos
-/.vscode
+/.vscode/
 *.bin
 *.log
 *.apk
+dials/*_extracted/
 decompiled_apk/
 hk89comp_decomp/
 hk89comp_decomp.tgz
@@ -15,6 +16,7 @@ test_suite/
 output_enhanced_v2/
 dial-sender/build/
 dial-sender/app/build/
+dial-sender/.gradle/
 .gradle/
 local.properties
 .idea/
@@ -23,3 +25,13 @@ local.properties
 dial-sender/app/src/main/stfemulator/
 jieli/
 ideas/**
+.superpowers/
+docs/superpowers/
+cofit_capture_*/
+zzuler/
+capture_cofit.sh
+devices_supported.csv
+example.png
+# Keep scripts but ignore temporary files
+__pycache__/
+*.pyc

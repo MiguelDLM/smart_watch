@@ -65,6 +65,14 @@
             android:minHeight="0dp"
             android:text="Mes"
             android:textSize="12sp"/>
+
+        <Button android:id="@+id/btnDetailAll"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minHeight="0dp"
+            android:text="Todo"
+            android:textSize="12sp"/>
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <!-- Chart container -->

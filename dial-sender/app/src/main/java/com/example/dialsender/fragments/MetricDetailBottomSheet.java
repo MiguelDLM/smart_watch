@@ -38,7 +38,7 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
     private static final String PREF_NAME = "dial_sender_prefs";
     private static final String PREF_HEALTH_PREFIX = "health_";
 
-    private static final int RANGE_DAY = 0, RANGE_WEEK = 1, RANGE_MONTH = 2;
+    private static final int RANGE_DAY = 0, RANGE_WEEK = 1, RANGE_MONTH = 2, RANGE_ALL = 3;
     private int currentRange = RANGE_DAY;
 
     private String metricKey;
@@ -57,7 +57,7 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_metric_detail, container, false);
 
         metricKey = getArguments() != null ? getArguments().getString(ARG_METRIC, "steps") : "steps";
@@ -73,9 +73,14 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
         toggle.check(R.id.btnDetailDay);
         toggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
-                if (checkedId == R.id.btnDetailDay)        currentRange = RANGE_DAY;
-                else if (checkedId == R.id.btnDetailWeek)  currentRange = RANGE_WEEK;
-                else                                        currentRange = RANGE_MONTH;
+                if (checkedId == R.id.btnDetailDay)
+                    currentRange = RANGE_DAY;
+                else if (checkedId == R.id.btnDetailWeek)
+                    currentRange = RANGE_WEEK;
+                else if (checkedId == R.id.btnDetailMonth)
+                    currentRange = RANGE_MONTH;
+                else if (checkedId == R.id.btnDetailAll)
+                    currentRange = RANGE_ALL;
                 renderChart();
             }
         });
@@ -101,7 +106,8 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void renderChart() {
-        if (chartContainer == null || !isAdded()) return;
+        if (chartContainer == null || !isAdded())
+            return;
         chartContainer.removeAllViews();
         String history = prefs.getString(PREF_HEALTH_PREFIX + metricKey, "");
 
@@ -118,38 +124,83 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
             } else {
                 txtValue.setText("—");
             }
-        } else {
             long now = System.currentTimeMillis() / 1000;
             long todayStart = getTodayStart();
             long rangeStart;
             int numBuckets, bucketSize;
             if (currentRange == RANGE_DAY) {
-                rangeStart = todayStart; numBuckets = 24; bucketSize = 3600;
+                rangeStart = todayStart;
+                numBuckets = 24;
+                bucketSize = 3600;
             } else if (currentRange == RANGE_WEEK) {
-                rangeStart = todayStart - 6L * 86400; numBuckets = 7; bucketSize = 86400;
+                rangeStart = todayStart - 6L * 86400;
+                numBuckets = 7;
+                bucketSize = 86400;
+            } else if (currentRange == RANGE_MONTH) {
+                rangeStart = todayStart - 29L * 86400;
+                numBuckets = 30;
+                bucketSize = 86400;
             } else {
-                rangeStart = todayStart - 29L * 86400; numBuckets = 30; bucketSize = 86400;
+                rangeStart = findEarliestTimestamp();
+                numBuckets = (int) ((now - rangeStart) / 86400) + 1;
+                if (numBuckets <= 0)
+                    numBuckets = 1;
+                bucketSize = 86400;
             }
 
             float[] buckets = new float[numBuckets];
+            float[][] sleepStacks = null;
+            if ("sleep".equals(metricKey) && currentRange != RANGE_DAY) {
+                sleepStacks = new float[numBuckets][3];
+            }
+
             int latestVal = 0;
             if (!history.isEmpty()) {
+                long lastTs = -1;
+                int lastMode = -1;
                 for (String entry : history.split(",")) {
-                    long ts = 0; int val = 0;
+                    long ts = 0;
+                    int val = 0;
                     if (entry.contains(":")) {
                         try {
-                            ts  = Long.parseLong(entry.split(":")[0]);
+                            ts = Long.parseLong(entry.split(":")[0]);
                             val = Integer.parseInt(entry.split(":")[1]);
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     } else {
-                        try { val = Integer.parseInt(entry.trim()); ts = todayStart + 3600; }
-                        catch (Exception ignored) {}
+                        try {
+                            val = Integer.parseInt(entry.trim());
+                            ts = todayStart + 3600;
+                        } catch (Exception ignored) {
+                        }
                     }
                     if (ts >= rangeStart && ts <= now + 86400) {
-                        int idx = (int)((ts - rangeStart) / bucketSize);
-                        if (idx >= 0 && idx < numBuckets && val > buckets[idx]) buckets[idx] = val;
+                        int idx = (int) ((ts - rangeStart) / bucketSize);
+                        if (idx >= 0 && idx < numBuckets) {
+                            if ("sleep".equals(metricKey) && currentRange != RANGE_DAY) {
+                                if (lastTs != -1 && ts > lastTs) {
+                                    int lastBucketIdx = (int) ((lastTs - rangeStart) / bucketSize);
+                                    if (lastBucketIdx >= 0 && lastBucketIdx < numBuckets) {
+                                        float deltaHours = (ts - lastTs) / 3600f;
+                                        if (lastMode == 1)
+                                            sleepStacks[lastBucketIdx][0] += deltaHours; // Deep
+                                        else if (lastMode == 2 || lastMode == 8)
+                                            sleepStacks[lastBucketIdx][1] += deltaHours; // Light
+                                        else if (lastMode == 9)
+                                            sleepStacks[lastBucketIdx][2] += deltaHours; // REM
+                                    }
+                                }
+                                lastTs = ts;
+                                lastMode = val;
+                            } else if ("sleep".equals(metricKey) && currentRange == RANGE_DAY) {
+                                buckets[idx] = val;
+                            } else if (val > buckets[idx]) {
+                                buckets[idx] = val;
+                            }
+                        }
                     }
-                    if (ts >= todayStart || !entry.contains(":")) latestVal = val;
+                    if (ts >= todayStart && ts <= now)
+                        latestVal = val;
                 }
             }
 
@@ -158,10 +209,25 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
             txtValue.setText(displayVal);
 
             List<BarEntry> entries = new ArrayList<>();
-            for (int i = 0; i < numBuckets; i++) entries.add(new BarEntry(i, buckets[i]));
+            for (int i = 0; i < numBuckets; i++) {
+                if (sleepStacks != null) {
+                    entries.add(new BarEntry(i, sleepStacks[i]));
+                } else {
+                    entries.add(new BarEntry(i, buckets[i]));
+                }
+            }
 
             BarDataSet ds = new BarDataSet(entries, "Data");
-            ds.setColor(ContextCompat.getColor(requireContext(), R.color.accent_primary));
+            if (sleepStacks != null) {
+                ds.setColors(new int[] {
+                        ContextCompat.getColor(requireContext(), R.color.accent_purple), // Deep
+                        ContextCompat.getColor(requireContext(), R.color.accent_primary), // Light
+                        ContextCompat.getColor(requireContext(), R.color.accent_pink) // REM
+                });
+                ds.setStackLabels(new String[] { "Profundo", "Ligero", "REM" });
+            } else {
+                ds.setColor(ContextCompat.getColor(requireContext(), R.color.accent_primary));
+            }
             ds.setDrawValues(false);
 
             BarData data = new BarData(ds);
@@ -193,5 +259,20 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis() / 1000;
+    }
+
+    private long findEarliestTimestamp() {
+        long earliest = System.currentTimeMillis() / 1000;
+        String history = prefs.getString(PREF_HEALTH_PREFIX + metricKey, "");
+        if (!history.isEmpty()) {
+            String firstEntry = history.split(",")[0];
+            if (firstEntry.contains(":")) {
+                try {
+                    earliest = Long.parseLong(firstEntry.split(":")[0]);
+                } catch (Exception ignored) {
+                }
+            }
+        }
+        return earliest;
     }
 }

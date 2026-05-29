@@ -64,6 +64,7 @@
     <string name="layers_title">LAYERS</string>
     <string name="add_layer">Add Layer</string>
     <string name="bg_image">📷  Background (image)</string>
+    <string name="add_animation">🎬  Add Animation (GIF/video)</string>
     <string name="scale">Scale</string>
     <string name="rotation">Rotation</string>
     <string name="add_one_layer">Add at least one layer</string>
@@ -77,6 +78,15 @@
     <string name="dial_name_hint">My awesome dial</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="cont">Continuar</string>
+    <string name="add_time_group">Agregar hora</string>
+    <string name="lbl_hours">Horas</string>
+    <string name="lbl_minutes">Minutos</string>
+    <string name="lbl_seconds">Segundos</string>
+    <string name="same_as">Igual que</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="assign_style">Asignar estilo</string>
+    <string name="delete_layer">Eliminar capa</string>
     <string name="close">Close</string>
 
     <!-- Library -->
@@ -166,7 +176,7 @@
     <string name="blk_scale">Hour Ring (Scale)</string>
 
     <!-- Font Creator -->
-    <string name="from_font">🔤  Create from Font</string>
+    <string name="from_font">🔤  Escribir Texto / Fuente (.ttf)</string>
     <string name="font_label">FONT</string>
     <string name="digit_size">DIGIT SIZE</string>
     <string name="font_color">COLOR</string>
@@ -179,9 +189,9 @@
     <string name="select_style">Select Style</string>
 
     <!-- Bottom nav tab labels -->
-    <string name="nav_home">Inicio</string>
+    <string name="nav_home">Hoy</string>
     <string name="nav_dials">Carátulas</string>
-    <string name="nav_device">Dispositivo</string>
+    <string name="nav_device">Reloj</string>
     <string name="nav_health">Salud</string>
-    <string name="nav_settings">Ajustes</string>
+    <string name="nav_settings">Mi</string>
 </resources>
