@@ -21,23 +21,28 @@
 
         <!-- Profile header -->
         <LinearLayout
+            android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_card"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="16dp"
-            android:layout_marginBottom="20dp">
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="20dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
 
             <ImageView
+                android:id="@+id/imgProfile"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:background="@drawable/bg_chip_inactive"
                 android:padding="14dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_nav_me"
                 android:layout_marginEnd="14dp"
-                app:tint="@color/accent_primary"
-                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+                app:tint="@color/accent_primary"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -46,6 +51,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mi perfil"
@@ -62,6 +68,13 @@
                     android:textSize="12sp"
                     android:layout_marginTop="2dp"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✎"
+                android:textColor="@color/accent_primary"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Section: Notificaciones -->
@@ -337,6 +350,18 @@
                     android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
+
+        <!-- Version footer — 6 taps opens developer tools (like Android) -->
+        <TextView
+            android:id="@+id/txtVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp"
+            android:text="Dial Studio v0.2"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"/>
 
     </LinearLayout>
 </ScrollView>

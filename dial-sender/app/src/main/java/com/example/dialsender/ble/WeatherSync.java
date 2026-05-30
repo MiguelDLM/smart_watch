@@ -60,12 +60,29 @@ public final class WeatherSync {
                     if (!days.isEmpty()) {
                         String city = resolveCity(appCtx, loc[0], loc[1]);
                         ble.sendWeather(days, city);
-                        // Cache today's weather so the UI can show a chip.
+                        // Cache today's weather + a short forecast so the UI can
+                        // show a chip and a full detail screen.
                         BleManager.WeatherDay t = days.get(0);
+                        StringBuilder fc = new StringBuilder();
+                        for (int i = 0; i < days.size(); i++) {
+                            BleManager.WeatherDay d = days.get(i);
+                            if (i > 0)
+                                fc.append(";");
+                            // code|hi|lo|pop
+                            fc.append(d.conditionCode).append("|").append(d.tempHigh)
+                                    .append("|").append(d.tempLow).append("|").append(d.precipitation);
+                        }
                         appCtx.getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE).edit()
                                 .putInt("weather_temp", t.tempCurrent)
                                 .putInt("weather_code", t.conditionCode)
+                                .putInt("weather_hi", t.tempHigh)
+                                .putInt("weather_lo", t.tempLow)
+                                .putInt("weather_humidity", t.humidity)
+                                .putInt("weather_wind", t.windSpeed)
+                                .putInt("weather_uv", t.uvIndex)
+                                .putInt("weather_pop", t.precipitation)
                                 .putString("weather_city", city)
+                                .putString("weather_forecast", fc.toString())
                                 .putLong("weather_time", System.currentTimeMillis())
                                 .apply();
                         Log.i(TAG, "weather pushed (" + days.size() + " days)");

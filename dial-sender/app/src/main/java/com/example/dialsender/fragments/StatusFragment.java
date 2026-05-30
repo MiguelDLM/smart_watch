@@ -107,7 +107,7 @@ public class StatusFragment extends Fragment {
         int steps = (int) latest(P + "steps", todayStart);
         int stepGoal = prefs.getInt("goal_steps", 10000);
         GaugeView gauge = new GaugeView(requireContext());
-        gauge.setGaugeStyle(GaugeView.STYLE_B);
+        gauge.setGaugeStyle(prefs.getString("gauge_style", GaugeView.STYLE_B));
         gauge.setArcColor(0xFFFF9800);
         gauge.setValue(stepGoal > 0 ? steps / (float) stepGoal : 0f);
         gauge.setValueText(String.valueOf(steps));
@@ -131,6 +131,10 @@ public class StatusFragment extends Fragment {
             cbg.setCornerRadius(dp(20));
             chip.setBackground(cbg);
             chip.setPadding(dp(12), dp(6), dp(12), dp(6));
+            chip.setClickable(true);
+            chip.setForeground(rippleForeground());
+            chip.setOnClickListener(v -> startActivity(new android.content.Intent(
+                    requireContext(), com.example.dialsender.WeatherDetailActivity.class)));
             android.widget.FrameLayout.LayoutParams clp = new android.widget.FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             clp.gravity = Gravity.END | Gravity.TOP;

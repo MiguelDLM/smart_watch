@@ -3,6 +3,7 @@ package com.example.dialsender.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +11,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.dialsender.DeveloperToolsActivity;
 import com.example.dialsender.NotificationSettingsActivity;
 import com.example.dialsender.R;
 
@@ -30,6 +36,23 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences prefs;
     private boolean initializing = false;
 
+    private ImageView imgProfile;
+    private TextView txtProfileName;
+
+    // Image picker that returns a persistable URI for the profile photo.
+    private final ActivityResultLauncher<String[]> pickPhoto =
+            registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
+                if (uri == null)
+                    return;
+                try {
+                    requireContext().getContentResolver().takePersistableUriPermission(
+                            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                } catch (Exception ignored) {
+                }
+                prefs.edit().putString("profile_photo_uri", uri.toString()).apply();
+                loadProfilePhoto();
+            });
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -37,12 +60,45 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         prefs = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        // Profile header — show the bound device address (if any)
-        android.widget.TextView profileDevice = view.findViewById(R.id.txtProfileDevice);
+        // Profile header — photo, editable name, bound device
+        imgProfile = view.findViewById(R.id.imgProfile);
+        txtProfileName = view.findViewById(R.id.txtProfileName);
+        TextView profileDevice = view.findViewById(R.id.txtProfileDevice);
         if (profileDevice != null) {
             String addr = com.example.dialsender.ble.BleManager.getInstance(requireContext())
                     .getLastDeviceAddress();
             profileDevice.setText(addr != null ? "Reloj: " + addr : "Sin dispositivo vinculado");
+        }
+        if (txtProfileName != null)
+            txtProfileName.setText(prefs.getString("profile_name", "Mi perfil"));
+        loadProfilePhoto();
+
+        View profileCard = view.findViewById(R.id.profileCard);
+        if (profileCard != null)
+            profileCard.setOnClickListener(v -> editProfile());
+
+        // Version footer — 6 consecutive taps unlock developer tools (Android-style)
+        TextView txtVersion = view.findViewById(R.id.txtVersion);
+        if (txtVersion != null) {
+            txtVersion.setText(getString(R.string.app_name) + " v0.2");
+            txtVersion.setOnClickListener(new View.OnClickListener() {
+                int taps = 0;
+                long last = 0;
+                @Override
+                public void onClick(View v) {
+                    long now = System.currentTimeMillis();
+                    taps = (now - last < 2000) ? taps + 1 : 1;
+                    last = now;
+                    if (taps >= 6) {
+                        taps = 0;
+                        startActivity(new Intent(requireContext(), DeveloperToolsActivity.class));
+                    } else if (taps >= 3) {
+                        Toast.makeText(requireContext(),
+                                "Faltan " + (6 - taps) + " toques para herramientas de desarrollo",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         // Notifications row
@@ -51,7 +107,7 @@ public class SettingsFragment extends Fragment {
 
         // Gauge style radio group
         RadioGroup radioGauge = view.findViewById(R.id.radioGaugeStyle);
-        String currentStyle = prefs.getString("gauge_style", "A");
+        String currentStyle = prefs.getString("gauge_style", "B");
         initializing = true;
         if ("B".equals(currentStyle))      radioGauge.check(R.id.radioGaugeB);
         else if ("C".equals(currentStyle)) radioGauge.check(R.id.radioGaugeC);
@@ -115,6 +171,79 @@ public class SettingsFragment extends Fragment {
         lblDist.setText("  " + prefs.getString("unit_distance", "km"));
 
         return view;
+    }
+
+    /** Load the saved profile photo into the avatar (or keep the default icon). */
+    private void loadProfilePhoto() {
+        if (imgProfile == null)
+            return;
+        String uriStr = prefs.getString("profile_photo_uri", null);
+        if (uriStr == null) {
+            imgProfile.setImageResource(R.drawable.ic_nav_me);
+            imgProfile.setColorFilter(getResources().getColor(R.color.accent_primary));
+            imgProfile.setPadding(dp(14), dp(14), dp(14), dp(14));
+            return;
+        }
+        try {
+            android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeStream(
+                    requireContext().getContentResolver().openInputStream(Uri.parse(uriStr)));
+            if (bmp != null) {
+                imgProfile.clearColorFilter();
+                imgProfile.setPadding(0, 0, 0, 0);
+                imgProfile.setImageBitmap(circularBitmap(bmp));
+                return;
+            }
+        } catch (Exception ignored) {
+        }
+        imgProfile.setImageResource(R.drawable.ic_nav_me);
+        imgProfile.setColorFilter(getResources().getColor(R.color.accent_primary));
+    }
+
+    /** Crop a bitmap into a circle so the avatar reads as a profile photo. */
+    private android.graphics.Bitmap circularBitmap(android.graphics.Bitmap src) {
+        int size = Math.min(src.getWidth(), src.getHeight());
+        android.graphics.Bitmap sq = android.graphics.Bitmap.createBitmap(src,
+                (src.getWidth() - size) / 2, (src.getHeight() - size) / 2, size, size);
+        android.graphics.Bitmap out = android.graphics.Bitmap.createBitmap(size, size,
+                android.graphics.Bitmap.Config.ARGB_8888);
+        android.graphics.Canvas c = new android.graphics.Canvas(out);
+        android.graphics.Paint p = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+        c.drawCircle(size / 2f, size / 2f, size / 2f, p);
+        p.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
+        c.drawBitmap(sq, 0, 0, p);
+        return out;
+    }
+
+    /** Dialog to change the profile name and pick a photo. */
+    private void editProfile() {
+        android.widget.LinearLayout box = new android.widget.LinearLayout(requireContext());
+        box.setOrientation(android.widget.LinearLayout.VERTICAL);
+        int pad = dp(20);
+        box.setPadding(pad, pad, pad, 0);
+
+        final EditText etName = new EditText(requireContext());
+        etName.setHint("Tu nombre");
+        etName.setText(prefs.getString("profile_name", ""));
+        box.addView(etName);
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Mi perfil")
+                .setView(box)
+                .setNeutralButton("Cambiar foto", (d, w) ->
+                        pickPhoto.launch(new String[] { "image/*" }))
+                .setPositiveButton("Guardar", (d, w) -> {
+                    String name = etName.getText().toString().trim();
+                    prefs.edit().putString("profile_name", name.isEmpty() ? "Mi perfil" : name).apply();
+                    if (txtProfileName != null)
+                        txtProfileName.setText(name.isEmpty() ? "Mi perfil" : name);
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    private int dp(int v) {
+        return (int) android.util.TypedValue.applyDimension(
+                android.util.TypedValue.COMPLEX_UNIT_DIP, v, getResources().getDisplayMetrics());
     }
 
     private void setupGoalField(View root, int editTextId, String prefKey, int defaultVal) {

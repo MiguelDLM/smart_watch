@@ -46,11 +46,10 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private TextView txtStatus;
     private Button btnConnect;
 
-    // BLE Log UI
-    private TextView txtBleLog;
-    private TextView txtLogCount;
-    private ScrollView logScrollView;
     private TextView txtBattery;
+    private TextView txtRssi;
+    private TextView txtDeviceName;
+    private TextView txtDeviceMac;
     private View statsRow;
 
     private BleManager bleManager;
@@ -69,26 +68,11 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         txtStatus = view.findViewById(R.id.txtStatus);
         btnConnect = view.findViewById(R.id.btnConnect);
 
-        // BLE Log UI
-        txtBleLog = view.findViewById(R.id.txtBleLog);
-        txtLogCount = view.findViewById(R.id.txtLogCount);
-        logScrollView = view.findViewById(R.id.logScrollView);
         txtBattery = view.findViewById(R.id.txtBattery);
+        txtRssi = view.findViewById(R.id.txtRssi);
+        txtDeviceName = view.findViewById(R.id.txtDeviceName);
+        txtDeviceMac = view.findViewById(R.id.txtDeviceMac);
         statsRow = view.findViewById(R.id.statsRow);
-        Button btnCopyLog = view.findViewById(R.id.btnCopyLog);
-        Button btnSaveLog = view.findViewById(R.id.btnSaveLog);
-        Button btnClearLog = view.findViewById(R.id.btnClearLog);
-
-        Button btnToggleLog = view.findViewById(R.id.btnToggleLog);
-        View logButtonsRow = view.findViewById(R.id.logButtonsRow);
-        btnToggleLog.setOnClickListener(v -> {
-            boolean visible = logScrollView.getVisibility() == View.VISIBLE;
-            logScrollView.setVisibility(visible ? View.GONE : View.VISIBLE);
-            if (logButtonsRow != null) {
-                logButtonsRow.setVisibility(visible ? View.GONE : View.VISIBLE);
-            }
-            ((Button) v).setText(visible ? "Mostrar log" : "Ocultar log");
-        });
 
         bluetoothManager = (BluetoothManager) requireContext()
                 .getSystemService(Context.BLUETOOTH_SERVICE);
@@ -116,22 +100,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             btnCamera.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), com.example.dialsender.CameraActivity.class)));
         }
-        // "Buscar teléfono" is normally triggered FROM the watch (the phone rings).
-        // This entry lets the user preview/stop that alert.
-        View btnFindWatch = view.findViewById(R.id.btnFindWatch);
-        if (btnFindWatch != null) {
-            btnFindWatch.setOnClickListener(v -> {
-                if (bleManager.isFindPhoneActive()) {
-                    bleManager.stopFindPhoneAlert();
-                } else {
-                    bleManager.startFindPhoneAlert();
-                    Toast.makeText(requireContext(),
-                            "Sonando… (el reloj activa esto). Toca de nuevo o «Detener» para parar.",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
         // Notificaciones de apps
         View btnNotifs = view.findViewById(R.id.btnNotifs);
         if (btnNotifs != null) {
@@ -213,17 +181,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             });
         }
 
-        btnCopyLog.setOnClickListener(v -> copyLogToClipboard());
-        btnSaveLog.setOnClickListener(v -> saveLogToFile());
-        btnClearLog.setOnClickListener(v -> {
-            BleManager.clearLog();
-            txtBleLog.setText("Log cleared.");
-            txtLogCount.setText("0 lines");
-        });
-
-        // Load existing log
-        refreshLogView();
-
         return view;
     }
 
@@ -231,7 +188,6 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     public void onResume() {
         super.onResume();
         bleManager.setListener(this);
-        refreshLogView();
         syncConnectionUi();
         checkNotificationListenerAccess();
     }
@@ -239,6 +195,17 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private void syncConnectionUi() {
         boolean sessionReady = bleManager.isSessionReady();
         boolean connected = bleManager.isConnected();
+
+        // Device identity (name + MAC) from the last bound device
+        String name = bleManager.getLastDeviceName();
+        String addr = bleManager.getLastDeviceAddress();
+        if (txtDeviceName != null)
+            txtDeviceName.setText(name != null && !name.isEmpty() ? name : "Kronos Thunder");
+        if (txtDeviceMac != null)
+            txtDeviceMac.setText(addr != null ? addr : "Sin vincular");
+        if (txtRssi != null)
+            txtRssi.setText(name != null && !name.isEmpty() ? "✓" : "—");
+
         if (sessionReady) {
             statusIndicator.setBackgroundResource(R.drawable.indicator_connected);
             txtStatus.setText(R.string.connected);
@@ -333,93 +300,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
 
     @Override
     public void onLogUpdated() {
-        if (!isAdded())
-            return;
-        refreshLogView();
-    }
-
-    // ========== Log Viewer ==========
-
-    private void refreshLogView() {
-        if (txtBleLog == null || txtLogCount == null)
-            return;
-
-        List<String> lines = BleManager.getLogLines();
-        if (lines.isEmpty()) {
-            txtBleLog.setText("Waiting for BLE events...");
-            txtLogCount.setText("0 lines");
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (String line : lines) {
-                sb.append(line).append("\n");
-            }
-            txtBleLog.setText(sb.toString());
-            txtLogCount.setText(lines.size() + " lines");
-        }
-
-        // Auto-scroll to bottom
-        logScrollView.post(() -> logScrollView.fullScroll(ScrollView.FOCUS_DOWN));
-    }
-
-    private void copyLogToClipboard() {
-        String logText = BleManager.getLogText();
-        if (logText.isEmpty()) {
-            Toast.makeText(requireContext(), "No logs to copy", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        ClipboardManager clipboard = (ClipboardManager) requireContext()
-                .getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("BLE Protocol Log", logText);
-        clipboard.setPrimaryClip(clip);
-        Toast.makeText(requireContext(), "Log copied to clipboard (" + BleManager.getLogLines().size() + " lines)",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    private void saveLogToFile() {
-        String logText = BleManager.getLogText();
-        if (logText.isEmpty()) {
-            Toast.makeText(requireContext(), "No logs to save", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-            String filename = "ble_log_" + sdf.format(new Date()) + ".txt";
-
-            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (!downloadsDir.exists()) {
-                downloadsDir.mkdirs();
-            }
-            File logFile = new File(downloadsDir, filename);
-
-            FileWriter writer = new FileWriter(logFile);
-            writer.write("=== BLE Protocol Log ===\n");
-            writer.write("Exported: " + new Date().toString() + "\n");
-            writer.write("========================\n\n");
-            writer.write(logText);
-            writer.close();
-
-            Toast.makeText(requireContext(), "Saved to Downloads/" + filename, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            // Fallback: save to app-specific directory
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-                String filename = "ble_log_" + sdf.format(new Date()) + ".txt";
-
-                File appDir = requireContext().getExternalFilesDir(null);
-                File logFile = new File(appDir, filename);
-                FileWriter writer = new FileWriter(logFile);
-                writer.write("=== BLE Protocol Log ===\n");
-                writer.write("Exported: " + new Date().toString() + "\n");
-                writer.write("========================\n\n");
-                writer.write(logText);
-                writer.close();
-
-                Toast.makeText(requireContext(), "Saved to " + logFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
-            } catch (Exception e2) {
-                Toast.makeText(requireContext(), "Failed to save: " + e2.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
+        // BLE log now lives in the hidden developer tools (Yo → version taps)
     }
 
     // ========== Connection ==========

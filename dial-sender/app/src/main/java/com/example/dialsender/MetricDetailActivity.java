@@ -62,7 +62,7 @@ public class MetricDetailActivity extends AppCompatActivity {
     private TextView[] tabs = new TextView[3];
 
     // --- metric metadata ---
-    private String title, unit;
+    private String title, unit, desc;
     private int color, iconRes;
     private boolean cumulative; // steps/calories/distance accumulate during the day
     private boolean isBp;
@@ -98,24 +98,50 @@ public class MetricDetailActivity extends AppCompatActivity {
         switch (metric) {
             case "steps":
                 title = "Pasos"; unit = ""; color = 0xFFFF9800; iconRes = R.drawable.ic_metric_steps;
-                cumulative = true; break;
+                cumulative = true;
+                desc = "Los pasos cuentan el movimiento detectado por el acelerómetro del reloj a lo largo "
+                        + "del día. Caminar al menos 8.000–10.000 pasos diarios ayuda a mantener un corazón "
+                        + "sano y a controlar el peso.";
+                break;
             case "calories":
                 title = "Calorías"; unit = "Kcal"; color = 0xFFE5552E; iconRes = R.drawable.ic_metric_calories;
-                cumulative = true; break;
+                cumulative = true;
+                desc = "Estimación de la energía gastada (calorías activas) calculada a partir de tus pasos, "
+                        + "frecuencia cardíaca y datos de perfil. Es una aproximación, útil para comparar tu "
+                        + "actividad día a día.";
+                break;
             case "distance":
                 title = "Distancia"; unit = "Km"; color = 0xFF34C759; iconRes = R.drawable.ic_metric_distance;
-                cumulative = true; break;
+                cumulative = true;
+                desc = "Distancia recorrida estimada a partir del número de pasos y la longitud media de tu "
+                        + "zancada. Camina o corre con el reloj puesto para acumular distancia.";
+                break;
             case "blood_oxygen":
                 title = "Oxígeno en sangre"; unit = "%"; color = 0xFF42A5F5; iconRes = R.drawable.ic_metric_spo2;
+                desc = "La saturación de oxígeno (SpO₂) indica el porcentaje de oxígeno que transportan tus "
+                        + "glóbulos rojos. Un valor normal en reposo se sitúa entre 95% y 100%. Valores bajos "
+                        + "de forma sostenida conviene consultarlos con un profesional.";
                 break;
             case "stress":
-                title = "Estrés"; unit = ""; color = 0xFF34C759; iconRes = R.drawable.ic_metric_pulse; break;
+                title = "Estrés"; unit = ""; color = 0xFF34C759; iconRes = R.drawable.ic_metric_pulse;
+                desc = "El nivel de estrés se estima a partir de la variabilidad de tu frecuencia cardíaca "
+                        + "(HRV). Valores altos sugieren tensión; respirar profundamente y descansar suele "
+                        + "ayudar a reducirlo.";
+                break;
             case "blood_pressure":
                 title = "Presión arterial"; unit = "mmHg"; color = 0xFFEF5350; iconRes = R.drawable.ic_metric_pulse;
-                isBp = true; break;
+                isBp = true;
+                desc = "La presión arterial se muestra como sistólica/diastólica (mmHg). Un valor de referencia "
+                        + "es alrededor de 120/80. La medición del reloj es orientativa y no sustituye a un "
+                        + "tensiómetro clínico.";
+                break;
             default:
                 title = "Frecuencia cardíaca"; unit = "Lpm"; color = 0xFFE5552E;
-                iconRes = R.drawable.ic_metric_heart; break;
+                iconRes = R.drawable.ic_metric_heart;
+                desc = "La frecuencia cardíaca son los latidos por minuto (Lpm). En reposo, un adulto suele "
+                        + "estar entre 60 y 100 Lpm. Sube con el ejercicio y baja al descansar; observar su "
+                        + "tendencia ayuda a conocer tu estado físico.";
+                break;
         }
     }
 
@@ -201,6 +227,7 @@ public class MetricDetailActivity extends AppCompatActivity {
 
         if (isBp) {
             renderBp(selDayStart);
+            content.addView(descriptionCard());
             return;
         }
 
@@ -229,6 +256,41 @@ public class MetricDetailActivity extends AppCompatActivity {
             if (!cumulative)
                 content.addView(statsRowDaily(agg, days));
         }
+
+        content.addView(descriptionCard());
+    }
+
+    /** Informational card explaining what the metric is (like Co-Fit). */
+    private View descriptionCard() {
+        if (desc == null || desc.isEmpty())
+            return new View(this);
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(0xFF1A2027);
+        bg.setCornerRadius(dp(14));
+        card.setBackground(bg);
+        card.setPadding(dp(16), dp(16), dp(16), dp(16));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, dp(24), 0, 0);
+        card.setLayoutParams(lp);
+
+        TextView head = new TextView(this);
+        head.setText("Acerca de " + title.toLowerCase(Locale.getDefault()));
+        head.setTextColor(0xFF22D3EE);
+        head.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        head.setTypeface(null, Typeface.BOLD);
+        head.setPadding(0, 0, 0, dp(8));
+        card.addView(head);
+
+        TextView body = new TextView(this);
+        body.setText(desc);
+        body.setTextColor(0xFF9AA4B2);
+        body.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        body.setLineSpacing(dp(3), 1f);
+        card.addView(body);
+        return card;
     }
 
     private View buildDayNav() {

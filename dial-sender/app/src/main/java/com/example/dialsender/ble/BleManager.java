@@ -299,6 +299,10 @@ public class BleManager {
         return prefs.getString("last_device_address", null);
     }
 
+    public String getLastDeviceName() {
+        return prefs.getString("last_device_name", null);
+    }
+
     @SuppressLint("MissingPermission")
     public void reconnect(String address) {
         if (isConnected || bluetoothGatt != null || address == null || bluetoothAdapter == null)
@@ -315,7 +319,12 @@ public class BleManager {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 isConnected = true;
-                prefs.edit().putString("last_device_address", gatt.getDevice().getAddress()).apply();
+                String connName = gatt.getDevice().getName();
+                prefs.edit()
+                        .putString("last_device_address", gatt.getDevice().getAddress())
+                        .putString("last_device_name",
+                                connName != null && !connName.isEmpty() ? connName : "Kronos Thunder")
+                        .apply();
                 log("Connected (status=" + status + "). Discovering services...");
                 if (listener != null) {
                     handler.post(() -> listener.onConnectionStateChange(true, false));

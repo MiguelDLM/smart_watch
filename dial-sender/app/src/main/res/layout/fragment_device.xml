@@ -19,7 +19,7 @@
             style="@style/ScreenTitle"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Device status card -->
+        <!-- Device status card with watch image + info (Co-Fit style) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:padding="16dp"
             android:layout_marginBottom="12dp">
 
-            <!-- Device info row -->
+            <!-- Device info row: watch image + name/model/mac -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,20 +36,13 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="14dp">
 
-                <!-- Watch icon -->
-                <LinearLayout
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:background="@drawable/bg_chip_inactive"
-                    android:gravity="center"
-                    android:layout_marginEnd="12dp">
-
-                    <View
-                        android:id="@+id/statusIndicator"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/indicator_disconnected"/>
-                </LinearLayout>
+                <!-- Watch image -->
+                <ImageView
+                    android:id="@+id/imgWatch"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_watch_device"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -58,19 +51,42 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtDeviceName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Smart Watch"
+                        android:text="Kronos Thunder"
                         android:textColor="@color/text_primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/txtStatus"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/disconnected"
-                        android:textColor="@color/status_disconnected"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="3dp">
+
+                        <View
+                            android:id="@+id/statusIndicator"
+                            android:layout_width="9dp"
+                            android:layout_height="9dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/indicator_disconnected"/>
+
+                        <TextView
+                            android:id="@+id/txtStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/disconnected"
+                            android:textColor="@color/status_disconnected"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtDeviceMac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:layout_marginTop="2dp"/>
                 </LinearLayout>
@@ -134,7 +150,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="RSSI"
+                        android:text="Modelo"
                         android:textColor="@color/text_secondary"
                         android:textSize="10sp"/>
                 </LinearLayout>
@@ -198,121 +214,12 @@
             </LinearLayout>
             <View style="@style/DeviceRowDivider"/>
 
-            <LinearLayout android:id="@+id/btnFindWatch" style="@style/DeviceRow">
-                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_find_watch"/>
-                <TextView style="@style/DeviceRowChevron" android:text="›"/>
-            </LinearLayout>
-            <View style="@style/DeviceRowDivider"/>
-
             <LinearLayout android:id="@+id/btnDisconnect" style="@style/DeviceRow">
                 <TextView style="@style/DeviceRowLabel"
                     android:textColor="@color/status_disconnected"
                     android:text="@string/dev_disconnect"/>
             </LinearLayout>
 
-        </LinearLayout>
-
-        <!-- BLE Log section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Log BLE"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/txtLogCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 líneas"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp"/>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnToggleLog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="0dp"
-                android:text="Mostrar log"
-                android:textSize="11sp"
-                android:layout_gravity="end"
-                android:layout_marginBottom="4dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-
-            <ScrollView
-                android:id="@+id/logScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:background="@color/bg_surface"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/txtBleLog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="@color/accent_primary"
-                    android:textSize="10sp"
-                    android:text="Waiting for BLE events..."/>
-            </ScrollView>
-
-            <LinearLayout
-                android:id="@+id/logButtonsRow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <Button
-                    android:id="@+id/btnCopyLog"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:minHeight="0dp"
-                    android:layout_weight="1"
-                    android:text="Copiar"
-                    android:textSize="12sp"
-                    android:layout_marginEnd="6dp"
-                    style="@style/ButtonPrimary"/>
-
-                <Button
-                    android:id="@+id/btnSaveLog"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:minHeight="0dp"
-                    android:layout_weight="1"
-                    android:text="Guardar"
-                    android:textSize="12sp"
-                    android:layout_marginEnd="6dp"
-                    style="@style/ButtonPrimary"/>
-
-                <Button
-                    android:id="@+id/btnClearLog"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:layout_weight="1"
-                    android:text="Limpiar"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    style="@style/ButtonDanger"/>
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
