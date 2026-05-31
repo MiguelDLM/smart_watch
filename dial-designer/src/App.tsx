@@ -22,6 +22,8 @@ import { BatteryGenerator } from './components/BatteryGenerator';
 import { AnimationSlicer } from './components/AnimationSlicer';
 import { HandGenerator } from './components/HandGenerator';
 import { PresetsPanel, type PresetEntry } from './components/PresetsPanel';
+import { HandImportModal } from './components/HandImportModal';
+import { SpriteSlicerModal } from './components/SpriteSlicerModal';
 import { loadWorkspace, saveWorkspace, clearWorkspace } from './utils/db';
 import './App.css';
 
@@ -65,9 +67,11 @@ const BLOCK_TYPES = [
 ];
 
 const TYPOGRAPHIC_BLOCKS = [
-  'BLK_YEAR', 'BLK_MONTH', 'BLK_DAY', 'BLK_HOUR', 'BLK_MIN', 'BLK_SEC', 
+  'BLK_YEAR', 'BLK_MONTH', 'BLK_DAY', 'BLK_HOUR', 'BLK_MIN', 'BLK_SEC',
   'BLK_WEEKD', 'BLK_STEPS', 'BLK_PULS', 'BLK_CALOR', 'BLK_DIST', 'BLK_BATTN', 'BLK_TEMP',
-  'BLK_AMPM'
+  'BLK_AMPM',
+  // Center cap / separator can be drawn as a single text glyph (e.g. ":").
+  'BLK_BIGYO'
 ];
 
 const isTypographicBlock = (type: string): boolean => {
@@ -145,6 +149,15 @@ const normalizeFontConfigForType = (prevConfig: any, type: string, frms: number)
       selectedPreset: monthPreset,
       customMonthsText: prevConfig?.customMonthsText || DEFAULT_MONTHS_TEXT,
       customDigitsText: prevConfig?.customDigitsText || DEFAULT_DIGITS_TEXT
+    };
+  }
+
+  if (type === 'BLK_BIGYO') {
+    // Single-glyph separator (one frame). Defaults to a colon.
+    return {
+      ...styleConfig,
+      selectedPreset: 'custom',
+      customDigitsText: prevConfig?.customDigitsText || ':'
     };
   }
 
@@ -375,6 +388,8 @@ export const App: React.FC = () => {
   const [isHandModalOpen, setIsHandModalOpen] = useState(false);
   const [isPresetsOpen, setIsPresetsOpen] = useState(false);
   const [activeAnimationFile, setActiveAnimationFile] = useState<File | null>(null);
+  const [handImportFile, setHandImportFile] = useState<File | null>(null);
+  const [spriteImportFile, setSpriteImportFile] = useState<File | null>(null);
 
   // Add message to local logs
   const log = useCallback((message: string) => {
@@ -388,21 +403,37 @@ export const App: React.FC = () => {
     const file = e.target.files[0];
     const block = dialData.metadata.blocks[selectedBlockIndex];
     
-    // Check if the uploaded file is a GIF or Video, or if the block is an animation block
-    const isGifOrVideo = file.name.toLowerCase().endsWith('.gif') || 
+    // Animated source (GIF/video) → frame-extracting Animation Slicer, regardless of type.
+    const isGifOrVideo = file.name.toLowerCase().endsWith('.gif') ||
                           file.type.startsWith('video/') ||
                           file.name.toLowerCase().endsWith('.mp4') ||
                           file.name.toLowerCase().endsWith('.webm') ||
                           file.name.toLowerCase().endsWith('.mov');
-                          
-    if (isGifOrVideo || block.type === 'BLK_ANIM' || block.type === 'BLK_ANIMPART') {
+
+    if (isGifOrVideo) {
       log(`Animation or video file detected: ${file.name}. Opening Animation Slicer...`);
       setActiveAnimationFile(file);
-      // Reset input value so same file can be uploaded again
       e.target.value = '';
       return;
     }
-    
+
+    // Hands → visual crop + pivot/tip importer.
+    if (block.type === 'BLK_ARMH' || block.type === 'BLK_ARMM' || block.type === 'BLK_ARMS') {
+      log(`Importing hand artwork: ${file.name}. Opening Hand Importer...`);
+      setHandImportFile(file);
+      e.target.value = '';
+      return;
+    }
+
+    // Any non-background element → Sprite Slicer (crop/region-select into N states).
+    // N=1 acts as a plain crop+resize. Background keeps its cover-fit path below.
+    if (block.type !== 'BLK_BGIMG') {
+      log(`Importing image for ${block.type}: ${file.name}. Opening Sprite Slicer...`);
+      setSpriteImportFile(file);
+      e.target.value = '';
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target?.result as string;
@@ -676,6 +707,45 @@ export const App: React.FC = () => {
     setIsHandModalOpen(false);
     setSelectedBlockIndex(updatedBlocks.findIndex((b: any) => b.type === 'BLK_ARMH'));
     log('Applied analog hand set (hour + minute + second).');
+  };
+
+  // Apply a single hand imported via HandImportModal (already normalized: tip up,
+  // pivot pinned to the watch center). ctx = vertical pivot from bottom, cty = horizontal.
+  const handleApplyHandImport = (url: string, width: number, height: number, ctx: number, cty: number) => {
+    if (!dialData || selectedBlockIndex === null) return;
+    const block = dialData.metadata.blocks[selectedBlockIndex];
+    const base = (block.fname || `generated/hand_${block.type.toLowerCase()}_${Date.now()}`).replace(/\.[^/.]+$/, '');
+    const fname = `${base}.png`;
+    const center = Math.round(watchfaceSize.width / 2);
+    const updatedImages = { ...dialData.images, [fname]: url };
+    const updatedBlocks = [...dialData.metadata.blocks];
+    updatedBlocks[selectedBlockIndex] = {
+      ...block, fname, frms: 1, colsp: 'RGBA',
+      width, height, posx: center, posy: center,
+      alnx: 9, comp: 0, ctx, cty,
+    };
+    setDialData({ ...dialData, images: updatedImages, metadata: { ...dialData.metadata, blocks: updatedBlocks } });
+    setHandImportFile(null);
+    log(`Imported custom ${block.type} hand (${width}x${height}, pivot ctx=${ctx} cty=${cty}).`);
+  };
+
+  // Apply a sliced sprite/state sheet from SpriteSlicerModal to the selected block.
+  const handleApplySprite = (url: string, width: number, height: number, frms: number) => {
+    if (!dialData || selectedBlockIndex === null) return;
+    const block = dialData.metadata.blocks[selectedBlockIndex];
+    const base = (block.fname || `generated/${block.type.toLowerCase()}_${Date.now()}`).replace(/\.[^/.]+$/, '');
+    const fname = `${base}.png`;
+    const isAnim = block.type === 'BLK_ANIM' || block.type === 'BLK_ANIMPART';
+    const updatedImages = { ...dialData.images, [fname]: url };
+    const updatedBlocks = [...dialData.metadata.blocks];
+    updatedBlocks[selectedBlockIndex] = {
+      ...block, fname, width, height, frms,
+      // Animations need align=9/cty=0/nonzero ctx (the compile safety net also enforces this).
+      ...(isAnim ? { alnx: 9, cty: 0, ctx: block.ctx && block.ctx > 0 ? block.ctx : 10 } : {}),
+    };
+    setDialData({ ...dialData, images: updatedImages, metadata: { ...dialData.metadata, blocks: updatedBlocks } });
+    setSpriteImportFile(null);
+    log(`Sliced ${frms}-frame asset for ${block.type} (${width}x${height} per frame).`);
   };
 
   // Add an extracted preset (hand, battery, weather, animation, center cap) as a block.
@@ -1975,7 +2045,7 @@ export const App: React.FC = () => {
                       {(selectedBlock.type === 'BLK_ARMH' || selectedBlock.type === 'BLK_ARMM' || selectedBlock.type === 'BLK_ARMS') && (
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', borderTop: '1px solid var(--glass-border)', paddingTop: '1rem' }}>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }} title="X center of rotation relative to image left border">PIVOT X (CTX)</label>
+                            <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }} title="Vertical rotation pivot measured from the image BOTTOM (firmware ctx byte)">PIVOT ↕ from bottom (CTX)</label>
                             <input 
                               type="number" 
                               value={selectedBlock.ctx}
@@ -1992,7 +2062,7 @@ export const App: React.FC = () => {
                             />
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }} title="Y center of rotation relative to image top border">PIVOT Y (CTY)</label>
+                            <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }} title="Horizontal rotation pivot from the image left (= width/2) (firmware cty byte)">PIVOT ↔ from left (CTY)</label>
                             <input 
                               type="number" 
                               value={selectedBlock.cty}
@@ -2020,26 +2090,30 @@ export const App: React.FC = () => {
 
                       {/* Custom Asset Uploader & Font Sheet Generator Actions */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-                        {!isTypographicBlock(selectedBlock.type) && (
-                          <>
-                            <input 
-                              type="file" 
-                              ref={assetFileInputRef} 
-                              style={{ display: 'none' }} 
-                              accept="image/*,video/*" 
-                              onChange={handleAssetFileChange} 
-                            />
-                            <button 
-                              className="btn btn-secondary" 
-                              style={{ fontSize: '0.85rem', justifyContent: 'center', padding: '0.5rem' }} 
-                              onClick={() => assetFileInputRef.current?.click()}
-                            >
-                              {selectedBlock.type === 'BLK_ANIM' || selectedBlock.type === 'BLK_ANIMPART' 
-                                ? 'Upload GIF / Video' 
-                                : 'Upload Custom Image'}
-                            </button>
-                          </>
-                        )}
+                        {/* Import is available for every element. The picker requires PNG
+                            (+SVG, rasterized) except the background, which also takes JPG/WebP.
+                            Animations additionally accept GIF/video. */}
+                        <input
+                          type="file"
+                          ref={assetFileInputRef}
+                          style={{ display: 'none' }}
+                          accept={
+                            selectedBlock.type === 'BLK_BGIMG' ? '.png,.jpg,.jpeg,.webp,.bmp,.svg'
+                              : (selectedBlock.type === 'BLK_ANIM' || selectedBlock.type === 'BLK_ANIMPART') ? '.gif,.mp4,.webm,.mov,.png,.svg'
+                              : '.png,.svg'
+                          }
+                          onChange={handleAssetFileChange}
+                        />
+                        <button
+                          className="btn btn-secondary"
+                          style={{ fontSize: '0.85rem', justifyContent: 'center', padding: '0.5rem' }}
+                          onClick={() => assetFileInputRef.current?.click()}
+                        >
+                          {selectedBlock.type === 'BLK_BGIMG' ? 'Import Background (PNG/JPG/SVG)'
+                            : (selectedBlock.type === 'BLK_ANIM' || selectedBlock.type === 'BLK_ANIMPART') ? 'Upload GIF / Video / PNG'
+                            : selectedBlock.type === 'BLK_ARMH' || selectedBlock.type === 'BLK_ARMM' || selectedBlock.type === 'BLK_ARMS' ? 'Import Hand Image (PNG/SVG)'
+                            : 'Import Image (PNG/SVG)'}
+                        </button>
                         {isTypographicBlock(selectedBlock.type) && (
                           <button 
                             className="btn btn-secondary" 
@@ -2339,6 +2413,29 @@ export const App: React.FC = () => {
         onClose={() => setIsPresetsOpen(false)}
         onApply={handleApplyPreset}
         selectedBlockType={selectedBlock?.type}
+      />
+      {/* Hand artwork importer (crop + pivot/tip) */}
+      <HandImportModal
+        isOpen={handImportFile !== null}
+        file={handImportFile}
+        handLabel={
+          selectedBlock?.type === 'BLK_ARMM' ? 'minute'
+            : selectedBlock?.type === 'BLK_ARMS' ? 'second'
+            : 'hour'
+        }
+        onClose={() => setHandImportFile(null)}
+        onApply={handleApplyHandImport}
+      />
+      {/* Sprite/state sheet slicer (weather, battery, digits, etc.) */}
+      <SpriteSlicerModal
+        isOpen={spriteImportFile !== null}
+        file={spriteImportFile}
+        frameCount={selectedBlock ? getDefaultFramesForType(selectedBlock.type, selectedBlock.frms) : 1}
+        initialWidth={selectedBlock?.width || 64}
+        initialHeight={selectedBlock?.height || 64}
+        blockLabel={selectedBlock ? (BLOCK_TYPES.find((b) => b.value === selectedBlock.type)?.label || selectedBlock.type) : ''}
+        onClose={() => setSpriteImportFile(null)}
+        onApply={handleApplySprite}
       />
     </div>
   );

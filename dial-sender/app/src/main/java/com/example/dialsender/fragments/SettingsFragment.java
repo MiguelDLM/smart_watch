@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment {
         // Version footer — 6 consecutive taps unlock developer tools (Android-style)
         TextView txtVersion = view.findViewById(R.id.txtVersion);
         if (txtVersion != null) {
-            txtVersion.setText(getString(R.string.app_name) + " v0.2");
+            txtVersion.setText(getString(R.string.app_name) + " v0.4");
             txtVersion.setOnClickListener(new View.OnClickListener() {
                 int taps = 0;
                 long last = 0;

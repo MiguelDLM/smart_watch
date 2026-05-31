@@ -261,6 +261,10 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
           } else {
             setSelectedPreset('digits');
           }
+        } else if (selectedBlockType === 'BLK_BIGYO') {
+          // Single-glyph separator: default to a custom colon.
+          setSelectedPreset('custom');
+          setCustomDigitsText(':');
         } else {
           setSelectedPreset('digits');
         }
@@ -338,10 +342,12 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
         .filter(Boolean);
     }
 
-    // For other numeric layers
+    // For other numeric layers (and the single-glyph separator, which shares the
+    // "custom → customDigitsText" path used by the else-branch UI below).
     const isNumericType = [
-      'BLK_YEAR', 'BLK_DAY', 'BLK_HOUR', 'BLK_MIN', 'BLK_SEC', 
-      'BLK_STEPS', 'BLK_PULS', 'BLK_CALOR', 'BLK_DIST', 'BLK_BATTN', 'BLK_TEMP'
+      'BLK_YEAR', 'BLK_DAY', 'BLK_HOUR', 'BLK_MIN', 'BLK_SEC',
+      'BLK_STEPS', 'BLK_PULS', 'BLK_CALOR', 'BLK_DIST', 'BLK_BATTN', 'BLK_TEMP',
+      'BLK_BIGYO'
     ].includes(selectedBlockType);
 
     if (isNumericType) {
@@ -387,28 +393,32 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
     }
   };
 
-  // Auto-expand frame width for multi-letter text on initial mount/switch to avoid clipping.
+  // Fit the frame width to hug the glyph(s) for ALL text layers (digits included),
+  // not just multi-letter weekday/month text. The watch advances each digit by the
+  // full cell width, so an oversized cell shows up as wide gaps between digits — this
+  // was why day/month/year (narrow glyphs in a fixed 32px cell) looked far more spaced
+  // than hours. Allow the width to shrink as well as grow; deliberate separation is
+  // added on top via `digitSpacing`. Re-fit when the font or character set changes.
   useEffect(() => {
     if (!isOpen) return;
-    const isWeekdayText = selectedBlockType === 'BLK_WEEKD';
-    const isMonthText = selectedBlockType === 'BLK_MONTH' && monthMode === 'text';
-    if (!isWeekdayText && !isMonthText) return;
-
     const items = getItemsList();
     if (items.length === 0) return;
 
     const maxW = getMaximumTextWidth(items, fontFamily, fontSize, fontWeight, isItalic);
     const maxChars = Math.max(...items.map(item => item.length));
     const spacingWidth = Math.max(0, (maxChars - 1) * letterSpacing);
-    const paddedWidth = Math.ceil(maxW + spacingWidth + (AUTO_FIT_PADDING * 2));
+    const paddedWidth = Math.max(4, Math.ceil(maxW + spacingWidth + (AUTO_FIT_PADDING * 2)));
 
-    if (paddedWidth > frameWidth) {
-      setFrameWidth(paddedWidth);
-    }
+    setFrameWidth(paddedWidth);
   }, [
     isOpen,
     selectedBlockType,
-    selectedPreset
+    selectedPreset,
+    fontFamily,
+    fontSize,
+    fontWeight,
+    isItalic,
+    letterSpacing,
   ]);
 
   // Generate Font Sheet on Canvas
@@ -555,6 +565,12 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
         validationMessage = `Text month layer expects exactly 12 frames (JAN-DEC). Current: ${items.length}`;
         isValidFrameCount = false;
       }
+    }
+  } else if (selectedBlockType === 'BLK_BIGYO') {
+    // Center cap / separator is a single glyph (one frame).
+    if (items.length !== 1) {
+      validationMessage = `Separator layer expects exactly 1 glyph. Current: ${items.length}`;
+      isValidFrameCount = false;
     }
   } else {
     // Other digit layers
@@ -750,6 +766,16 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
                   ))}
                 </select>
               </div>
+            ) : selectedBlockType === 'BLK_BIGYO' ? (
+              /* Center cap / separator: a single text glyph */
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <Type size={14} /> SEPARATOR / SYMBOL
+                </label>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                  A single glyph rendered as the center separator (e.g. ":" or "•").
+                </span>
+              </div>
             ) : (
               /* Other numeric block types */
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -778,7 +804,7 @@ export const FontGenerator: React.FC<FontGeneratorProps> = ({
             {selectedPreset === 'custom' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                 <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <Type size={14} /> CUSTOM DIGITS (ONE PER LINE - EXPECT 10 VALUES)
+                  <Type size={14} /> {selectedBlockType === 'BLK_BIGYO' ? 'SEPARATOR GLYPH (e.g. : )' : 'CUSTOM DIGITS (ONE PER LINE - EXPECT 10 VALUES)'}
                 </label>
                 <textarea 
                   rows={6}

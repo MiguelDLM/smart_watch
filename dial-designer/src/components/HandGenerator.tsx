@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Check, Clock } from 'lucide-react';
+import { X, Check, Clock, Lock, Unlock } from 'lucide-react';
 
 interface HandGeneratorProps {
   isOpen: boolean;
@@ -320,6 +320,8 @@ export const HandGenerator: React.FC<HandGeneratorProps> = ({
   const [minCfg, setMinCfg] = useState(getDefaults('minute'));
   const [secCfg, setSecCfg] = useState(getDefaults('second'));
   const [editingHand, setEditingHand] = useState<'hour' | 'minute' | 'second'>(handType);
+  // When locked, width/tip/tail scale together (proportional); when unlocked, each is free.
+  const [linkDims, setLinkDims] = useState(true);
 
   const hourPreviewRef = useRef<HTMLCanvasElement>(null);
   const minPreviewRef = useRef<HTMLCanvasElement>(null);
@@ -331,6 +333,37 @@ export const HandGenerator: React.FC<HandGeneratorProps> = ({
     if (editingHand === 'hour') setHourCfg(prev => ({ ...prev, ...update }));
     else if (editingHand === 'minute') setMinCfg(prev => ({ ...prev, ...update }));
     else setSecCfg(prev => ({ ...prev, ...update }));
+  };
+
+  // Per-dimension clamp limits (kept in sync with the size inputs below).
+  const DIM_LIMITS: Record<string, { min: number; max: number }> = {
+    width: { min: 1, max: 40 },
+    handLength: { min: 30, max: 200 },
+    tailLength: { min: 5, max: 80 },
+  };
+  const clampDim = (key: string, v: number) =>
+    Math.max(DIM_LIMITS[key].min, Math.min(DIM_LIMITS[key].max, Math.round(v)));
+
+  // Update a size dimension. When the padlock is on, the other two scale by the same
+  // factor so the hand keeps its proportions (uniform width/height scaling).
+  const setDimension = (key: 'width' | 'handLength' | 'tailLength', value: number) => {
+    const cfg = getCfg() as any;
+    const next = clampDim(key, value);
+    if (!linkDims) {
+      setCfg({ [key]: next });
+      return;
+    }
+    const oldVal = cfg[key];
+    if (!oldVal || oldVal <= 0) {
+      setCfg({ [key]: next });
+      return;
+    }
+    const factor = next / oldVal;
+    const update: any = { [key]: next };
+    (['width', 'handLength', 'tailLength'] as const).forEach((k) => {
+      if (k !== key) update[k] = clampDim(k, cfg[k] * factor);
+    });
+    setCfg(update);
   };
 
   // Sync initial config
@@ -523,19 +556,34 @@ export const HandGenerator: React.FC<HandGeneratorProps> = ({
             </div>
 
             {/* Dimensions */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.6rem' }}>
-              {[
-                { key: 'width', label: 'Width (px)', min: 1, max: 40 },
-                { key: 'handLength', label: 'Tip Length', min: 30, max: 200 },
-                { key: 'tailLength', label: 'Tail Length', min: 5, max: 80 },
-              ].map(({ key, label, min, max }) => (
-                <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                  <label style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{label.toUpperCase()}</label>
-                  <input type="number" min={min} max={max} value={(cfg as any)[key]}
-                    onChange={e => setCfg({ [key]: Math.max(min, Math.min(max, parseInt(e.target.value) || min)) })}
-                    style={{ background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.4rem', borderRadius: '6px', fontFamily: 'var(--font-mono)', width: '100%', fontSize: '0.85rem' }} />
-                </div>
-              ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>DIMENSIONS</span>
+                <button
+                  type="button"
+                  onClick={() => setLinkDims(v => !v)}
+                  title={linkDims ? 'Proportional scaling (locked) — width & length scale together' : 'Free scaling (unlocked) — each dimension is independent'}
+                  className={`btn ${linkDims ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', padding: '0.3rem 0.55rem' }}
+                >
+                  {linkDims ? <Lock size={13} /> : <Unlock size={13} />}
+                  {linkDims ? 'Proportional' : 'Free'}
+                </button>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.6rem' }}>
+                {[
+                  { key: 'width', label: 'Width (px)', min: 1, max: 40 },
+                  { key: 'handLength', label: 'Tip Length', min: 30, max: 200 },
+                  { key: 'tailLength', label: 'Tail Length', min: 5, max: 80 },
+                ].map(({ key, label, min, max }) => (
+                  <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                    <label style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{label.toUpperCase()}</label>
+                    <input type="number" min={min} max={max} value={(cfg as any)[key]}
+                      onChange={e => setDimension(key as 'width' | 'handLength' | 'tailLength', parseInt(e.target.value) || min)}
+                      style={{ background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.4rem', borderRadius: '6px', fontFamily: 'var(--font-mono)', width: '100%', fontSize: '0.85rem' }} />
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Colors */}

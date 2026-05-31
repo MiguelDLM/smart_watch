@@ -25,7 +25,7 @@
     <string name="library_desc">Pre-made dials and your creations</string>
     <string name="health_data">Health Data</string>
     <string name="health_data_desc">Sync and view health metrics charts</string>
-    <string name="version_label">Dial Studio v0.2</string>
+    <string name="version_label">Dial Studio v0.4</string>
     <string name="chipset_info">Compatible with Jieli / HK89 chipset</string>
 
     <!-- Send screen -->
