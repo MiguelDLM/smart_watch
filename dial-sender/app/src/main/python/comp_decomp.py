@@ -1257,9 +1257,15 @@ class HK89Dial:
             parts = self.raw_data[offset + 14]
             block_type = self.raw_data[offset + 15]
             align = self.raw_data[offset + 16]
+            if align >= 128:
+                align -= 256
             compression = self.raw_data[offset + 17]
             cent_x = self.raw_data[offset + 18]
+            if cent_x >= 128:
+                cent_x -= 256
             cent_y = self.raw_data[offset + 19]
+            if cent_y >= 128:
+                cent_y -= 256
             
             block = BlockInfo(
                 image_offset=img_offset,
@@ -1383,7 +1389,7 @@ class HK89Dial:
             try:
                 img_data = self.raw_data[block.image_offset:]
                 
-                if block.compression == 4:
+                if block.compression in (4, 6):
                     # RLE Compressed
                     if block.is_rgba:
                         pixels = decompress_rle_rgba(img_data, block.width, block.height, block.parts, frame_sizes)
@@ -1475,7 +1481,7 @@ def extract_preview_png(bin_path: str, output_png: str) -> str:
             img_data = dial.raw_data[block.image_offset:]
             frame_sizes = dial.get_frame_sizes(block.pic_idx, 1)
 
-            if block.compression == 4:
+            if block.compression in (4, 6):
                 if block.is_rgba:
                     pixels = decompress_rle_rgba(img_data, block.width, block.height, 1, frame_sizes)
                     mode = 'RGBA'
@@ -1512,6 +1518,14 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
     - Picture lookup table (pltable_size * 4 bytes): compressed size per frame
     - Image data: RLE compressed frames
     """
+    def to_int(v, default=0):
+        if v is None:
+            return default
+        try:
+            return int(round(float(v)))
+        except (ValueError, TypeError):
+            return default
+
     json_path = os.path.join(input_dir, "dial_desc.json")
     if not os.path.exists(json_path):
         print(f"Error: dial_desc.json not found in {input_dir}")
@@ -1615,7 +1629,7 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         pixels = np.array(img)
         
         # Number of frames
-        frms = block_meta.get('frms', 1)
+        frms = max(1, to_int(block_meta.get('frms'), 1))
         frame_height = height // frms if frms > 0 else height
         
         print(f"    read_from {input_dir}/{fname}, uncompressed size:{pixels.nbytes}, ({width}x{height})")
@@ -1623,8 +1637,10 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
         # pic_idx is the starting index in pltable for this block's frames
         pic_idx = len(pltable)
         
-        # Default compression to 6 to match hkcomposer behavior
-        compression_type = block_meta.get('comp', 6)
+        # Default compression to 4 to match original dial format (force 6 to 4)
+        compression_type = to_int(block_meta.get('comp'), 4)
+        if compression_type != 0:
+            compression_type = 4
         
         # Compress each frame separately
         frame_compressed_data = []
@@ -1661,14 +1677,14 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
             'valami2': 0,
             'width': width,
             'height': frame_height,
-            'pos_x': block_meta.get('posx', 0),
-            'pos_y': block_meta.get('posy', 0),
+            'pos_x': to_int(block_meta.get('posx'), 0),
+            'pos_y': to_int(block_meta.get('posy'), 0),
             'parts': frms,
             'block_type': block_type,
-            'align': block_meta.get('alnx', 9),
+            'align': to_int(block_meta.get('alnx'), 9),
             'compression': compression_type,
-            'cent_x': block_meta.get('ctx', 0),
-            'cent_y': block_meta.get('cty', 0),
+            'cent_x': to_int(block_meta.get('ctx'), 0),
+            'cent_y': to_int(block_meta.get('cty'), 0),
             'frame_data': frame_compressed_data,
         })
     
@@ -1713,18 +1729,18 @@ def compile_dial(input_dir: str, output_file: Optional[str] = None) -> bool:
     for block in blocks_info:
         desc = bytearray(20)
         struct.pack_into('<I', desc, 0, block['image_offset'])
-        desc[4] = block['pic_idx']
-        desc[5] = block['valami2']
+        desc[4] = block['pic_idx'] & 0xFF
+        desc[5] = block['valami2'] & 0xFF
         struct.pack_into('<H', desc, 6, block['width'])
         struct.pack_into('<H', desc, 8, block['height'])
         struct.pack_into('<H', desc, 10, block['pos_x'])
         struct.pack_into('<H', desc, 12, block['pos_y'])
-        desc[14] = block['parts']
-        desc[15] = block['block_type']
-        desc[16] = block['align']
-        desc[17] = block['compression']
-        desc[18] = block['cent_x']
-        desc[19] = block['cent_y']
+        desc[14] = block['parts'] & 0xFF
+        desc[15] = block['block_type'] & 0xFF
+        desc[16] = block['align'] & 0xFF
+        desc[17] = block['compression'] & 0xFF
+        desc[18] = block['cent_x'] & 0xFF
+        desc[19] = block['cent_y'] & 0xFF
         output.extend(desc)
     
     # Picture lookup table (4 bytes per frame)

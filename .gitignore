@@ -35,3 +35,4 @@ example.png
 # Keep scripts but ignore temporary files
 __pycache__/
 *.pyc
+dials/**

@@ -1,0 +1,18 @@
+[package]
+name = "dial-designer"
+version = "1.0.0"
+description = "HK89 Dial Designer Desktop Shell"
+authors = ["Miguel"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.5" }
+
+[dependencies]
+tauri = { version = "1.5", features = [ "shell-all" ] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[features]
+default = [ "custom-protocol" ]
+custom-protocol = [ "tauri/custom-protocol" ]
