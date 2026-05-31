@@ -94,7 +94,7 @@ export const usePyodide = () => {
 
         // 3. Load comp_decomp.py script
         setStatus('loading_script');
-        const scriptResponse = await fetch('/comp_decomp.py');
+        const scriptResponse = await fetch('comp_decomp.py');
         if (!scriptResponse.ok) {
           throw new Error('Failed to fetch comp_decomp.py from public folder');
         }
