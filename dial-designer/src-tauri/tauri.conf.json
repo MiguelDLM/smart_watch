@@ -32,7 +32,6 @@
       "macOS": {
         "frameworks": [],
         "minimumSystemVersion": "10.15",
-        "providerBundleIdentifier": null,
         "signingIdentity": null
       },
       "resources": [],
