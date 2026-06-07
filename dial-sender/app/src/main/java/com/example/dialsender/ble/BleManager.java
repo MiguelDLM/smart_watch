@@ -102,6 +102,7 @@ public class BleManager {
     private byte[] fileBytesToSend;
     private long fileTotalSize;
     private boolean isFileTransferActive = false;
+    private byte transferKey = 0x01; // default to watchface (0x01)
 
     // Pre-transfer / Setup
     private int preTransferIndex = 0;
@@ -173,6 +174,7 @@ public class BleManager {
     public static final int HEALTH_KEY_BLOOD_PRESSURE = 0x04; // 6 bytes/record
     public static final int HEALTH_KEY_SLEEP = 0x05; // 7 bytes/record
     public static final int HEALTH_KEY_WORKOUT = 0x06; // 48 bytes/record
+    public static final int HEALTH_KEY_WORKOUT2 = 0x0E; // 128 bytes/record
     public static final int HEALTH_KEY_TEMPERATURE = 0x08; // 6 bytes/record
     public static final int HEALTH_KEY_BLOOD_OXYGEN = 0x09; // 6 bytes/record
     public static final int HEALTH_KEY_HRV = 0x0A; // 6 bytes/record
@@ -323,7 +325,7 @@ public class BleManager {
                 prefs.edit()
                         .putString("last_device_address", gatt.getDevice().getAddress())
                         .putString("last_device_name",
-                                connName != null && !connName.isEmpty() ? connName : "Kronos Thunder")
+                                connName != null ? connName : "")
                         .apply();
                 log("Connected (status=" + status + "). Discovering services...");
                 if (listener != null) {
@@ -448,6 +450,7 @@ public class BleManager {
             handler.post(() -> listener.onConnectionStateChange(true, true));
         }
         handler.postDelayed(this::readDeviceInfo, 200);
+        handler.postDelayed(this::readFirmwareVersion, 350);
         handler.postDelayed(this::readBattery, 500);
         // Push time + settings shortly after the session is up.
         handler.postDelayed(this::syncTimeAndSettings, 800);
@@ -525,6 +528,17 @@ public class BleManager {
             return;
         }
 
+        // Firmware Version response (Cmd=0x02, Key=0x04)
+        if (isReply && cmd == 0x02 && key == 0x04) {
+            String version = (data.length > 9) ? new String(Arrays.copyOfRange(data, 9, data.length)).trim() : "";
+            log("Firmware Version: " + version);
+            prefs.edit().putString("firmware_version", "v" + version).apply();
+            if (listener != null) {
+                handler.post(() -> listener.onConnectionStateChange(true, true));
+            }
+            return;
+        }
+
         // Watchface ID ACK
         if (isReply && cmd == 0x02 && key == 0x27 && connectionState == ConnectionState.WATCHFACE_ID_SENT) {
             log("Watchface ID ACK");
@@ -562,7 +576,7 @@ public class BleManager {
         }
 
         // Progress / Completion
-        if (cmd == 0x07 && key == 0x01 && data.length >= 18) {
+        if (cmd == 0x07 && (key == 0x01 || key == 0x02) && data.length >= 18) {
             if (transferTimeoutRunnable != null)
                 handler.removeCallbacks(transferTimeoutRunnable);
             transferRetryCount = 0;
@@ -666,6 +680,10 @@ public class BleManager {
     // ========== File Transfer — ported from omo version ==========
 
     public void startFileTransfer(byte[] fileData) {
+        startFileTransfer(fileData, (byte) 0x01);
+    }
+
+    public void startFileTransfer(byte[] fileData, byte key) {
         if (connectionState != ConnectionState.SESSION_READY) {
             log("Session not ready! Current state: " + connectionState);
             return;
@@ -677,6 +695,7 @@ public class BleManager {
 
         this.fileBytesToSend = fileData;
         this.fileTotalSize = fileData.length;
+        this.transferKey = key;
         commandQueue.clear();
         isSending = false;
         packetsSent = 0;
@@ -685,8 +704,14 @@ public class BleManager {
         isFileTransferActive = true;
         lastTransferOffset = -1;
 
-        log("Starting file transfer (" + fileTotalSize + " bytes)");
-        startPreTransferSequence();
+        log("Starting file transfer (" + fileTotalSize + " bytes) for key 0x" + String.format("%02X", key));
+        if (key == 0x02) {
+            // AGPS: start streaming directly!
+            startStreamTransfer();
+        } else {
+            // Watchface: do the full setup sequence
+            startPreTransferSequence();
+        }
     }
 
     public void cancelTransfer() {
@@ -844,7 +869,7 @@ public class BleManager {
         bb.putInt((int) offset);
         bb.put(chunk);
 
-        byte[] message = createMessage((byte) 0x07, (byte) 0x01, (byte) 0x00, bb.array());
+        byte[] message = createMessage((byte) 0x07, transferKey, (byte) 0x00, bb.array());
         enqueueLogicalFrame(message);
         isSending = true;
         sendNextChunk();
@@ -852,6 +877,8 @@ public class BleManager {
     }
 
     // ========== Health Sync ==========
+
+    public static final int HEALTH_KEY_LOCATION = 0x07; // GPS location coordinate records
 
     /**
      * Request all health data from the watch.
@@ -865,6 +892,9 @@ public class BleManager {
             HEALTH_KEY_HEART_RATE, // 0x03 - Heart rate BPM
             HEALTH_KEY_BLOOD_PRESSURE, // 0x04 - Systolic/Diastolic
             HEALTH_KEY_SLEEP, // 0x05 - Sleep stages
+            HEALTH_KEY_WORKOUT, // 0x06 - Workout session data
+            HEALTH_KEY_WORKOUT2, // 0x0E - Rich workout session data
+            HEALTH_KEY_LOCATION, // 0x07 - GPS coordinate records
             HEALTH_KEY_TEMPERATURE, // 0x08 - Body temperature
             HEALTH_KEY_BLOOD_OXYGEN, // 0x09 - SpO2
             HEALTH_KEY_HRV, // 0x0A - Heart rate variability
@@ -920,6 +950,7 @@ public class BleManager {
         } else {
             healthKeyIndex = -1;
             log("=== Health Sync Complete ===");
+            prefs.edit().putLong("last_sync_time", System.currentTimeMillis() / 1000L).apply();
             if (listener != null) {
                 handler.post(() -> listener.onHealthSyncComplete());
             }
@@ -938,6 +969,10 @@ public class BleManager {
                 return "sleep";
             case HEALTH_KEY_WORKOUT:
                 return "workout";
+            case HEALTH_KEY_WORKOUT2:
+                return "workout2";
+            case HEALTH_KEY_LOCATION:
+                return "location";
             case HEALTH_KEY_TEMPERATURE:
                 return "temperature";
             case HEALTH_KEY_BLOOD_OXYGEN:
@@ -1115,6 +1150,145 @@ public class BleManager {
                     editor.putString(prefix + "stress", sb.toString());
                     break;
                 }
+                case HEALTH_KEY_WORKOUT: {
+                    // ITEM_LENGTH=48: start(4) end(4) duration(2) altitude(2) airPressure(2) spm(1) mode(1) step(4) distance(4) calorie(4) speed(4) pace(4) avgBpm(1) maxBpm(1) padding(10)
+                    int itemLen = 48;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "workout", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int start = bb.getInt() + 946684800;
+                        int end = bb.getInt() + 946684800;
+                        int duration = bb.getShort() & 0xFFFF;
+                        int altitude = bb.getShort();
+                        int airPressure = bb.getShort() & 0xFFFF;
+                        int spm = bb.get() & 0xFF;
+                        int mode = bb.get() & 0xFF;
+                        int step = bb.getInt();
+                        int distance = bb.getInt();
+                        int calorie = bb.getInt();
+                        int speed = bb.getInt();
+                        int pace = bb.getInt();
+                        int avgBpm = bb.get() & 0xFF;
+                        int maxBpm = bb.get() & 0xFF;
+                        // Skip remaining 10 bytes padding
+                        for (int i = 0; i < 10; i++) {
+                            bb.get();
+                        }
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(start).append(":")
+                          .append(end).append(":")
+                          .append(duration).append(":")
+                          .append(altitude).append(":")
+                          .append(airPressure).append(":")
+                          .append(spm).append(":")
+                          .append(mode).append(":")
+                          .append(step).append(":")
+                          .append(distance).append(":")
+                          .append(calorie).append(":")
+                          .append(speed).append(":")
+                          .append(pace).append(":")
+                          .append(avgBpm).append(":")
+                          .append(maxBpm);
+                        log("  Workout: start=" + start + " end=" + end + " mode=" + mode + " steps=" + step + " dist=" + distance + " kcal=" + calorie);
+
+                        // Merge into standard "sport_sessions" for history compatibility
+                        String allSessions = prefs.getString("sport_sessions", "");
+                        boolean exists = false;
+                        if (!allSessions.isEmpty()) {
+                            for (String s : allSessions.split(",")) {
+                                if (s.startsWith(start + "|")) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!exists) {
+                            String rec = start + "|" + getSportName(mode) + "|" + duration + "|" + calorie;
+                            editor.putString("sport_sessions", allSessions.isEmpty() ? rec : rec + "," + allSessions);
+                        }
+                    }
+                    editor.putString(prefix + "workout", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_WORKOUT2: {
+                    // ITEM_LENGTH=128: start(4) end(4) duration(2) altitude(2) airPressure(2) spm(1) mode(1) step(4) distance(4) calorie(4) speed(4) pace(4) avgBpm(1) maxBpm(1) minBpm(1) undefined(1) maxSpm(2) minSpm(2) maxPace(4) minPace(4) maxAltitude(2) minAltitude(2) minStress(1) maxStress(1) avgStress(1) maxSpeed(4) minSpeed(4) restDuration(4) padding(59)
+                    int itemLen = 128;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "workout", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int start = bb.getInt() + 946684800;
+                        int end = bb.getInt() + 946684800;
+                        int duration = bb.getShort() & 0xFFFF;
+                        int altitude = bb.getShort();
+                        int airPressure = bb.getShort() & 0xFFFF;
+                        int spm = bb.get() & 0xFF;
+                        int mode = bb.get() & 0xFF;
+                        int step = bb.getInt();
+                        int distance = bb.getInt();
+                        int calorie = bb.getInt();
+                        int speed = bb.getInt();
+                        int pace = bb.getInt();
+                        int avgBpm = bb.get() & 0xFF;
+                        int maxBpm = bb.get() & 0xFF;
+                        // Skip remaining 90 bytes of the 128-byte item
+                        for (int i = 0; i < 90; i++) {
+                            bb.get();
+                        }
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(start).append(":")
+                          .append(end).append(":")
+                          .append(duration).append(":")
+                          .append(altitude).append(":")
+                          .append(airPressure).append(":")
+                          .append(spm).append(":")
+                          .append(mode).append(":")
+                          .append(step).append(":")
+                          .append(distance).append(":")
+                          .append(calorie).append(":")
+                          .append(speed).append(":")
+                          .append(pace).append(":")
+                          .append(avgBpm).append(":")
+                          .append(maxBpm);
+                        log("  Workout2: start=" + start + " end=" + end + " mode=" + mode + " steps=" + step + " dist=" + distance + " kcal=" + calorie);
+
+                        // Merge into standard "sport_sessions" for history compatibility
+                        String allSessions = prefs.getString("sport_sessions", "");
+                        boolean exists = false;
+                        if (!allSessions.isEmpty()) {
+                            for (String s : allSessions.split(",")) {
+                                if (s.startsWith(start + "|")) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!exists) {
+                            String rec = start + "|" + getSportName(mode) + "|" + duration + "|" + calorie;
+                            editor.putString("sport_sessions", allSessions.isEmpty() ? rec : rec + "," + allSessions);
+                        }
+                    }
+                    editor.putString(prefix + "workout", sb.toString());
+                    break;
+                }
+                case HEALTH_KEY_LOCATION: {
+                    // ITEM_LENGTH=16: time(4) mode(1) padding(1) altitude(2) longitude(4) latitude(4)
+                    int itemLen = 16;
+                    StringBuilder sb = new StringBuilder(prefs.getString(prefix + "location", ""));
+                    while (bb.remaining() >= itemLen) {
+                        int time = bb.getInt() + 946684800; // Watch uses 2000-01-01 epoch
+                        int mode = bb.get() & 0xFF;
+                        bb.get(); // padding (1 byte)
+                        int altitude = bb.getShort();
+                        float longitude = bb.getFloat();
+                        float latitude = bb.getFloat();
+                        if (sb.length() > 0)
+                            sb.append(",");
+                        sb.append(time).append(":").append(mode).append(":").append(altitude).append(":").append(longitude).append(":").append(latitude);
+                        log("  Location: t=" + time + " mode=" + mode + " alt=" + altitude + " lon=" + longitude + " lat=" + latitude);
+                    }
+                    editor.putString(prefix + "location", sb.toString());
+                    break;
+                }
                 default:
                     log("  Unhandled health key 0x" + String.format("%02X", key) + " (" + payload.length + " bytes)");
                     break;
@@ -1123,6 +1297,17 @@ public class BleManager {
         } catch (Exception e) {
             log("Health parse error: " + e.getMessage());
         }
+    }
+
+    private String getSportName(int mode) {
+        String[] sports = {
+            "Caminar", "Correr", "Ciclismo", "Senderismo", "Cinta", "Yoga",
+            "Saltar la cuerda", "Baloncesto", "Fútbol", "Natación", "Remo", "Escalada"
+        };
+        if (mode >= 1 && mode <= sports.length) {
+            return sports[mode - 1];
+        }
+        return "Deporte " + mode;
     }
 
     // ========== Helpers — ported from omo version ==========
@@ -1308,6 +1493,15 @@ public class BleManager {
         if (!isSessionReady()) return;
         log("Reading device info (0x023E)...");
         byte[] msg = createMessage((byte) 0x02, (byte) 0x3E, (byte) 0x10, null);
+        enqueueLogicalFrame(msg);
+        isSending = true;
+        sendNextChunk();
+    }
+
+    public void readFirmwareVersion() {
+        if (!isSessionReady()) return;
+        log("Reading firmware version (0x0204)...");
+        byte[] msg = createMessage((byte) 0x02, (byte) 0x04, (byte) 0x10, null);
         enqueueLogicalFrame(msg);
         isSending = true;
         sendNextChunk();

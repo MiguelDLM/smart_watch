@@ -120,21 +120,6 @@ public class SleepTimelineView extends View {
             else labelPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(sdf.format(new Date(ts * 1000)), x, barTop + barH + h * 0.25f, labelPaint);
         }
-
-        // Phase legend
-        int[]    modes = {BleSleep.MODE_DEEP, BleSleep.MODE_LIGHT, BleSleep.MODE_REM, BleSleep.MODE_AWAKE};
-        String[] names = {"Profundo", "Ligero", "REM", "Despierto"};
-        float legendY = h * 0.93f;
-        float cellW   = w / modes.length;
-        labelPaint.setTextSize(h * 0.12f);
-        for (int i = 0; i < modes.length; i++) {
-            float cx = cellW * i + 4f;
-            dotPaint.setColor(colorForMode(modes[i]));
-            float dotSize = h * 0.10f;
-            canvas.drawRect(cx, legendY - dotSize, cx + dotSize, legendY, dotPaint);
-            labelPaint.setTextAlign(Paint.Align.LEFT);
-            canvas.drawText(names[i], cx + dotSize + 4f, legendY, labelPaint);
-        }
     }
 
     private int colorForMode(int mode) {

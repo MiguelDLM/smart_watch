@@ -106,11 +106,27 @@ public final class WeatherSync {
             if (fine || coarse) {
                 LocationManager lm = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
                 if (lm != null) {
-                    for (String provider : lm.getProviders(true)) {
-                        Location l = lm.getLastKnownLocation(provider);
-                        if (l != null)
+                    // Prefer GPS over network/WiFi — GPS fix wins immediately;
+                    // otherwise keep the most recent network fix as fallback.
+                    Location best = null;
+                    for (String provider : new String[] {
+                            LocationManager.GPS_PROVIDER,
+                            LocationManager.NETWORK_PROVIDER,
+                            LocationManager.PASSIVE_PROVIDER }) {
+                        Location l;
+                        try {
+                            l = lm.getLastKnownLocation(provider);
+                        } catch (SecurityException | IllegalArgumentException ex) {
+                            continue;
+                        }
+                        if (l == null) continue;
+                        if (LocationManager.GPS_PROVIDER.equals(provider))
                             return new double[] { l.getLatitude(), l.getLongitude() };
+                        if (best == null || l.getTime() > best.getTime())
+                            best = l;
                     }
+                    if (best != null)
+                        return new double[] { best.getLatitude(), best.getLongitude() };
                 }
             }
         } catch (Exception e) {
@@ -173,17 +189,72 @@ public final class WeatherSync {
     }
 
     private static String resolveCity(Context ctx, double lat, double lon) {
+        // First try Android Geocoder
+        String androidCity = cityFromGeocoder(ctx, lat, lon);
+        // If geocoder returned something useful (not empty, not a generic "Centro"), use it
+        if (!androidCity.isEmpty() && !isGenericPlaceName(androidCity)) {
+            return androidCity;
+        }
+        // Fallback: Open-Meteo reverse geocoding (nominatim-based, free)
+        String nominatimCity = cityFromNominatim(lat, lon);
+        if (!nominatimCity.isEmpty()) {
+            return nominatimCity;
+        }
+        // Last resort: use the Android geocoder result even if generic
+        return androidCity;
+    }
+
+    private static boolean isGenericPlaceName(String name) {
+        String lower = name.toLowerCase(Locale.ROOT).trim();
+        return lower.equals("centro") || lower.equals("center") || lower.equals("downtown")
+                || lower.equals("central") || lower.equals("centre") || lower.length() <= 3;
+    }
+
+    private static String cityFromGeocoder(Context ctx, double lat, double lon) {
         try {
             Geocoder g = new Geocoder(ctx, Locale.getDefault());
             List<Address> addrs = g.getFromLocation(lat, lon, 1);
             if (addrs != null && !addrs.isEmpty()) {
                 Address a = addrs.get(0);
-                if (a.getLocality() != null)
+                // Prefer the most specific non-generic names
+                if (a.getLocality() != null && !isGenericPlaceName(a.getLocality()))
                     return a.getLocality();
-                if (a.getSubAdminArea() != null)
+                if (a.getSubAdminArea() != null && !isGenericPlaceName(a.getSubAdminArea()))
                     return a.getSubAdminArea();
                 if (a.getAdminArea() != null)
                     return a.getAdminArea();
+                if (a.getLocality() != null)
+                    return a.getLocality();
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
+    private static String cityFromNominatim(double lat, double lon) {
+        try {
+            String urlStr = "https://nominatim.openstreetmap.org/reverse?lat=" + lat
+                    + "&lon=" + lon + "&format=json&zoom=10&accept-language=es";
+            java.net.HttpURLConnection conn = (java.net.HttpURLConnection)
+                    new java.net.URL(urlStr).openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+            conn.setRequestProperty("User-Agent", "DialSender/1.0");
+            if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) sb.append(line);
+                br.close();
+                org.json.JSONObject obj = new org.json.JSONObject(sb.toString());
+                if (obj.has("address")) {
+                    org.json.JSONObject addr = obj.getJSONObject("address");
+                    // Try city, town, municipality, village in order
+                    for (String key : new String[]{"city", "town", "municipality", "village", "county"}) {
+                        if (addr.has(key) && !addr.getString(key).isEmpty())
+                            return addr.getString(key);
+                    }
+                }
             }
         } catch (Exception ignored) {
         }
