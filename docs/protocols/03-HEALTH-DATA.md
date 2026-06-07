@@ -24,6 +24,7 @@ smartwatch to phone over BLE.
    - [BlePressure](#49-blepressure)
    - [BleActivity](#410-bleactivity)
    - [BleWorkout](#411-bleworkout)
+   - [BleLocation](#412-blelocation)
 5. [Enum Definitions](#5-enum-definitions)
    - [Sleep Mode](#51-sleep-mode)
    - [Sport Type](#52-sport-type)
@@ -41,13 +42,13 @@ Every entity has a constant `ITEM_LENGTH` value. The total payload length is
 always a multiple of `ITEM_LENGTH`. The receiving side iterates over the
 payload by advancing a `ByteBuffer` cursor by `ITEM_LENGTH` bytes per record.
 
-> **EPOCH NOTE (see [10-CAPTURE-FINDINGS.md](./10-CAPTURE-FINDINGS.md) §4):**
-> The `mTime` field is a 32-bit seconds counter, but the origin is most likely
-> **2000-01-01**, not the 1970 Unix epoch. The reference app adds `946684800`
-> (the 1970→2000 delta) to convert record times to real Unix time, and the
-> device clock (doc 02 / doc 10) is 2000-based. This was not confirmed on the
-> wire (the capture contained no health sync); verify before relying on absolute
-> record times. Sensor values are unaffected by the epoch choice.
+> **EPOCH NOTE — CONFIRMED:**
+> The `mTime` field is a 32-bit seconds counter with origin **2000-01-01 00:00:00 UTC**,
+> not 1970. Add `946684800` to convert to Unix epoch seconds. This was confirmed
+> empirically: the STF/CoFit reference app DB stores `mTime` in **milliseconds**
+> (divide by 1000 first), and cross-referencing with known workout timestamps
+> produced the correct 2000-01-01 offset. `BleManager` applies this correction
+> during all health record parsing.
 
 ---
 
@@ -56,7 +57,7 @@ payload by advancing a `ByteBuffer` cursor by `ITEM_LENGTH` bytes per record.
 | Convention          | Detail                                                      |
 |---------------------|-------------------------------------------------------------|
 | Byte order          | Big-endian (network byte order) for all multi-byte fields   |
-| Timestamp field     | `int32` seconds counter — **likely 2000-01-01 epoch**, see note |
+| Timestamp field     | `int32` seconds counter — **2000-01-01 epoch** (add 946684800 for Unix) |
 | Payload layout      | N records × ITEM_LENGTH bytes, no framing between records   |
 | Read method         | Sequential `ByteBuffer` reads (`getInt`, `get`, `getShort`) |
 | Signed integers     | Java `byte` / `short` / `int` — sign-extended on read       |
@@ -361,11 +362,16 @@ buffer.get()                 // discard padding
 
 | Offset | Size     | Type   | Field     | Description                                           |
 |--------|----------|--------|-----------|-------------------------------------------------------|
-| 0      | 4        | int32  | mTime     | Timestamp (seconds since Unix epoch)                  |
+| 0      | 4        | int32  | mTime     | Timestamp (seconds since 2000-01-01 epoch)            |
 | 4      | 1        | uint8  | (packed)  | Packed byte: mMode in bits [4:0], mState in bits [7:5] |
 | 5      | 3        | int24  | mStep     | Step count (3-byte big-endian unsigned integer)       |
-| 8      | 4        | int32  | mCalorie  | Calories burned (cal)                                 |
-| 12     | 4        | int32  | mDistance | Distance (device-specific units, typically cm)        |
+| 8      | 4        | int32  | mCalorie  | Calories × 10000 (divide by 10000 for kcal)           |
+| 12     | 4        | int32  | mDistance | Distance × 10000 (divide by 10000 for metres)        |
+
+> **Scale factors confirmed:** `mCalorie` and `mDistance` arrive as integer
+> values multiplied by 10000. Divide by 10000 to get kcal and metres
+> respectively. This was confirmed by comparing parsed DB values against
+> displayed totals in the STF/CoFit reference app.
 
 #### Packed Byte Extraction (offset 4)
 
@@ -457,6 +463,39 @@ mPace        = buffer.getInt()
 mAvgBpm      = buffer.get() & 0xFF
 mMaxBpm      = buffer.get() & 0xFF
 buffer.position(buffer.position() + 10)     // skip reserved bytes
+```
+
+---
+
+### 4.12 BleLocation
+
+**Source:** `decompiled_apk/sources/com/szabh/smable3/entity/BleLocation.java` (GPS location tracking records)
+
+| Attribute    | Value                  |
+|--------------|------------------------|
+| BleKey       | `LOCATION 0x0507`      |
+| ITEM_LENGTH  | 16 bytes               |
+
+#### Byte Layout
+
+| Offset | Size | Type   | Field       | Description                                                 |
+|--------|------|--------|-------------|-------------------------------------------------------------|
+| 0      | 4    | int32  | mTime       | Timestamp (seconds since 2000-01-01 epoch)                  |
+| 4      | 1    | uint8  | mMode       | GPS/Sport mode indicator                                    |
+| 5      | 1    | —      | —           | Padding byte (bit-level skip(8) = 1 byte of padding)        |
+| 6      | 2    | int16  | mAltitude   | Altitude in meters                                          |
+| 8      | 4    | float  | mLongitude  | Floating point longitude coordinate                         |
+| 12     | 4    | float  | mLatitude   | Floating point latitude coordinate                          |
+
+#### Decode Pseudocode
+
+```
+mTime      = buffer.getInt()
+mMode      = buffer.get() & 0xFF
+buffer.get()                     // skip padding (1 byte)
+mAltitude  = buffer.getShort()   // signed 16-bit
+mLongitude = buffer.getFloat()   // 32-bit float
+mLatitude  = buffer.getFloat()   // 32-bit float
 ```
 
 ---

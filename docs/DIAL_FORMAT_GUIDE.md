@@ -1,6 +1,6 @@
 # Smartwatch Dial (.bin) File Format & Builder Guide
 
-This document compiles everything we have reverse-engineered and discovered about the dial binary format used by **HK89**, **JL/AM05**, and compatible smartwatches. It is derived from analysis of over 10 decompiled AM05 Kronos Thunder dials.
+This document compiles everything we have reverse-engineered and discovered about the dial binary format used by **HK89**, **JL/AM05**, and compatible smartwatches. It is derived from analysis of over 10 decompiled AM05/HK89 dial binaries.
 
 ---
 
