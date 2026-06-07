@@ -23,7 +23,10 @@ public class LogActivity extends AppCompatActivity {
     private TextView txtLog;
     private ScrollView logScroll;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);

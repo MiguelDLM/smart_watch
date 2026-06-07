@@ -35,7 +35,10 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     private Set<String> enabledPackages;
     private PackageManager pm;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_settings);

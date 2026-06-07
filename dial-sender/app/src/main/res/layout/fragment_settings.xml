@@ -54,7 +54,7 @@
                     android:id="@+id/txtProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mi perfil"
+                    android:text="@string/settings_profile"
                     android:textColor="@color/text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
@@ -63,7 +63,7 @@
                     android:id="@+id/txtProfileDevice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sin dispositivo vinculado"
+                    android:text="@string/settings_no_device"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
                     android:layout_marginTop="2dp"/>
@@ -77,18 +77,44 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Section: Notificaciones -->
+        <!-- Section: Data -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NOTIFICACIONES"
+            android:text="@string/settings_section_data"
             android:textColor="@color/accent_primary"
             android:textSize="11sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
         <LinearLayout
-            android:id="@+id/rowNotifications"
+            android:id="@+id/rowImportData"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_card"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="4dp"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_import"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="@color/accent_primary"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowExportData"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_card"
@@ -102,7 +128,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Apps con notificaciones"
+                android:text="@string/settings_export"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"/>
             <TextView
@@ -113,11 +139,48 @@
                 android:textSize="22sp"/>
         </LinearLayout>
 
-        <!-- Section: Estilo de Gauge -->
+        <!-- Section: Language -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ESTILO DE GAUGE"
+            android:text="@string/settings_section_language"
+            android:textColor="@color/accent_primary"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <RadioGroup
+                android:id="@+id/radioLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/radioLangEs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_lang_es"
+                    android:textColor="@color/text_primary"/>
+                <RadioButton
+                    android:id="@+id/radioLangEn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_lang_en"
+                    android:textColor="@color/text_primary"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- Section: Gauge style -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_section_gauge"
             android:textColor="@color/accent_primary"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -139,28 +202,28 @@
                     android:id="@+id/radioGaugeA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A — Semi-círculo (por defecto)"
+                    android:text="@string/settings_gauge_a"
                     android:textColor="@color/text_primary"/>
                 <RadioButton
                     android:id="@+id/radioGaugeB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="B — Donut (270°)"
+                    android:text="@string/settings_gauge_b"
                     android:textColor="@color/text_primary"/>
                 <RadioButton
                     android:id="@+id/radioGaugeC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="C — Anillo fino"
+                    android:text="@string/settings_gauge_c"
                     android:textColor="@color/text_primary"/>
             </RadioGroup>
         </LinearLayout>
 
-        <!-- Section: Unidades -->
+        <!-- Section: Units -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UNIDADES"
+            android:text="@string/settings_section_units"
             android:textColor="@color/accent_primary"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -184,7 +247,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Distancia"
+                    android:text="@string/settings_unit_distance"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <Spinner
@@ -202,7 +265,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Peso"
+                    android:text="@string/settings_unit_weight"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <Spinner
@@ -212,11 +275,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Section: Metas diarias -->
+        <!-- Section: Daily goals -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="METAS DIARIAS"
+            android:text="@string/settings_section_goals"
             android:textColor="@color/accent_primary"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -230,7 +293,6 @@
             android:padding="16dp"
             android:layout_marginBottom="20dp">
 
-            <!-- Steps -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -241,7 +303,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pasos"
+                    android:text="@string/settings_goal_steps"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <EditText
@@ -251,16 +313,25 @@
                     android:inputType="number"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
-                    android:background="@drawable/bg_card"/>
+                    android:background="@drawable/bg_input_field"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  pasos"
+                    android:text="  "
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/lblStepsUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_steps_label"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"/>
             </LinearLayout>
 
-            <!-- Sleep -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -271,7 +342,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sueño"
+                    android:text="@string/settings_goal_sleep"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <EditText
@@ -281,16 +352,25 @@
                     android:inputType="number"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
-                    android:background="@drawable/bg_card"/>
+                    android:background="@drawable/bg_input_field"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  minutos"
+                    android:text="  "
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/lblSleepUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_minutes_label"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"/>
             </LinearLayout>
 
-            <!-- Calories -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -301,7 +381,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Calorías"
+                    android:text="@string/settings_goal_calories"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <EditText
@@ -311,16 +391,25 @@
                     android:inputType="number"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
-                    android:background="@drawable/bg_card"/>
+                    android:background="@drawable/bg_input_field"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  kcal"
+                    android:text="  "
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/lblCalUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_kcal_label"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"/>
             </LinearLayout>
 
-            <!-- Distance -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -330,7 +419,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Distancia"
+                    android:text="@string/settings_goal_distance"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"/>
                 <EditText
@@ -340,18 +429,27 @@
                     android:inputType="number"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
-                    android:background="@drawable/bg_card"/>
+                    android:background="@drawable/bg_input_field"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  "
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
                 <TextView
                     android:id="@+id/lblDistanceUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  km"
+                    android:text="@string/unit_km"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Version footer — 6 taps opens developer tools (like Android) -->
+        <!-- Version footer -->
         <TextView
             android:id="@+id/txtVersion"
             android:layout_width="match_parent"
@@ -359,7 +457,7 @@
             android:gravity="center"
             android:paddingTop="12dp"
             android:paddingBottom="24dp"
-            android:text="Dial Studio v0.4"
+            android:text="@string/settings_version"
             android:textColor="@color/text_secondary"
             android:textSize="12sp"/>
 

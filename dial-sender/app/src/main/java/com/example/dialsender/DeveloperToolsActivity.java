@@ -40,7 +40,10 @@ public class DeveloperToolsActivity extends AppCompatActivity implements BleMana
     private ScrollView logScroll;
     private BleManager ble;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ble = BleManager.getInstance(this);

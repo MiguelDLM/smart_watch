@@ -25,8 +25,10 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.dialsender.DeveloperToolsActivity;
+import com.example.dialsender.LocaleHelper;
 import com.example.dialsender.NotificationSettingsActivity;
 import com.example.dialsender.R;
+import android.widget.RadioButton;
 
 public class SettingsFragment extends Fragment {
 
@@ -101,9 +103,31 @@ public class SettingsFragment extends Fragment {
             });
         }
 
-        // Notifications row
-        view.findViewById(R.id.rowNotifications).setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), NotificationSettingsActivity.class)));
+        // Import data from STF / CoFit
+        View rowImport = view.findViewById(R.id.rowImportData);
+        if (rowImport != null)
+            rowImport.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.example.dialsender.ImportDataActivity.class)));
+
+        // Export health data as CSV
+        View rowExport = view.findViewById(R.id.rowExportData);
+        if (rowExport != null)
+            rowExport.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.example.dialsender.ExportDataActivity.class)));
+
+        // Language selector
+        RadioGroup radioLang = view.findViewById(R.id.radioLanguage);
+        String currentLang = LocaleHelper.getSavedLanguage(requireContext());
+        initializing = true;
+        if ("en".equals(currentLang)) radioLang.check(R.id.radioLangEn);
+        else                          radioLang.check(R.id.radioLangEs);
+        initializing = false;
+        radioLang.setOnCheckedChangeListener((group, checkedId) -> {
+            if (initializing) return;
+            String lang = (checkedId == R.id.radioLangEn) ? "en" : "es";
+            LocaleHelper.saveLanguage(requireContext(), lang);
+            requireActivity().recreate();
+        });
 
         // Gauge style radio group
         RadioGroup radioGauge = view.findViewById(R.id.radioGaugeStyle);

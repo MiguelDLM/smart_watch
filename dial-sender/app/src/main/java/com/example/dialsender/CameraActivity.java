@@ -41,7 +41,10 @@ public class CameraActivity extends AppCompatActivity {
     private BleManager ble;
     private TextView hint;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

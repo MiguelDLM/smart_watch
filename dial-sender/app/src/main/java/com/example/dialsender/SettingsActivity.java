@@ -18,7 +18,10 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView txtThemeValue, txtLangValue;
     private SharedPreferences prefs;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         applyTheme(false);
         super.onCreate(savedInstanceState);

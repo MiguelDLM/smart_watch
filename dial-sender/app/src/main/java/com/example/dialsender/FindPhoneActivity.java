@@ -21,7 +21,10 @@ import com.example.dialsender.ble.BleManager;
  */
 public class FindPhoneActivity extends AppCompatActivity {
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
