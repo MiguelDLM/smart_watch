@@ -67,7 +67,10 @@ public class MetricDetailActivity extends AppCompatActivity {
     private boolean cumulative; // steps/calories/distance accumulate during the day
     private boolean isBp;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences(PREF, Context.MODE_PRIVATE);
@@ -97,50 +100,41 @@ public class MetricDetailActivity extends AppCompatActivity {
     private void configMeta() {
         switch (metric) {
             case "steps":
-                title = "Pasos"; unit = ""; color = 0xFFFF9800; iconRes = R.drawable.ic_metric_steps;
+                title = getString(R.string.metric_steps); unit = ""; color = 0xFFFF9800; iconRes = R.drawable.ic_metric_steps;
                 cumulative = true;
-                desc = "Los pasos cuentan el movimiento detectado por el acelerómetro del reloj a lo largo "
-                        + "del día. Caminar al menos 8.000–10.000 pasos diarios ayuda a mantener un corazón "
-                        + "sano y a controlar el peso.";
+                desc = getString(R.string.metric_desc_steps);
                 break;
             case "calories":
-                title = "Calorías"; unit = "Kcal"; color = 0xFFE5552E; iconRes = R.drawable.ic_metric_calories;
+                title = getString(R.string.metric_calories); unit = getString(R.string.unit_kcal); color = 0xFFE5552E; iconRes = R.drawable.ic_metric_calories;
                 cumulative = true;
-                desc = "Estimación de la energía gastada (calorías activas) calculada a partir de tus pasos, "
-                        + "frecuencia cardíaca y datos de perfil. Es una aproximación, útil para comparar tu "
-                        + "actividad día a día.";
+                desc = getString(R.string.metric_desc_calories);
                 break;
             case "distance":
-                title = "Distancia"; unit = "Km"; color = 0xFF34C759; iconRes = R.drawable.ic_metric_distance;
+                title = getString(R.string.metric_distance); unit = getString(R.string.unit_km); color = 0xFF34C759; iconRes = R.drawable.ic_metric_distance;
                 cumulative = true;
-                desc = "Distancia recorrida estimada a partir del número de pasos y la longitud media de tu "
-                        + "zancada. Camina o corre con el reloj puesto para acumular distancia.";
+                desc = getString(R.string.metric_desc_distance);
                 break;
             case "blood_oxygen":
-                title = "Oxígeno en sangre"; unit = "%"; color = 0xFF42A5F5; iconRes = R.drawable.ic_metric_spo2;
-                desc = "La saturación de oxígeno (SpO₂) indica el porcentaje de oxígeno que transportan tus "
-                        + "glóbulos rojos. Un valor normal en reposo se sitúa entre 95% y 100%. Valores bajos "
-                        + "de forma sostenida conviene consultarlos con un profesional.";
+                title = getString(R.string.metric_spo2); unit = getString(R.string.unit_pct); color = 0xFF42A5F5; iconRes = R.drawable.ic_metric_spo2;
+                desc = getString(R.string.metric_desc_blood_oxygen);
                 break;
             case "stress":
-                title = "Estrés"; unit = ""; color = 0xFF34C759; iconRes = R.drawable.ic_metric_pulse;
-                desc = "El nivel de estrés se estima a partir de la variabilidad de tu frecuencia cardíaca "
-                        + "(HRV). Valores altos sugieren tensión; respirar profundamente y descansar suele "
-                        + "ayudar a reducirlo.";
+                title = getString(R.string.metric_stress); unit = ""; color = 0xFF34C759; iconRes = R.drawable.ic_metric_pulse;
+                desc = getString(R.string.metric_desc_stress);
                 break;
             case "blood_pressure":
-                title = "Presión arterial"; unit = "mmHg"; color = 0xFFEF5350; iconRes = R.drawable.ic_metric_pulse;
+                title = getString(R.string.metric_blood_pressure); unit = getString(R.string.unit_mmhg); color = 0xFFEF5350; iconRes = R.drawable.ic_metric_pulse;
                 isBp = true;
-                desc = "La presión arterial se muestra como sistólica/diastólica (mmHg). Un valor de referencia "
-                        + "es alrededor de 120/80. La medición del reloj es orientativa y no sustituye a un "
-                        + "tensiómetro clínico.";
+                desc = getString(R.string.metric_desc_blood_pressure);
+                break;
+            case "sleep":
+                title = getString(R.string.metric_sleep); unit = "h"; color = 0xFF7E57C2; iconRes = R.drawable.ic_metric_sleep;
+                desc = getString(R.string.metric_desc_sleep);
                 break;
             default:
-                title = "Frecuencia cardíaca"; unit = "Lpm"; color = 0xFFE5552E;
+                title = getString(R.string.metric_heart_rate); unit = getString(R.string.unit_bpm); color = 0xFFE5552E;
                 iconRes = R.drawable.ic_metric_heart;
-                desc = "La frecuencia cardíaca son los latidos por minuto (Lpm). En reposo, un adulto suele "
-                        + "estar entre 60 y 100 Lpm. Sube con el ejercicio y baja al descansar; observar su "
-                        + "tendencia ayuda a conocer tu estado físico.";
+                desc = getString(R.string.metric_desc_heart_rate);
                 break;
         }
     }
@@ -188,7 +182,7 @@ public class MetricDetailActivity extends AppCompatActivity {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setPadding(dp(8), dp(4), dp(8), dp(4));
-        String[] names = { "Día", "Semana", "Mes" };
+        String[] names = { getString(R.string.tab_day), getString(R.string.tab_week), getString(R.string.tab_month) };
         for (int i = 0; i < 3; i++) {
             final int idx = i;
             TextView tab = new TextView(this);
@@ -231,6 +225,14 @@ public class MetricDetailActivity extends AppCompatActivity {
             return;
         }
 
+        // ─── Special case: sleep ───────────────────────────────────────────
+        if ("sleep".equals(metric)) {
+            renderSleep();
+            content.addView(descriptionCard());
+            return;
+        }
+        // ──────────────────────────────────────────────────────────────────
+
         if (range == DAY) {
             List<float[]> s = seriesRange(metric, selDayStart, selDayStart + 86400);
             float latest = s.isEmpty() ? 0 : s.get(s.size() - 1)[1];
@@ -260,6 +262,75 @@ public class MetricDetailActivity extends AppCompatActivity {
         content.addView(descriptionCard());
     }
 
+    /** Renders the sleep timeline + legend for the selected day. */
+    private void renderSleep() {
+        // Only the day view makes sense for sleep; we always show the selected day.
+        String sleepRaw = prefs.getString(P + "sleep", "");
+        com.example.dialsender.ble.SleepAnalyzer.SleepResult sr =
+                com.example.dialsender.ble.SleepAnalyzer.analyze(sleepRaw);
+
+        // Big value card
+        String totalStr = sr.totalMinutes > 0
+                ? (sr.totalMinutes / 60) + " h " + (sr.totalMinutes % 60) + " min"
+                : "Sin datos";
+        content.addView(valueHeader(totalStr, sr.totalMinutes > 0 ? "horas dormidas" : ""));
+
+        if (sr.totalMinutes > 0) {
+            // Sleep timeline chart
+            com.example.dialsender.views.SleepTimelineView tl =
+                    new com.example.dialsender.views.SleepTimelineView(this);
+            tl.setSleepData(sleepRaw);
+            LinearLayout.LayoutParams tlp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, dp(120));
+            tlp.setMargins(0, dp(12), 0, 0);
+            tl.setLayoutParams(tlp);
+            content.addView(tl);
+
+            // Phase legend
+            LinearLayout legend = new LinearLayout(this);
+            legend.setOrientation(LinearLayout.HORIZONTAL);
+            legend.setPadding(0, dp(12), 0, dp(8));
+            addSleepLegendItem(legend, "Profundo", 0xFF3F51B5, sr.deepMin);
+            addSleepLegendItem(legend, "Ligero", 0xFF22D3EE, sr.lightMin);
+            addSleepLegendItem(legend, "REM", 0xFF9C27B0, sr.remMin);
+            addSleepLegendItem(legend, "Despierto", 0xFF6B7280, sr.awakeMin);
+            content.addView(legend);
+        } else {
+            TextView noData = new TextView(this);
+            noData.setText(getString(R.string.sleep_no_data_day));
+            noData.setTextColor(0xFF6B7280);
+            noData.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            noData.setGravity(Gravity.CENTER);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(0, dp(24), 0, 0);
+            noData.setLayoutParams(lp);
+            content.addView(noData);
+        }
+    }
+
+    private void addSleepLegendItem(LinearLayout row, String name, int clr, int minutes) {
+        LinearLayout item = new LinearLayout(this);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        item.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        View dot = new View(this);
+        android.graphics.drawable.GradientDrawable d = new android.graphics.drawable.GradientDrawable();
+        d.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        d.setColor(clr);
+        dot.setBackground(d);
+        LinearLayout.LayoutParams dl = new LinearLayout.LayoutParams(dp(8), dp(8));
+        dl.setMargins(0, 0, dp(5), 0);
+        dot.setLayoutParams(dl);
+        item.addView(dot);
+        TextView t = new TextView(this);
+        t.setText(name + "\n" + (minutes / 60) + "h " + (minutes % 60) + "m");
+        t.setTextColor(0xFF9AA4B2);
+        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        item.addView(t);
+        row.addView(item);
+    }
+
     /** Informational card explaining what the metric is (like Co-Fit). */
     private View descriptionCard() {
         if (desc == null || desc.isEmpty())
@@ -277,7 +348,7 @@ public class MetricDetailActivity extends AppCompatActivity {
         card.setLayoutParams(lp);
 
         TextView head = new TextView(this);
-        head.setText("Acerca de " + title.toLowerCase(Locale.getDefault()));
+        head.setText(getString(R.string.metric_about_fmt, title.toLowerCase(Locale.getDefault())));
         head.setTextColor(0xFF22D3EE);
         head.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         head.setTypeface(null, Typeface.BOLD);
@@ -308,7 +379,7 @@ public class MetricDetailActivity extends AppCompatActivity {
 
         TextView label = new TextView(this);
         boolean isToday = selDayStart == todayStart();
-        label.setText(isToday ? "Hoy"
+        label.setText(isToday ? getString(R.string.label_today)
                 : new SimpleDateFormat("EEE d MMM", Locale.getDefault())
                         .format(new Date(selDayStart * 1000L)));
         label.setTextColor(0xFFC9D1D9);

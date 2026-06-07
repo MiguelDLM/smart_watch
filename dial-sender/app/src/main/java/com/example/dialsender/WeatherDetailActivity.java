@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.dialsender.ble.BleManager;
+import com.example.dialsender.ble.WeatherSync;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +33,10 @@ public class WeatherDetailActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
 
-    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE);
@@ -52,17 +58,39 @@ public class WeatherDetailActivity extends AppCompatActivity {
         back.setOnClickListener(v -> finish());
         header.addView(back);
         TextView title = new TextView(this);
-        title.setText("El tiempo");
+        title.setText(getString(R.string.weather_title));
         title.setTextColor(Color.WHITE);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         title.setTypeface(null, Typeface.BOLD);
         header.addView(title);
+
+        View spacer = new View(this);
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(0, 1, 1f));
+        header.addView(spacer);
+
+        TextView refresh = new TextView(this);
+        refresh.setText(getString(R.string.weather_refresh));
+        refresh.setTextColor(0xFF22D3EE);
+        refresh.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        refresh.setTypeface(null, Typeface.BOLD);
+        refresh.setPadding(dp(12), dp(6), dp(12), dp(6));
+        refresh.setClickable(true);
+        refresh.setOnClickListener(v -> {
+            BleManager ble = BleManager.getInstance(this);
+            if (ble.isSessionReady()) {
+                android.widget.Toast.makeText(this, getString(R.string.weather_refreshing), android.widget.Toast.LENGTH_SHORT).show();
+                WeatherSync.syncIfPossible(this, ble);
+            } else {
+                android.widget.Toast.makeText(this, getString(R.string.status_not_connected), android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+        header.addView(refresh);
+
         root.addView(header);
 
         if (prefs.getLong("weather_time", 0) <= 0) {
             TextView empty = new TextView(this);
-            empty.setText("\nSin datos del tiempo todavía.\nConéctate al reloj y desliza para "
-                    + "actualizar en la pantalla de Estado.");
+            empty.setText(getString(R.string.weather_no_data));
             empty.setTextColor(0xFF9AA4B2);
             empty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             root.addView(empty);
@@ -111,7 +139,7 @@ public class WeatherDetailActivity extends AppCompatActivity {
 
         TextView sub = new TextView(this);
         String place = city.isEmpty() ? "" : city + " · ";
-        sub.setText(place + "Máx " + hi + "°  Mín " + lo + "°");
+        sub.setText(place + getString(R.string.weather_hi_lo, hi, lo));
         sub.setTextColor(0xFF9AA4B2);
         sub.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         sub.setGravity(Gravity.CENTER);
@@ -122,15 +150,15 @@ public class WeatherDetailActivity extends AppCompatActivity {
         // --- Detail metric grid ---
         LinearLayout grid = new LinearLayout(this);
         grid.setOrientation(LinearLayout.VERTICAL);
-        grid.addView(metricRow("💧  Humedad", hum + " %", "🌬  Viento", wind + " km/h"));
-        grid.addView(metricRow("☀  Índice UV", String.valueOf(uv), "🌧  Prob. lluvia", pop + " %"));
+        grid.addView(metricRow(getString(R.string.weather_humidity), hum + " %", getString(R.string.weather_wind), wind + " km/h"));
+        grid.addView(metricRow(getString(R.string.weather_uv), String.valueOf(uv), getString(R.string.weather_rain), pop + " %"));
         root.addView(grid);
 
         // --- Forecast ---
         String fc = prefs.getString("weather_forecast", "");
         if (!fc.isEmpty()) {
             TextView fcHead = new TextView(this);
-            fcHead.setText("PRÓXIMOS DÍAS");
+            fcHead.setText(getString(R.string.weather_forecast_header));
             fcHead.setTextColor(0xFF22D3EE);
             fcHead.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
             fcHead.setTypeface(null, Typeface.BOLD);
@@ -157,7 +185,7 @@ public class WeatherDetailActivity extends AppCompatActivity {
                 int dHi = parse(p[1]);
                 int dLo = parse(p[2]);
                 int dPop = p.length > 3 ? parse(p[3]) : 0;
-                String dayLabel = i == 0 ? "Hoy" : df.format(cal.getTime());
+                String dayLabel = i == 0 ? getString(R.string.label_today) : df.format(cal.getTime());
                 fcCard.addView(forecastRow(dayLabel, dCode, dHi, dLo, dPop));
                 cal.add(Calendar.DAY_OF_MONTH, 1);
             }
@@ -245,22 +273,9 @@ public class WeatherDetailActivity extends AppCompatActivity {
         }
     }
 
-    /** Watch condition code (0..11) -> Spanish label. */
     private String labelFor(int code) {
-        switch (code) {
-            case 1: return "Despejado";
-            case 2: return "Parcialmente nublado";
-            case 3: return "Nublado";
-            case 4: return "Lluvia";
-            case 5: return "Tormenta";
-            case 6: return "Chubascos con tormenta";
-            case 7: return "Viento fuerte";
-            case 8: return "Nieve";
-            case 9: return "Niebla";
-            case 10: return "Tormenta de arena";
-            case 11: return "Calima";
-            default: return "Variable";
-        }
+        String[] conds = getResources().getStringArray(R.array.weather_conditions);
+        return (code >= 0 && code < conds.length) ? conds[code] : conds[0];
     }
 
     private String emojiFor(int code) {
@@ -278,6 +293,27 @@ public class WeatherDetailActivity extends AppCompatActivity {
             case 11: return "🌁";
             default: return "🌡️";
         }
+    }
+
+    private final SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if ("weather_time".equals(key)) {
+                runOnUiThread(() -> recreate());
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
     }
 
     private int dp(int v) {

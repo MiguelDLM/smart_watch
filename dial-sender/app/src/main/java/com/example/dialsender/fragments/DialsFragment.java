@@ -288,7 +288,7 @@ public class DialsFragment extends Fragment {
                     done[0] = true;
                     transferDialog.dismiss();
                     if (isAdded()) {
-                        Toast.makeText(requireContext(), "Transfer failed: " + reason, Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.transfer_failed, reason), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -316,6 +316,31 @@ public class DialsFragment extends Fragment {
                 byteBuffer.write(buffer, 0, len);
             is.close();
             byte[] fileBytesToSend = byteBuffer.toByteArray();
+
+            // ── Persist the dial so it appears in the library ──────────────
+            String rawName = null;
+            String uriPath = uri.getLastPathSegment();
+            if (uriPath != null) {
+                int slash = uriPath.lastIndexOf('/');
+                rawName = slash >= 0 ? uriPath.substring(slash + 1) : uriPath;
+            }
+            if (rawName == null || rawName.isEmpty())
+                rawName = "dial_" + System.currentTimeMillis() + ".bin";
+            if (!rawName.toLowerCase().endsWith(".bin"))
+                rawName = rawName + ".bin";
+            rawName = rawName.replaceAll("[^a-zA-Z0-9_\\-.]", "_");
+            File userDialsDir = new File(requireActivity().getFilesDir(), "user_dials");
+            if (!userDialsDir.exists())
+                userDialsDir.mkdirs();
+            File savedFile = new File(userDialsDir, rawName);
+            // If a file with the same name already exists, skip overwriting but still send.
+            if (!savedFile.exists()) {
+                try (java.io.FileOutputStream fos = new java.io.FileOutputStream(savedFile)) {
+                    fos.write(fileBytesToSend);
+                }
+                loadDials(); // refresh the grid to show the newly saved dial
+            }
+            // ────────────────────────────────────────────────────────────────
 
             com.example.dialsender.ble.BleManager bleManager = com.example.dialsender.ble.BleManager
                     .getInstance(requireContext());
@@ -385,7 +410,7 @@ public class DialsFragment extends Fragment {
                     done[0] = true;
                     transferDialog.dismiss();
                     if (isAdded()) {
-                        Toast.makeText(requireContext(), "Transfer failed: " + reason, Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.transfer_failed, reason), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -397,7 +422,7 @@ public class DialsFragment extends Fragment {
             bleManager.startFileTransfer(fileBytesToSend);
 
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "Error sending file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.dial_send_error, e.getMessage()), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -419,7 +444,7 @@ public class DialsFragment extends Fragment {
                 intent.putExtra("edit_dial_name", safeName);
                 startActivity(intent);
             } else {
-                Toast.makeText(requireContext(), "Failed to extract dial", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.dial_extract_error), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(requireContext(), "Edit error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -478,7 +503,7 @@ public class DialsFragment extends Fragment {
                     File newFile = new File(oldFile.getParentFile(), newName);
 
                     if (newFile.exists()) {
-                        Toast.makeText(requireContext(), "Name already exists", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), getString(R.string.name_exists), Toast.LENGTH_SHORT).show();
                         return;
                     }
 

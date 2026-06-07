@@ -45,6 +45,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private View statusIndicator;
     private TextView txtStatus;
     private Button btnConnect;
+    private android.widget.ImageView imgWatch;
 
     private TextView txtBattery;
     private TextView txtRssi;
@@ -52,10 +53,18 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
     private TextView txtDeviceMac;
     private View statsRow;
 
+    private TextView txtBacklight;
+    private TextView txtRaiseToWake;
+    private TextView txtFirmware;
+
     private BleManager bleManager;
     private BluetoothManager bluetoothManager;
     private BluetoothAdapter bluetoothAdapter;
     private final Handler handler = new Handler(Looper.getMainLooper());
+
+    private boolean isAgpsTransferActive = false;
+    private AlertDialog activeProgressDialog;
+    private android.widget.ProgressBar activeProgressBar;
 
     @Nullable
     @Override
@@ -64,6 +73,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         View view = inflater.inflate(R.layout.fragment_device, container, false);
 
         // Connection UI
+        imgWatch = view.findViewById(R.id.imgWatch);
         statusIndicator = view.findViewById(R.id.statusIndicator);
         txtStatus = view.findViewById(R.id.txtStatus);
         btnConnect = view.findViewById(R.id.btnConnect);
@@ -73,6 +83,10 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         txtDeviceName = view.findViewById(R.id.txtDeviceName);
         txtDeviceMac = view.findViewById(R.id.txtDeviceMac);
         statsRow = view.findViewById(R.id.statsRow);
+
+        txtBacklight = view.findViewById(R.id.txtBacklight);
+        txtRaiseToWake = view.findViewById(R.id.txtRaiseToWake);
+        txtFirmware = view.findViewById(R.id.txtFirmware);
 
         bluetoothManager = (BluetoothManager) requireContext()
                 .getSystemService(Context.BLUETOOTH_SERVICE);
@@ -95,16 +109,20 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
                 }
             });
         }
+        View rowNotifications = view.findViewById(R.id.rowNotifications);
+        if (rowNotifications != null) {
+            rowNotifications.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.example.dialsender.NotificationSettingsActivity.class)));
+        }
         View btnCamera = view.findViewById(R.id.btnCamera);
         if (btnCamera != null) {
             btnCamera.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), com.example.dialsender.CameraActivity.class)));
         }
-        // Notificaciones de apps
-        View btnNotifs = view.findViewById(R.id.btnNotifs);
-        if (btnNotifs != null) {
-            btnNotifs.setOnClickListener(v -> startActivity(
-                    new Intent(requireContext(), com.example.dialsender.NotificationSettingsActivity.class)));
+
+        View btnAgps = view.findViewById(R.id.btnAgps);
+        if (btnAgps != null) {
+            btnAgps.setOnClickListener(v -> startAgpsSync());
         }
 
         // Anti-pérdida toggle (verified: SET ANTI_LOST 0x0215, int8 0/1)
@@ -122,7 +140,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
                 if (bleManager.isSessionReady()) {
                     bleManager.sendSetting(0x15, new byte[] { (byte) (state[0] ? 1 : 0) });
                 } else {
-                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -147,7 +165,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
                     p[1] = en; p[2] = 22; p[3] = 0; p[4] = 8; p[5] = 0; // range1 22:00–08:00
                     bleManager.sendSetting(0x0A, p);
                 } else {
-                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -167,8 +185,81 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
                     byte[] p = new byte[] { b0, 8, 0, 22, 0, 60 };   // 08:00–22:00, cada 60 min
                     bleManager.sendSetting(0x09, p);
                 } else {
-                    Toast.makeText(requireContext(), "No conectado al reloj", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
                 }
+            });
+        }
+        // Luz de fondo (Backlight)
+        View rowBacklight = view.findViewById(R.id.rowBacklight);
+        if (rowBacklight != null && txtBacklight != null) {
+            rowBacklight.setOnClickListener(v -> {
+                String[] options = {getString(R.string.device_backlight_5s), getString(R.string.device_backlight_10s), getString(R.string.device_backlight_15s), getString(R.string.device_backlight_20s)};
+                int[] values = {5, 10, 15, 20};
+                new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.device_backlight_title))
+                    .setItems(options, (dialog, which) -> {
+                        int seconds = values[which];
+                        txtBacklight.setText(seconds + "s");
+                        sp2.edit().putInt("set_backlight", seconds).apply();
+                        if (bleManager.isSessionReady()) {
+                            bleManager.sendSetting(0x08, new byte[] { (byte) seconds });
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
+            });
+        }
+
+        // Activar al levantar (Raise to Wake)
+        View rowRaiseToWake = view.findViewById(R.id.rowRaiseToWake);
+        if (rowRaiseToWake != null && txtRaiseToWake != null) {
+            boolean[] on = { sp2.getBoolean("set_raise_to_wake", false) };
+            txtRaiseToWake.setText(on[0] ? R.string.state_on : R.string.state_off);
+            rowRaiseToWake.setOnClickListener(v -> {
+                on[0] = !on[0];
+                txtRaiseToWake.setText(on[0] ? R.string.state_on : R.string.state_off);
+                sp2.edit().putBoolean("set_raise_to_wake", on[0]).apply();
+                if (bleManager.isSessionReady()) {
+                    byte[] p = new byte[] { (byte) (on[0] ? 1 : 0), 0, 0, 23, 59 };
+                    bleManager.sendSetting(0x0C, p);
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        // Girar muñeca para foto (Shake Camera)
+        View btnShakeCamera = view.findViewById(R.id.btnShakeCamera);
+        if (btnShakeCamera != null) {
+            btnShakeCamera.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.example.dialsender.CameraActivity.class)));
+        }
+
+        // Actualizar firmware (Firmware Upgrade Check)
+        View btnFirmware = view.findViewById(R.id.btnFirmware);
+        if (btnFirmware != null) {
+            btnFirmware.setOnClickListener(v -> {
+                if (!bleManager.isSessionReady()) {
+                    Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                bleManager.readFirmwareVersion();
+                android.app.ProgressDialog pd = new android.app.ProgressDialog(requireContext());
+                pd.setMessage(getString(R.string.device_fw_checking));
+                pd.setCancelable(true);
+                pd.show();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                        String currentVer = sp2.getString("firmware_version", "v0.0.6");
+                        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                                .setTitle(getString(R.string.device_fw_update_title))
+                                .setMessage(getString(R.string.device_fw_uptodate_msg, currentVer))
+                                .setPositiveButton(getString(R.string.accept), null)
+                                .show();
+                    }
+                }, 1500);
             });
         }
 
@@ -177,7 +268,7 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         if (btnDisconnect != null) {
             btnDisconnect.setOnClickListener(v -> {
                 bleManager.disconnect();
-                Toast.makeText(requireContext(), "Desconectando…", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.device_disconnecting), Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -200,11 +291,10 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         String name = bleManager.getLastDeviceName();
         String addr = bleManager.getLastDeviceAddress();
         if (txtDeviceName != null)
-            txtDeviceName.setText(name != null && !name.isEmpty() ? name : "Kronos Thunder");
+            txtDeviceName.setText(name != null && !name.isEmpty() ? name : getString(R.string.device_default_name));
+        loadWatchImage(name);
         if (txtDeviceMac != null)
-            txtDeviceMac.setText(addr != null ? addr : "Sin vincular");
-        if (txtRssi != null)
-            txtRssi.setText(name != null && !name.isEmpty() ? "✓" : "—");
+            txtDeviceMac.setText(addr != null ? addr : getString(R.string.device_unbound));
 
         if (sessionReady) {
             statusIndicator.setBackgroundResource(R.drawable.indicator_connected);
@@ -212,16 +302,25 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             txtStatus.setTextColor(getResources().getColor(R.color.status_connected));
             btnConnect.setText(R.string.reconnect);
 
-            if (statsRow != null) {
+            android.content.SharedPreferences sp = requireContext()
+                    .getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE);
+            int batt = sp.getInt("battery_level", 0);
+            // Battery shown inline next to device name
+            if (txtBattery != null)
+                txtBattery.setText(batt > 0 ? " 🔋" + batt + "%" : "");
+
+            // Firmware version shown in the statsRow chip
+            if (statsRow != null)
                 statsRow.setVisibility(View.VISIBLE);
-                int batt = requireContext().getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE)
-                        .getInt("battery_level", 0);
-                if (txtBattery != null)
-                    txtBattery.setText(batt > 0 ? batt + "%" : "—%");
-            }
+            if (txtRssi != null)
+                txtRssi.setText("FW:");
+            String version = sp.getString("firmware_version", "");
+            if (txtFirmware != null)
+                txtFirmware.setText(version.isEmpty() ? "—" : version);
         } else if (connected) {
             txtStatus.setText(R.string.connecting);
             txtStatus.setTextColor(getResources().getColor(R.color.status_scanning));
+            if (txtBattery != null) txtBattery.setText("");
             if (statsRow != null)
                 statsRow.setVisibility(View.GONE);
         } else {
@@ -229,8 +328,20 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
             txtStatus.setText(R.string.disconnected);
             txtStatus.setTextColor(getResources().getColor(R.color.status_disconnected));
             btnConnect.setText(R.string.scan_connect);
+            if (txtBattery != null) txtBattery.setText("");
             if (statsRow != null)
                 statsRow.setVisibility(View.GONE);
+        }
+
+        android.content.SharedPreferences sp = requireContext()
+                .getSharedPreferences("dial_sender_prefs", Context.MODE_PRIVATE);
+        if (txtBacklight != null) {
+            int sec = sp.getInt("set_backlight", 5);
+            txtBacklight.setText(sec + "s");
+        }
+        if (txtRaiseToWake != null) {
+            boolean rt = sp.getBoolean("set_raise_to_wake", false);
+            txtRaiseToWake.setText(rt ? R.string.state_on : R.string.state_off);
         }
     }
 
@@ -239,11 +350,11 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
         boolean granted = nmc.getEnabledListenerPackages(requireContext()).contains(requireContext().getPackageName());
         if (!granted) {
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("⚠️ Notificaciones desactivadas")
-                    .setMessage("El acceso a notificaciones fue revocado. Las notificaciones no se reenviarán al reloj.\n\nVe a Ajustes → Notificaciones para reactivarlo.")
-                    .setPositiveButton("Ir a Ajustes", (d, w) ->
+                    .setTitle(getString(R.string.device_notif_disabled_title))
+                    .setMessage(getString(R.string.device_notif_disabled_msg))
+                    .setPositiveButton(getString(R.string.go_to_settings), (d, w) ->
                             startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)))
-                    .setNegativeButton("Ignorar", null)
+                    .setNegativeButton(getString(R.string.ignore), null)
                     .show();
         }
     }
@@ -290,12 +401,32 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
 
     @Override
     public void onTransferProgress(int percent, long bytesTransferred, long totalBytes) {
-        // Transfer progress handled in sending activity
+        if (isAgpsTransferActive && activeProgressDialog != null && activeProgressBar != null) {
+            activeProgressBar.setProgress(percent);
+            activeProgressDialog.setMessage(getString(R.string.device_agps_progress, percent, bytesTransferred / 1024, totalBytes / 1024));
+        }
     }
 
     @Override
     public void onTransferComplete() {
-        // Transfer completion handled in sending activity
+        if (isAgpsTransferActive) {
+            isAgpsTransferActive = false;
+            if (activeProgressDialog != null) {
+                activeProgressDialog.dismiss();
+            }
+            Toast.makeText(requireContext(), getString(R.string.device_agps_ok), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onTransferFailed(String reason) {
+        if (isAgpsTransferActive) {
+            isAgpsTransferActive = false;
+            if (activeProgressDialog != null) {
+                activeProgressDialog.dismiss();
+            }
+            Toast.makeText(requireContext(), getString(R.string.device_agps_transfer_error, reason), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -419,5 +550,128 @@ public class DeviceFragment extends Fragment implements BleManager.BleStateListe
                         .show();
             }
         }, 10000);
+    }
+
+    private void startAgpsSync() {
+        if (!bleManager.isSessionReady()) {
+            Toast.makeText(requireContext(), getString(R.string.device_not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle(getString(R.string.dev_agps));
+        builder.setMessage(getString(R.string.device_agps_downloading));
+        builder.setCancelable(false);
+        
+        android.widget.ProgressBar progressBar = new android.widget.ProgressBar(requireContext(), null, android.R.attr.progressBarStyleHorizontal);
+        progressBar.setIndeterminate(true);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        progressBar.setPadding(padding, padding, padding, padding);
+        builder.setView(progressBar);
+        
+        AlertDialog progressDialog = builder.create();
+        progressDialog.show();
+
+        new Thread(() -> {
+            try {
+                java.net.URL url = new java.net.URL("https://api.smawatch.cn/epo/ble_epo_offline.bin");
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(10000);
+                conn.connect();
+                if (conn.getResponseCode() != java.net.HttpURLConnection.HTTP_OK) {
+                    throw new Exception("HTTP status error: " + conn.getResponseCode());
+                }
+                int length = conn.getContentLength();
+                java.io.InputStream is = conn.getInputStream();
+                java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int read;
+                int totalRead = 0;
+                while ((read = is.read(buffer)) != -1) {
+                    bos.write(buffer, 0, read);
+                    totalRead += read;
+                    if (length > 0) {
+                        final int percent = (int) ((totalRead * 100L) / length);
+                        handler.post(() -> {
+                            progressDialog.setMessage(getString(R.string.device_agps_downloading_pct, percent));
+                            progressBar.setIndeterminate(false);
+                            progressBar.setMax(100);
+                            progressBar.setProgress(percent);
+                        });
+                    }
+                }
+                is.close();
+                byte[] epoBytes = bos.toByteArray();
+
+                handler.post(() -> {
+                    progressDialog.setMessage(getString(R.string.device_agps_flashing));
+                    progressBar.setIndeterminate(false);
+                    progressBar.setMax(100);
+                    progressBar.setProgress(0);
+                    
+                    isAgpsTransferActive = true;
+                    activeProgressDialog = progressDialog;
+                    activeProgressBar = progressBar;
+                    
+                    bleManager.startFileTransfer(epoBytes, (byte) 0x02);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                handler.post(() -> {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    Toast.makeText(requireContext(), getString(R.string.device_agps_error, e.getMessage()), Toast.LENGTH_LONG).show();
+                });
+            }
+        }).start();
+    }
+
+    private void loadWatchImage(String deviceName) {
+        if (deviceName == null || deviceName.isEmpty()) {
+            return;
+        }
+        final String finalDeviceName = deviceName;
+        final String cacheFileName = "watch_image_" + deviceName.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
+        final File cacheFile = new File(requireContext().getCacheDir(), cacheFileName);
+
+        if (cacheFile.exists()) {
+            android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeFile(cacheFile.getAbsolutePath());
+            if (bmp != null && imgWatch != null) {
+                imgWatch.setImageBitmap(bmp);
+                return;
+            }
+        }
+
+        new Thread(() -> {
+            try {
+                String imageUrl = "https://api-oss.iot-solution.net/device/1719481068100_" + android.net.Uri.encode(finalDeviceName) + ".png";
+                java.net.URL url = new java.net.URL(imageUrl);
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(8000);
+                conn.setReadTimeout(8000);
+                conn.connect();
+                if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
+                    java.io.InputStream is = conn.getInputStream();
+                    android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeStream(is);
+                    if (bmp != null) {
+                        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(cacheFile)) {
+                            bmp.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, fos);
+                        }
+                        if (isAdded()) {
+                            requireActivity().runOnUiThread(() -> {
+                                if (imgWatch != null) {
+                                    imgWatch.setImageBitmap(bmp);
+                                }
+                            });
+                        }
+                    }
+                    is.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

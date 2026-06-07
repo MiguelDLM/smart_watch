@@ -2,82 +2,209 @@
 <resources>
     <string name="app_name">Dial Studio</string>
 
-    <string name="from_svg">From SVG</string>
-    <string name="svg_generator">SVG Generator</string>
-    <string name="language">Language</string>
-    <string name="lang_en">English</string>
-    <string name="lang_es">Spanish</string>
-    <string name="lang_en_short">English (Short)</string>
-    <string name="lang_es_short">Spanish (Short)</string>
-    <string name="clip_vertical">Clip Vertical</string>
-    <string name="recolor">Recolor</string>
-    <string name="battery_levels">Battery Levels</string>
-    <string name="pick_svg">Pick SVG</string>
+    <!-- ── Bottom navigation ── -->
+    <string name="nav_home">Hoy</string>
+    <string name="nav_dials">Carátulas</string>
+    <string name="nav_estado">Estado</string>
+    <string name="nav_deporte">Deporte</string>
+    <string name="nav_device">Reloj</string>
+    <string name="nav_health">Salud</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_yo">Yo</string>
 
+    <!-- ── Health metrics ── -->
+    <string name="metric_steps">Pasos</string>
+    <string name="metric_calories">Calorías</string>
+    <string name="metric_distance">Distancia</string>
+    <string name="metric_heart_rate">Frecuencia cardíaca</string>
+    <string name="metric_sleep">Sueño</string>
+    <string name="metric_spo2">Oxígeno en sangre</string>
+    <string name="metric_blood_pressure">Presión arterial</string>
+    <string name="metric_stress">Estrés</string>
+    <string name="metric_hrv">Variabilidad cardíaca</string>
+    <string name="metric_temperature">Temperatura</string>
+    <string name="metric_workout">Entrenamiento</string>
+    <string name="metric_routes">Rutas GPS</string>
 
-    <!-- Home -->
-    <string name="home_subtitle">Create and send custom dials to your smartwatch</string>
-    <string name="create_dial">Create Dial</string>
-    <string name="create_dial_desc">Design a face with backgrounds, digits and more</string>
-    <string name="send_dial">Send Dial</string>
-    <string name="send_dial_desc">Connect via Bluetooth and transfer a .bin</string>
-    <string name="library">Library</string>
-    <string name="library_desc">Pre-made dials and your creations</string>
-    <string name="health_data">Health Data</string>
-    <string name="health_data_desc">Sync and view health metrics charts</string>
-    <string name="version_label">Dial Studio v0.4</string>
-    <string name="chipset_info">Compatible with Jieli / HK89 chipset</string>
+    <string name="unit_bpm">Lpm</string>
+    <string name="unit_kcal">Kcal</string>
+    <string name="unit_km">Km</string>
+    <string name="unit_pct">&#37;</string>
+    <string name="unit_mmhg">mmHg</string>
+    <string name="unit_ms">ms</string>
+    <string name="unit_steps_label">pasos</string>
+    <string name="unit_minutes_label">minutos</string>
+    <string name="unit_kcal_label">kcal</string>
+    <string name="unit_steps_abbr">pasos</string>
 
-    <!-- Send screen -->
-    <string name="disconnected">Disconnected</string>
-    <string name="connected">Connected</string>
-    <string name="connecting">Connecting…</string>
-    <string name="scan_connect">🔍  Scan &amp; Connect</string>
-    <string name="reconnect">🔗  Reconnect</string>
-    <string name="scanning">⏳  Scanning…</string>
-    <string name="dial_file">Dial File</string>
-    <string name="select_bin">📁  Select .bin file</string>
-    <string name="no_file_selected">No file selected</string>
-    <string name="transfer">Transfer</string>
-    <string name="waiting">Waiting…</string>
-    <string name="btn_send_dial">📤  Send Dial</string>
-    <string name="logs">📋 Logs</string>
-    <string name="preparing">Preparing…</string>
-    <string name="transferring">Transferring…</string>
-    <string name="transfer_complete">Transfer complete!</string>
-    <string name="dial_sent_ok">Dial sent successfully!</string>
-    <string name="session_not_ready">Session not ready. Reconnect.</string>
-    <string name="enable_bt">Enable Bluetooth</string>
-    <string name="no_ble_found">No BLE devices found</string>
-    <string name="select_watch">Select your watch</string>
-    <string name="error_read_file">Error reading file</string>
-    <string name="persistent_ble">v5.2 — Persistent BLE</string>
-    <string name="select_file_first">Select a file first</string>
-    <string name="sync_now">Sync Now</string>
-    <string name="health_sync_started">Health sync started</string>
-    <string name="no_health_data">No health data yet</string>
+    <!-- ── Sleep stages ── -->
+    <string name="sleep_deep">Profundo</string>
+    <string name="sleep_light">Ligero</string>
+    <string name="sleep_rem">REM</string>
+    <string name="sleep_awake">Despierto</string>
+    <string name="sleep_hours_min">%1$d h %2$d min</string>
 
-    <!-- Editor -->
-    <string name="dial_designer">Dial Designer</string>
-    <string name="compile">⚡ Compile</string>
-    <string name="compiling">Compiling…</string>
-    <string name="layers_title">LAYERS</string>
-    <string name="add_layer">Add Layer</string>
-    <string name="bg_image">📷  Background (image)</string>
-    <string name="add_animation">🎬  Add Animation (GIF/video)</string>
-    <string name="scale">Scale</string>
-    <string name="rotation">Rotation</string>
-    <string name="add_one_layer">Add at least one layer</string>
-    <string name="from_gallery">📂  Select from gallery</string>
-    <string name="saved_to_library">Saved to Library</string>
-    <string name="editing_dial">Editing dial from library</string>
-    <string name="no_preset_images">No images found in this preset</string>
-    <string name="style_label">Style %s</string>
-    <string name="frames_label">%d frames</string>
-    <string name="enter_dial_name">Enter dial name</string>
-    <string name="dial_name_hint">My awesome dial</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
+    <!-- ── Status screen ── -->
+    <string name="status_last_sync">Última sincronización: %s</string>
+    <string name="status_no_sync">Sin sincronización con el reloj</string>
+    <string name="status_not_connected">Reloj no conectado</string>
+    <string name="status_syncing">Sincronizando datos de salud y tiempo…</string>
+    <string name="status_not_connected_since">Reloj no conectado · Última sincronización: %s</string>
+    <string name="status_goal">Meta %d</string>
+
+    <!-- ── Sport ── -->
+    <string name="sport_walk">Caminar</string>
+    <string name="sport_run">Correr</string>
+    <string name="sport_cycling">Ciclismo</string>
+    <string name="sport_swim">Natación</string>
+    <string name="sport_yoga">Yoga</string>
+    <string name="sport_row">Remo</string>
+    <string name="sport_climb">Escalada</string>
+    <string name="sport_hike">Senderismo</string>
+    <string name="sport_treadmill">Cinta</string>
+    <string name="sport_elliptical">Elíptica</string>
+    <string name="sport_jump_rope">Saltar cuerda</string>
+    <string name="sport_basketball">Baloncesto</string>
+    <string name="sport_football">Fútbol</string>
+    <string name="sport_badminton">Bádminton</string>
+    <string name="sport_tennis">Tenis</string>
+    <string name="sport_other">Entrenamiento</string>
+    <string name="sport_no_sessions">Aún no hay sesiones.\nUsa el cronómetro para registrar tu primer entrenamiento.</string>
+    <string name="sport_history_title">Historial de entrenamientos</string>
+    <string name="sport_chronometer">Cronómetro</string>
+
+    <!-- ── Import ── -->
+    <string name="import_title">Importar de otras apps</string>
+    <string name="import_option1_title">Opción 1 — Log BLE (sin root, recomendado)</string>
+    <string name="import_option2_title">Opción 2 — Base de datos SQLite (requiere root)</string>
+    <string name="import_option3_title">Opción 3 — CSV / ZIP exportado desde esta app</string>
+    <string name="import_option3_body">Selecciona un archivo .csv o el .zip generado por la función de exportar de esta misma app para restaurar o migrar tus datos.</string>
+    <string name="import_select_file">SELECCIONAR ARCHIVO</string>
+    <string name="import_copying">Copiando archivo…</string>
+    <string name="import_processing_ble">Procesando log BLE…</string>
+    <string name="import_reading_db">Leyendo base de datos…</string>
+    <string name="import_reading_csv">Procesando CSV…</string>
+    <string name="import_reading_zip">Procesando ZIP…</string>
+    <string name="import_done">✓ Importación completada</string>
+    <string name="import_empty">No se encontraron datos para importar.</string>
+
+    <string name="import_row_activity">Actividad (pasos/cal/dist)</string>
+    <string name="import_row_hr">Frecuencia cardíaca</string>
+    <string name="import_row_sleep">Sueño</string>
+    <string name="import_row_spo2">SpO₂</string>
+    <string name="import_row_bp">Presión arterial</string>
+    <string name="import_row_stress">Estrés</string>
+    <string name="import_row_hrv">HRV</string>
+    <string name="import_row_location">Ubicación GPS</string>
+    <string name="import_row_workout">Entrenamientos</string>
+
+    <!-- ── Export ── -->
+    <string name="export_title">Exportar datos de salud</string>
+    <string name="export_btn">Exportar ZIP</string>
+    <string name="export_generating">Generando archivos…</string>
+    <string name="export_records">registros</string>
+    <string name="export_no_data">No hay datos para exportar.\nImporta desde la opción anterior o sincroniza con el reloj.</string>
+    <string name="export_share_title">Compartir datos de salud</string>
+    <string name="export_info">Se exporta un archivo ZIP con un CSV por tipo de dato. Los timestamps son Unix epoch (segundos). Compatible con cualquier hoja de cálculo o herramienta de análisis.</string>
+    <string name="export_done">✓ Listo — %s KB</string>
+
+    <!-- ── Settings ── -->
+    <string name="settings_profile">Mi perfil</string>
+    <string name="settings_no_device">Sin dispositivo vinculado</string>
+    <string name="settings_section_data">DATOS</string>
+    <string name="settings_import">Importar desde otras apps</string>
+    <string name="settings_export">Exportar datos de salud (CSV/ZIP)</string>
+    <string name="settings_section_gauge">ESTILO DE GAUGE</string>
+    <string name="settings_gauge_a">A — Semi-círculo (por defecto)</string>
+    <string name="settings_gauge_b">B — Donut (270°)</string>
+    <string name="settings_gauge_c">C — Anillo fino</string>
+    <string name="settings_section_units">UNIDADES</string>
+    <string name="settings_unit_distance">Distancia</string>
+    <string name="settings_unit_weight">Peso</string>
+    <string name="settings_section_goals">METAS DIARIAS</string>
+    <string name="settings_goal_steps">Pasos</string>
+    <string name="settings_goal_sleep">Sueño</string>
+    <string name="settings_goal_calories">Calorías</string>
+    <string name="settings_goal_distance">Distancia</string>
+    <string name="settings_section_language">IDIOMA</string>
+    <string name="settings_lang_es">Español</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_version">Dial Studio v0.5</string>
+
+    <!-- ── Device ── -->
+    <string name="dev_watchfaces">Esferas del reloj</string>
+    <string name="dev_camera">Cámara</string>
+    <string name="dev_find_watch">Buscar teléfono (probar)</string>
+    <string name="dev_notifications">Notificación de mensajes</string>
+    <string name="dev_antilost">Anti-pérdida</string>
+    <string name="dev_disconnect">Desconectar</string>
+    <string name="dev_dnd">No molestar</string>
+    <string name="dev_sedentary">Recordatorio sedentario</string>
+    <string name="dev_agps">Sincronizar AGPS</string>
+    <string name="state_on">Encendido</string>
+    <string name="state_off">Apagado</string>
+
+    <!-- ── Shared / generic ── -->
+    <string name="disconnected">Desconectado</string>
+    <string name="connected">Conectado</string>
+    <string name="connecting">Conectando…</string>
+    <string name="scan_connect">🔍  Escanear y conectar</string>
+    <string name="reconnect">🔗  Reconectar</string>
+    <string name="scanning">⏳  Escaneando…</string>
+    <string name="dial_file">Archivo de esfera</string>
+    <string name="select_bin">📁  Seleccionar archivo .bin</string>
+    <string name="no_file_selected">Ningún archivo seleccionado</string>
+    <string name="btn_send_dial">📤  Enviar esfera</string>
+    <string name="logs">📋 Registros</string>
+    <string name="preparing">Preparando…</string>
+    <string name="transferring">Transfiriendo…</string>
+    <string name="transfer_complete">¡Transferencia completada!</string>
+    <string name="dial_sent_ok">¡Esfera enviada exitosamente!</string>
+    <string name="session_not_ready">Sesión no lista. Reconecta.</string>
+    <string name="enable_bt">Activar Bluetooth</string>
+    <string name="no_ble_found">No se encontraron dispositivos BLE</string>
+    <string name="select_watch">Selecciona tu reloj</string>
+    <string name="error_read_file">Error al leer el archivo</string>
+    <string name="select_file_first">Selecciona un archivo primero</string>
+    <string name="sync_now">Sincronizar ahora</string>
+    <string name="health_sync_started">Sincronización de salud iniciada</string>
+    <string name="no_health_data">Sin datos de salud aún</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="share">Compartir</string>
+    <string name="rename">Renombrar</string>
+    <string name="close">Cerrar</string>
+
+    <!-- ── Dial editor / library ── -->
+    <string name="dial_designer">Diseñador de esferas</string>
+    <string name="dial_library">Biblioteca de esferas</string>
+    <string name="no_dials">No hay esferas disponibles</string>
+    <string name="preset">Prediseñada</string>
+    <string name="custom">Personalizada</string>
+    <string name="send_arrow">Enviar →</string>
+    <string name="rename_dial">Renombrar esfera</string>
+    <string name="dial_renamed">Esfera renombrada</string>
+    <string name="dial_deleted">Esfera eliminada</string>
+    <string name="confirm_delete">¿Eliminar esta esfera?</string>
+    <string name="extracting_preview">Cargando miniaturas…</string>
+    <string name="cancelled">Cancelado</string>
+    <string name="export_dial">Exportar a Descargas</string>
+    <string name="edit">Editar</string>
+    <string name="dial_exported">Esfera guardada en Descargas/DialStudio</string>
+    <string name="scale">Escala</string>
+    <string name="rotation">Rotación</string>
+    <string name="add_one_layer">Agrega al menos una capa</string>
+    <string name="from_gallery">📂  Seleccionar de galería</string>
+    <string name="saved_to_library">Guardado en la biblioteca</string>
+    <string name="compile">⚡ Compilar</string>
+    <string name="compiling">Compilando…</string>
+    <string name="layers_title">CAPAS</string>
+    <string name="add_layer">Agregar capa</string>
+    <string name="bg_image">📷  Fondo (imagen)</string>
+    <string name="add_animation">🎬  Agregar animación (GIF/video)</string>
+    <string name="enter_dial_name">Nombre de la esfera</string>
+    <string name="dial_name_hint">Mi esfera genial</string>
     <string name="cont">Continuar</string>
     <string name="add_time_group">Agregar hora</string>
     <string name="lbl_hours">Horas</string>
@@ -87,124 +214,214 @@
     <string name="ungroup">Desagrupar</string>
     <string name="assign_style">Asignar estilo</string>
     <string name="delete_layer">Eliminar capa</string>
-    <string name="close">Close</string>
 
-    <!-- Library -->
-    <string name="dial_library">Dial Library</string>
-    <string name="no_dials">No dials available</string>
-    <string name="preset">Preset</string>
-    <string name="custom">Custom</string>
-    <string name="send_arrow">Send →</string>
-    <string name="rename">Rename</string>
-    <string name="delete">Delete</string>
-    <string name="rename_dial">Rename Dial</string>
-    <string name="dial_renamed">Dial renamed</string>
-    <string name="dial_deleted">Dial deleted</string>
-    <string name="confirm_delete">Delete this dial?</string>
-    <string name="extracting_preview">Loading thumbnails…</string>
-    <string name="cancelled">Cancelled</string>
-    <string name="share">Share</string>
-    <string name="export">Export to Downloads</string>
-    <string name="edit">Edit</string>
-    <string name="dial_exported">Dial saved to Downloads/DialStudio</string>
+    <!-- ── Log ── -->
+    <string name="debug_log">Registro de depuración</string>
+    <string name="copy">📋 Copiar</string>
+    <string name="clear">🗑 Limpiar</string>
+    <string name="no_logs">Sin registros disponibles</string>
+    <string name="log_copied">Registro copiado al portapapeles</string>
+    <string name="log_cleared">Registro limpiado</string>
 
-    <!-- Log -->
-    <string name="debug_log">Debug Log</string>
-    <string name="copy">📋 Copy</string>
-    <string name="clear">🗑 Clear</string>
-    <string name="no_logs">No logs available</string>
-    <string name="log_copied">Log copied to clipboard</string>
-    <string name="log_cleared">Log cleared</string>
+    <!-- ── Dial categories ── -->
+    <string name="cat_time">⏰  Hora (digital)</string>
+    <string name="cat_date">📅  Fecha</string>
+    <string name="cat_analog">🕐  Manecillas analógicas</string>
+    <string name="cat_health">💪  Salud</string>
+    <string name="cat_status">🔋  Estado</string>
+    <string name="cat_deco">✨  Decoración</string>
+    <string name="cat_scale">🔘  Anillo de carátula</string>
 
-    <!-- Settings -->
-    <string name="settings">Settings</string>
-    <string name="appearance">Appearance</string>
-    <string name="theme">Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">System</string>
+    <!-- ── Block types ── -->
+    <string name="blk_preview">Vista previa</string>
+    <string name="blk_background">Fondo</string>
+    <string name="blk_arm_hour">Manecilla hora</string>
+    <string name="blk_arm_min">Manecilla minutos</string>
+    <string name="blk_arm_sec">Manecilla segundos</string>
+    <string name="blk_year">Año</string>
+    <string name="blk_month">Mes</string>
+    <string name="blk_day">Día</string>
+    <string name="blk_hour">Hora (digital)</string>
+    <string name="blk_min">Minuto (digital)</string>
+    <string name="blk_sec">Segundos</string>
+    <string name="blk_ampm">AM/PM</string>
+    <string name="blk_weekday">Día de semana</string>
+    <string name="blk_steps">Pasos</string>
+    <string name="blk_heart">Frecuencia cardíaca</string>
+    <string name="blk_calorie">Calorías</string>
+    <string name="blk_distance">Distancia</string>
+    <string name="blk_battery">Batería (número)</string>
+    <string name="blk_connect">Conexión</string>
+    <string name="blk_berry">Decoración</string>
+    <string name="blk_anim">Animación</string>
+    <string name="blk_batt_strip">Batería (barra)</string>
+    <string name="blk_weather">Clima</string>
+    <string name="blk_temp">Temperatura</string>
+    <string name="blk_prog1">Barra de progreso 1</string>
+    <string name="blk_prog2">Barra de progreso 2</string>
+    <string name="blk_label">Etiqueta</string>
+    <string name="blk_hour_lo">Dígito bajo de hora</string>
+    <string name="blk_hour_hi">Dígito alto de hora</string>
+    <string name="blk_min_hi">Dígito alto de minuto</string>
+    <string name="blk_min_lo">Dígito bajo de minuto</string>
+    <string name="blk_unknown">Desconocido</string>
+    <string name="blk_scale">Anillo de horas</string>
 
+    <!-- ── Font creator ── -->
+    <string name="from_font">🔤  Escribir Texto / Fuente (.ttf)</string>
+    <string name="font_label">FUENTE</string>
+    <string name="digit_size">TAMAÑO</string>
+    <string name="font_color">COLOR</string>
+    <string name="glow_label">BRILLO</string>
+    <string name="border_label">ANCHO DE BORDE</string>
+    <string name="border_color">COLOR DE BORDE</string>
+    <string name="spacing_label">ESPACIADO</string>
+    <string name="create_digits">Crear dígitos</string>
+    <string name="font_creator_title">Creador de fuente de dígitos</string>
+    <string name="select_style">Seleccionar estilo</string>
+
+    <!-- ── Home screen ── -->
+    <string name="home_subtitle">Crea y envía esferas personalizadas a tu smartwatch</string>
+    <string name="create_dial">Crear esfera</string>
+    <string name="create_dial_desc">Diseña una carátula con fondos, dígitos y más</string>
+    <string name="send_dial">Enviar esfera</string>
+    <string name="send_dial_desc">Conecta vía Bluetooth y transfiere un .bin</string>
+    <string name="health_data">Datos de salud</string>
+    <string name="health_data_desc">Sincroniza y visualiza métricas de salud</string>
+    <string name="library">Biblioteca</string>
+    <string name="library_desc">Esferas prediseñadas y tus creaciones</string>
+    <string name="version_label">Dial Studio v0.5</string>
+    <string name="chipset_info">Compatible con chipset Jieli / HK89</string>
+
+    <!-- ── Settings activity ── -->
+    <string name="settings">Ajustes</string>
+    <string name="appearance">Apariencia</string>
+    <string name="theme">Tema</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_system">Sistema</string>
+    <string name="language">Idioma</string>
+    <string name="lang_system">Sistema</string>
+    <string name="lang_en">English</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_en_short">EN</string>
+    <string name="lang_es_short">ES</string>
     <string name="lang_english">English</string>
     <string name="lang_spanish">Español</string>
-    <string name="lang_system">System Default</string>
-    <string name="about">About</string>
-    <string name="about_desc">Custom dial creator and sender for Jieli/HK89 chipset smartwatches.</string>
-    <string name="about_author">Developed by MiguelDLM</string>
 
-    <!-- Categories -->
-    <string name="cat_time">⏰  Time (Digital)</string>
-    <string name="cat_date">📅  Date</string>
-    <string name="cat_analog">🕐  Analog Hands</string>
-    <string name="cat_health">💪  Health</string>
-    <string name="cat_status">🔋  Status</string>
-    <string name="cat_deco">✨  Decoration</string>
-    <string name="cat_scale">🔘  Watch Face Ring</string>
+    <!-- ── SVG/dialog ── -->
+    <string name="recolor">Recolorear</string>
+    <string name="clip_vertical">Recorte vertical</string>
+    <string name="from_svg">Desde SVG</string>
+    <string name="svg_generator">Generador SVG</string>
+    <string name="battery_levels">Niveles de batería</string>
+    <string name="pick_svg">Elegir SVG</string>
 
-    <!-- Block types -->
-    <string name="blk_preview">Preview</string>
-    <string name="blk_background">Background</string>
-    <string name="blk_arm_hour">Hour Hand</string>
-    <string name="blk_arm_min">Minute Hand</string>
-    <string name="blk_arm_sec">Second Hand</string>
-    <string name="blk_year">Year</string>
-    <string name="blk_month">Month</string>
-    <string name="blk_day">Day</string>
-    <string name="blk_hour">Hour (digital)</string>
-    <string name="blk_min">Minute (digital)</string>
-    <string name="blk_sec">Seconds</string>
-    <string name="blk_ampm">AM/PM</string>
-    <string name="blk_weekday">Weekday</string>
-    <string name="blk_steps">Steps</string>
-    <string name="blk_heart">Heart Rate</string>
-    <string name="blk_calorie">Calories</string>
-    <string name="blk_distance">Distance</string>
-    <string name="blk_battery">Battery (number)</string>
-    <string name="blk_connect">Connection</string>
-    <string name="blk_berry">Decoration</string>
-    <string name="blk_anim">Animation</string>
-    <string name="blk_batt_strip">Battery (bar)</string>
-    <string name="blk_weather">Weather</string>
-    <string name="blk_temp">Temperature</string>
-    <string name="blk_prog2">Progress Bar 2</string>
-    <string name="blk_prog1">Progress Bar 1</string>
-    <string name="blk_label">Label</string>
-    <string name="blk_hour_lo">Hour Low Digit</string>
-    <string name="blk_hour_hi">Hour High Digit</string>
-    <string name="blk_min_hi">Min High Digit</string>
-    <string name="blk_min_lo">Min Low Digit</string>
-    <string name="blk_unknown">Unknown</string>
-    <string name="blk_scale">Hour Ring (Scale)</string>
+    <!-- ── Dial editor ── -->
+    <string name="editing_dial">Editando esfera…</string>
+    <string name="style_label">Estilo %s</string>
+    <string name="no_preset_images">Sin imágenes predefinidas</string>
+    <string name="waiting">Esperando…</string>
+    <string name="transfer">Transferir</string>
+    <string name="export">Exportar</string>
 
-    <!-- Font Creator -->
-    <string name="from_font">🔤  Escribir Texto / Fuente (.ttf)</string>
-    <string name="font_label">FONT</string>
-    <string name="digit_size">DIGIT SIZE</string>
-    <string name="font_color">COLOR</string>
-    <string name="glow_label">GLOW</string>
-    <string name="border_label">BORDER WIDTH</string>
-    <string name="border_color">BORDER COLOR</string>
-    <string name="spacing_label">SPACING</string>
-    <string name="create_digits">Create Digits</string>
-    <string name="font_creator_title">Font Digit Creator</string>
-    <string name="select_style">Select Style</string>
+    <!-- ── About ── -->
+    <string name="about">Acerca de</string>
+    <string name="about_desc">Creador y enviador de esferas para relojes inteligentes Jieli/HK89.</string>
+    <string name="about_author">Desarrollado por MiguelDLM</string>
 
-    <!-- Bottom nav tab labels -->
-    <string name="nav_home">Hoy</string>
-    <string name="nav_dials">Carátulas</string>
-    <string name="nav_device">Reloj</string>
-    <string name="nav_health">Salud</string>
-    <string name="nav_settings">Ajustes</string>
-    <string name="nav_estado">Estado</string>
-    <string name="nav_deporte">Deporte</string>
-    <string name="nav_yo">Yo</string>
-    <string name="dev_watchfaces">Esferas del reloj</string>
-    <string name="dev_camera">Cámara</string>
-    <string name="dev_find_watch">Buscar teléfono (probar)</string>
-    <string name="dev_notifications">Notificación de mensajes</string>
-    <string name="dev_antilost">Anti-pérdida</string>
-    <string name="dev_disconnect">Desconectar</string>
-    <string name="state_on">Encendido</string>
-    <string name="state_off">Apagado</string>
-    <string name="dev_dnd">No molestar</string>
-    <string name="dev_sedentary">Recordatorio sedentario</string>
+    <!-- ── Device (Watch tab) ── -->
+    <string name="device_default_name">Smartwatch</string>
+    <string name="device_not_connected">No conectado al reloj</string>
+    <string name="device_unbound">Sin vincular</string>
+    <string name="device_disconnecting">Desconectando…</string>
+    <string name="device_backlight_title">Tiempo de retroiluminación</string>
+    <string name="device_backlight_5s">5 segundos</string>
+    <string name="device_backlight_10s">10 segundos</string>
+    <string name="device_backlight_15s">15 segundos</string>
+    <string name="device_backlight_20s">20 segundos</string>
+    <string name="device_fw_update_title">Actualización de Firmware</string>
+    <string name="device_fw_checking">Comprobando actualizaciones de firmware…</string>
+    <string name="device_fw_uptodate_msg">Versión actual: %s\n\nTu dispositivo cuenta con la última versión de firmware instalada.</string>
+    <string name="device_notif_disabled_title">⚠️ Notificaciones desactivadas</string>
+    <string name="device_notif_disabled_msg">El acceso a notificaciones fue revocado. Las notificaciones no se reenviarán al reloj.\n\nVe a Ajustes → Notificaciones para reactivarlo.</string>
+    <string name="device_agps_ok">AGPS sincronizado correctamente</string>
+    <string name="device_agps_transfer_error">Error de transferencia AGPS: %s</string>
+    <string name="device_agps_downloading">Descargando datos AGPS de internet…</string>
+    <string name="device_agps_downloading_pct">Descargando datos AGPS: %d%%</string>
+    <string name="device_agps_flashing">Instalando AGPS en el reloj…</string>
+    <string name="device_agps_progress">Sincronizando AGPS: %1$d%% (%2$d / %3$d KB)</string>
+    <string name="device_agps_error">Error al sincronizar AGPS: %s</string>
+
+    <!-- ── Generic actions ── -->
+    <string name="accept">Aceptar</string>
+    <string name="go_to_settings">Ir a Ajustes</string>
+    <string name="ignore">Ignorar</string>
+    <string name="label_today">Hoy</string>
+
+    <!-- ── Sport tab ── -->
+    <string name="sport_history">Historial</string>
+    <string name="sport_start">Iniciar</string>
+    <string name="sport_pause">Pausar</string>
+    <string name="sport_resume">Reanudar</string>
+    <string name="sport_stop">Detener</string>
+    <string name="sport_session_saved">Sesión guardada</string>
+    <string name="sport_delete_btn">Borrar</string>
+    <string name="sport_delete_title">Borrar entrenamiento</string>
+    <string name="sport_delete_msg">¿Estás seguro de que deseas eliminar este entrenamiento del historial?</string>
+    <string name="sport_workout_deleted">Entrenamiento eliminado</string>
+    <string name="sport_no_route">No hay ruta para compartir</string>
+    <string name="sport_generating_anim">Generando animación de la ruta…</string>
+    <string name="sport_anim_error">Error: archivo no generado</string>
+    <string name="sport_anim_gen_error">Error al generar animación: %s</string>
+    <string name="sport_session_not_found">Datos de sesión no encontrados</string>
+    <string name="sport_record_corrupt">Registro corrupto</string>
+    <string name="share_error">Error al compartir: %s</string>
+
+    <!-- ── Weather ── -->
+    <string name="weather_title">El tiempo</string>
+    <string name="weather_refresh">Actualizar</string>
+    <string name="weather_refreshing">Actualizando el tiempo…</string>
+    <string name="weather_no_data">\nSin datos del tiempo todavía.\nConéctate al reloj y desliza para actualizar en la pantalla de Estado.</string>
+    <string name="weather_hi_lo">Máx %1$d°  Mín %2$d°</string>
+    <string name="weather_humidity">💧  Humedad</string>
+    <string name="weather_wind">🌬  Viento</string>
+    <string name="weather_uv">☀  Índice UV</string>
+    <string name="weather_rain">🌧  Prob. lluvia</string>
+    <string name="weather_forecast_header">PRÓXIMOS DÍAS</string>
+    <string-array name="weather_conditions">
+        <item>Variable</item>
+        <item>Despejado</item>
+        <item>Parcialmente nublado</item>
+        <item>Nublado</item>
+        <item>Lluvia</item>
+        <item>Tormenta</item>
+        <item>Chubascos con tormenta</item>
+        <item>Viento fuerte</item>
+        <item>Nieve</item>
+        <item>Niebla</item>
+        <item>Tormenta de arena</item>
+        <item>Calima</item>
+    </string-array>
+
+    <!-- ── Metric detail ── -->
+    <string name="tab_day">Día</string>
+    <string name="tab_week">Semana</string>
+    <string name="tab_month">Mes</string>
+    <string name="sleep_no_data_day">No hay datos de sueño para este día.</string>
+    <string name="metric_about_fmt">Acerca de %s</string>
+    <string name="metric_desc_steps">Los pasos cuentan el movimiento detectado por el acelerómetro del reloj a lo largo del día. Caminar al menos 8.000–10.000 pasos diarios ayuda a mantener un corazón sano y a controlar el peso.</string>
+    <string name="metric_desc_calories">Estimación de la energía gastada (calorías activas) calculada a partir de tus pasos, frecuencia cardíaca y datos de perfil. Es una aproximación, útil para comparar tu actividad día a día.</string>
+    <string name="metric_desc_distance">Distancia recorrida estimada a partir del número de pasos y la longitud media de tu zancada. Camina o corre con el reloj puesto para acumular distancia.</string>
+    <string name="metric_desc_blood_oxygen">La saturación de oxígeno (SpO₂) indica el porcentaje de oxígeno que transportan tus glóbulos rojos. Un valor normal en reposo se sitúa entre 95% y 100%. Valores bajos de forma sostenida conviene consultarlos con un profesional.</string>
+    <string name="metric_desc_stress">El nivel de estrés se estima a partir de la variabilidad de tu frecuencia cardíaca (HRV). Valores altos sugieren tensión; respirar profundamente y descansar suele ayudar a reducirlo.</string>
+    <string name="metric_desc_blood_pressure">La presión arterial se muestra como sistólica/diastólica (mmHg). Un valor de referencia es alrededor de 120/80. La medición del reloj es orientativa y no sustituye a un tensiómetro clínico.</string>
+    <string name="metric_desc_sleep">El sueño se divide en fases: sueño profundo (restaurador), sueño ligero, REM y momentos despierto. Lo ideal para adultos son 7–9 horas con suficiente sueño profundo y REM. Mantener un horario regular de sueño mejora la calidad.</string>
+    <string name="metric_desc_heart_rate">La frecuencia cardíaca son los latidos por minuto (Lpm). En reposo, un adulto suele estar entre 60 y 100 Lpm. Sube con el ejercicio y baja al descansar; observar su tendencia ayuda a conocer tu estado físico.</string>
+
+    <!-- ── Dials (untranslated) ── -->
+    <string name="transfer_failed">Error al transferir: %s</string>
+    <string name="dial_send_error">Error al enviar: %s</string>
+    <string name="dial_extract_error">No se pudo extraer la esfera</string>
+    <string name="name_exists">El nombre ya existe</string>
 </resources>

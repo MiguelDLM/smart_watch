@@ -39,8 +39,8 @@
                 <!-- Watch image -->
                 <ImageView
                     android:id="@+id/imgWatch"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginEnd="14dp"
                     android:src="@drawable/ic_watch_device"/>
 
@@ -50,14 +50,32 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtDeviceName"
+                    <!-- Device name + battery icon inline -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kronos Thunder"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/txtDeviceName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/device_default_name"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/txtBattery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text=""
+                            android:textColor="@color/accent_primary"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -89,72 +107,41 @@
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:layout_marginTop="2dp"/>
+
+                    <!-- Firmware version + model chip inline -->
+                    <LinearLayout
+                        android:id="@+id/statsRow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="6dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtRssi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FW:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp"/>
+
+                        <TextView
+                            android:id="@+id/txtFirmware"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="—"
+                            android:textColor="@color/accent_primary"
+                            android:textSize="11sp"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Battery / RSSI chips -->
-            <LinearLayout
-                android:id="@+id/statsRow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="12dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_chip_inactive"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    android:layout_marginEnd="6dp">
-
-                    <TextView
-                        android:id="@+id/txtBattery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="—%"
-                        android:textColor="@color/accent_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Batería"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="10sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_chip_inactive"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    android:layout_marginStart="6dp">
-
-                    <TextView
-                        android:id="@+id/txtRssi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="—"
-                        android:textColor="@color/accent_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Modelo"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="10sp"/>
-                </LinearLayout>
-            </LinearLayout>
+            <!-- (battery now shown inline in the device name row above) -->
 
             <!-- Connect button -->
             <Button
@@ -181,7 +168,7 @@
             </LinearLayout>
             <View style="@style/DeviceRowDivider"/>
 
-            <LinearLayout android:id="@+id/btnNotifs" style="@style/DeviceRow">
+            <LinearLayout android:id="@+id/rowNotifications" style="@style/DeviceRow">
                 <TextView style="@style/DeviceRowLabel" android:text="@string/dev_notifications"/>
                 <TextView style="@style/DeviceRowChevron" android:text="›"/>
             </LinearLayout>
@@ -211,6 +198,40 @@
                 <TextView style="@style/DeviceRowLabel" android:text="@string/dev_antilost"/>
                 <TextView android:id="@+id/txtAntiLost" style="@style/DeviceRowValue"
                     android:text="@string/state_off"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <!-- Backlight -->
+            <LinearLayout android:id="@+id/rowBacklight" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="Luz de fondo (pantalla)"/>
+                <TextView android:id="@+id/txtBacklight" style="@style/DeviceRowValue" android:text="5s"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <!-- Raise to Wake -->
+            <LinearLayout android:id="@+id/rowRaiseToWake" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="Activar al levantar"/>
+                <TextView android:id="@+id/txtRaiseToWake" style="@style/DeviceRowValue" android:text="Apagado"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <!-- Shake Camera -->
+            <LinearLayout android:id="@+id/btnShakeCamera" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="Girar muñeca para foto"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <!-- Firmware Upgrade -->
+            <LinearLayout android:id="@+id/btnFirmware" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="Actualizar firmware"/>
+                <TextView android:id="@+id/txtFirmware" style="@style/DeviceRowValue" android:text="v1.0.0"/>
+            </LinearLayout>
+            <View style="@style/DeviceRowDivider"/>
+
+            <LinearLayout android:id="@+id/btnAgps" style="@style/DeviceRow">
+                <TextView style="@style/DeviceRowLabel" android:text="@string/dev_agps"/>
+                <TextView style="@style/DeviceRowChevron" android:text="›"/>
             </LinearLayout>
             <View style="@style/DeviceRowDivider"/>
 
