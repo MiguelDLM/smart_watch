@@ -4,14 +4,15 @@ plugins {
 }
 
 android {
+    namespace "com.example.dialsender"
     compileSdk 34
 
     defaultConfig {
         applicationId "com.example.dialsender"
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName "0.4"
+        versionCode 5
+        versionName "0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
@@ -21,6 +22,7 @@ android {
 
         python {
             version "3.8"
+            buildPython System.getProperty("user.home") + "/.local/python-standalone/bin/python3.12"
             pip {
                 install "Pillow"
                 install "numpy"
