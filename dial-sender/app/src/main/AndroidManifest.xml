@@ -79,6 +79,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity
+            android:name=".SportDetailActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity
             android:name=".DeveloperToolsActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
@@ -115,6 +120,9 @@
             android:name=".ble.BleForegroundService"
             android:foregroundServiceType="connectedDevice"
             android:exported="false"/>
+
+        <activity android:name=".ImportDataActivity" android:exported="false"/>
+        <activity android:name=".ExportDataActivity" android:exported="false"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
