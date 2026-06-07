@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.dialsender.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -37,10 +39,12 @@ public class SportFragment extends Fragment {
     private static final String PREF = "dial_sender_prefs";
     private static final String KEY_SESSIONS = "sport_sessions"; // "start|type|durSec|kcal,..."
 
-    // sport name + kcal/min estimate (rough MET-based for ~70kg)
-    private static final String[] SPORTS = {
-            "Caminar", "Correr", "Ciclismo", "Senderismo", "Cinta", "Yoga",
-            "Saltar la cuerda", "Baloncesto", "Fútbol", "Natación", "Remo", "Escalada"
+    // sport key names used to look up R.string.sport_* at runtime
+    private static final int[] SPORT_RES = {
+            R.string.sport_walk, R.string.sport_run, R.string.sport_cycling,
+            R.string.sport_hike, R.string.sport_treadmill, R.string.sport_yoga,
+            R.string.sport_jump_rope, R.string.sport_basketball, R.string.sport_football,
+            R.string.sport_swim, R.string.sport_row, R.string.sport_climb
     };
     private static final double[] KCAL_MIN = {
             4, 11, 8, 6, 9, 3, 12, 8, 9, 9, 7, 8
@@ -79,7 +83,7 @@ public class SportFragment extends Fragment {
         root.setPadding(dp(20), dp(20), dp(20), dp(20));
 
         TextView title = new TextView(requireContext());
-        title.setText("Deporte");
+        title.setText(getString(R.string.nav_deporte));
         title.setTextColor(Color.WHITE);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
         title.setTypeface(null, Typeface.BOLD);
@@ -118,11 +122,11 @@ public class SportFragment extends Fragment {
         btnRow.setOrientation(LinearLayout.HORIZONTAL);
         btnRow.setGravity(Gravity.CENTER);
 
-        btnStart = pill("Iniciar", 0xFF22D3EE, 0xFF06121A);
+        btnStart = pill(getString(R.string.sport_start), 0xFF22D3EE, 0xFF06121A);
         btnStart.setOnClickListener(v -> toggleStart());
         btnRow.addView(btnStart);
 
-        TextView btnStop = pill("Detener", 0x33FFFFFF, Color.WHITE);
+        TextView btnStop = pill(getString(R.string.sport_stop), 0x33FFFFFF, Color.WHITE);
         btnStop.setOnClickListener(v -> stopAndSave());
         ((LinearLayout.LayoutParams) btnStop.getLayoutParams()).setMargins(dp(12), 0, 0, 0);
         btnRow.addView(btnStop);
@@ -130,7 +134,7 @@ public class SportFragment extends Fragment {
         root.addView(card);
 
         TextView histTitle = new TextView(requireContext());
-        histTitle.setText("Historial");
+        histTitle.setText(getString(R.string.sport_history));
         histTitle.setTextColor(0xFF9AA4B2);
         histTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         histTitle.setPadding(dp(4), dp(18), 0, dp(8));
@@ -147,10 +151,10 @@ public class SportFragment extends Fragment {
 
     private void rebuildChips() {
         chipsRow.removeAllViews();
-        for (int i = 0; i < SPORTS.length; i++) {
+        for (int i = 0; i < SPORT_RES.length; i++) {
             final int idx = i;
             TextView chip = new TextView(requireContext());
-            chip.setText(SPORTS[i]);
+            chip.setText(getString(SPORT_RES[i]));
             boolean sel = i == selectedSport;
             chip.setTextColor(sel ? 0xFF06121A : 0xFFC9D1D9);
             chip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
@@ -178,12 +182,12 @@ public class SportFragment extends Fragment {
             // pause
             accumulatedMs += System.currentTimeMillis() - startedAt;
             running = false;
-            btnStart.setText("Reanudar");
+            btnStart.setText(getString(R.string.sport_resume));
             handler.removeCallbacks(tick);
         } else {
             startedAt = System.currentTimeMillis();
             running = true;
-            btnStart.setText("Pausar");
+            btnStart.setText(getString(R.string.sport_pause));
             handler.post(tick);
         }
     }
@@ -195,14 +199,14 @@ public class SportFragment extends Fragment {
         int durSec = (int) (durMs / 1000);
         if (durSec >= 5) {
             int kcal = (int) Math.round(KCAL_MIN[selectedSport] * durSec / 60.0);
-            String rec = (System.currentTimeMillis() / 1000) + "|" + SPORTS[selectedSport] + "|" + durSec + "|" + kcal;
+            String rec = (System.currentTimeMillis() / 1000) + "|" + getString(SPORT_RES[selectedSport]) + "|" + durSec + "|" + kcal;
             String all = prefs.getString(KEY_SESSIONS, "");
             prefs.edit().putString(KEY_SESSIONS, all.isEmpty() ? rec : rec + "," + all).apply();
-            android.widget.Toast.makeText(requireContext(), "Sesión guardada", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), getString(R.string.sport_session_saved), android.widget.Toast.LENGTH_SHORT).show();
         }
         accumulatedMs = 0;
         startedAt = 0;
-        btnStart.setText("Iniciar");
+        btnStart.setText(getString(R.string.sport_start));
         updateTimer();
         renderHistory();
     }
@@ -220,10 +224,10 @@ public class SportFragment extends Fragment {
         String all = prefs.getString(KEY_SESSIONS, "");
         if (all.isEmpty()) {
             TextView empty = new TextView(requireContext());
-            empty.setText("Aún no hay entrenamientos registrados");
+            empty.setText(getString(R.string.sport_no_sessions));
             empty.setTextColor(0xFF6B7280);
             empty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-            empty.setPadding(dp(4), dp(8), 0, 0);
+            empty.setPadding(dp(4), dp(8), dp(4), dp(8));
             historyContainer.addView(empty);
             return;
         }
@@ -232,10 +236,113 @@ public class SportFragment extends Fragment {
             String[] p = rec.split("\\|");
             if (p.length < 4)
                 continue;
+            android.widget.FrameLayout frameLayout = new android.widget.FrameLayout(requireContext());
+            
+            // 1. Delete background button
+            LinearLayout deleteBg = new LinearLayout(requireContext());
+            deleteBg.setOrientation(LinearLayout.HORIZONTAL);
+            deleteBg.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            GradientDrawable deleteBgDraw = new GradientDrawable();
+            deleteBgDraw.setColor(0xFFEF4444); // Red
+            deleteBgDraw.setCornerRadius(dp(14));
+            deleteBg.setBackground(deleteBgDraw);
+            deleteBg.setPadding(dp(20), 0, 0, 0);
+            
+            android.widget.FrameLayout.LayoutParams deleteLp = new android.widget.FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            deleteBg.setLayoutParams(deleteLp);
+            
+            TextView deleteText = new TextView(requireContext());
+            deleteText.setText(getString(R.string.sport_delete_btn));
+            deleteText.setTextColor(Color.WHITE);
+            deleteText.setTypeface(null, Typeface.BOLD);
+            deleteText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            deleteBg.addView(deleteText);
+            
+            frameLayout.addView(deleteBg);
+
+            // 2. Foreground content card
             LinearLayout row = card();
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER_VERTICAL);
             row.setPadding(dp(16), dp(14), dp(16), dp(14));
+            final String finalRec = rec;
+            
+            LinearLayout.LayoutParams rowLp = (LinearLayout.LayoutParams) row.getLayoutParams();
+            if (rowLp != null) {
+                rowLp.setMargins(0, 0, 0, 0); // frameLayout handles margins
+            }
+            
+            LinearLayout.LayoutParams frameLp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            frameLp.setMargins(0, 0, 0, dp(12));
+            frameLayout.setLayoutParams(frameLp);
+
+            final float[] downX = {0};
+            final boolean[] swipedOpen = {false};
+            final int swipeThreshold = dp(80);
+            
+            row.setOnTouchListener(new View.OnTouchListener() {
+                private boolean isMoving = false;
+                
+                @Override
+                public boolean onTouch(View v, android.view.MotionEvent event) {
+                    switch (event.getAction()) {
+                        case android.view.MotionEvent.ACTION_DOWN:
+                            downX[0] = event.getX();
+                            isMoving = false;
+                            return true;
+                        case android.view.MotionEvent.ACTION_MOVE:
+                            float diff = event.getX() - downX[0];
+                            float newX = swipedOpen[0] ? swipeThreshold + diff : diff;
+                            if (newX < 0) newX = 0;
+                            if (newX > swipeThreshold * 1.5f) newX = swipeThreshold * 1.5f;
+                            v.setTranslationX(newX);
+                            if (Math.abs(diff) > 10) {
+                                isMoving = true;
+                            }
+                            return true;
+                        case android.view.MotionEvent.ACTION_UP:
+                        case android.view.MotionEvent.ACTION_CANCEL:
+                            float currentX = v.getTranslationX();
+                            if (currentX > swipeThreshold / 2f) {
+                                v.animate().translationX(swipeThreshold).setDuration(150).start();
+                                swipedOpen[0] = true;
+                            } else {
+                                v.animate().translationX(0).setDuration(150).start();
+                                swipedOpen[0] = false;
+                            }
+                            
+                            if (!isMoving && Math.abs(currentX - (swipedOpen[0] ? swipeThreshold : 0)) < 15) {
+                                if (swipedOpen[0]) {
+                                    v.animate().translationX(0).setDuration(150).start();
+                                    swipedOpen[0] = false;
+                                } else {
+                                    android.content.Intent intent = new android.content.Intent(requireContext(), com.example.dialsender.SportDetailActivity.class);
+                                    intent.putExtra("session_record", finalRec);
+                                    startActivity(intent);
+                                }
+                            }
+                            return true;
+                    }
+                    return false;
+                }
+            });
+
+            deleteBg.setOnClickListener(v -> {
+                new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.sport_delete_title))
+                    .setMessage(getString(R.string.sport_delete_msg))
+                    .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
+                        deleteSession(finalRec);
+                    })
+                    .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+                        row.animate().translationX(0).setDuration(150).start();
+                        swipedOpen[0] = false;
+                    })
+                    .show();
+            });
+
             LinearLayout col = new LinearLayout(requireContext());
             col.setOrientation(LinearLayout.VERTICAL);
             col.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -260,7 +367,8 @@ public class SportFragment extends Fragment {
             stat.setTextColor(0xFF22D3EE);
             stat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             row.addView(stat);
-            historyContainer.addView(row);
+            frameLayout.addView(row);
+            historyContainer.addView(frameLayout);
         }
     }
 
@@ -308,6 +416,24 @@ public class SportFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         handler.removeCallbacks(tick);
+    }
+
+    private void deleteSession(String record) {
+        String all = prefs.getString(KEY_SESSIONS, "");
+        if (!all.isEmpty()) {
+            String[] sessions = all.split(",");
+            StringBuilder sb = new StringBuilder();
+            for (String s : sessions) {
+                if (!s.equals(record)) {
+                    if (sb.length() > 0)
+                        sb.append(",");
+                    sb.append(s);
+                }
+            }
+            prefs.edit().putString(KEY_SESSIONS, sb.toString()).apply();
+            renderHistory();
+            android.widget.Toast.makeText(requireContext(), getString(R.string.sport_workout_deleted), android.widget.Toast.LENGTH_SHORT).show();
+        }
     }
 
     private int dp(int v) {
