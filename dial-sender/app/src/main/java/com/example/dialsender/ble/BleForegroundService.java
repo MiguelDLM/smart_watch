@@ -88,7 +88,7 @@ public class BleForegroundService extends Service {
 
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Dial Studio")
+                .setContentTitle("Fogg")
                 .setContentText(connected ? "Reloj conectado" : "Buscando reloj...")
                 .setContentIntent(openPi)
                 .addAction(0, "Desconectar", disconnectPi)

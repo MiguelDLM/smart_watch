@@ -261,7 +261,7 @@ public class MetricDetailBottomSheet extends BottomSheetDialogFragment {
         String range = currentRange == RANGE_DAY ? "hoy"
                 : currentRange == RANGE_WEEK ? "esta semana" : "este mes";
         String val = txtValue.getText() != null ? txtValue.getText().toString() : "—";
-        String text = "Mi " + label + " (" + range + "): " + val + "\nCompartido desde Dial Studio";
+        String text = "Mi " + label + " (" + range + "): " + val + "\nCompartido desde Fogg";
         android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(android.content.Intent.EXTRA_TEXT, text);

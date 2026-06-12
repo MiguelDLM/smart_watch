@@ -40,7 +40,7 @@ public class LogActivity extends AppCompatActivity {
 
         btnCopyLog.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("DialSender Logs", sharedLog.toString());
+            ClipData clip = ClipData.newPlainText("Fogg Logs", sharedLog.toString());
             clipboard.setPrimaryClip(clip);
             Toast.makeText(this, R.string.log_copied, Toast.LENGTH_SHORT).show();
         });

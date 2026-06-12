@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dial Studio</string>
+    <string name="app_name">Fogg</string>
 
     <!-- Home -->
     <string name="home_subtitle">Crea y envía diales personalizados a tu reloj</string>
@@ -12,7 +12,7 @@
     <string name="library_desc">Diales predefinidos y tus creaciones</string>
     <string name="health_data">Datos de Salud</string>
     <string name="health_data_desc">Sincroniza y visualiza métricas en gráficos</string>
-    <string name="version_label">Dial Studio v5.2</string>
+    <string name="version_label">Fogg v5.2</string>
     <string name="chipset_info">Compatible con chipset Jieli / HK89</string>
 
     <!-- Send screen -->
@@ -82,7 +82,7 @@
     <string name="share">Compartir</string>
     <string name="export">Exportar a Descargas</string>
     <string name="edit">Editar</string>
-    <string name="dial_exported">Dial guardado en Descargas/DialStudio</string>
+    <string name="dial_exported">Dial guardado en Descargas/Fogg</string>
 
     <!-- Log -->
     <string name="debug_log">Registro de Depuración</string>

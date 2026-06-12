@@ -744,7 +744,7 @@ public class MetricDetailActivity extends AppCompatActivity {
         String rangeName = range == DAY ? "hoy" : range == WEEK ? "esta semana" : "este mes";
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_TEXT, "Mi " + title + " (" + rangeName + ") — Dial Studio");
+        i.putExtra(Intent.EXTRA_TEXT, "Mi " + title + " (" + rangeName + ") — Fogg");
         startActivity(Intent.createChooser(i, "Compartir"));
     }
 
